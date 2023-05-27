@@ -19,8 +19,9 @@ jobs:
       - name: Install modules
         run: npm install
 
+      - uses: nyaa8/package-version@v1
+
       - name: Build App
-        uses: nyaa8/package-version@v1
         run: npm run build
         environment: ${{ vars.UM_PROD }}
         env:
