@@ -82,7 +82,7 @@ export function OrderConditionsChips() {
             onClick={() =>
               onClick({
                 desc: `Rabatt  ${discount} %`,
-                sum: `-${numberValue(order.discountValue)}`,
+                sum: `-${order.discountValue}`,
                 calculate: false,
                 red: true,
               })
