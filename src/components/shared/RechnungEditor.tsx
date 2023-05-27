@@ -111,7 +111,7 @@ interface InvoiceFieldProps {
 }
 
 function InvoiceField({ onChange, path, rechnung, as, multiline }: InvoiceFieldProps) {
-  if (as == 'date') {
+  if (as === 'date') {
     return (
       <AppDateField
         value={rechnung[path] as string}

@@ -12,7 +12,7 @@ export function useFurnitureSuggestions() {
 
   appFurniture.forEach((f) => {
     f.categoryRefs.forEach((catRef) => {
-      const categoryOfItemInOrder = orderItems.find((oi) => oi.id == f.id)?.selectedCategory;
+      const categoryOfItemInOrder = orderItems.find((oi) => Number(oi.id) === Number(f.id))?.selectedCategory;
 
       if (catRef.name !== categoryOfItemInOrder) {
         blockedFurniture.push({ ...f, selectedCategory: catRef.name });

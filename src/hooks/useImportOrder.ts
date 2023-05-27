@@ -16,7 +16,7 @@ export function useImportOrder() {
       dispatch(setOrder(order));
       dispatch(createUpdateOrder({ callback: navigateToOrder, id: order.id }));
     },
-    [dispatch],
+    [dispatch, navigateToOrder],
   );
 
   return importOrder;

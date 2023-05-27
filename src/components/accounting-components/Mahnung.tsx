@@ -43,7 +43,7 @@ export function Mahnung({ index }: Props) {
         );
       }
     },
-    [order],
+    [order, dispatch],
   );
 
   const initDueDate = useCallback(() => {

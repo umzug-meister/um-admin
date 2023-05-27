@@ -1,4 +1,4 @@
-export default {
+const agb = {
   agb1: [
     '§1. Leistungen des Möbelspediteurs.',
 
@@ -124,3 +124,5 @@ export default {
     // "Es gilt deutsches Recht.",
   ],
 };
+
+export default agb;

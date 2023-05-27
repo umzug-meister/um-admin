@@ -8,11 +8,13 @@ import AppLoader from './AppLoader';
 // import './index.css';
 import { store } from './store';
 
+// eslint-disable-next-line no-extend-native
 Date.prototype.addDays = function (days: number) {
   this.setDate(this.getDate() + days);
   return this;
 };
 
+// eslint-disable-next-line no-extend-native
 Array.prototype.from = function (index: number) {
   const newArray = [...this];
   newArray.splice(0, index);
