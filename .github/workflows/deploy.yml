@@ -6,6 +6,7 @@ on:
       - 'main'
 jobs:
   build-deploy:
+  if: "contains(github.event.head_commit.message, '[RELEASE]')"
     runs-on: ubuntu-latest
     environment: ${{ vars.UM_PROD }}
     steps:
@@ -26,7 +27,7 @@ jobs:
         run: npm run build
         env:
           REACT_APP_VERSION: ${{ env.PACKAGE_VERSION }}
-          REACT_APP_BACKEND_URL: $REACT_APP_BACKEND_URL
+          REACT_APP_BACKEND_URL: ${{ vars.REACT_APP_BACKEND_URL }}
 
       - name: FTP Upload
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
