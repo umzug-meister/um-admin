@@ -33,13 +33,11 @@ link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Inter:wght@3
 document.head.appendChild(link);
 
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HashRouter basename="/">
-        <AppLoader>
-          <App />
-        </AppLoader>
-      </HashRouter>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <HashRouter basename="/">
+      <AppLoader>
+        <App />
+      </AppLoader>
+    </HashRouter>
+  </Provider>,
 );

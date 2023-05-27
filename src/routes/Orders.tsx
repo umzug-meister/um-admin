@@ -18,6 +18,7 @@ import { Order } from 'um-types';
 const PAGE_SIZE = 10;
 
 export default function Orders() {
+  console.log('orders');
   const [data, setData] = useState<Order[]>([]);
 
   const [paginationModel, setPaginationModel] = useState({
