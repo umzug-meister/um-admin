@@ -50,7 +50,7 @@ export function SideMenu({ onClose, open }: Props) {
               <FormatListNumberedOutlinedIcon />
             </DrawerItem>
 
-            <DrawerItem onClose={onClose} to="/import" primaryText="Aufträge importieren">
+            <DrawerItem onClose={onClose} to="/import" primaryText="Auftrag importieren">
               <ImportExportOutlinedIcon />
             </DrawerItem>
             <Box mt={1} mb={1}>

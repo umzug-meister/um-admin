@@ -47,7 +47,9 @@ export default function DirectImport() {
         });
       }
     });
-  }, [params, importOrder, generateOrder]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.id]);
 
   if (orders.length < 1) {
     return (
