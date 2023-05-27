@@ -29,8 +29,9 @@ function _initOrder(): Order {
     items: new Array<Furniture>(),
     timeBased: {},
     leistungen: new Array<MLeistung>(),
-    time: '08:00',
+    time: '07:00',
     images: new Array<string>(),
+    src: 'individuelle',
   } as Order;
 }
 

@@ -2,8 +2,6 @@ import { DatePicker } from '@mui/x-date-pickers';
 
 import { getParseableDate } from '../../utils/utils';
 
-import dayjs, { Dayjs } from 'dayjs';
-
 interface AppDateFieldProps {
   label?: string;
   disabled?: boolean;
@@ -12,22 +10,20 @@ interface AppDateFieldProps {
 }
 
 export function AppDateField({ label, disabled, value, onDateChange }: AppDateFieldProps) {
-  const currentValue = value ? dayjs(getParseableDate(value)) : undefined;
+  const currentValue = value ? getParseableDate(value) : '';
 
   return (
     <DatePicker
       label={label}
       disabled={disabled}
-      value={currentValue}
+      value={new Date(currentValue)}
       slotProps={{ textField: { size: 'small' } }}
-      onAccept={(value: Dayjs | null) => {
+      onAccept={(value: Date | null) => {
         if (value) {
-          const nextValue = value.format('DD.MM.YYYY');
-
-          onDateChange?.(nextValue);
+          const next = value.toLocaleDateString('ru');
+          onDateChange(next);
         }
       }}
-      format="DD.MM.YYYY"
     />
   );
 }

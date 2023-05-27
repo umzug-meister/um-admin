@@ -178,6 +178,8 @@ export const generateOrder = (
     text: find('anmerkung') || '',
     expensive: find('antikeOder323') === 'Ja',
     expensiveText: find('antikeUnd'),
+    src: 'individuelle',
+    time: '07:00',
   } as Order;
 
   const formText = () => {

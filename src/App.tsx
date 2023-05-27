@@ -1,6 +1,6 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { Suspense, lazy } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
@@ -10,7 +10,7 @@ import TopBar from './components/TopBar';
 import theme from './theme';
 
 import styled from '@emotion/styled';
-import 'dayjs/locale/de';
+import de from 'date-fns/locale/de';
 
 const Import = lazy(() => import('./routes/import/Import'));
 const Prices = lazy(() => import('./routes/Prices'));
@@ -41,7 +41,7 @@ const ContentMain = styled.main`
 
 function AppContent() {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'de'}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
       <ThemeProvider theme={theme}>
         <>
           <CssBaseline />

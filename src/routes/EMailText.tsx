@@ -54,7 +54,7 @@ export default function EMailText() {
 
       const ort = address?.split(', ')?.[1];
 
-      return ort || '';
+      return ort.trim() || '';
     }
     return ' ';
   };
@@ -65,15 +65,15 @@ export default function EMailText() {
     if (timeBased?.hours) {
       _stunden += `Mind. Abnahme ${timeBased.hours} Stunden (Anfang in ${getOrtFromAdress(
         from,
-      )}, Ende in ${getOrtFromAdress(to)}) ${euroValue(timeBased.basis)} inkl. MwSt.`;
+      )}, Ende in ${getOrtFromAdress(to)}): ${euroValue(timeBased.basis)} inkl. MwSt.`;
     }
     return _stunden;
   };
 
-  const line = (name = '', price = '', red = false) => {
+  const line = (name = '', price: string | number = '', red = false) => {
     const color = red ? 'red' : 'black';
     return (
-      `<div style="display: flex; justify-content: space-between; color: ${color}>` +
+      `<div style="display: flex; justify-content: space-between; color: ${color}; margin-top: 5px;">` +
       `<div>${name}</div>` +
       `<div>${euroValue(price)} inkl. MwSt.</div>` +
       `</div>`
@@ -85,7 +85,7 @@ export default function EMailText() {
 
     const s = leistungen
       ?.filter((l) => l.hidden !== true)
-      .map((lst) => line(lst.desc, lst.price, lst.red))
+      .map((lst) => line(lst.desc, lst.sum, lst.red))
       .join(' ');
 
     let last = 'Gesamtbetrag';
@@ -94,12 +94,14 @@ export default function EMailText() {
     }
 
     const priceString =
-      `<div style="font-weight: bold; display: flex; justify-content: space-between>` +
+      `<div style="font-weight: bold; display: flex; justify-content: space-between; margin-top: 15px;">` +
       `<div>${last}</div>` +
       `<div>${euroValue(sum)} inkl. MwSt.</div>` +
       `</div>`;
 
-    return s + priceString;
+    let ret = s + priceString;
+    console.log(ret);
+    return ret;
   };
 
   return (

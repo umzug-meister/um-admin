@@ -29,7 +29,7 @@ export default function EMailTextTemplate({
     <Box
       p={1}
       sx={{
-        fontSize: '13px',
+        fontSize: '14px',
         fontFamily: 'Arial, Helvetica, sans-serif',
         color: 'black',
       }}
@@ -64,7 +64,10 @@ export default function EMailTextTemplate({
       <p>{stunden}</p>
       <p>{extra}</p>
       <br />
-      <p style={{ maxWidth: '600px' }} dangerouslySetInnerHTML={{ __html: servicesHTML }} />
+      <p
+        style={{ maxWidth: '600px', borderBottom: '1px solid black' }}
+        dangerouslySetInnerHTML={{ __html: servicesHTML }}
+      />
       <br />
       <p>{`Unser Kostenvoranschlag gilt bis zum ${new Date().addDays(3).toLocaleDateString('ru')}.`}</p>
       <p style={{ color: 'blue', fontWeight: 'bold' }}>Im Anhang erhalten Sie den Auftrag.</p>
