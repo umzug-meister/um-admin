@@ -4,7 +4,15 @@ import { DataGrid, GridColDef, GridFeatureMode, GridPaginationModel } from '@mui
 
 import { useMemo } from 'react';
 
-import { prepareCols } from '../../utils';
+const defaultColProps = {
+  filterable: false,
+  sortable: false,
+  disableColumnMenu: true,
+};
+
+export const prepareCols = (cols: GridColDef[]) => {
+  return cols.map((cd) => ({ ...defaultColProps, ...cd }));
+};
 
 interface Props {
   data: any[];
