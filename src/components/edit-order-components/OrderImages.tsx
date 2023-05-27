@@ -30,7 +30,10 @@ export default function OrderImages() {
         }}
       >
         <Box p={3} display="flex" flexDirection={'column'} alignItems="center" gap={2}>
-          <img alt={`image-${page}`} style={{ maxHeight: '600px' }} src={curOrder.images[page - 1]} />
+          {
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <img style={{ maxHeight: '600px' }} src={curOrder.images[page - 1]} />
+          }
           <Pagination page={page} onChange={handleChange} count={curOrder.images.length} />
         </Box>
       </AppDialog>

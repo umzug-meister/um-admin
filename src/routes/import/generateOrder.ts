@@ -138,9 +138,9 @@ export const generateOrder = (
     roomsNumber: find('anzahlDer267'),
     runningDistance: find('entfernungZwischen15')?.concat(' m.'),
     movementObject: find('wohnungstyp'),
-    parkingSlot: find('parkUnd28') == 'vom Spediteur zu organisieren',
-    packservice: find('umzugsgutIn') == 'Ja',
-    isAltbau: find('altbauAuszug') == 'Ja',
+    parkingSlot: find('parkUnd28') === 'vom Spediteur zu organisieren',
+    packservice: find('umzugsgutIn') === 'Ja',
+    isAltbau: find('altbauAuszug') === 'Ja',
     demontage,
     stockwerke: find('name339'),
   } as Address;
@@ -152,9 +152,9 @@ export const generateOrder = (
     movementObject: find('wohnungstyp248'),
     runningDistance: find('entfernungVom')?.concat(' m.'),
     hasLoft: find('dachboden236'),
-    parkingSlot: find('parkUnd37') == 'vom Spediteur zu organisieren',
-    packservice: find('umzugsgutAuspacken') == 'Ja',
-    isAltbau: find('altbauEinzug') == 'Ja',
+    parkingSlot: find('parkUnd37') === 'vom Spediteur zu organisieren',
+    packservice: find('umzugsgutAuspacken') === 'Ja',
+    isAltbau: find('altbauEinzug') === 'Ja',
     stockwerke: find('name340'),
     montage,
   } as Address;
@@ -187,7 +187,7 @@ export const generateOrder = (
       ['kostenubernahmeVom', 'Kostenübernahme von Arbeitsamt'],
       ['kucheaufbau', 'Küchen-Aufbau'],
     ].forEach((v) => {
-      if (find(v[0]) == 'Ja') {
+      if (find(v[0]) === 'Ja') {
         order.text = order.text.concat(`\n${v[1]}`);
         if (v.length === 3) {
           const laenge = find(v[2]);
@@ -207,7 +207,7 @@ export const generateOrder = (
     order.volume = newV.toFixed(2);
   };
 
-  const hasSperrig = find('sperrigeNicht41') == 'Ja';
+  const hasSperrig = find('sperrigeNicht41') === 'Ja';
   if (hasSperrig) {
     try {
       const sperrige = JSON.parse(find('sperrigeGegenstande')) as SperrigSchwer[];
@@ -263,7 +263,7 @@ export const generateOrder = (
 
   const lampenAnzahl = find('anzahlDer242');
   if (lampenAnzahl && lampenAnzahl !== 0) {
-    const lampenService = allServices.find((s) => s.name == LAMPEN);
+    const lampenService = allServices.find((s) => s.name === LAMPEN);
 
     if (lampenService) {
       order.services.push({ ...lampenService, colli: lampenAnzahl });
@@ -274,7 +274,7 @@ export const generateOrder = (
 
   const schraenkeAnzahl = find('anzahlDer244');
   if (schraenkeAnzahl && schraenkeAnzahl !== 0) {
-    const schraenkeService = allServices.find((s) => s.name == SCHRAENKE);
+    const schraenkeService = allServices.find((s) => s.name === SCHRAENKE);
 
     if (schraenkeService) {
       order.services.push({ ...schraenkeService, colli: schraenkeAnzahl });
@@ -287,7 +287,7 @@ export const generateOrder = (
   if (kuecheDemontage) {
     const kuechenLange = find('bitteKuchenlange');
 
-    const kuehenServ = allServices.find((s) => s.name == KUECHE);
+    const kuehenServ = allServices.find((s) => s.name === KUECHE);
 
     if (kuehenServ) {
       order.services.push({ ...kuehenServ, colli: kuechenLange || '0' });
@@ -299,7 +299,7 @@ export const generateOrder = (
   const hasKlavier = find('schwertransportklavier') === 'Ja';
 
   if (hasKlavier) {
-    const klavierItem = allItems.find((i) => i.name == KLAVIER);
+    const klavierItem = allItems.find((i) => i.name === KLAVIER);
     if (klavierItem) {
       order.items.push({
         ...klavierItem,
@@ -336,7 +336,7 @@ function dateAnswerToString(da?: DateAnswer): string | undefined {
 
 function findAnswer(name: string, answers: JFAnswer[], remove = false) {
   let value: any = undefined;
-  const index = answers.findIndex((a) => a.name == name);
+  const index = answers.findIndex((a) => a.name === name);
   if (index !== -1) {
     value = answers[index].answer;
     remove && answers.splice(index, 1);

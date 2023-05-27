@@ -149,7 +149,7 @@ const calculate = (order: Order, options: AppOptions): Order => {
 
   if (order?.leistungen?.length > 0) {
     order.leistungen.forEach((l) => {
-      if (l.sum && l.calculate == true) {
+      if (l.sum && l.calculate === true) {
         otherPrices += Number(l.sum);
       }
     });
@@ -211,9 +211,9 @@ const appSlice = createSlice({
       const curOrder = state.current;
       if (curOrder) {
         const index = curOrder.items.findIndex(
-          (i) => i.name === item.name && i.selectedCategory == item.selectedCategory,
+          (i) => i.name === item.name && i.selectedCategory === item.selectedCategory,
         );
-        if (index != -1) {
+        if (index !== -1) {
           set(curOrder, ['items', index, 'colli'], colli);
         }
         state.unsavedChanges = true;
@@ -226,8 +226,8 @@ const appSlice = createSlice({
       if (curOrder) {
         const next = [...curOrder.items];
 
-        const index = next.findIndex((i) => i.name == item.name && i.selectedCategory == item.selectedCategory);
-        if (index != -1) {
+        const index = next.findIndex((i) => i.name === item.name && i.selectedCategory === item.selectedCategory);
+        if (index !== -1) {
           next.splice(index, 1);
           set(curOrder, ['items'], next);
         }
