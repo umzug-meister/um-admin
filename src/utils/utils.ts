@@ -29,7 +29,7 @@ export const createDueDate = (index: number): DueDate => {
 };
 
 export function getPrintableDate(date: string | undefined, long = false) {
-  if (!date || date == '') {
+  if (!date || date === '') {
     return '';
   }
   const regex = /[0-9]{2}.[0-9]{2}.[0-9]{4}/gm;
@@ -87,7 +87,7 @@ export function getCustomerPLZ(order?: Order | null) {
 }
 
 export function euroValue(value: string | number | undefined) {
-  if (typeof value == 'undefined' || value == '') {
+  if (typeof value == 'undefined' || value === '') {
     return '';
   }
 
@@ -100,11 +100,11 @@ export function euroValue(value: string | number | undefined) {
 }
 
 export function numberValue(value: string | number | undefined) {
-  if (typeof value == 'undefined' || value == '') {
+  if (typeof value == 'undefined' || value === '') {
     return '';
   }
   let toFormat = value;
-  if (typeof value == 'string') {
+  if (typeof value === 'string') {
     toFormat = value.replace(',', '.');
   }
 

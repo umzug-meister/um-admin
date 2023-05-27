@@ -22,7 +22,7 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
 
   const onDelete = (index: number) => {
     const next = current.filter((_, idx) => {
-      return idx != index;
+      return idx !== index;
     });
     update(next);
   };

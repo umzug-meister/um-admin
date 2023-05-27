@@ -15,7 +15,7 @@ export function AddServiceByTag({ tag }: Props) {
 
   const onClick = useCallback(() => {
     dispatch(createAppService(tag));
-  }, [dispatch]);
+  }, [dispatch, tag]);
 
   return <AddButton onClick={onClick} />;
 }

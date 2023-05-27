@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { AppDispatch } from '../../store';
 import { pushLeistung, updateOrderProps } from '../../store/appReducer';
+import { numberValue } from '../../utils/utils';
 import { AppCard } from '../shared/AppCard';
 
 import { MLeistung, TimeBasedPrice } from 'um-types';
@@ -24,7 +25,7 @@ export function OrderConditionsChips() {
 
   const removeDistance = useCallback(() => {
     dispatch(updateOrderProps({ path: ['distance'], value: undefined }));
-  }, []);
+  }, [dispatch]);
 
   if (!order) {
     return null;
@@ -81,8 +82,9 @@ export function OrderConditionsChips() {
             onClick={() =>
               onClick({
                 desc: `Rabatt  ${discount} %`,
-                sum: `-${order.discountValue}`,
+                sum: `-${numberValue(order.discountValue)}`,
                 calculate: false,
+                red: true,
               })
             }
           />

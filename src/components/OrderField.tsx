@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
-import { getParseableDate } from '../utils/utils';
 import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 
@@ -60,7 +59,7 @@ export default function OrderField<T>({
       }
       dispatch(updateOrderProps({ path: propPath, value }));
     },
-    [path, nestedPath],
+    [path, nestedPath, dispatch],
   );
 
   useEffect(() => {
@@ -83,7 +82,7 @@ export default function OrderField<T>({
         });
       });
     }
-  }, [enableMaps, gapiKey, handleChange]);
+  }, [enableMaps, gapiKey, handleChange, id]);
 
   if (as === 'date') {
     return <AppDateField label={label} value={String(value)} onDateChange={handleChange} />;

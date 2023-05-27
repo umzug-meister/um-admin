@@ -24,20 +24,20 @@ export function OrderEditActions() {
 
   const handleSave = useCallback(() => {
     dispatch(createUpdateOrder({ callback: navigateToOrder, id: order?.id }));
-  }, [dispatch, navigate, order]);
+  }, [dispatch, order, navigateToOrder]);
 
   const handleCopy = useCallback(() => {
     dispatch(createUpdateOrder({ callback: navigateToOrder, id: undefined }));
-  }, [dispatch, navigate]);
+  }, [dispatch, navigateToOrder]);
 
   const handleDelete = useCallback(() => {
     if (window.confirm('Auftrag wirklich löschen?')) {
       dispatch(deleteOrder());
       navigate('/');
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
-  const color = unsavedChanges == true ? 'warning' : 'default';
+  const color = unsavedChanges ? 'warning' : 'default';
 
   return (
     <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />}>

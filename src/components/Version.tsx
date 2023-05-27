@@ -18,7 +18,7 @@ export function Version() {
     if (!validVersion(remote)) {
       dispatch(updateOption({ name: 'appversion', value: local }));
     }
-  }, [remote]);
+  }, [remote, dispatch, local]);
 
   useEffect(() => {
     if (validVersion(remote)) {
@@ -31,7 +31,7 @@ export function Version() {
         alert(Message(local, remote));
       }
     }
-  }, [remote, local]);
+  }, [remote, local, dispatch]);
 
   return <Typography>Version: {local}</Typography>;
 }

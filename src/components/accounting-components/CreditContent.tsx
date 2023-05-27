@@ -36,7 +36,7 @@ export function CreditContent() {
         }),
       );
     }
-  }, [order]);
+  }, [order, dispatch]);
 
   const initGutschrift = useCallback(() => {
     dispatch(initCredit());

@@ -65,7 +65,7 @@ export function EMailText() {
     if (timeBased?.hours) {
       _stunden += `Mind. Abnahme ${timeBased.hours} Stunden (Anfang in ${getOrtFromAdress(
         from,
-      )}, Ende in ${getOrtFromAdress(to)}) ${Number(timeBased.basis).toFixed(2)} € inkl. MwSt.`;
+      )}, Ende in ${getOrtFromAdress(to)}) ${euroValue(timeBased.basis)} inkl. MwSt.`;
     }
     return _stunden;
   };
@@ -75,7 +75,7 @@ export function EMailText() {
     return (
       `<div style="display: flex; justify-content: space-between; color: ${color}>` +
       `<div>${name}</div>` +
-      `<div>${price} € inkl. MwSt</div>` +
+      `<div>${euroValue(price)} inkl. MwSt.</div>` +
       `</div>`
     );
   };
@@ -83,10 +83,23 @@ export function EMailText() {
   const servicesHTML = () => {
     const { leistungen, timeBased, sum } = order;
 
-    const s = leistungen?.filter((l) => l.hidden !== true).map((lst) => line(lst.desc, lst.price, lst.red));
-    //TODO:
+    const s = leistungen
+      ?.filter((l) => l.hidden !== true)
+      .map((lst) => line(lst.desc, lst.price, lst.red))
+      .join(' ');
 
-    return s?.join(' ') || '';
+    let last = 'Gesamtbetrag';
+    if (timeBased?.hours) {
+      last += ` (${timeBased.hours} Stunden)`;
+    }
+
+    const priceString =
+      `<div style="font-weight: bold; display: flex; justify-content: space-between>` +
+      `<div>${last}</div>` +
+      `<div>${euroValue(sum)} inkl. MwSt.</div>` +
+      `</div>`;
+
+    return s + priceString;
   };
 
   return (

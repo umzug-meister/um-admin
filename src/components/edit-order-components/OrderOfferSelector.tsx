@@ -33,13 +33,13 @@ export default function OrderOfferSelector() {
       data = data.filter((d) => d.t75 === t75);
     }
     if (timeBased?.hours) {
-      data = data.filter((d) => d.includedHours == timeBased.hours);
+      data = data.filter((d) => Number(d.includedHours) === Number(timeBased.hours));
     }
   }
 
   const setPrice = useCallback(
     (id: number | string) => {
-      const offer = prices.find((p) => p.id == id);
+      const offer = prices.find((p) => Number(p.id) === Number(id));
       if (offer) {
         const timeBasedValue = {
           basis: offer.sum,
@@ -78,7 +78,7 @@ export default function OrderOfferSelector() {
       },
     ];
     return cols;
-  }, []);
+  }, [setPrice]);
 
   return (
     <Grid item xs={12}>

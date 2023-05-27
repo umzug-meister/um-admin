@@ -15,7 +15,7 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
 
   const handleSearchRequest = useCallback(() => {
     onSearch(searchValue);
-  }, [searchValue]);
+  }, [searchValue, onSearch]);
 
   const handleClearRequest = useCallback(() => {
     setSearchValue('');

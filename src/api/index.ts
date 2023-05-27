@@ -3,7 +3,7 @@ import axios from 'axios';
 const base = '/wp-json/um-configurator/v1';
 function initBaseURL() {
   if (!axios.defaults.baseURL) {
-    axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL || '' + base;
+    axios.defaults.baseURL = (process.env.REACT_APP_BACKEND_URL || '') + base;
   }
 }
 

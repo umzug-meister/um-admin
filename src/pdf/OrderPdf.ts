@@ -342,13 +342,13 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
 function getColli(serv: Service, order: Order): string {
   const servId = serv.id;
   const orderServices = order.services || [];
-  return orderServices.find((s) => s.id == servId)?.colli || '';
+  return orderServices.find((s) => Number(s.id) === Number(servId))?.colli || '';
 }
 
 function getPrice(serv: OrderService, order: Order): string {
   const servId = serv.id;
   const orderServices = order.services || [];
-  return orderServices.find((s) => s.id == servId)?.price || serv.price;
+  return orderServices.find((s) => Number(s.id) === Number(servId))?.price || serv.price;
 }
 
 const addVerpackung = (
@@ -364,7 +364,7 @@ const addVerpackung = (
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
 
   const body = serv
-    .filter((s) => s.tag == 'Packmaterial')
+    .filter((s) => s.tag === 'Packmaterial')
     .map((s) => {
       const colli = getColli(s, order);
 
@@ -402,7 +402,7 @@ const addServices = (
 
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
   const body = (serv || [])
-    .filter((s) => s.tag == 'Bohrarbeiten')
+    .filter((s) => s.tag === 'Bohrarbeiten')
     .map((s) => {
       const colli = getColli(s, order);
       const price = getPrice(s, order);
@@ -468,10 +468,10 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
     let actualroom = '';
     for (let i = 0; i < order.items.length; i++) {
       const curItem = order.items[i];
-      if (curItem.colli == '0') {
+      if (Number(curItem.colli) === 0) {
         continue;
       }
-      if (curItem.selectedCategory && curItem.selectedCategory != actualroom) {
+      if (curItem.selectedCategory && curItem.selectedCategory !== actualroom) {
         actualroom = curItem.selectedCategory || '';
         body.push({
           desc: {

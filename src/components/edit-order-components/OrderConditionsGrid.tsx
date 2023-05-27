@@ -16,9 +16,12 @@ export function OrderConditionsGrid() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const update = useCallback((lst: MLeistung[]) => {
-    dispatch(updateOrderProps({ path: ['leistungen'], value: lst }));
-  }, []);
+  const update = useCallback(
+    (lst: MLeistung[]) => {
+      dispatch(updateOrderProps({ path: ['leistungen'], value: lst }));
+    },
+    [dispatch],
+  );
 
   if (!order) {
     return null;
