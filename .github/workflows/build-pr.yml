@@ -1,25 +1,21 @@
-name: "Build pull request"
+name: 'Build pull request'
 
-on:
-    push
+on: push
 
 jobs:
-    build-pr:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  build-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Setup Node
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 14
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-            - name: Install modules
-              run: npm install
+      - name: Install modules
+        run: npm install
 
-            - name: Update version
-              run: npm run updateVersion
-
-            - name: Build App
-              run: npm run build
+      - name: Build App
+        run: npm run build
