@@ -20,7 +20,7 @@ const createLinkContent = (order: Order) => {
   } Träger`;
 };
 
-export function DirectImport() {
+export default function DirectImport() {
   useInitJF();
   const params = useParams();
 

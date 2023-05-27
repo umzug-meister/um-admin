@@ -22,7 +22,7 @@ const servicesolumns: GridColDef[] = [
   { field: 'price', headerName: 'Preis', editable: true, type: 'number' },
 ];
 
-export function Services() {
+export default function Services() {
   const packings = useAppServices<AppPacking>(TAG);
 
   const dispatch = useDispatch<AppDispatch>();

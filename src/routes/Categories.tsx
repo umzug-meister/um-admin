@@ -13,7 +13,7 @@ import { createCategory, deleteCategorie, updateCategorie } from '../store/categ
 
 import { Category } from 'um-types';
 
-export function Categories() {
+export default function Categories() {
   const categories = useCategories();
   const dispatch = useDispatch<AppDispatch>();
 

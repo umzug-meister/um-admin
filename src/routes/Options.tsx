@@ -4,7 +4,7 @@ import { OptionInput } from '../components/OptionInput';
 import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 
-export function Options() {
+export default function Options() {
   return (
     <AppGridContainer>
       <Grid item xs={6} xl={4}>
