@@ -7,6 +7,7 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    environment: ${{ vars.UM_PROD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,7 +24,6 @@ jobs:
 
       - name: Build App
         run: npm run build
-        environment: ${{ vars.UM_PROD }}
         env:
           REACT_APP_VERSION: ${{ env.PACKAGE_VERSION }}
           REACT_APP_BACKEND_URL: $REACT_APP_BACKEND_URL
