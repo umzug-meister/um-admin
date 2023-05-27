@@ -104,7 +104,7 @@ export function numberValue(value: string | number | undefined) {
     return '';
   }
   let toFormat = value;
-  if (typeof value == 'string') {
+  if (typeof value === 'string') {
     toFormat = value.replace(',', '.');
   }
 
