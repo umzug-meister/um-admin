@@ -31,7 +31,7 @@ link.setAttribute('type', 'text/css');
 link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 document.head.appendChild(link);
 
-ReactDOM.createRoot(document.body).render(
+ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <HashRouter>
