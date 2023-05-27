@@ -8,8 +8,6 @@ import { Rechnung } from './accounting-components/Rechnung';
 import { TabPanel } from './shared/TabPanel';
 
 export function Accounting() {
-  const theme = useTheme();
-
   const [value, setValue] = useState(0);
   return (
     <Grid item xs={12}>

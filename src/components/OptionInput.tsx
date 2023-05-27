@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { OptionKey, useOption } from '../hooks/useOption';
+import { useOption } from '../hooks/useOption';
 import { AppDispatch } from '../store';
 import { updateOption } from '../store/appReducer';
 import { AppTextField } from './shared/AppTextField';
