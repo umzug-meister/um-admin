@@ -24,7 +24,7 @@ export function OrderConditionsChips() {
 
   const removeDistance = useCallback(() => {
     dispatch(updateOrderProps({ path: ['distance'], value: undefined }));
-  }, []);
+  }, [dispatch]);
 
   if (!order) {
     return null;

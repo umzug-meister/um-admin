@@ -41,9 +41,6 @@ export default function Distance() {
       .then((google) => {
         const service = new google.maps.DistanceMatrixService();
 
-        const from = order?.from?.address;
-        const to = order?.to?.address;
-
         service.getDistanceMatrix(
           {
             travelMode: google.maps.TravelMode.DRIVING,

@@ -16,7 +16,7 @@ export default function OrderImages() {
     setPage(value);
   };
 
-  if (!curOrder || !curOrder.images || curOrder.images.length == 0) {
+  if (!curOrder || !curOrder.images || curOrder.images.length === 0) {
     return null;
   }
 
