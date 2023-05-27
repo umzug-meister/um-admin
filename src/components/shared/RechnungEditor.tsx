@@ -59,7 +59,7 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
 
   return (
     <AppGridContainer>
-      <Grid item xs={6} xl={3}>
+      <Grid item xs={6}>
         <AppCard title="Kunde">
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
@@ -69,13 +69,13 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
         </AppCard>
       </Grid>
-      <Grid item xs={6} xl={3}>
+      <Grid item xs={6}>
         <AppCard title="Text">
           <InvoiceTextTemplates setText={onChipClick} />
           <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
         </AppCard>
       </Grid>
-      <Grid item xs={12} xl={6}>
+      <Grid item xs={12}>
         <AppCard title="Leistungen">
           <LeistungEdit
             hideChecks
