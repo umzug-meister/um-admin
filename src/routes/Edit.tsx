@@ -113,14 +113,14 @@ export function useLoadOrder() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (params.id && params.id != '-1') {
+    if (params.id && Number(params.id) !== -1) {
       dispatch(loadOrder(params.id));
     }
 
-    if (params.id == '-1') {
+    if (Number(params.id) === -1) {
       dispatch(initOrder());
     }
-  }, [params]);
+  }, [params, dispatch]);
 
   return order;
 }

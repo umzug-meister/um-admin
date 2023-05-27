@@ -47,9 +47,9 @@ export function DirectImport() {
         });
       }
     });
-  }, [params, importOrder]);
+  }, [params, importOrder, generateOrder]);
 
-  if (orders.length == 0) {
+  if (orders.length < 1) {
     return (
       <RootBox>
         <Typography>Auftrag wird importiert...</Typography>

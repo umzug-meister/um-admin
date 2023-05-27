@@ -39,50 +39,53 @@ export function FurnitureWidget() {
     [dispatch],
   );
 
-  const renderCategoryRefs = (row: Furniture) => {
-    const next = { ...row };
+  const renderCategoryRefs = useCallback(
+    (row: Furniture) => {
+      const next = { ...row };
 
-    const isChecked = (categoryId: string) => {
-      return row.categoryRefs?.some((c) => c.id == categoryId) || false;
-    };
+      const isChecked = (categoryId: string) => {
+        return row.categoryRefs?.some((c) => Number(c.id) === Number(categoryId)) || false;
+      };
 
-    const onChange = (checked: boolean, catId: string) => {
-      if (checked) {
-        const newCategory = categories.find((c) => c.id == catId);
+      const onChange = (checked: boolean, catId: string) => {
+        if (checked) {
+          const newCategory = categories.find((c) => Number(c.id) === Number(catId));
 
-        if (newCategory) {
-          next.categoryRefs = [...(next.categoryRefs || []), newCategory];
+          if (newCategory) {
+            next.categoryRefs = [...(next.categoryRefs || []), newCategory];
+          }
+        } else {
+          const newcats = next.categoryRefs.filter((c) => Number(c.id) !== Number(catId));
+          if (newcats.length === 0) {
+            alert('Mindestens eine Kategorie muss ausgewählt sein!');
+            return;
+          }
+          next.categoryRefs = newcats;
         }
-      } else {
-        const newcats = next.categoryRefs.filter((c) => c.id != catId);
-        if (newcats.length === 0) {
-          alert('Mindestens eine Kategorie muss ausgewählt sein!');
-          return;
-        }
-        next.categoryRefs = newcats;
-      }
-      dispatch(updateFurniture(next));
-    };
+        dispatch(updateFurniture(next));
+      };
 
-    return (
-      <FormGroup row>
-        {categories.map((cat) => (
-          <FormControlLabel
-            key={cat.id}
-            label={cat.name}
-            control={
-              <Checkbox
-                checked={isChecked(cat.id)}
-                onChange={(ev) => {
-                  onChange(ev.target.checked, cat.id);
-                }}
-              />
-            }
-          />
-        ))}
-      </FormGroup>
-    );
-  };
+      return (
+        <FormGroup row>
+          {categories.map((cat) => (
+            <FormControlLabel
+              key={cat.id}
+              label={cat.name}
+              control={
+                <Checkbox
+                  checked={isChecked(cat.id)}
+                  onChange={(ev) => {
+                    onChange(ev.target.checked, cat.id);
+                  }}
+                />
+              }
+            />
+          ))}
+        </FormGroup>
+      );
+    },
+    [categories, dispatch],
+  );
 
   const columns: GridColDef[] = useMemo(() => {
     return [
@@ -126,7 +129,7 @@ export function FurnitureWidget() {
         headerName: 'Sortierung',
       },
     ];
-  }, [categories]);
+  }, [renderCategoryRefs]);
 
   return (
     <AppGridContainer>

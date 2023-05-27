@@ -161,7 +161,7 @@ export default function Orders() {
         headerName: 'Stunden',
         renderCell: ({ row }) => {
           const { timeBased } = row as Order;
-          return timeBased?.hours;
+          return timeBased?.hours || '';
         },
       },
       {
