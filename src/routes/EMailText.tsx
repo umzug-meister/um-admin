@@ -4,7 +4,7 @@ import EMailTextTemplate from './EMailTextTemplate';
 
 import { Address } from 'um-types';
 
-export function EMailText() {
+export default function EMailText() {
   const order = useCurrentOrder();
 
   if (order == null) {

@@ -28,7 +28,7 @@ import { initOrder, loadOrder } from '../store/appReducer';
 
 import { Order } from 'um-types';
 
-export function Edit() {
+export default function Edit() {
   const order = useLoadOrder();
 
   const [value, setValue] = useState(0);

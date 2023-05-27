@@ -1,12 +1,9 @@
-import { Box, Skeleton } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export function Fallback() {
   return (
-    <Box m="auto" sx={{ width: 600 }}>
-      <Skeleton />
-      <Skeleton variant="rectangular" width={600} height={300} />
-      <Skeleton animation="wave" />
-      <Skeleton animation={false} />
-    </Box>
+    <Backdrop open sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <CircularProgress color="warning" />
+    </Backdrop>
   );
 }

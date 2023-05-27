@@ -15,7 +15,7 @@ import { createFurniture, deleteFurniture, updateFurniture } from '../store/furn
 
 import { Furniture } from 'um-types';
 
-export function FurnitureWidget() {
+export default function FurnitureRoute() {
   const furniture = useAppFurniture();
   const categories = useCategories();
 
