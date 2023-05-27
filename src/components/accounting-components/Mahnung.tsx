@@ -60,7 +60,7 @@ export function Mahnung({ index }: Props) {
   const update = useCallback(
     (prop: keyof DueDate, value: any) => {
       const nextDueDates = [...(rechnung?.dueDates || [])];
-      const ddToUpdate = nextDueDates.find((dd) => dd.index == index);
+      const ddToUpdate = nextDueDates.find((dd) => dd.index === index);
       if (ddToUpdate) {
         //@ts-ignore
         ddToUpdate[prop] = value;
@@ -117,7 +117,7 @@ const labels: Labels = {
 };
 
 function MahnungField({ dueDate, prop, as, onValue }: MahnungFieldProps) {
-  if (as == 'date') {
+  if (as === 'date') {
     return <AppDateField value={dueDate[prop] as string} onDateChange={onValue} label={labels[prop]} />;
   }
 
@@ -133,5 +133,5 @@ function MahnungField({ dueDate, prop, as, onValue }: MahnungFieldProps) {
 
 export function useDueDate(index: number) {
   const rechnung = useSelector<AppState, Rechnung | undefined>((s) => s.app.current?.rechnung);
-  return rechnung?.dueDates?.find((dd) => dd.index == index);
+  return rechnung?.dueDates?.find((dd) => dd.index === index);
 }

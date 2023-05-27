@@ -1,4 +1,4 @@
-import { Box, Grid, Tab, Tabs, useTheme } from '@mui/material';
+import { Box, Grid, Tab, Tabs } from '@mui/material';
 
 import { useState } from 'react';
 
