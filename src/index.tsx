@@ -5,7 +5,6 @@ import { HashRouter } from 'react-router-dom';
 
 import App from './App';
 import AppLoader from './AppLoader';
-// import './index.css';
 import { store } from './store';
 
 // eslint-disable-next-line no-extend-native
@@ -36,7 +35,7 @@ document.head.appendChild(link);
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter>
+      <HashRouter basename="/">
         <AppLoader>
           <App />
         </AppLoader>
