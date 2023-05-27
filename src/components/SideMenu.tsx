@@ -21,8 +21,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Version } from './Version';
 
-// import logo from './logo.png';
-
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -71,7 +69,12 @@ export function SideMenu({ onClose, open }: Props) {
         </Box>
         <Box id="bottom-sidebar">
           <Box p={2} display="flex" justifyContent="center" m={10}>
-            {/* <Avatar variant="rounded" sx={{ width: 150, height: 158 }} alt="logo" src={logo} /> */}
+            <Avatar
+              variant="rounded"
+              sx={{ width: 150, height: 158 }}
+              alt="logo"
+              src={process.env.PUBLIC_URL + '/logo.png'}
+            />
           </Box>
           <Box display="flex" justifyContent="center">
             <Version />
