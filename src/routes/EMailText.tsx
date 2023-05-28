@@ -1,11 +1,11 @@
-import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import { euroValue, getPrintableDate } from '../utils/utils';
 import EMailTextTemplate from './EMailTextTemplate';
+import { useLoadOrder } from './Edit';
 
 import { Address } from 'um-types';
 
 export default function EMailText() {
-  const order = useCurrentOrder();
+  const order = useLoadOrder();
 
   if (order == null) {
     return null;
@@ -22,6 +22,7 @@ export default function EMailText() {
 
     return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
   };
+
   const persons = () => {
     const { workersNumber, transporterNumber, t75 } = order;
 
@@ -31,10 +32,10 @@ export default function EMailText() {
       _persons += ` mit `;
     }
     if (transporterNumber) {
-      _persons += `${transporterNumber} LKWs (à 3,5 t mit 20 m³ Ladevermögen) `;
+      _persons += `${transporterNumber} x LKW (à 3,5 t mit 20 m³ Ladevermögen) `;
     }
     if (t75) {
-      _persons += `${transporterNumber} LKWs (à 7,5 t mit 37,5 m³ Ladevermögen) `;
+      _persons += `${t75} x LKW (à 7,5 t mit 37,5 m³ Ladevermögen) `;
     }
     return _persons;
   };
@@ -70,38 +71,28 @@ export default function EMailText() {
     return _stunden;
   };
 
-  const line = (name = '', price: string | number = '', red = false) => {
+  const line = (desc = '', price: string | number = '', red = false, bold = false) => {
     const color = red ? 'red' : 'black';
     return (
-      `<div style="display: flex; justify-content: space-between; color: ${color}; margin-top: 5px;">` +
-      `<div>${name}</div>` +
-      `<div>${euroValue(price)} inkl. MwSt.</div>` +
-      `</div>`
+      `<tr style="color: ${color};">` +
+      `<t${bold ? 'h' : 'd'} align="left">${desc} : </t${bold ? 'h' : 'd'}>` +
+      `<th align="right">${euroValue(price)} inkl. MwSt.</th>` +
+      `</tr>`
     );
   };
 
   const servicesHTML = () => {
-    const { leistungen, timeBased, sum } = order;
+    const { leistungen = [], timeBased, sum } = order;
 
-    const s = leistungen
-      ?.filter((l) => l.hidden !== true)
-      .map((lst) => line(lst.desc, lst.sum, lst.red))
-      .join(' ');
+    const ammountDesc = `Gesamtbetrag ${timeBased?.hours ? `(${timeBased.hours} Stunden)` : ''}`;
 
-    let last = 'Gesamtbetrag';
-    if (timeBased?.hours) {
-      last += ` (${timeBased.hours} Stunden)`;
-    }
+    const htmlString =
+      leistungen
+        .filter((l) => l.hidden !== true)
+        .map((lst) => line(lst.desc, lst.sum, lst.red))
+        .join('') + line(ammountDesc, sum, false, true);
 
-    const priceString =
-      `<div style="font-weight: bold; display: flex; justify-content: space-between; margin-top: 15px;">` +
-      `<div>${last}</div>` +
-      `<div>${euroValue(sum)} inkl. MwSt.</div>` +
-      `</div>`;
-
-    let ret = s + priceString;
-    console.log(ret);
-    return ret;
+    return htmlString;
   };
 
   return (
