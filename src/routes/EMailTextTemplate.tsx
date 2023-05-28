@@ -64,10 +64,9 @@ export default function EMailTextTemplate({
       <p>{stunden}</p>
       <p>{extra}</p>
       <br />
-      <p
-        style={{ maxWidth: '600px', borderBottom: '1px solid black' }}
-        dangerouslySetInnerHTML={{ __html: servicesHTML }}
-      />
+      <table style={{ maxWidth: '600px', borderBottom: '1px solid black' }}>
+        <tbody dangerouslySetInnerHTML={{ __html: servicesHTML }}></tbody>
+      </table>
       <br />
       <p>{`Unser Kostenvoranschlag gilt bis zum ${new Date().addDays(3).toLocaleDateString('ru')}.`}</p>
       <p style={{ color: 'blue', fontWeight: 'bold' }}>Im Anhang erhalten Sie den Auftrag.</p>
