@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
@@ -18,15 +18,12 @@ import { Order } from 'um-types';
 const PAGE_SIZE = 10;
 
 export default function Orders() {
-  console.log('orders');
   const [data, setData] = useState<Order[]>([]);
 
   const [paginationModel, setPaginationModel] = useState({
     pageSize: PAGE_SIZE,
     page: 0,
   });
-
-  const navigate = useNavigate();
 
   const onSearch = useCallback((searchValue: string) => {
     const id = Number(searchValue);
@@ -58,13 +55,6 @@ export default function Orders() {
     setPaginationModel({ page: 0, pageSize: PAGE_SIZE });
   }, []);
 
-  const handleIdClick = useCallback(
-    (id: any) => {
-      navigate(`edit/${id}`);
-    },
-    [navigate],
-  );
-
   useEffect(() => {
     appRequest('get')(Urls.orders(paginationModel.page + 1, paginationModel.pageSize)).then(setData);
   }, [paginationModel.page, paginationModel.pageSize]);
@@ -78,9 +68,9 @@ export default function Orders() {
         renderCell: ({ row }) => {
           const { id } = row as Order;
           return (
-            <Button startIcon={<EditOutlinedIcon />} onClick={() => handleIdClick(id)}>
-              {id}
-            </Button>
+            <Link to={`edit/${id}`}>
+              <Button startIcon={<EditOutlinedIcon />}>{id}</Button>
+            </Link>
           );
         },
       },
@@ -176,7 +166,7 @@ export default function Orders() {
         headerName: '7.5',
       },
     ],
-    [handleIdClick],
+    [],
   );
 
   return (
