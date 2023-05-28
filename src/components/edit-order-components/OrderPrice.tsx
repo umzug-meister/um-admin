@@ -1,4 +1,4 @@
-import { Chip, Grid, Stack } from '@mui/material';
+import { Box, Chip, Grid, Stack } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 
@@ -19,14 +19,21 @@ export default function OrderPrice() {
   return (
     <Grid item xs={4}>
       <AppCard title={'Preis'}>
-        <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="hours" label="Stunden" />
         <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="basis" label="Betrag" />
         <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="extra" label="Stundenpreis" />
-        <OrderField path="discount" label="Rabatt" type="number" />
-        <Stack direction="row" spacing={2}>
-          <Chip label="5 %" onClick={() => onChipClick(5)} />
-          <Chip label="10 %" onClick={() => onChipClick(10)} />
-        </Stack>
+        <Grid container>
+          <Grid item xs={6}>
+            <OrderField path="discount" label="Rabatt" type="number" />
+          </Grid>
+          <Grid item xs={6}>
+            <Box height="100%" display="flex" alignItems="center" justifyContent="center">
+              <Stack direction="row" spacing={2}>
+                <Chip label="5 %" onClick={() => onChipClick(5)} />
+                <Chip label="10 %" onClick={() => onChipClick(10)} />
+              </Stack>
+            </Box>
+          </Grid>
+        </Grid>
       </AppCard>
     </Grid>
   );
