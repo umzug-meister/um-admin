@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Avatar, Box, Card, Typography, useTheme } from '@mui/material';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,9 @@ import { compareVersions } from 'compare-versions';
 
 export function Version() {
   const dispatch = useDispatch<AppDispatch>();
+
+  const theme = useTheme();
+
   const remote = useOption('appversion');
   const local = process.env.REACT_APP_VERSION || '0.0.0';
 
@@ -33,7 +36,29 @@ export function Version() {
     }
   }, [remote, local, dispatch]);
 
-  return <Typography>Version: {local}</Typography>;
+  return (
+    <>
+      <Card
+        elevation={3}
+        sx={{
+          color: 'white',
+          background: theme.palette.primary.light,
+        }}
+      >
+        <Box p={2} pb={1} display="flex" flexDirection="column" alignItems="center" gap={2}>
+          <Avatar
+            variant="square"
+            sx={{ width: 100, height: 105 }}
+            alt="logo"
+            src={process.env.PUBLIC_URL + '/logo.png'}
+          />
+          <Box display="flex" justifyContent="center">
+            <Typography variant="subtitle2">Version: {local}</Typography>
+          </Box>
+        </Box>
+      </Card>
+    </>
+  );
 }
 
 const Message = (
