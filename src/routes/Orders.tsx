@@ -183,6 +183,10 @@ export default function Orders() {
     <RootBox>
       <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch} />
       <AppDataGrid
+        getRowClassName={(params) => {
+          const order = params.row as Order;
+          return order.lupd ? '' : 'bold';
+        }}
         data={data}
         columns={orderColumns}
         setPaginationModel={setPaginationModel}

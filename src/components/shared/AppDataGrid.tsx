@@ -1,6 +1,7 @@
 import { DeleteOutlined } from '@mui/icons-material';
 import { Box, Card, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, GridFeatureMode, GridPaginationModel } from '@mui/x-data-grid';
+import { styled } from '@mui/material/styles';
+import { DataGrid, GridColDef, GridFeatureMode, GridPaginationModel, GridRowClassNameParams } from '@mui/x-data-grid';
 
 import { useMemo } from 'react';
 
@@ -19,11 +20,12 @@ interface Props {
   columns: GridColDef[];
   paginationModel?: GridPaginationModel;
   paginationMode?: GridFeatureMode;
-  setPaginationModel?: (model: GridPaginationModel) => void;
-  onUpdate?: (next: any) => void;
   disablePagination?: true;
   allowDeletion?: true;
+  setPaginationModel?: (model: GridPaginationModel) => void;
+  onUpdate?: (next: any) => void;
   onDelete?: (id: string) => void;
+  getRowClassName?: (params: GridRowClassNameParams) => string;
 }
 
 export function AppDataGrid({
@@ -36,6 +38,7 @@ export function AppDataGrid({
   onDelete,
   setPaginationModel,
   onUpdate,
+  getRowClassName,
 }: Props) {
   const gridColumns = useMemo(() => {
     if (allowDeletion) {
@@ -81,10 +84,12 @@ export function AppDataGrid({
           },
         }}
       >
-        <DataGrid
+        <StyledDataGrid
+          rowHeight={45}
           localeText={{
             noResultsOverlayLabel: 'Keine Ergebnisse',
           }}
+          getRowClassName={getRowClassName}
           disableRowSelectionOnClick
           autoHeight
           columns={gridColumns}
@@ -107,3 +112,9 @@ export function AppDataGrid({
     </Card>
   );
 }
+
+const StyledDataGrid = styled(DataGrid)(() => ({
+  '& .bold': {
+    fontWeight: 'bold',
+  },
+}));

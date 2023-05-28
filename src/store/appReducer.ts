@@ -193,6 +193,7 @@ const appSlice = createSlice({
 
       const curOrder = state.current;
       if (curOrder) {
+        curOrder.lupd = Date.now();
         set(curOrder, path, value);
 
         state.current = calculate(curOrder, state.options);
@@ -202,6 +203,7 @@ const appSlice = createSlice({
 
     pushItem(state, action: PayloadAction<{ item: Furniture }>) {
       if (state.current) {
+        state.current.lupd = Date.now();
         state.current.items = [action.payload.item, ...state.current.items];
         state.unsavedChanges = true;
       }
@@ -211,6 +213,7 @@ const appSlice = createSlice({
       const { item, colli } = action.payload;
       const curOrder = state.current;
       if (curOrder) {
+        curOrder.lupd = Date.now();
         const index = curOrder.items.findIndex(
           (i) => i.name === item.name && i.selectedCategory === item.selectedCategory,
         );
@@ -225,6 +228,7 @@ const appSlice = createSlice({
       const { item } = action.payload;
       const curOrder = state.current;
       if (curOrder) {
+        curOrder.lupd = Date.now();
         const next = [...curOrder.items];
 
         const index = next.findIndex((i) => i.name === item.name && i.selectedCategory === item.selectedCategory);
@@ -246,6 +250,7 @@ const appSlice = createSlice({
       const curOrder = state.current;
 
       if (curOrder) {
+        curOrder.lupd = Date.now();
         const curServices = curOrder.services;
         const available = curServices.find((s) => s.id === service.id);
         if (available) {
@@ -262,6 +267,7 @@ const appSlice = createSlice({
       const curOrder = state.current;
 
       if (curOrder) {
+        curOrder.lupd = Date.now();
         if (!curOrder.leistungen) {
           curOrder.leistungen = [];
         }
@@ -274,6 +280,7 @@ const appSlice = createSlice({
     initCredit(state) {
       const curOrder = state.current;
       if (curOrder) {
+        curOrder.lupd = Date.now();
         const entries: MLeistung[] = [];
         const newCredit: Gutschrift = {
           date: new Date().toLocaleDateString('ru'),
@@ -289,6 +296,7 @@ const appSlice = createSlice({
     initInvoice(state) {
       const curOrder = state.current;
       if (curOrder) {
+        curOrder.lupd = Date.now();
         const entries: MLeistung[] = [];
         if (curOrder?.leistungen) {
           const entry = { ...(curOrder?.leistungen?.[0] || {}) };
