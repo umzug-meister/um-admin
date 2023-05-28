@@ -1,4 +1,3 @@
-import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import { euroValue, getPrintableDate } from '../utils/utils';
 import EMailTextTemplate from './EMailTextTemplate';
 import { useLoadOrder } from './Edit';
