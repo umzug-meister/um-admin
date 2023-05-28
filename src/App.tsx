@@ -166,7 +166,7 @@ function App() {
         </Route>
       </Route>
       <Route
-        path="email-text"
+        path="email-text/:id"
         element={
           <LazyLoad>
             <EMailText />

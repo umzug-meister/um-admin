@@ -6,7 +6,7 @@ import { Badge, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import { useNavigateToOrder } from '../hooks/useNavigateToOrder';
@@ -21,6 +21,7 @@ export function OrderEditActions() {
   const navigate = useNavigate();
   const navigateToOrder = useNavigateToOrder();
   const order = useCurrentOrder();
+  const params = useParams();
 
   const handleSave = useCallback(() => {
     dispatch(createUpdateOrder({ callback: navigateToOrder, id: order?.id }));
@@ -58,15 +59,13 @@ export function OrderEditActions() {
       </Stack>
       <Stack direction="row" spacing={2}>
         <PrintOrder />
-        <Tooltip title="E-Mail Text">
-          <IconButton
-            onClick={() => {
-              navigate('email-text');
-            }}
-          >
-            <EmailOutlinedIcon />
-          </IconButton>
-        </Tooltip>
+        <Link to={`email-text/${params.id}`} target="_blank">
+          <Tooltip title="E-Mail Text">
+            <IconButton>
+              <EmailOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </Link>
       </Stack>
 
       <Tooltip title="Löschen">
