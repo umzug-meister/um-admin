@@ -1,18 +1,21 @@
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import {
-  Avatar,
   Box,
   Divider,
   Drawer,
+  IconButton,
+  Link,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   useTheme,
 } from '@mui/material';
 
@@ -30,18 +33,19 @@ export function SideMenu({ onClose, open }: Props) {
   const theme = useTheme();
 
   return (
-    <Drawer open={open} onClose={onClose}>
-      <Box
-        sx={{
+    <Drawer
+      PaperProps={{
+        sx: {
           background: theme.palette.background.default,
-        }}
-        p={3}
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        height="100%"
-      >
-        <Box id="top-sidebar">
+        },
+      }}
+      open={open}
+      onClose={onClose}
+    >
+      <Box p={3} display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" height="100%">
+        <Box display="flex" flexDirection="column" alignItems="center" gap={4}>
+          <Version />
+
           <List>
             <DrawerItem onClose={onClose} to="/edit/-1" primaryText="Neuer Auftrag">
               <ModeEditOutlineOutlinedIcon />
@@ -68,16 +72,14 @@ export function SideMenu({ onClose, open }: Props) {
           </List>
         </Box>
         <Box id="bottom-sidebar">
-          <Box p={2} display="flex" justifyContent="center" m={10}>
-            <Avatar
-              variant="rounded"
-              sx={{ width: 150, height: 158 }}
-              alt="logo"
-              src={process.env.PUBLIC_URL + '/logo.png'}
-            />
-          </Box>
           <Box display="flex" justifyContent="center">
-            <Version />
+            <Tooltip title="Abmelden">
+              <Link href={`${process.env.REACT_APP_WP_HOST}/wp-login.php?action=logout`}>
+                <IconButton>
+                  <LogoutOutlinedIcon />
+                </IconButton>
+              </Link>
+            </Tooltip>
           </Box>
         </Box>
       </Box>
