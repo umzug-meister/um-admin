@@ -58,6 +58,6 @@ jobs:
           host: ${{ secrets.FTP_HOST }}
           user: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          remoteFiles: 'index.html'
-          remoteDirectories: ${{ vars.REMOTE_DIR }}
+          remoteFiles: '${{ vars.REMOTE_DIR }}/index.html'
+
           ignoreSSL: '1'
