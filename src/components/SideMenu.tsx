@@ -22,7 +22,7 @@ import {
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Version } from './Version';
+import { VersionBadge } from './VersionBadge';
 
 interface Props {
   open: boolean;
@@ -44,7 +44,7 @@ export function SideMenu({ onClose, open }: Props) {
     >
       <Box p={3} display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" height="100%">
         <Box display="flex" flexDirection="column" alignItems="center" gap={4}>
-          <Version />
+          <VersionBadge />
 
           <List>
             <DrawerItem onClose={onClose} to="/edit/-1" primaryText="Neuer Auftrag">

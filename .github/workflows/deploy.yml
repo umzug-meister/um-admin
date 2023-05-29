@@ -30,6 +30,16 @@ jobs:
           REACT_APP_VERSION: ${{ env.PACKAGE_VERSION }}
           REACT_APP_WP_HOST: ${{ vars.REACT_APP_WP_HOST }}
 
+      - name: Remove files on FTP
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          remoteFiles: 'asset-manifest.json;main.*.js;static/js/*.*'
+          remoteDirectories: ${{ vars.REMOTE_DIR }}
+          ignoreSSL: '1'
+
       - name: FTP Upload
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
         env:
@@ -38,5 +48,5 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USER }}
           FTP_PASSWORD: ${{ secrets.FTP_PASS }}
           LOCAL_DIR: ${{ github.workspace }}/build
-          REMOTE_DIR: /http/wp-content/plugins/um-configurator/app-dist/rcAdmin1
+          REMOTE_DIR: ${{ vars.REMOTE_DIR }}
           ARGS: --transfer-all

@@ -1,5 +1,4 @@
 module.exports = function override(config, env) {
-  console.log(env);
-  config.output.filename = 'main.js';
+  config.output.filename = 'main.[fullhash].js';
   return config;
 };
