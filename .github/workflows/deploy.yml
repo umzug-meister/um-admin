@@ -22,7 +22,8 @@ jobs:
       - name: Install modules
         run: npm install
 
-      - uses: nyaa8/package-version@v1
+      - name: Add package version
+        uses: nyaa8/package-version@v1
 
       - name: Build App
         run: npm run build
@@ -30,13 +31,13 @@ jobs:
           REACT_APP_VERSION: ${{ env.PACKAGE_VERSION }}
           REACT_APP_WP_HOST: ${{ vars.REACT_APP_WP_HOST }}
 
-      - name: Remove files on FTP
+      - name: Remove old main.js file
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
           host: ${{ secrets.FTP_HOST }}
           user: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          remoteFiles: 'asset-manifest.json;main.*.js;static/js/*.*'
+          remoteFiles: 'main.*.js;'
           remoteDirectories: ${{ vars.REMOTE_DIR }}
           ignoreSSL: '1'
 
@@ -50,3 +51,13 @@ jobs:
           LOCAL_DIR: ${{ github.workspace }}/build
           REMOTE_DIR: ${{ vars.REMOTE_DIR }}
           ARGS: --transfer-all
+
+      - name: Remove old index.html file
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          remoteFiles: 'index.html'
+          remoteDirectories: ${{ vars.REMOTE_DIR }}
+          ignoreSSL: '1'
