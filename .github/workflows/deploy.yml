@@ -37,7 +37,7 @@ jobs:
           user: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           remoteFiles: 'asset-manifest.json;main.*.js;static/js/*.*'
-          remoteDirectories: '/http/wp-content/plugins/um-configurator/app-dist/rcAdmin1'
+          remoteDirectories: ${{ vars.REMOTE_DIR }}
           ignoreSSL: '1'
 
       - name: FTP Upload
@@ -48,5 +48,5 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USER }}
           FTP_PASSWORD: ${{ secrets.FTP_PASS }}
           LOCAL_DIR: ${{ github.workspace }}/build
-          REMOTE_DIR: /http/wp-content/plugins/um-configurator/app-dist/rcAdmin1
+          REMOTE_DIR: ${{ vars.REMOTE_DIR }}
           ARGS: --transfer-all
