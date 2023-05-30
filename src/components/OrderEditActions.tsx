@@ -6,7 +6,7 @@ import { Badge, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import { useNavigateToOrder } from '../hooks/useNavigateToOrder';
