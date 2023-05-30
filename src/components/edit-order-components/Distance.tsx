@@ -54,7 +54,7 @@ export default function Distance() {
   }, [gapiKey, origin, from, to]);
 
   const sum = useMemo(() => {
-    return response?.rows.reduce((result, row, index) => result + row.elements[index].distance?.value, 0);
+    return response?.rows.reduce((result, row, index) => result + (row.elements[index].distance?.value || 0), 0);
   }, [response]);
 
   const sx = useMemo(() => ({ fontWeight: 'bold' }), []);
@@ -92,7 +92,7 @@ export default function Distance() {
               <TableCell></TableCell>
               <TableCell sx={sx}>Von</TableCell>
               <TableCell sx={sx}>Nach</TableCell>
-              <TableCell sx={sx}>Distanz</TableCell>
+              <TableCell sx={sx}>Distanz in km</TableCell>
               <TableCell sx={sx}>Fahrtzeit</TableCell>
             </TableRow>
           </TableHead>
