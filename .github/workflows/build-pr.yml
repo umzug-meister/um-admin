@@ -1,4 +1,4 @@
-name: 'Build pull request'
+name: 🛠️ Build pull request
 
 on:
   push:
