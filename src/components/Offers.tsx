@@ -56,7 +56,6 @@ export const Offers = () => {
       <AppDataGrid
         columns={offersColumns}
         data={offers}
-        paginationMode="client"
         disablePagination
         allowDeletion
         onUpdate={onUpdate}
