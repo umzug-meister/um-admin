@@ -6,7 +6,7 @@ import { Badge, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useResolvedPath } from 'react-router-dom';
 
 import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import { useNavigateToOrder } from '../hooks/useNavigateToOrder';
@@ -21,7 +21,6 @@ export function OrderEditActions() {
   const navigate = useNavigate();
   const navigateToOrder = useNavigateToOrder();
   const order = useCurrentOrder();
-  const params = useParams();
 
   const handleSave = useCallback(() => {
     dispatch(createUpdateOrder({ callback: navigateToOrder, id: order?.id }));
@@ -38,13 +37,16 @@ export function OrderEditActions() {
     }
   }, [dispatch, navigate]);
 
+  const path = useResolvedPath('email-text', { relative: 'route' });
+  console.log(path);
+
   const onEmailRequest = useCallback(() => {
-    window.open(`email-text/${params.id}`, '_blank');
-  }, [params]);
+    const callback = (id: string | number) => window.open(`/email-text/${id}`, '_blank');
+
+    dispatch(createUpdateOrder({ callback, id: order?.id }));
+  }, [dispatch, order]);
 
   const color = unsavedChanges ? 'error' : 'default';
-
-  const disabled = params.id === '-1';
 
   return (
     <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />}>
@@ -58,23 +60,23 @@ export function OrderEditActions() {
           </IconButton>
         </Tooltip>
         <Tooltip title="Kopieren">
-          <IconButton disabled={disabled} onClick={handleCopy}>
+          <IconButton disabled={unsavedChanges} onClick={handleCopy}>
             <FileCopyOutlinedIcon />
           </IconButton>
         </Tooltip>
       </Stack>
       <Stack direction="row" spacing={2}>
-        <PrintOrder disabled={disabled} />
+        <PrintOrder disabled={unsavedChanges} />
 
         <Tooltip title="E-Mail Text">
-          <IconButton disabled={disabled} onClick={onEmailRequest}>
+          <IconButton disabled={unsavedChanges} onClick={onEmailRequest}>
             <EmailOutlinedIcon />
           </IconButton>
         </Tooltip>
       </Stack>
 
       <Tooltip title="Löschen">
-        <IconButton disabled={disabled} onClick={handleDelete} color="error">
+        <IconButton disabled={unsavedChanges} onClick={handleDelete} color="error">
           <DeleteOutlinedIcon />
         </IconButton>
       </Tooltip>
