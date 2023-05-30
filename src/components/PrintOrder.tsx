@@ -12,7 +12,11 @@ import { AppOptions, createUpdateOrder } from '../store/appReducer';
 
 import { AppPacking, AppService } from 'um-types';
 
-export default function PrintOrder() {
+interface Props {
+  disabled: boolean;
+}
+
+export default function PrintOrder({ disabled }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
   const order = useCurrentOrder();
@@ -29,7 +33,7 @@ export default function PrintOrder() {
 
   return (
     <Tooltip title="Als PDF speichern">
-      <IconButton onClick={printOrder}>
+      <IconButton disabled={disabled} onClick={printOrder}>
         <FileDownloadOutlinedIcon />
       </IconButton>
     </Tooltip>

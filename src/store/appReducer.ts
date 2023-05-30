@@ -115,11 +115,10 @@ const calculate = (order: Order, options: AppOptions): Order => {
     const rideCosts = Number(order.distance || 0) * Number(options[OPTIONS.KM_PRICE]) * Math.max(lkws, 1);
     calculated.rideCosts = rideCosts;
   }
-  if (order.discount) {
-    const discountValue = (Number(order.timeBased?.basis || 0) / 100) * Number(order.discount || 0);
 
-    calculated.discountValue = discountValue;
-  }
+  const discountValue = (Number(order.timeBased?.basis || 0) / 100) * Number(order.discount || 0);
+
+  calculated.discountValue = discountValue;
 
   const prices: Prices = {};
 

@@ -38,7 +38,13 @@ export function OrderEditActions() {
     }
   }, [dispatch, navigate]);
 
-  const color = unsavedChanges ? 'warning' : 'default';
+  const onEmailRequest = useCallback(() => {
+    window.open(`email-text/${params.id}`, '_blank');
+  }, [params]);
+
+  const color = unsavedChanges ? 'error' : 'default';
+
+  const disabled = params.id === '-1';
 
   return (
     <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />}>
@@ -51,25 +57,24 @@ export function OrderEditActions() {
             </Badge>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Kopieren" onClick={handleCopy}>
-          <IconButton>
+        <Tooltip title="Kopieren">
+          <IconButton disabled={disabled} onClick={handleCopy}>
             <FileCopyOutlinedIcon />
           </IconButton>
         </Tooltip>
       </Stack>
       <Stack direction="row" spacing={2}>
-        <PrintOrder />
-        <Link to={`email-text/${params.id}`} target="_blank">
-          <Tooltip title="E-Mail Text">
-            <IconButton>
-              <EmailOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        </Link>
+        <PrintOrder disabled={disabled} />
+
+        <Tooltip title="E-Mail Text">
+          <IconButton disabled={disabled} onClick={onEmailRequest}>
+            <EmailOutlinedIcon />
+          </IconButton>
+        </Tooltip>
       </Stack>
 
       <Tooltip title="Löschen">
-        <IconButton onClick={handleDelete} color="error">
+        <IconButton disabled={disabled} onClick={handleDelete} color="error">
           <DeleteOutlinedIcon />
         </IconButton>
       </Tooltip>
