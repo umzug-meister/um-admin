@@ -131,7 +131,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
   );
 
   //Volumen
-  factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. cbm Abweichung: 10%']], {
+  factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%']], {
     0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
     1: { cellWidth: CELL_WIDTH_1 },
     2: { fontStyle: 'bold', textColor: [255, 0, 0] },
@@ -261,7 +261,7 @@ const appendPrice = (factory: PdfBuilder, order: Order) => {
   }
   factory.setColor(255, 0, 0);
   factory.setBold();
-  factory.addText('Die Preise sind inklusive gesetzlicher Haftung i.H.v. 620,0 Euro / m3.', 8);
+  factory.addText('Die Preise sind inklusive gesetzlicher Haftung i.H.v. 620,0 Euro / m³.', 8);
   factory.resetText();
   factory.setBold();
   addPrice(factory, order, false);
@@ -322,7 +322,7 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
   factory.addText(
     `• Anzahl der Ladehelfer und Dauer der Arbeit (Stunden) berechnet sich anhand der, von dem/der Auftraggeber(in)
     zur Verfügung gestellten Daten aus dem Online Formular "Umzugsanfrage/Umzugsgutliste":
-    Trageweg, Zimmeranzahl, Stockwerk und Umzugsgut (cbm).`,
+    Trageweg, Zimmeranzahl, Stockwerk und Umzugsgut (m³).`,
   );
   factory.addText(
     `• Wird kein Formular ausgefüllt, erfolgt die Berechnung anhand der folgenden Parameter und der
@@ -334,7 +334,7 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
   );
   factory.addText(
     `•  Werden der Firma Umzug Ruck Details des Umzuges schriftlich nicht bekannt gegeben, behält sich
-    das Unternehmen das Recht vor, den Auftrag, bzw. die Möbelliste um Positionen wie z.B. "Volumen CBM",
+    das Unternehmen das Recht vor, den Auftrag, bzw. die Möbelliste um Positionen wie z.B. "Volumen m³",
     "Schwertransport","Trageweg" oder "Transport von sperrigen Gegenständen"  zu erweitern.`,
   );
 };
