@@ -84,30 +84,6 @@ export const deleteOrder = createAsyncThunk<void, void, RootState>('deleteOrder'
   }
 });
 
-interface CreateUpdatePayload {
-  id: number | string | undefined;
-  callback?: (id: number | string) => void;
-}
-
-export const createUpdateOrder = createAsyncThunk<void, CreateUpdatePayload, RootState>(
-  'saveOrder',
-  (payload, thunkApi) => {
-    const state = thunkApi.getState();
-
-    const currentOrder = state.app.current;
-
-    if (currentOrder !== null) {
-      const id = payload.id;
-
-      const requestType = typeof id !== 'undefined' ? 'put' : 'post';
-
-      return appRequest(requestType)(Urls.orderById(payload.id), currentOrder).then((res) => {
-        return payload.callback?.(res.id);
-      });
-    }
-  },
-);
-
 const calculate = (order: Order, options: AppOptions): Order => {
   const calculated = { ...order };
   if (typeof order.distance !== 'undefined') {
@@ -339,9 +315,9 @@ const appSlice = createSlice({
         state.current = null;
         state.unsavedChanges = false;
       })
-      .addCase(createUpdateOrder.fulfilled, (state) => {
-        state.unsavedChanges = false;
-      })
+      // .addCase(createUpdateOrder.fulfilled, (state) => {
+      //   state.unsavedChanges = false;
+      // })
       .addCase(loadAllOptions.fulfilled, (state, action) => {
         state.options = action.payload;
       })

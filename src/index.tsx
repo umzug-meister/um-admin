@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
@@ -24,7 +23,7 @@ const script = document.createElement('script');
 script.src = 'https://js.jotform.com/JotForm.js';
 script.async = true;
 script.defer = true;
-document.head.appendChild(script);
+// document.head.appendChild(script);
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
@@ -34,7 +33,7 @@ document.head.appendChild(link);
 
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
-    <HashRouter basename="/">
+    <HashRouter>
       <AppLoader>
         <App />
       </AppLoader>
