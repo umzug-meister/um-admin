@@ -33,7 +33,7 @@ export function AbstractOrderService({ tag }: Props) {
 
     const valueAsNumber = Number(orderServ?.colli || 0);
 
-    return valueAsNumber > 0 ? <b>{valueAsNumber}</b> : <p color="lightgrey">{valueAsNumber}</p>;
+    return valueAsNumber > 0 ? <b>{valueAsNumber}</b> : <p style={{ color: 'lightgrey' }}>{valueAsNumber}</p>;
   };
 
   const onUpdate = (next: AppService) => {
