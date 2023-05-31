@@ -223,6 +223,10 @@ const appSlice = createSlice({
       }
     },
 
+    setUnsavedChanges(state, action: PayloadAction<{ unsavedChanges: boolean }>) {
+      state.unsavedChanges = action.payload.unsavedChanges;
+    },
+
     deleteItem(state, action: PayloadAction<{ item: Furniture }>) {
       const { item } = action.payload;
       const curOrder = state.current;
@@ -361,6 +365,7 @@ export const {
   pushLeistung,
   initInvoice,
   initCredit,
+  setUnsavedChanges,
 } = appSlice.actions;
 
 export { appReducer };
