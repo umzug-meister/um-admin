@@ -30,7 +30,10 @@ export function AbstractOrderService({ tag }: Props) {
 
   const getColli = (serv: AppService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
-    return orderServ?.colli || 0;
+
+    const valueAsNumber = Number(orderServ?.colli || 0);
+
+    return valueAsNumber > 0 ? <b>{valueAsNumber}</b> : <p color="lightgrey">{valueAsNumber}</p>;
   };
 
   const onUpdate = (next: AppService) => {
