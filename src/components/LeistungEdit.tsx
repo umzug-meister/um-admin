@@ -3,6 +3,7 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Grid, IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
+import { arrayMoveImmutable } from 'array-move';
 
 import React from 'react';
 
@@ -45,6 +46,11 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
   const addLst = () => {
     current.push({} as MLeistung);
     update(current);
+  };
+
+  const moveEntry = (index: number, pos: number) => {
+    const next = arrayMoveImmutable(leistungen, index, index + pos);
+    update(next);
   };
 
   const GridRow = (lst: MLeistung, index: number) => {
@@ -98,10 +104,10 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
         </Grid>
 
         <Grid item xs={2}>
-          <IconButton disabled={index === leistungen.length - 1}>
+          <IconButton onClick={() => moveEntry(index, 1)} disabled={index === leistungen.length - 1}>
             <KeyboardArrowDownOutlinedIcon />
           </IconButton>
-          <IconButton disabled={index === 0}>
+          <IconButton onClick={() => moveEntry(index, -1)} disabled={index === 0}>
             <KeyboardArrowUpOutlinedIcon />
           </IconButton>
           <IconButton onClick={() => onDelete(index)} color="error">
