@@ -8,6 +8,7 @@ import { AppDispatch } from '../store';
 import { deleteService, updateService } from '../store/servicesReducer';
 import { AddServiceByTag } from './AddServiceByTag';
 import { AppDataGrid } from './shared/AppDataGrid';
+import OfferNumberRenderer from './shared/OfferNumberRenderer';
 
 import { AppPrice, AppServiceTag, Service } from 'um-types';
 
@@ -39,10 +40,38 @@ export const Offers = () => {
 
   const offersColumns: GridColDef[] = useMemo(
     () => [
-      { field: 'workers', headerName: 'Mann', ...dp },
-      { field: 't35', headerName: '3.5', ...dp },
-      { field: 't75', headerName: '7.5', ...dp },
-      { field: 'includedHours', headerName: 'Stunden', ...dp },
+      {
+        field: 'workers',
+        headerName: 'Mann',
+        ...dp,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="green" />;
+        },
+      },
+      {
+        field: 't35',
+        headerName: '3.5',
+        ...dp,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="red" />;
+        },
+      },
+      {
+        field: 't75',
+        headerName: '7.5',
+        ...dp,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="red" />;
+        },
+      },
+      {
+        field: 'includedHours',
+        headerName: 'Stunden',
+        ...dp,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="blue" />;
+        },
+      },
       { field: 'hourPrice', headerName: 'Stundenpreis', ...dp },
       { field: 'ridingCosts', headerName: 'Anfahrtskosten', ...dp },
       { field: 'sum', headerName: 'Gesamt', ...dp },
