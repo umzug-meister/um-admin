@@ -43,6 +43,6 @@ ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElem
 );
 
 reportWebVitals((report) => {
-  console.log(`%cWEBVITAL:`, 'color:green;  font-size: 20px');
+  console.log(`%cWEBVITAL[${report.rating}]:`, 'color:green;  font-size: 20px');
   console.log(report);
 });
