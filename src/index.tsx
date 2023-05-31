@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 
 import App from './App';
 import AppLoader from './AppLoader';
+import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 
 // eslint-disable-next-line no-extend-native
@@ -23,7 +24,7 @@ const script = document.createElement('script');
 script.src = 'https://js.jotform.com/JotForm.js';
 script.async = true;
 script.defer = true;
-// document.head.appendChild(script);
+document.head.appendChild(script);
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
@@ -40,3 +41,5 @@ ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElem
     </HashRouter>
   </Provider>,
 );
+
+reportWebVitals(console.log);
