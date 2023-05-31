@@ -10,6 +10,7 @@ import { AppDispatch } from '../../store';
 import { updateOrderProps } from '../../store/appReducer';
 import { AppCard } from '../shared/AppCard';
 import { AppDataGrid } from '../shared/AppDataGrid';
+import OfferNumberRenderer from '../shared/OfferNumberRenderer';
 
 import { AppPrice } from 'um-types';
 
@@ -57,10 +58,38 @@ export default function OrderOfferSelector() {
 
   const columns = useMemo(() => {
     const cols: GridColDef[] = [
-      { field: 'workers', headerName: 'Mann', flex: 1 },
-      { field: 't35', headerName: '3.5', flex: 1 },
-      { field: 't75', headerName: '7.5', flex: 1 },
-      { field: 'includedHours', headerName: 'Stunden', flex: 1 },
+      {
+        field: 'workers',
+        headerName: 'Mann',
+        flex: 1,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="green" />;
+        },
+      },
+      {
+        field: 't35',
+        headerName: '3.5',
+        flex: 1,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="red" />;
+        },
+      },
+      {
+        field: 't75',
+        headerName: '7.5',
+        flex: 1,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="red" />;
+        },
+      },
+      {
+        field: 'includedHours',
+        headerName: 'Stunden',
+        flex: 1,
+        renderCell({ value }) {
+          return <OfferNumberRenderer value={value} color="blue" />;
+        },
+      },
       { field: 'hourPrice', headerName: 'Stundenpreis', flex: 1 },
       { field: 'ridingCosts', headerName: 'Anfahrtskosten', flex: 1 },
 
