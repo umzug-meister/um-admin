@@ -8,7 +8,7 @@ import SearchBar from '../components/shared/SearchBar';
 import { useGenerateOrder } from '../hooks/useGenerateOrder';
 import { useInitJF } from '../hooks/useInitJF';
 import { useSaveOrder } from '../hooks/useSaveOrder';
-import { convertData } from './import/generateOrder';
+import { convertData } from '../utils/generateOrderUtils';
 
 const PAGE_SIZE = 10;
 

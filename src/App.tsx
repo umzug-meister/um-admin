@@ -16,7 +16,7 @@ const Import = lazy(() => import('./routes/Import'));
 const Prices = lazy(() => import('./routes/Prices'));
 const Blanco = lazy(() => import('./routes/Blanco'));
 const Orders = lazy(() => import('./routes/Orders'));
-const Packings = lazy(() => import('./routes/packings/Packings'));
+const Packings = lazy(() => import('./routes/Packings'));
 const Settings = lazy(() => import('./routes/Settings'));
 const Services = lazy(() => import('./routes/Services'));
 const Options = lazy(() => import('./routes/Options'));
