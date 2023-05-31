@@ -9,8 +9,8 @@ import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { useGenerateOrder } from '../hooks/useGenerateOrder';
-import { useImportOrder } from '../hooks/useImportOrder';
 import { useInitJF } from '../hooks/useInitJF';
+import { useSaveOrder } from '../hooks/useSaveOrder';
 
 import { Order } from 'um-types';
 
@@ -28,7 +28,7 @@ export default function DirectImport() {
   const [importedOrder, setImportedOrder] = useState<Order>();
 
   const generateOrder = useGenerateOrder();
-  const importOrder = useImportOrder();
+  const saveOrder = useSaveOrder();
 
   useEffect(() => {
     window.JF.getSubmission(params.id, (res: any) => {
@@ -40,7 +40,7 @@ export default function DirectImport() {
       if (rid) {
         appRequest('get')(Urls.orderSearch(rid)).then((res: Order[]) => {
           if (res.length === 0) {
-            importOrder(order);
+            saveOrder(order);
           } else {
             setOrders(res);
           }
@@ -75,7 +75,7 @@ export default function DirectImport() {
               <Button
                 variant="contained"
                 onClick={() => {
-                  importedOrder && importOrder(importedOrder);
+                  importedOrder && saveOrder(importedOrder);
                 }}
               >
                 Importieren

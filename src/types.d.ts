@@ -1,6 +1,4 @@
 interface Window {
-  logstore: () => void;
-  resetUM: () => void;
   UMCONFUrls: {
     nonce: string;
   };

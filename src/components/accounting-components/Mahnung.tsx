@@ -4,9 +4,10 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generatePaymentReminder } from '../../pdf/PaymentReminderPdf';
 import { AppDispatch, AppState } from '../../store';
-import { createUpdateOrder, updateOrderProps } from '../../store/appReducer';
+import { updateOrderProps } from '../../store/appReducer';
 import { createDueDate } from '../../utils/utils';
 import AddButton from '../shared/AddButton';
 import { AppCard } from '../shared/AppCard';
@@ -24,26 +25,27 @@ interface Props {
 export function Mahnung({ index }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const order = useCurrentOrder();
+  const currentOrder = useCurrentOrder();
+
+  const saveOrder = useSaveOrder();
 
   const curDueDate = useDueDate(index);
   const prevDueDate = useDueDate(index - 1);
 
-  const rechnung = order?.rechnung;
+  const rechnung = currentOrder?.rechnung;
 
   const printPaymentReminder = useCallback(
     (index: number) => {
-      const rechnung = order?.rechnung;
+      const rechnung = currentOrder?.rechnung;
       if (rechnung) {
-        dispatch(
-          createUpdateOrder({
-            id: order?.id,
-            callback: () => generatePaymentReminder({ index, rechnung }),
-          }),
-        );
+        saveOrder(currentOrder).then((order) => {
+          if (order !== null) {
+            generatePaymentReminder({ index, rechnung });
+          }
+        });
       }
     },
-    [order, dispatch],
+    [currentOrder, saveOrder],
   );
 
   const initDueDate = useCallback(() => {
@@ -111,6 +113,7 @@ interface MahnungFieldProps {
 type Labels = {
   [path: string]: string;
 };
+
 const labels: Labels = {
   date: 'Zu bezahlen bis',
   costs: 'Mahngebühr',

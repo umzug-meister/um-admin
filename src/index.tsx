@@ -1,10 +1,10 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
 import App from './App';
 import AppLoader from './AppLoader';
+import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 
 // eslint-disable-next-line no-extend-native
@@ -34,10 +34,15 @@ document.head.appendChild(link);
 
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
-    <HashRouter basename="/">
+    <HashRouter>
       <AppLoader>
         <App />
       </AppLoader>
     </HashRouter>
   </Provider>,
 );
+
+reportWebVitals((report) => {
+  console.log(`%cWEBVITAL[${report.rating}]:`, 'color:green;  font-size: 20px');
+  console.log(report);
+});

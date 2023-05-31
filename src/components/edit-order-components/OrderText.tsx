@@ -5,7 +5,7 @@ import { AppCard } from '../shared/AppCard';
 
 export function OrderText() {
   return (
-    <Grid item xs={7} xl={9}>
+    <Grid item xs={8} xl={9}>
       <AppCard title="Notiz">
         <OrderField path="text" multiline />
       </AppCard>

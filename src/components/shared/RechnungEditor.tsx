@@ -1,12 +1,13 @@
 import { Chip, Grid, Stack } from '@mui/material';
 
-import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
 import { AppDispatch } from '../../store';
-import { createUpdateOrder, updateOption } from '../../store/appReducer';
+import { updateOption } from '../../store/appReducer';
 import { getPrintableDate } from '../../utils/utils';
 import LeistungEdit from '../LeistungEdit';
 import { AppCard } from './AppCard';
@@ -31,31 +32,31 @@ export type RechnungProp = keyof Rechnung;
 export function RechnungEditor({ onPropChange, rechnung }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const order = useCurrentOrder();
+  const currentOrder = useCurrentOrder();
 
-  const onChipClick = useCallback(
-    (text: string) => {
-      const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
-      onPropChange('text', text.replace('{{date}}', date));
-    },
-    [onPropChange, rechnung],
-  );
+  const saveOrder = useSaveOrder();
 
-  const printInvoice = useCallback(() => {
+  const location = useLocation();
+
+  const onChipClick = (text: string) => {
+    const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
+    onPropChange('text', text.replace('{{date}}', date));
+  };
+
+  const printInvoice = () => {
     const rNumber = rechnung?.rNumber;
     if (rNumber) {
       dispatch(updateOption({ name: 'rNumber', value: rNumber }));
     }
-    if (window.location.pathname.startsWith('/edit') && order !== null) {
-      return dispatch(
-        createUpdateOrder({
-          id: order.id,
-          callback: () => generateRechnung(rechnung),
-        }),
-      );
+    if (location.pathname.startsWith('/edit') && currentOrder !== null) {
+      return saveOrder(currentOrder).then((order) => {
+        if (order !== null) {
+          return generateRechnung(rechnung);
+        }
+      });
     }
     generateRechnung(rechnung);
-  }, [dispatch, rechnung, order]);
+  };
 
   return (
     <AppGridContainer>

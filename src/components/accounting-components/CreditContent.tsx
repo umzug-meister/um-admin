@@ -4,9 +4,10 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateGutschrift } from '../../pdf/CreditPdf';
 import { AppDispatch } from '../../store';
-import { createUpdateOrder, initCredit, updateOrderProps } from '../../store/appReducer';
+import { initCredit, updateOrderProps } from '../../store/appReducer';
 import LeistungEdit from '../LeistungEdit';
 import AddButton from '../shared/AddButton';
 import { AppCard } from '../shared/AppCard';
@@ -22,6 +23,7 @@ type GutschriftProp = keyof Gutschrift;
 export function CreditContent() {
   const order = useCurrentOrder();
 
+  const saveOrder = useSaveOrder();
   const dispatch = useDispatch<AppDispatch>();
 
   const printCredit = useCallback(() => {
@@ -29,14 +31,13 @@ export function CreditContent() {
     const gutschrift = order?.gutschrift;
 
     if (rechnung && gutschrift) {
-      dispatch(
-        createUpdateOrder({
-          id: order?.id,
-          callback: () => generateGutschrift({ gutschrift, rechnung }),
-        }),
-      );
+      saveOrder(order).then((order) => {
+        if (order) {
+          generateGutschrift({ gutschrift, rechnung });
+        }
+      });
     }
-  }, [order, dispatch]);
+  }, [order, saveOrder]);
 
   const initGutschrift = useCallback(() => {
     dispatch(initCredit());

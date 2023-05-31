@@ -2,20 +2,20 @@ import { Button } from '@mui/material';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { AppDataGrid } from '../../components/shared/AppDataGrid';
-import { RootBox } from '../../components/shared/RootBox';
-import SearchBar from '../../components/shared/SearchBar';
-import { useGenerateOrder } from '../../hooks/useGenerateOrder';
-import { useImportOrder } from '../../hooks/useImportOrder';
-import { useInitJF } from '../../hooks/useInitJF';
-import { convertData } from './generateOrder';
+import { AppDataGrid } from '../components/shared/AppDataGrid';
+import { RootBox } from '../components/shared/RootBox';
+import SearchBar from '../components/shared/SearchBar';
+import { useGenerateOrder } from '../hooks/useGenerateOrder';
+import { useInitJF } from '../hooks/useInitJF';
+import { useSaveOrder } from '../hooks/useSaveOrder';
+import { convertData } from '../utils/generateOrderUtils';
 
 const PAGE_SIZE = 10;
 
 export default function Import() {
   useInitJF();
   const generateOrder = useGenerateOrder();
-  const importOrder = useImportOrder();
+  const saveOrder = useSaveOrder();
 
   const [data, setData] = useState<any[]>([]);
 
@@ -51,9 +51,9 @@ export default function Import() {
   const onImportRequest = useCallback(
     (data: any) => {
       const order = generateOrder(data);
-      importOrder(order);
+      saveOrder(order);
     },
-    [generateOrder, importOrder],
+    [generateOrder, saveOrder],
   );
 
   return (
