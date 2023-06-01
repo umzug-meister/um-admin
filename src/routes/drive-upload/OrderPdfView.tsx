@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Card } from '@mui/material';
+import { Box, Button, ButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -6,6 +6,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { AppCard } from '../../components/shared/AppCard';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.js', import.meta.url).toString();
 
@@ -25,10 +26,12 @@ export default function OrderPdfView({ base64 }: Props) {
     setPageNumber((pn) => pn + offset);
   };
 
+  console.log(base64);
+
   return (
     <Box display="flex" flexDirection="column" position="relative">
-      <Box m="auto">
-        <Card>
+      <AppCard title="">
+        <Box m="auto">
           <Document
             file={base64}
             onLoadSuccess={({ numPages }) => {
@@ -37,18 +40,18 @@ export default function OrderPdfView({ base64 }: Props) {
           >
             <Page pageNumber={pageNumber} renderTextLayer={false} />
           </Document>
-        </Card>
-      </Box>
-      <Box position="absolute" bottom={10} left={'50%'} sx={{ transform: 'translateX(-50%)' }}>
-        <ButtonGroup variant="outlined">
-          <Button onClick={() => changePage(-1)} disabled={pageNumber === 1}>
-            <NavigateBeforeIcon />
-          </Button>
-          <Button onClick={() => changePage(1)} disabled={pageNumber === numPages}>
-            <NavigateNextIcon />
-          </Button>
-        </ButtonGroup>
-      </Box>
+        </Box>
+        <Box position="absolute" bottom={10} left={'50%'} sx={{ transform: 'translateX(-50%)' }}>
+          <ButtonGroup variant="outlined">
+            <Button onClick={() => changePage(-1)} disabled={pageNumber === 1}>
+              <NavigateBeforeIcon />
+            </Button>
+            <Button onClick={() => changePage(1)} disabled={pageNumber === numPages}>
+              <NavigateNextIcon />
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </AppCard>
     </Box>
   );
 }

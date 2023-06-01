@@ -33,12 +33,6 @@ Array.prototype.from = function (index: number) {
 
 // addScript(JOTFORM_SCRIPT, true, true);
 
-// const script = document.createElement('script');
-// script.src = 'https://js.jotform.com/JotForm.js';
-// script.async = true;
-// script.defer = true;
-// document.head.appendChild(script);
-
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
 link.setAttribute('type', 'text/css');
