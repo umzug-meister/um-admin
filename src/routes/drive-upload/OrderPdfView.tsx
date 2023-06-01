@@ -26,8 +26,6 @@ export default function OrderPdfView({ base64 }: Props) {
     setPageNumber((pn) => pn + offset);
   };
 
-  console.log(base64);
-
   return (
     <Box display="flex" flexDirection="column" position="relative">
       <AppCard title="">

@@ -1,6 +1,6 @@
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
-import { Box, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { addScript } from '../..';
 import { AppCard } from '../../components/shared/AppCard';
 import { AppTextField } from '../../components/shared/AppTextField';
@@ -13,7 +13,7 @@ const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 declare var gapi: any;
 declare var google: any;
-let tokenClient: any;
+// let tokenClient: any;
 
 interface Props {
   initFileName: string;
@@ -33,8 +33,10 @@ export function DriveUploadView({ initFileName, date }: Props) {
   const [gapiLoaded, setGapiLoaded] = useState(false);
   const [clientLoaded, setClientloaded] = useState(false);
   const [tokenAvailable, setTokenAvailable] = useState(false);
+  const tClient = useRef<any>(null);
 
   useEffect(() => {
+    //init drive api
     if (gapiKey) {
       addScript('https://apis.google.com/js/api.js', true, true, function () {
         gapi.load('client', function () {
@@ -52,8 +54,9 @@ export function DriveUploadView({ initFileName, date }: Props) {
   }, [gapiKey]);
 
   useEffect(() => {
+    //init toke
     addScript('https://accounts.google.com/gsi/client', true, true, function () {
-      tokenClient = google.accounts.oauth2.initTokenClient({
+      tClient.current = google.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope: SCOPES,
         callback: '',
@@ -80,28 +83,34 @@ export function DriveUploadView({ initFileName, date }: Props) {
   }, [token, date, tokenAvailable]);
 
   const authGoogleClient = () => {
-    tokenClient.callback = async (resp: any) => {
-      if (resp.error !== undefined) {
-        throw resp;
+    if (tClient.current) {
+      tClient.current.callback = async (resp: any) => {
+        if (resp.error !== undefined) {
+          throw resp;
+        } else {
+          const token = gapi.client.getToken();
+
+          //@ts-ignore
+          setToken(token);
+          //@ts-ignore
+          setTokenExpire(Date.now() + token.expires_in * 1000);
+        }
+      };
+
+      if (gapi.client.getToken() === null) {
+        // Prompt the user to select a Google Account and ask for consent to share their data
+        // when establishing a new session.
+        tClient.current.requestAccessToken({ prompt: 'consent' });
       } else {
-        const token = gapi.client.getToken();
-
-        //@ts-ignore
-        setToken(token);
-        //@ts-ignore
-        setTokenExpire(Date.now() + token.expires_in * 1000);
+        // Skip display of account chooser and consent dialog for an existing session.
+        tClient.current.requestAccessToken({ prompt: '' });
       }
-    };
-
-    if (gapi?.client.getToken() === null) {
-      // Prompt the user to select a Google Account and ask for consent to share their data
-      // when establishing a new session.
-      tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-      // Skip display of account chooser and consent dialog for an existing session.
-      tokenClient.requestAccessToken({ prompt: '' });
     }
   };
+
+  if (!gapiLoaded || !clientLoaded) {
+    return <Typography>Lade</Typography>;
+  }
 
   return (
     <AppCard title="">
@@ -117,7 +126,7 @@ export function DriveUploadView({ initFileName, date }: Props) {
               endAdornment: '.pdf',
             }}
           />
-          <AppTextField label="Ziel Ordner" disabled value={path.join('/')} />
+          <AppTextField label="Ordner" disabled value={path.join('/')} />
           <Box display={'flex'} justifyContent="center">
             <Button startIcon={<BackupOutlinedIcon />}>Upload</Button>
           </Box>

@@ -48,7 +48,44 @@ export async function listFilesInFolder(id: string) {
   } catch (e) {
     console.error(e);
   }
+
   return response.result.files as GFile[];
+}
+
+const Months = [
+  'Januar',
+  'Februar',
+  'März',
+  'April',
+  'Mai',
+  'Juni',
+  'Juli',
+  'August',
+  'September',
+  'Oktober',
+  'November',
+  'Dezember',
+];
+
+function getBearerToken() {
+  //@ts-ignore
+  return gapi.auth.getToken().access_token;
+}
+
+function createFolder(name: string, parent: string) {
+  const metadata = {
+    name,
+    mimeType: 'application/vnd.google-apps.folder',
+    parents: [parent],
+  };
+
+  return fetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST',
+    headers: new Headers({ Authorization: 'Bearer ' + getBearerToken() }),
+    body: JSON.stringify(metadata),
+  })
+    .then((res: any) => res.json())
+    .then((data) => data as GFile);
 }
 
 export async function getPath(date: string): Promise<string[]> {
@@ -58,35 +95,35 @@ export async function getPath(date: string): Promise<string[]> {
   }
   const allFolders = await listAllFoldersInFolder();
 
-  let rootFolder = getByNameRegEx('Umzug Ruckzuck', allFolders);
+  let rootFolder = getByNameRegEx('Umzug Test', allFolders);
   if (rootFolder) {
     path.push(rootFolder.name);
   } else {
-    //TODO: create
+    return [];
   }
 
   const parts = date.split('.');
   const month = parts[1];
   const year = parts[2];
 
-  const inRoot = await listFoldersByFolderId(rootFolder!.id);
-  const yearFolder = getByNameRegEx(`Auftrag ${year}`, inRoot);
+  const inRoot = await listFoldersByFolderId(rootFolder.id);
+  let yearFolder = getByNameRegEx(`Auftrag ${year}`, inRoot);
 
-  if (yearFolder) {
-    path.push(yearFolder.name);
-  } else {
-    //TODO: create
+  if (!yearFolder) {
+    yearFolder = await createFolder(`Auftrag ${year}`, rootFolder.id);
   }
 
-  const inYear = await listFoldersByFolderId(yearFolder!.id);
+  path.push(yearFolder.name);
 
-  const monthFolder = getByNameRegEx(`${month}.*${year}`, inYear);
+  const inYear = await listFoldersByFolderId(yearFolder.id);
 
-  if (monthFolder) {
-    path.push(monthFolder.name);
-  } else {
-    //TODO: create
+  let monthFolder = getByNameRegEx(`${month}.*${year}`, inYear);
+
+  if (!monthFolder) {
+    monthFolder = await createFolder(`${month} ${Months[Number(month) - 1]} ${year}`, yearFolder.id);
   }
+
+  path.push(monthFolder.name);
 
   return path;
 }
