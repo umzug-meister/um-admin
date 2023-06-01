@@ -11,6 +11,7 @@ interface Payload {
   order: Order;
   options: AppOptions;
   services: OrderService[];
+  base64?: true;
 }
 
 export function generateUrzPdf(p: Payload) {
@@ -53,6 +54,10 @@ export function generateUrzPdf(p: Payload) {
   addMoebel(pdffactory, order);
   addBoxes(pdffactory, order);
   addAGB(pdffactory, options);
+
+  if (p.base64) {
+    return pdffactory.output();
+  }
 
   pdffactory.save();
 }

@@ -7,6 +7,17 @@ import AppLoader from './AppLoader';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 
+export function addScript(src: string, async?: boolean, defer?: boolean, onload?: any) {
+  const script = document.createElement('script');
+  script.src = src;
+  script.async = async || false;
+  script.defer = defer || false;
+  script.onload = onload;
+  document.head.appendChild(script);
+}
+
+const JOTFORM_SCRIPT = 'https://js.jotform.com/JotForm.js';
+
 // eslint-disable-next-line no-extend-native
 Date.prototype.addDays = function (days: number) {
   this.setDate(this.getDate() + days);
@@ -20,11 +31,13 @@ Array.prototype.from = function (index: number) {
   return newArray;
 };
 
-const script = document.createElement('script');
-script.src = 'https://js.jotform.com/JotForm.js';
-script.async = true;
-script.defer = true;
-document.head.appendChild(script);
+// addScript(JOTFORM_SCRIPT, true, true);
+
+// const script = document.createElement('script');
+// script.src = 'https://js.jotform.com/JotForm.js';
+// script.async = true;
+// script.defer = true;
+// document.head.appendChild(script);
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');

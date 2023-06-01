@@ -54,10 +54,12 @@ function usePageName() {
   const location = useLocation();
 
   const pageName = useMemo(() => {
-    const regex = /edit\/[0-9]/gm;
-
-    if (regex.test(location.pathname)) {
+    if (/edit\/[0-9]/gm.test(location.pathname)) {
       return `Auftrag ${params.id}`;
+    }
+
+    if (/drive-upload\/[0-9]/gm.test(location.pathname)) {
+      return `Auftrag ${params.id} auf Google Drive hochladen`;
     }
 
     switch (location.pathname) {
