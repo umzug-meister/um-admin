@@ -1,7 +1,14 @@
 import { DeleteOutlined } from '@mui/icons-material';
 import { Box, Card, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { DataGrid, GridColDef, GridFeatureMode, GridPaginationModel, GridRowClassNameParams } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridEventListener,
+  GridFeatureMode,
+  GridPaginationModel,
+  GridRowClassNameParams,
+} from '@mui/x-data-grid';
 
 import { useMemo } from 'react';
 
@@ -20,7 +27,7 @@ interface Props {
   columns: GridColDef[];
   paginationModel?: GridPaginationModel;
   paginationMode?: GridFeatureMode;
-  disablePagination?: true;
+  disablePagination?: boolean;
   allowDeletion?: true;
   setPaginationModel?: (model: GridPaginationModel) => void;
   onUpdate?: (next: any) => void;
@@ -99,14 +106,16 @@ export function AppDataGrid({
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 100]}
-          onCellEditStop={(params, event) => {
-            //@ts-ignore
-            const value = event?.target?.value;
+          onCellEditStop={
+            ((params, event) => {
+              //@ts-ignore
+              const value = event?.target?.value;
 
-            const next = { ...params.row };
-            next[params.field] = value;
-            onUpdate?.(next);
-          }}
+              const next = { ...params.row };
+              next[params.field] = value;
+              onUpdate?.(next);
+            }) as GridEventListener<'cellEditStop'>
+          }
         />
       </Box>
     </Card>

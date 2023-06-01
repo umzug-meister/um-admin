@@ -17,7 +17,19 @@ import { Order } from 'um-types';
 
 const PAGE_SIZE = 10;
 
+const generator = (function* () {
+  let i = 1;
+  while (true) {
+    yield i;
+    i++;
+  }
+})();
+
 export default function Orders() {
+  const [disablePagination, setDisablePagination] = useState(false);
+
+  const [reset, setReset] = useState(0);
+
   const [data, setData] = useState<Order[]>([]);
 
   const [paginationModel, setPaginationModel] = useState({
@@ -28,6 +40,7 @@ export default function Orders() {
   const onSearch = useCallback((searchValue: string) => {
     const id = Number(searchValue);
 
+    setDisablePagination(true);
     if (isNaN(id)) {
       appRequest('get')(Urls.orderSearch(searchValue)).then((orders) => {
         if (Array.isArray(orders)) {
@@ -53,11 +66,15 @@ export default function Orders() {
 
   const onClear = useCallback(() => {
     setPaginationModel({ page: 0, pageSize: PAGE_SIZE });
+    setDisablePagination(false);
+    const next = generator.next().value as number;
+    console.log(next);
+    setReset(next);
   }, []);
 
   useEffect(() => {
     appRequest('get')(Urls.orders(paginationModel.page + 1, paginationModel.pageSize)).then(setData);
-  }, [paginationModel.page, paginationModel.pageSize]);
+  }, [paginationModel.page, paginationModel.pageSize, reset]);
 
   const orderColumns: GridBaseColDef[] = useMemo(
     () => [
@@ -177,6 +194,7 @@ export default function Orders() {
           const order = params.row as Order;
           return order.lupd ? '' : 'bold';
         }}
+        disablePagination={disablePagination}
         data={data}
         columns={orderColumns}
         setPaginationModel={setPaginationModel}
