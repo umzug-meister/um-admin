@@ -189,7 +189,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
         `${to?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
       ],
       ['Möbeldemontage', yesNo(demontage), 'Möbelmontage', yesNo(montage)],
-      ['Einpackservice', yesNo(from?.packservice), 'Auspackservice', yesNo(to.packservice)],
+      ['Einpackservice', yesNo(from?.packservice), 'Auspackservice', yesNo(to?.packservice)],
     ],
     {
       0: { cellWidth: CELL_WIDTH_0 },
