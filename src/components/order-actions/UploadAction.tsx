@@ -1,4 +1,4 @@
-import AddToDriveOutlinedIcon from '@mui/icons-material/AddToDriveOutlined';
+import CloudOutlinedIcon from '@mui/icons-material/CloudOutlined';
 import { IconButton, Tooltip } from '@mui/material';
 import { useCallback } from 'react';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
@@ -21,9 +21,9 @@ export default function UploadAction() {
 
   return (
     <>
-      <Tooltip title="Bei Drive speichern">
+      <Tooltip title="Auf Drive hochladen">
         <IconButton onClick={onUploadRequest}>
-          <AddToDriveOutlinedIcon />
+          <CloudOutlinedIcon />
         </IconButton>
       </Tooltip>
     </>
