@@ -31,7 +31,7 @@ Array.prototype.from = function (index: number) {
   return newArray;
 };
 
-// addScript(JOTFORM_SCRIPT, true, true);
+addScript(JOTFORM_SCRIPT, true, true);
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');

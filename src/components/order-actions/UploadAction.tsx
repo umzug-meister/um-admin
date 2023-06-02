@@ -55,7 +55,6 @@ export default function UploadAction() {
   }, [gapiKey]);
 
   useEffect(() => {
-    console.log('Init client');
     addScript('https://accounts.google.com/gsi/client', true, true, function () {
       tClient.current = initClient(clientId);
     });
@@ -65,7 +64,6 @@ export default function UploadAction() {
 
   useEffect(() => {
     if (tokenValid && gapiLoaded && tClient.current !== null) {
-      console.log('setze token auf verfügbar');
       setGapiToken(token);
       setTokenAvailable(true);
     }
@@ -73,7 +71,6 @@ export default function UploadAction() {
 
   useEffect(() => {
     if (tokenAvailable && buttonState === 'upload' && currentOrder) {
-      console.log('TODO: upload');
       const orderAsBase64 = generateUrzPdf({
         options,
         order: currentOrder,
@@ -84,18 +81,18 @@ export default function UploadAction() {
         const fileName = orderFileName(currentOrder);
         getPath(currentOrder.date, fileName).then((path) => {
           if (path) {
-            console.log('path');
-            console.log(path);
             uploadContent(path.fileId, orderAsBase64).then((res) => {
               if (res) {
                 setButtonState('success');
                 setTimeout(() => {
-                  setButtonState('ready');
+                  return setButtonState('ready');
                 }, 3000);
               } else {
-                setButtonState('error');
+                return setButtonState('error');
               }
             });
+          } else {
+            return setButtonState('error');
           }
         });
       }
@@ -357,8 +354,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   }
   const allFolders = await foldersIn();
 
-  let rootFolder = getByNameRegEx('Umzug Test', allFolders);
-  debugger;
+  let rootFolder = getByNameRegEx(process.env.REACT_APP_DRIVE_ROOT_DIR, allFolders);
   if (rootFolder) {
     path.push(rootFolder.name);
   } else {
