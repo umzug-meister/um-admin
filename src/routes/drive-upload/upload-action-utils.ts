@@ -85,10 +85,11 @@ export async function uploadFile(name: string, parent: string, base64: string) {
       'content-type': 'application/json',
       uploadType: 'multipart',
       name,
+      parents: [parent],
       mimeType: 'application/pdf',
       fields: 'id, name, kind, size',
     })
-    .then((response) => {
+    .then((response: any) => {
       fetch(`https://www.googleapis.com/upload/drive/v3/files/${response.result.id}`, {
         method: 'PATCH',
         headers: new Headers({

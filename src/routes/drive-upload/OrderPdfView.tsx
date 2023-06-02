@@ -25,21 +25,23 @@ export default function OrderPdfView({ base64 }: Props) {
   const changePage = (offset: number) => {
     setPageNumber((pn) => pn + offset);
   };
+  console.log(base64);
 
   return (
     <Box display="flex" flexDirection="column" position="relative">
-      <AppCard title="">
-        <Box m="auto">
-          <Document
+      {/* <AppCard title=""> */}
+      <Box m="auto" sx={{ height: 'calc(100vh - 200px)', width: '100%' }}>
+        <object data={base64} style={{ height: '100%' }}></object>
+        {/* <Document
             file={base64}
             onLoadSuccess={({ numPages }) => {
               setNumPages(numPages);
             }}
           >
             <Page pageNumber={pageNumber} renderTextLayer={false} />
-          </Document>
-        </Box>
-        <Box position="absolute" bottom={10} left={'50%'} sx={{ transform: 'translateX(-50%)' }}>
+          </Document> */}
+      </Box>
+      {/* <Box position="absolute" bottom={10} left={'50%'} sx={{ transform: 'translateX(-50%)' }}>
           <ButtonGroup variant="outlined">
             <Button onClick={() => changePage(-1)} disabled={pageNumber === 1}>
               <NavigateBeforeIcon />
@@ -48,8 +50,8 @@ export default function OrderPdfView({ base64 }: Props) {
               <NavigateNextIcon />
             </Button>
           </ButtonGroup>
-        </Box>
-      </AppCard>
+        </Box> */}
+      {/* </AppCard> */}
     </Box>
   );
 }
