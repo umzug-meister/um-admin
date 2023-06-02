@@ -25,7 +25,6 @@ const EMailText = lazy(() => import('./routes/EMailText'));
 const DirectImport = lazy(() => import('./routes/DirectImport'));
 const Edit = lazy(() => import('./routes/Edit'));
 const Categories = lazy(() => import('./routes/Categories'));
-const DriveUpload = lazy(() => import('./routes/drive-upload'));
 
 const AppDiv = styled.div`
   padding: 0;
@@ -73,15 +72,6 @@ function App() {
           element={
             <LazyLoad>
               <Orders />
-            </LazyLoad>
-          }
-        />
-
-        <Route
-          path="drive-upload/:id"
-          element={
-            <LazyLoad>
-              <DriveUpload />
             </LazyLoad>
           }
         />

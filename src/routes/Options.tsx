@@ -18,7 +18,7 @@ export default function Options() {
         <AppCard title="Server Einstellungen">
           <OptionInput name="origin" label="Standort" />
           <OptionInput name="gapikey" label="Google Api Key" asPassword />
-          {/* <OptionInput name="clientId" label="Google Client ID" asPassword /> */}
+          <OptionInput name="clientId" label="Google Client ID" asPassword />
           <OptionInput name="jfApiKey" label="JotForm Api Key" asPassword />
         </AppCard>
       </Grid>
