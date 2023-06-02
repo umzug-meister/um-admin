@@ -7,12 +7,15 @@ import AppLoader from './AppLoader';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 
-export function addScript(src: string, async?: boolean, defer?: boolean, onload?: any) {
+export function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {
+  document.getElementById(id)?.remove();
+
   const script = document.createElement('script');
   script.src = src;
   script.async = async || false;
   script.defer = defer || false;
   script.onload = onload;
+  script.id = id;
   document.head.appendChild(script);
 }
 
@@ -31,7 +34,7 @@ Array.prototype.from = function (index: number) {
   return newArray;
 };
 
-addScript(JOTFORM_SCRIPT, true, true);
+addScript(JOTFORM_SCRIPT, 'um-jf-script', true, true);
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');

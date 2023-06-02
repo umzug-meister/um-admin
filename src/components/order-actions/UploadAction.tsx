@@ -22,7 +22,7 @@ import { AppPacking, AppService } from 'um-types';
 declare var gapi: any;
 declare var google: any;
 
-type ButtonStateType = 'ready' | 'upload' | 'success' | 'error';
+type UploadStateType = 'ready' | 'upload' | 'success' | 'error';
 
 //#region Component
 
@@ -42,7 +42,7 @@ export default function UploadAction() {
   const [services] = useState(useAppServices<AppService>('Bohrarbeiten'));
   const [packings] = useState(useAppServices<AppPacking>('Packmaterial'));
 
-  const [buttonState, setButtonState] = useState<ButtonStateType>('ready');
+  const [uploadState, setUploadState] = useState<UploadStateType>('ready');
 
   const tClient = useRef<any>(null);
 
@@ -55,7 +55,7 @@ export default function UploadAction() {
   }, [gapiKey]);
 
   useEffect(() => {
-    addScript('https://accounts.google.com/gsi/client', true, true, function () {
+    addScript('https://accounts.google.com/gsi/client', 'um-gclient-script', true, true, function () {
       tClient.current = initClient(clientId);
     });
   }, [clientId]);
@@ -70,7 +70,7 @@ export default function UploadAction() {
   }, [tokenValid, token, gapiLoaded]);
 
   useEffect(() => {
-    if (tokenAvailable && buttonState === 'upload' && currentOrder) {
+    if (tokenAvailable && uploadState === 'upload' && currentOrder) {
       const orderAsBase64 = generateUrzPdf({
         options,
         order: currentOrder,
@@ -83,21 +83,21 @@ export default function UploadAction() {
           if (path) {
             uploadContent(path.fileId, orderAsBase64).then((res) => {
               if (res) {
-                setButtonState('success');
+                setUploadState('success');
                 setTimeout(() => {
-                  return setButtonState('ready');
+                  return setUploadState('ready');
                 }, 3000);
               } else {
-                return setButtonState('error');
+                return setUploadState('error');
               }
             });
           } else {
-            return setButtonState('error');
+            return setUploadState('error');
           }
         });
       }
     }
-  }, [tokenAvailable, buttonState, currentOrder, options, packings, services]);
+  }, [tokenAvailable, uploadState, currentOrder, options, packings, services]);
 
   const authGoogleClient = () => {
     if (tClient.current) {
@@ -120,18 +120,18 @@ export default function UploadAction() {
         // Skip display of account chooser and consent dialog for an existing session.
         tClient.current.requestAccessToken({ prompt: '' });
       }
-      setButtonState('upload');
+      setUploadState('upload');
     }
   };
 
   const onUploadRequest = () => {
     saveOrder(currentOrder).then(() => {
-      tokenValid ? setButtonState('upload') : authGoogleClient();
+      tokenValid ? setUploadState('upload') : authGoogleClient();
     });
   };
 
   const iconButton = () => {
-    switch (buttonState) {
+    switch (uploadState) {
       case 'ready': {
         return (
           <Tooltip title="Auf Google Drive hochladen">
@@ -162,7 +162,7 @@ export default function UploadAction() {
       case 'error':
         return (
           <Tooltip title="Ein Fehler ist aufgetreten">
-            <IconButton color="error">
+            <IconButton color="error" onClick={() => alert(`⚠️ Die Datei konnte nicht hochgeladen werden!`)}>
               <CloudOffOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -173,7 +173,7 @@ export default function UploadAction() {
     }
   };
 
-  return iconButton();
+  return <>{iconButton()}</>;
 }
 //#endregion
 
@@ -200,7 +200,7 @@ function useLocalStorage(storageKey: string) {
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
 function initGapi(apiKey: string, cb: () => void) {
-  addScript('https://apis.google.com/js/api.js', true, true, function () {
+  addScript('https://apis.google.com/js/api.js', 'um-gapi-script', true, true, function () {
     gapi.load('client', function () {
       gapi.client
         .init({
@@ -354,7 +354,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   }
   const allFolders = await foldersIn();
 
-  let rootFolder = getByNameRegEx(process.env.REACT_APP_DRIVE_ROOT_DIR, allFolders);
+  const rootFolder = getByNameRegEx(process.env.REACT_APP_DRIVE_ROOT_DIR, allFolders);
   if (rootFolder) {
     path.push(rootFolder.name);
   } else {
