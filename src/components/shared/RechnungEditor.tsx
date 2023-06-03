@@ -14,6 +14,7 @@ import { AppCard } from './AppCard';
 import { AppDateField } from './AppDateField';
 import { AppGridContainer } from './AppGridContainer';
 import { AppTextField } from './AppTextField';
+import CalculationsView from './CalculationsView';
 import { PdfSaveButton } from './PdfSaveButton';
 
 import { Rechnung } from 'um-types';
@@ -85,6 +86,7 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
               onPropChange('entries', lst);
             }}
           />
+          <CalculationsView entries={rechnung.entries} />
         </AppCard>
       </Grid>
       <Grid item xs={12}>

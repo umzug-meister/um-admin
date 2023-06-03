@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';

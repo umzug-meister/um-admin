@@ -14,6 +14,7 @@ import { AppCard } from '../shared/AppCard';
 import { AppDateField } from '../shared/AppDateField';
 import { AppGridContainer } from '../shared/AppGridContainer';
 import { AppTextField } from '../shared/AppTextField';
+import CalculationsView from '../shared/CalculationsView';
 import { PdfSaveButton } from '../shared/PdfSaveButton';
 
 import { Gutschrift } from 'um-types';
@@ -94,6 +95,7 @@ export function CreditContent() {
               onPropChange('entries', lst);
             }}
           />
+          <CalculationsView entries={gutschrift.entries} />
         </AppCard>
       </Grid>
       <Grid item xs={12} xl={6}>
