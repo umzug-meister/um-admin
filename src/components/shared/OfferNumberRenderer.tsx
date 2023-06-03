@@ -9,12 +9,11 @@ export default function OfferNumberRenderer({ value, color }: Props) {
   return (
     <b
       style={{
-        fontFamily: 'monospace',
         width: '20px',
         height: '20px',
         lineHeight: '20px',
         textAlign: 'center',
-        fontSize: '18px',
+        fontSize: 15,
         color: 'white',
         borderRadius: '50%',
         backgroundColor: `color-mix(in srgb, ${color} ${Math.min(percent, 100)}%, white)`,
