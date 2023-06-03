@@ -297,8 +297,8 @@ interface LSPayload {
   parentId?: string;
 }
 
-function getByNameRegEx(pattern: string, files: GFile[]) {
-  return files?.find((f) => new RegExp(pattern).test(f.name));
+function getByNameRegEx(regex: RegExp, files: GFile[]) {
+  return files?.find((f) => regex.test(f.name));
 }
 
 async function ls({ pageSize = 100, mimeType, parentId }: LSPayload): Promise<GFile[]> {
@@ -382,7 +382,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   }
   const allFolders = await foldersIn();
 
-  const rootFolder = getByNameRegEx(process.env.REACT_APP_DRIVE_ROOT_DIR, allFolders);
+  const rootFolder = getByNameRegEx(new RegExp(process.env.REACT_APP_DRIVE_ROOT_DIR), allFolders);
   if (rootFolder) {
     path.push(rootFolder.name);
   } else {
@@ -394,7 +394,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   const year = parts[2];
 
   const inRoot = await foldersIn(rootFolder.id);
-  let yearFolder = getByNameRegEx(`Auftrag ${year}`, inRoot);
+  let yearFolder = getByNameRegEx(new RegExp(`Auftrag ${year}`), inRoot);
 
   if (!yearFolder) {
     yearFolder = await mkDir(`Auftrag ${year}`, rootFolder.id);
@@ -404,7 +404,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
 
   const inYear = await foldersIn(yearFolder.id);
 
-  let monthFolder = getByNameRegEx(`${month}.*${year}`, inYear);
+  let monthFolder = getByNameRegEx(new RegExp(`${month}.*${year}`), inYear);
 
   if (!monthFolder) {
     monthFolder = await mkDir(`${month} ${Months[Number(month) - 1]} ${year}`, yearFolder.id);
