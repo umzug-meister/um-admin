@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
@@ -39,70 +38,63 @@ export default function Edit() {
 
   return (
     <RootBox>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Tabs
-            value={value}
-            onChange={(_, newValue) => {
-              setValue(newValue);
-            }}
-          >
-            <Tab label="Kunde" />
-            <Tab label="Adressen" />
-            <Tab label="Basis" />
-            <Tab label="Extras" />
-            <Tab label="Umzugsgut" />
-            <Tab label="Konditionen" />
-            <Tab label="Buchhaltung" />
-          </Tabs>
-          <TabPanel index={0} value={value}>
-            <AppGridContainer>
-              <CustomerWidget />
-              <OrderText />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={1} value={value}>
-            <AppGridContainer>
-              <AddressWidget path="from" />
-              <AddressWidget path="to" />
-              <Distance />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={2} value={value}>
-            <AppGridContainer>
-              <DateTime />
-              <Resources />
-              <OrderPrice />
-              <OrderOfferSelector />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={3} value={value}>
-            <AppGridContainer>
-              <OrderPacking />
-              <OrderServices />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={4} value={value}>
-            <AppGridContainer>
-              <OrderFurniture />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={5} value={value}>
-            <AppGridContainer>
-              <OrderConditionsChips />
-              <OrderConditionsGrid />
-            </AppGridContainer>
-          </TabPanel>
-          <TabPanel index={6} value={value}>
-            <AppGridContainer>
-              <Accounting />
-            </AppGridContainer>
-          </TabPanel>
-        </Grid>
-        {/* <Grid item xs={2} mt={9}>
-          <OrderCalculator />
-        </Grid> */}
-      </Grid>
+      <Tabs
+        value={value}
+        onChange={(_, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <Tab label="Kunde" />
+        <Tab label="Adressen" />
+        <Tab label="Basis" />
+        <Tab label="Extras" />
+        <Tab label="Umzugsgut" />
+        <Tab label="Konditionen" />
+        <Tab label="Buchhaltung" />
+      </Tabs>
+      <TabPanel index={0} value={value}>
+        <AppGridContainer>
+          <CustomerWidget />
+          <OrderText />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={1} value={value}>
+        <AppGridContainer>
+          <AddressWidget path="from" />
+          <AddressWidget path="to" />
+          <Distance />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={2} value={value}>
+        <AppGridContainer>
+          <DateTime />
+          <Resources />
+          <OrderPrice />
+          <OrderOfferSelector />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={3} value={value}>
+        <AppGridContainer>
+          <OrderPacking />
+          <OrderServices />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={4} value={value}>
+        <AppGridContainer>
+          <OrderFurniture />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={5} value={value}>
+        <AppGridContainer>
+          <OrderConditionsChips />
+          <OrderConditionsGrid />
+        </AppGridContainer>
+      </TabPanel>
+      <TabPanel index={6} value={value}>
+        <AppGridContainer>
+          <Accounting />
+        </AppGridContainer>
+      </TabPanel>
     </RootBox>
   );
 }

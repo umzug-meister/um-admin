@@ -5,6 +5,7 @@ import { DeleteOrderAction } from './DeleteOrderAction';
 import { EmailTextAction } from './EmailTextAction';
 import { PrintOrderAction } from './PrintOrderAction';
 import { SaveOrderAction } from './SaveOrderAction';
+import UploadAction from './UploadAction';
 
 export function OrderEditActions() {
   return (
@@ -19,6 +20,7 @@ export function OrderEditActions() {
       <Stack direction="row" spacing={2}>
         <PrintOrderAction />
         <EmailTextAction />
+        <UploadAction />
       </Stack>
 
       <DeleteOrderAction />

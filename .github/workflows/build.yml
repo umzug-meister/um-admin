@@ -1,4 +1,4 @@
-name: 🛠️ Build pull request
+name: 🛠️ Build application
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - '!main' # excludes master
 
 jobs:
-  build-pr:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

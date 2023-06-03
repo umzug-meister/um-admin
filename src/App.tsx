@@ -75,6 +75,7 @@ function App() {
             </LazyLoad>
           }
         />
+
         <Route
           path="edit/:id"
           element={
