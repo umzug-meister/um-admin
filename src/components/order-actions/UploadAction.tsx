@@ -382,7 +382,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   }
   const allFolders = await foldersIn();
 
-  const rootFolderName = process.env.REACT_APP_DRIVE_ROOT_DIR;
+  const rootFolderName = process.env.NODE_ENV === 'production' ? 'Umzug Ruckzuck' : 'Umzug Test';
 
   const rootFolder = getByNameRegEx(new RegExp(rootFolderName), allFolders);
   if (rootFolder) {
