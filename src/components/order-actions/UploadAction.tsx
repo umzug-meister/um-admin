@@ -2,7 +2,7 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import CloudOffOutlinedIcon from '@mui/icons-material/CloudOffOutlined';
 import CloudSyncOutlinedIcon from '@mui/icons-material/CloudSyncOutlined';
-import { IconButton, Tooltip } from '@mui/material';
+import { Alert, IconButton, Snackbar, Tooltip, Typography } from '@mui/material';
 
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -35,6 +35,7 @@ export default function UploadAction() {
 
   const [gapiLoaded, setGapiLoaded] = useState(false);
   const [tokenAvailable, setTokenAvailable] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const gapiKey = useOption('gapikey');
   const clientId = useOption('clientId');
@@ -45,6 +46,8 @@ export default function UploadAction() {
   const [uploadState, setUploadState] = useState<UploadStateType>('ready');
 
   const tClient = useRef<any>(null);
+  const currentPath = useRef<string[] | null>(null);
+  const currentFileName = useRef<string | null>(null);
 
   useEffect(() => {
     if (gapiKey) {
@@ -69,6 +72,18 @@ export default function UploadAction() {
     }
   }, [tokenValid, token, gapiLoaded]);
 
+  const finishUpload = (res: boolean) => {
+    if (res) {
+      setUploadState('success');
+
+      setTimeout(() => {
+        setUploadState('ready');
+      }, 3000);
+    } else {
+      setUploadState('error');
+    }
+  };
+
   useEffect(() => {
     if (tokenAvailable && uploadState === 'upload' && currentOrder) {
       const orderAsBase64 = generateUrzPdf({
@@ -79,18 +94,12 @@ export default function UploadAction() {
       });
       if (currentOrder.date && orderAsBase64) {
         const fileName = orderFileName(currentOrder);
+        currentFileName.current = fileName;
         getPath(currentOrder.date, fileName).then((path) => {
           if (path) {
-            uploadContent(path.fileId, orderAsBase64).then((res) => {
-              if (res) {
-                setUploadState('success');
-                setTimeout(() => {
-                  return setUploadState('ready');
-                }, 3000);
-              } else {
-                return setUploadState('error');
-              }
-            });
+            currentPath.current = path.path;
+            setOpenSnackbar(true);
+            uploadContent(path.fileId, orderAsBase64).then(finishUpload);
           } else {
             return setUploadState('error');
           }
@@ -173,7 +182,26 @@ export default function UploadAction() {
     }
   };
 
-  return <>{iconButton()}</>;
+  return (
+    <>
+      {iconButton()}
+      <Snackbar
+        open={openSnackbar}
+        onClose={() => {
+          setOpenSnackbar(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setOpenSnackbar(false);
+          }}
+          severity={uploadState === 'error' ? 'error' : 'info'}
+        >
+          <Typography variant="body2">{`${currentPath.current?.join(' / ')} / ${currentFileName.current}`}</Typography>
+        </Alert>
+      </Snackbar>
+    </>
+  );
 }
 //#endregion
 
