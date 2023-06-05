@@ -27,5 +27,15 @@ export function AppTextField(props: TextFieldProps) {
     size: 'small',
   };
 
-  return <TextField minRows={8} {...standardProps} {...props} value={value} />;
+  return (
+    <TextField
+      inputProps={{
+        'data-hj-allow': '',
+      }}
+      minRows={8}
+      {...standardProps}
+      {...props}
+      value={value}
+    />
+  );
 }
