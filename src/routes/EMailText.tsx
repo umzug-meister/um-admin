@@ -1,4 +1,4 @@
-import { euroValue, getPrintableDate } from '../utils/utils';
+import { anrede, euroValue, getPrintableDate } from '../utils/utils';
 import EMailTextTemplate from './EMailTextTemplate';
 import { useLoadOrder } from './Edit';
 
@@ -10,18 +10,6 @@ export default function EMailText() {
   if (order == null) {
     return null;
   }
-
-  const anrede = () => {
-    const {
-      customer: { salutation, lastName, company },
-    } = order;
-
-    if (company && !lastName) {
-      return 'Sehr geehrte Damen und Herren,';
-    }
-
-    return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
-  };
 
   const persons = () => {
     const { workersNumber, transporterNumber, t75 } = order;
@@ -100,7 +88,7 @@ export default function EMailText() {
       date={getPrintableDate(order.date, true)}
       time={order.time}
       volume={order.volume}
-      anrede={anrede()}
+      anrede={anrede(order.customer)}
       orderId={order.id || '---1'}
       hasMontage={order.from?.demontage || order.to?.montage}
       extra={extra()}

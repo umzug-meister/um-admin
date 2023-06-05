@@ -1,4 +1,4 @@
-import { DueDate, MLeistung, Order } from 'um-types';
+import { Customer, DueDate, MLeistung, Order } from 'um-types';
 
 const MWST = 1.19;
 
@@ -110,3 +110,13 @@ export function numberValue(value: string | number | undefined) {
 
   return new Intl.NumberFormat('de-DE').format(Number(toFormat));
 }
+
+export const anrede = (customer: Customer) => {
+  const { salutation, lastName, company } = customer;
+
+  if (company && !lastName) {
+    return 'Sehr geehrte Damen und Herren,';
+  }
+
+  return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
+};

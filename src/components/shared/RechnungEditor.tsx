@@ -1,4 +1,4 @@
-import { Chip, Grid, Stack } from '@mui/material';
+import { Box, Chip, Grid, Stack } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { AppDispatch } from '../../store';
 import { updateOption } from '../../store/appReducer';
 import { getPrintableDate } from '../../utils/utils';
 import LeistungEdit from '../LeistungEdit';
+import EmailLink from '../accounting-components/EmailLink';
 import { AppCard } from './AppCard';
 import { AppDateField } from './AppDateField';
 import { AppGridContainer } from './AppGridContainer';
@@ -44,12 +45,14 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
     onPropChange('text', text.replace('{{date}}', date));
   };
 
+  const isOrderEdit = location.pathname.startsWith('/edit');
+
   const printInvoice = () => {
     const rNumber = rechnung?.rNumber;
     if (rNumber) {
       dispatch(updateOption({ name: 'rNumber', value: rNumber }));
     }
-    if (location.pathname.startsWith('/edit') && currentOrder !== null) {
+    if (isOrderEdit && currentOrder !== null) {
       return saveOrder(currentOrder).then((order) => {
         if (order !== null) {
           return generateRechnung(rechnung);
@@ -90,7 +93,10 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
         </AppCard>
       </Grid>
       <Grid item xs={12}>
-        <PdfSaveButton onClick={printInvoice} />
+        <Box display="flex" flexDirection="row" gap={2}>
+          <PdfSaveButton onClick={printInvoice} />
+          {isOrderEdit && <EmailLink />}
+        </Box>
       </Grid>
     </AppGridContainer>
   );
