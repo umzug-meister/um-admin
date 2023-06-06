@@ -117,7 +117,7 @@ export function OrderConditionsChips() {
 
   const createRideCostsLst = (): MLeistung => {
     return {
-      desc: isLocalMovement ? 'An/Abfahrtskosten' : `An/Abfhartskoten ${distance} km`,
+      desc: isLocalMovement ? 'An/Abfahrtskosten' : `An/Abfhartskosten ${distance} km`,
       sum: allocateRideCosts(),
       calculate: true,
     };
