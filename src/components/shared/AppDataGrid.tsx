@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@mui/icons-material';
-import { Box, Card, IconButton } from '@mui/material';
+import { Backdrop, Box, Card, CircularProgress, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   DataGrid,
@@ -29,6 +29,7 @@ interface Props {
   paginationMode?: GridFeatureMode;
   disablePagination?: boolean;
   allowDeletion?: true;
+  loading?: boolean;
   setPaginationModel?: (model: GridPaginationModel) => void;
   onUpdate?: (next: any) => void;
   onDelete?: (id: string) => void;
@@ -42,6 +43,7 @@ export function AppDataGrid({
   paginationMode = 'server',
   disablePagination,
   allowDeletion,
+  loading,
   onDelete,
   setPaginationModel,
   onUpdate,
@@ -77,6 +79,7 @@ export function AppDataGrid({
   return (
     <Card elevation={0}>
       <Box
+        position={'relative'}
         sx={{
           '& .MuiDataGrid-footerContainer': {
             display: `${disablePagination ? 'none' : 'block'}`,
@@ -91,6 +94,13 @@ export function AppDataGrid({
           },
         }}
       >
+        <Backdrop
+          open={loading || false}
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer - 1, position: 'absolute' }}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
+
         <StyledDataGrid
           rowHeight={45}
           localeText={{

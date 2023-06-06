@@ -35,6 +35,14 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
         }}
         size="small"
         sx={{ margin: '0 10px', width: '300px' }}
+        inputProps={{
+          'data-hj-allow': '',
+        }}
+        onKeyDown={({ key }) => {
+          if (key === 'Enter') {
+            handleSearchRequest();
+          }
+        }}
       />
       <IconButton disabled={!searchValue} onClick={handleSearchRequest}>
         <SearchOutlinedIcon />
