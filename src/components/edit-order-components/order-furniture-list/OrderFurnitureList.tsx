@@ -78,6 +78,9 @@ export function OrderFurnitureList() {
                         padding: '3px',
                       },
                     }}
+                    inputProps={{
+                      'data-hj-allow': '',
+                    }}
                     size="small"
                     value={item.colli}
                     onChange={(ev) => onUpdate({ colli: ev.target.value, item })}
