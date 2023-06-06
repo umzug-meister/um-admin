@@ -45,7 +45,10 @@ export function OrderConditionsChips() {
     to,
     distance = '',
   } = order;
+
   const isLocalMovement = from?.address.includes('München') && to?.address.includes('München');
+
+  const amountOfParkingSlots = Number(from?.parkingSlot) + Number(to?.parkingSlot);
 
   const createWorkerLst = () => {
     let leistungDesc = `${workersNumber} Träger `;
@@ -121,12 +124,11 @@ export function OrderConditionsChips() {
   };
 
   const createParkingSlotsLst = (): MLeistung => {
-    const colli = Number(from?.parkingSlot) + Number(to?.parkingSlot);
     return {
       desc: `Organisation der Halteverbotszone(n)`,
       sum: prices?.halteverbotszonen?.toFixed(2) || '',
       calculate: false,
-      colli,
+      colli: amountOfParkingSlots,
     };
   };
 
@@ -170,7 +172,10 @@ export function OrderConditionsChips() {
             <Chip label="Träger & LKW" onClick={onPushRequest(createWorkerLst())} />
             <Chip label="Rabatt" onClick={onPushRequest(createDiscountLst())} />
             <Chip label={rideCostsLabel} onClick={onPushRequest(createRideCostsLst())} />
-            <Chip label="Halteverbotszone(n)" onClick={onPushRequest(createParkingSlotsLst())} />
+            <Chip
+              label={`${amountOfParkingSlots} Halteverbotszone(n)`}
+              onClick={onPushRequest(createParkingSlotsLst())}
+            />
             <Chip label="Verpackung" onClick={onPushRequest(createPackingLst())} />
             <Chip label="Leistungen" onClick={onPushRequest(createServicesLst())} />
           </Stack>
