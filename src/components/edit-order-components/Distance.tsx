@@ -1,6 +1,6 @@
-import { Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useOption } from '../../hooks/useOption';
@@ -54,13 +54,20 @@ export default function Distance() {
   }, [gapiKey, origin, from, to]);
 
   const sum = useMemo(() => {
-    return response?.rows.reduce((result, row, index) => result + (row.elements[index].distance?.value || 0), 0);
+    const sumInM = response?.rows.reduce(
+      (result, row, index) => result + (row.elements[index].distance?.value || 0),
+      0,
+    );
+    return represent(sumInM);
   }, [response]);
 
   const sx = useMemo(() => ({ fontWeight: 'bold' }), []);
-  const setDistance = useCallback(() => {
-    dispatch(updateOrderProps({ path: ['distance'], value: represent(sum) }));
-  }, [dispatch, sum]);
+
+  useEffect(() => {
+    if (String(order?.distance) !== sum && sum !== '0') {
+      dispatch(updateOrderProps({ path: ['distance'], value: sum }));
+    }
+  }, [dispatch, sum, order?.distance]);
 
   if (!gapiKey) {
     return null;
@@ -104,12 +111,8 @@ export default function Distance() {
               <TableCell sx={sx}>Gesamt</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
-              <TableCell>{represent(sum)}</TableCell>
-              <TableCell>
-                <Button onClick={setDistance} variant="outlined" disableElevation>
-                  Setzen
-                </Button>
-              </TableCell>
+              <TableCell>{sum}</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -86,11 +86,6 @@ export const deleteOrder = createAsyncThunk<void, void, RootState>('deleteOrder'
 
 const calculate = (order: Order, options: AppOptions): Order => {
   const calculated = { ...order };
-  if (typeof order.distance !== 'undefined') {
-    const lkws = (Number(order.transporterNumber) || 0) + (Number(order.t75) || 0);
-    const rideCosts = Number(order.distance || 0) * Number(options[OPTIONS.KM_PRICE]) * Math.max(lkws, 1);
-    calculated.rideCosts = rideCosts;
-  }
 
   const discountValue = (Number(order.timeBased?.basis || 0) / 100) * Number(order.discount || 0);
 
@@ -139,7 +134,6 @@ const calculate = (order: Order, options: AppOptions): Order => {
   const sum =
     Number(calculated.timeBased?.basis || 0) -
     Number(calculated.discountValue || 0) +
-    Number(calculated.rideCosts || 0) +
     Number(calculated.prices?.halteverbotszonen || 0) +
     Number(calculated.prices?.services || 0) +
     Number(calculated.prices?.verpackung || 0) +
