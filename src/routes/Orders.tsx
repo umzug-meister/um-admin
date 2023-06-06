@@ -74,7 +74,6 @@ export default function Orders() {
     setPaginationModel({ page: 0, pageSize: PAGE_SIZE });
     setDisablePagination(false);
     const next = generator.next().value as number;
-    console.log(next);
     setReset(next);
   }, []);
 
