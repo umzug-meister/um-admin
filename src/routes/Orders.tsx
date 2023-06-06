@@ -1,6 +1,6 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -32,6 +32,8 @@ export default function Orders() {
 
   const [data, setData] = useState<Order[]>([]);
 
+  const [loading, setLoading] = useState(false);
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: PAGE_SIZE,
     page: 0,
@@ -40,15 +42,18 @@ export default function Orders() {
   const onSearch = useCallback((searchValue: string) => {
     const id = Number(searchValue);
 
+    setLoading(true);
     setDisablePagination(true);
     if (isNaN(id)) {
-      appRequest('get')(Urls.orderSearch(searchValue)).then((orders) => {
-        if (Array.isArray(orders)) {
-          setData(orders);
-        } else {
-          setData([]);
-        }
-      });
+      appRequest('get')(Urls.orderSearch(searchValue))
+        .then((orders) => {
+          if (Array.isArray(orders)) {
+            setData(orders);
+          } else {
+            setData([]);
+          }
+        })
+        .finally(() => setLoading(false));
     } else {
       appRequest('get')(Urls.orderById(id))
         .then((order) => {
@@ -60,7 +65,8 @@ export default function Orders() {
         })
         .catch((e) => {
           setData([]);
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
@@ -73,7 +79,10 @@ export default function Orders() {
   }, []);
 
   useEffect(() => {
-    appRequest('get')(Urls.orders(paginationModel.page + 1, paginationModel.pageSize)).then(setData);
+    setLoading(true);
+    appRequest('get')(Urls.orders(paginationModel.page + 1, paginationModel.pageSize))
+      .then(setData)
+      .finally(() => setLoading(false));
   }, [paginationModel.page, paginationModel.pageSize, reset]);
 
   const orderColumns: GridBaseColDef[] = useMemo(
@@ -190,6 +199,7 @@ export default function Orders() {
     <RootBox>
       <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch} />
       <AppDataGrid
+        loading={loading}
         getRowClassName={(params) => {
           const order = params.row as Order;
           return order.lupd ? '' : 'bold';

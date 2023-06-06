@@ -18,6 +18,7 @@ export default function Import() {
   const saveOrder = useSaveOrder();
 
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: PAGE_SIZE,
@@ -26,9 +27,10 @@ export default function Import() {
 
   useEffect(() => {
     const { page, pageSize } = paginationModel;
-
+    setLoading(true);
     window.JF?.getSubmissions({ offset: page * pageSize, limit: pageSize }, (data: any[]) => {
       setData(convertData(data));
+      setLoading(false);
     });
   }, [paginationModel]);
 
@@ -61,6 +63,7 @@ export default function Import() {
       <SearchBar onClear={onClear} onSearch={onSearch} placeholder="Submission ID" />
       <AppDataGrid
         data={data}
+        loading={loading}
         columns={[
           { field: 'orderId', headerName: 'Auftrag' },
           {
