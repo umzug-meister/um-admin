@@ -1,4 +1,4 @@
-import { Chip, Grid, Stack } from '@mui/material';
+import { Chip, Divider, Grid, Stack } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -124,17 +124,19 @@ export function OrderConditionsChips() {
   return (
     <Grid item xs={12}>
       <AppCard title="Konditionen hinzufügen">
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={3} divider={<Divider orientation="vertical" flexItem />}>
           <Chip label="Alle Leistungen" color="primary" onClick={onAllRequest} />
-          <Chip label="Träger & LKW" onClick={onPushRequest(createWorkerLst())} />
-          <Chip label="Rabatt" onClick={onPushRequest(createDiscountLst())} />
-          <Chip
-            label={`Fahrtkosten ${distance ? `${distance} km` : ''}`}
-            onClick={onPushRequest(createRideCostsLst())}
-          />
-          <Chip label="Halteverbotszone(n)" onClick={onPushRequest(createParkingSlotsLst())} />
-          <Chip label="Verpackung" onClick={onPushRequest(createPackingLst())} />
-          <Chip label="Leistungen" onClick={onPushRequest(createServicesLst())} />
+          <Stack direction="row" spacing={2}>
+            <Chip label="Träger & LKW" onClick={onPushRequest(createWorkerLst())} />
+            <Chip label="Rabatt" onClick={onPushRequest(createDiscountLst())} />
+            <Chip
+              label={`Fahrtkosten ${distance ? `${distance} km` : ''}`}
+              onClick={onPushRequest(createRideCostsLst())}
+            />
+            <Chip label="Halteverbotszone(n)" onClick={onPushRequest(createParkingSlotsLst())} />
+            <Chip label="Verpackung" onClick={onPushRequest(createPackingLst())} />
+            <Chip label="Leistungen" onClick={onPushRequest(createServicesLst())} />
+          </Stack>
         </Stack>
       </AppCard>
     </Grid>
