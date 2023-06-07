@@ -77,7 +77,7 @@ export default function OrderField<T>({
         autocomplete.addListener('place_changed', () => {
           const { formatted_address } = autocomplete.getPlace();
           if (formatted_address) {
-            handleChange(formatted_address.replace(', Deutschland', ''));
+            handleChange(formatted_address.replace(', Deutschland', '').replace(', Германия', ''));
           }
         });
       });
