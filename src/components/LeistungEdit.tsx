@@ -3,13 +3,13 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Grid, IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import { arrayMoveImmutable } from 'array-move';
 
 import React from 'react';
 
 import AddButton from './shared/AddButton';
 import { AppTextField } from './shared/AppTextField';
 
+import { arrayMoveImmutable } from 'array-move';
 import { MLeistung } from 'um-types';
 
 interface Props {
@@ -54,6 +54,7 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
   };
 
   const GridRow = (lst: MLeistung, index: number) => {
+    const hasError = lst.sum !== '' && Number(lst.sum) === 0;
     return (
       <Grid container spacing={2} key={index}>
         {!hideChecks && (
@@ -63,7 +64,7 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
         )}
         <Grid item xs={hideChecks ? 6 : 5}>
           <AppTextField
-            disabled={lst.disabled}
+            error={hasError}
             value={lst.desc}
             onChange={onValueChange('desc', index)}
             fullWidth
@@ -73,7 +74,7 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
         </Grid>
         <Grid item xs={1}>
           <AppTextField
-            disabled={lst.disabled}
+            error={hasError}
             type="number"
             placeholder="Menge"
             value={lst.colli}
@@ -83,8 +84,8 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
 
         <Grid item xs={1}>
           <AppTextField
-            disabled={lst.disabled}
             type="number"
+            error={hasError}
             placeholder="Preis"
             value={lst.price}
             onChange={onValueChange('price', index)}
@@ -94,8 +95,8 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks }: Pr
 
         <Grid item xs={2}>
           <AppTextField
-            disabled={lst.disabled}
             type="number"
+            error={hasError}
             placeholder="Gesamt"
             InputProps={{ endAdornment: '€' }}
             value={lst.sum}
