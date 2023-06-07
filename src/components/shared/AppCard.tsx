@@ -4,7 +4,6 @@ import React from 'react';
 
 interface Props {
   title: string;
-  flexDirection?: 'row';
 }
 
 export function AppCard(props: React.PropsWithChildren<Props>) {
@@ -19,7 +18,7 @@ export function AppCard(props: React.PropsWithChildren<Props>) {
         }
       />
       <CardContent>
-        <Box display={'flex'} flexDirection={props.flexDirection || 'column'} gap={1.5}>
+        <Box display="flex" flexDirection="column" gap={2}>
           {props.children}
         </Box>
       </CardContent>

@@ -27,7 +27,7 @@ export default function TopBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="inherit" position="fixed" elevation={1}>
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton
             color="inherit"
             onClick={() => {
