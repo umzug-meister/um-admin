@@ -44,13 +44,13 @@ export default function Edit() {
           setValue(newValue);
         }}
       >
-        <Tab label="Kunde" /> 0
-        <Tab label="Adressen" />1
-        <Tab label="Umzugsgut" />2
-        <Tab label="Extras" />3
-        <Tab label="Basis" />4
-        <Tab label="Konditionen" />5
-        <Tab label="Buchhaltung" />6
+        <Tab label="Kunde" />
+        <Tab label="Adressen" />
+        <Tab label="Umzugsgut" />
+        <Tab label="Extras" />
+        <Tab label="Basis" />
+        <Tab label="Konditionen" />
+        <Tab label="Buchhaltung" />
       </Tabs>
       <TabPanel index={0} value={value}>
         <AppGridContainer>
