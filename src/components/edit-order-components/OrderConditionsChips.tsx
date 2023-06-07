@@ -43,12 +43,16 @@ export function OrderConditionsChips() {
     prices,
     from,
     to,
-    distance = '',
+    distance,
   } = order;
 
   const isLocalMovement = from?.address?.includes('München') && to?.address?.includes('München');
 
   const amountOfParkingSlots = Number(from?.parkingSlot || 0) + Number(to?.parkingSlot || 0);
+
+  const transporterAmount = Number(transporterNumber) + Number(t75);
+
+  console.log(transporterAmount);
 
   const createWorkerLst = () => {
     let leistungDesc = `${workersNumber} Träger `;
@@ -94,9 +98,7 @@ export function OrderConditionsChips() {
   };
 
   const calculateKmPrice = () => {
-    const { distance, transporterNumber = 0, t75 = 0 } = order;
     const baseKmPrice = Number(distance || 0) * Number(kmPrice || 0);
-    const transporterAmount = Number(transporterNumber) + Number(t75);
 
     const costs = baseKmPrice * transporterAmount;
 
@@ -117,7 +119,7 @@ export function OrderConditionsChips() {
 
   const createRideCostsLst = (): MLeistung => {
     return {
-      desc: isLocalMovement ? 'An/Abfahrtskosten' : `An/Abfhartskosten ${distance} km`,
+      desc: transporterAmount > 1 ? `An/Abfhartskosten ${transporterAmount} x LKW` : 'An/Abfahrtskosten',
       sum: allocateRideCosts(),
       calculate: true,
     };
@@ -152,6 +154,7 @@ export function OrderConditionsChips() {
     const leistungen = [
       createWorkerLst(),
       createDiscountLst(),
+      createRideCostsLst(),
       createParkingSlotsLst(),
       createPackingLst(),
       createServicesLst(),
