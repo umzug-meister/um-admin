@@ -28,6 +28,7 @@ export default function OrderImages() {
             display: 'block',
             margin: 'auto',
             maxHeight: 'calc(100vh - 145px)',
+            maxWidth: '100%',
             objectPosition: 'center',
           }}
           src={curOrder?.images[page]}
@@ -54,7 +55,7 @@ export default function OrderImages() {
   return (
     <>
       <AppDialog
-        title="Bilder"
+        title="Anhänge"
         open={open}
         onRequestClose={() => {
           setOpen(false);
