@@ -46,9 +46,9 @@ export function OrderConditionsChips() {
     distance = '',
   } = order;
 
-  const isLocalMovement = from?.address.includes('München') && to?.address.includes('München');
+  const isLocalMovement = from?.address?.includes('München') && to?.address?.includes('München');
 
-  const amountOfParkingSlots = Number(from?.parkingSlot) + Number(to?.parkingSlot);
+  const amountOfParkingSlots = Number(from?.parkingSlot || 0) + Number(to?.parkingSlot || 0);
 
   const createWorkerLst = () => {
     let leistungDesc = `${workersNumber} Träger `;
@@ -176,8 +176,8 @@ export function OrderConditionsChips() {
               label={`${amountOfParkingSlots} Halteverbotszone(n)`}
               onClick={onPushRequest(createParkingSlotsLst())}
             />
-            <Chip label="Verpackung" onClick={onPushRequest(createPackingLst())} />
-            <Chip label="Leistungen" onClick={onPushRequest(createServicesLst())} />
+            <Chip label={`Verpackung ${prices?.verpackung || 0} €`} onClick={onPushRequest(createPackingLst())} />
+            <Chip label={`Leistungen ${prices?.services || 0} €`} onClick={onPushRequest(createServicesLst())} />
           </Stack>
         </Stack>
       </AppCard>
