@@ -3,6 +3,7 @@ import Tab from '@mui/material/Tab';
 
 import { useState } from 'react';
 
+import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 import { TabPanel } from '../shared/TabPanel';
@@ -10,7 +11,8 @@ import OrderImages from './OrderImages';
 import { OrderFurnitureList } from './order-furniture-list/OrderFurnitureList';
 
 export function OrderFurniture() {
-  const [value, setValue] = useState(0);
+  const order = useCurrentOrder();
+  const [value, setValue] = useState(order?.ownItems ? 1 : 0);
   return (
     <>
       <Grid item xs={6}>

@@ -44,13 +44,13 @@ export default function Edit() {
           setValue(newValue);
         }}
       >
-        <Tab label="Kunde" />
-        <Tab label="Adressen" />
-        <Tab label="Basis" />
-        <Tab label="Extras" />
-        <Tab label="Umzugsgut" />
-        <Tab label="Konditionen" />
-        <Tab label="Buchhaltung" />
+        <Tab label="Kunde" /> 0
+        <Tab label="Adressen" />1
+        <Tab label="Umzugsgut" />2
+        <Tab label="Extras" />3
+        <Tab label="Basis" />4
+        <Tab label="Konditionen" />5
+        <Tab label="Buchhaltung" />6
       </Tabs>
       <TabPanel index={0} value={value}>
         <AppGridContainer>
@@ -65,7 +65,21 @@ export default function Edit() {
           <Distance />
         </AppGridContainer>
       </TabPanel>
+
       <TabPanel index={2} value={value}>
+        <AppGridContainer>
+          <OrderFurniture />
+        </AppGridContainer>
+      </TabPanel>
+
+      <TabPanel index={3} value={value}>
+        <AppGridContainer>
+          <OrderPacking />
+          <OrderServices />
+        </AppGridContainer>
+      </TabPanel>
+
+      <TabPanel index={4} value={value}>
         <AppGridContainer>
           <DateTime />
           <Resources />
@@ -73,17 +87,7 @@ export default function Edit() {
           <OrderOfferSelector />
         </AppGridContainer>
       </TabPanel>
-      <TabPanel index={3} value={value}>
-        <AppGridContainer>
-          <OrderPacking />
-          <OrderServices />
-        </AppGridContainer>
-      </TabPanel>
-      <TabPanel index={4} value={value}>
-        <AppGridContainer>
-          <OrderFurniture />
-        </AppGridContainer>
-      </TabPanel>
+
       <TabPanel index={5} value={value}>
         <AppGridContainer>
           <OrderConditionsChips />

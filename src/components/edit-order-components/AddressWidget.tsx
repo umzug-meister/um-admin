@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Stack } from '@mui/material';
+import { Chip, Grid, Stack } from '@mui/material';
 
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -42,24 +42,33 @@ export default function AddressWidget({ path }: Props) {
         <OrderField<Address> label="Etage" path={path} nestedPath="floor" select selectOptions={etagen} />
 
         <OrderField<Address> label="Aufzug" path={path} nestedPath="liftType" select selectOptions={liftTypes} />
-        <Box display={'flex'} gap="10px">
-          <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
 
-          <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
-        </Box>
-        <OrderField<Address> label="Halteverbot" path={path} nestedPath="parkingSlot" as="checkbox" />
-        <Box display={'flex'} gap="10px">
-          {path === 'from' ? (
-            <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
-          ) : (
-            <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
-          )}
-          {path === 'from' ? (
-            <OrderField<Address> label="Einpackservice" path={path} nestedPath="packservice" as="checkbox" />
-          ) : (
-            <OrderField<Address> label="Auspackservice" path={path} nestedPath="packservice" as="checkbox" />
-          )}
-        </Box>
+        <Grid container>
+          <Grid item xs={4}>
+            <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
+          </Grid>
+          <Grid item xs={4}>
+            <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Halteverbot" path={path} nestedPath="parkingSlot" as="checkbox" />
+          </Grid>
+          <Grid item xs={4}>
+            {path === 'from' ? (
+              <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
+            ) : (
+              <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
+            )}
+          </Grid>
+          <Grid item xs={4}>
+            {path === 'from' ? (
+              <OrderField<Address> label="Einpacken" path={path} nestedPath="packservice" as="checkbox" />
+            ) : (
+              <OrderField<Address> label="Auspacken" path={path} nestedPath="packservice" as="checkbox" />
+            )}
+          </Grid>
+        </Grid>
+
         <OrderField<Address>
           label={path === 'from' ? 'Auszug aus' : 'Einzug in'}
           path={path}
