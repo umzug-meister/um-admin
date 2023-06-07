@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Stack } from '@mui/material';
+import { Chip, Grid, Stack } from '@mui/material';
 
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -31,46 +31,71 @@ export default function AddressWidget({ path }: Props) {
   return (
     <Grid item xs={6} xl={3}>
       <AppCard title={title}>
-        <OrderField<Address> label="Adresse" path={path} nestedPath="address" enableMaps id={`${path}-address-input`} />
-        <OrderField<Address>
-          label="Entfernung bis zum Parkplatz"
-          path={path}
-          nestedPath="runningDistance"
-          select
-          selectOptions={parkingDistances}
-        />
-        <OrderField<Address> label="Etage" path={path} nestedPath="floor" select selectOptions={etagen} />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <OrderField<Address>
+              label="Adresse"
+              path={path}
+              nestedPath="address"
+              enableMaps
+              id={`${path}-address-input`}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address>
+              label="Entfernung bis zum Parkplatz"
+              path={path}
+              nestedPath="runningDistance"
+              select
+              selectOptions={parkingDistances}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <OrderField<Address> label="Etage" path={path} nestedPath="floor" select selectOptions={etagen} />
+          </Grid>
+          <Grid item xs={6}>
+            <OrderField<Address> label="Aufzug" path={path} nestedPath="liftType" select selectOptions={liftTypes} />
+          </Grid>
 
-        <OrderField<Address> label="Aufzug" path={path} nestedPath="liftType" select selectOptions={liftTypes} />
-        <Box display={'flex'} gap="10px">
-          <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
-
-          <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
-        </Box>
-        <OrderField<Address> label="Halteverbot" path={path} nestedPath="parkingSlot" as="checkbox" />
-        <Box display={'flex'} gap="10px">
-          {path === 'from' ? (
-            <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
-          ) : (
-            <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
+          <Grid item xs={6}>
+            <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
+          </Grid>
+          <Grid item xs={6}>
+            <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Halteverbot" path={path} nestedPath="parkingSlot" as="checkbox" />
+          </Grid>
+          <Grid item xs={6}>
+            {path === 'from' ? (
+              <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
+            ) : (
+              <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            {path === 'from' ? (
+              <OrderField<Address> label="Einpacken" path={path} nestedPath="packservice" as="checkbox" />
+            ) : (
+              <OrderField<Address> label="Auspacken" path={path} nestedPath="packservice" as="checkbox" />
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address>
+              label={path === 'from' ? 'Auszug aus' : 'Einzug in'}
+              path={path}
+              nestedPath="movementObject"
+              select
+              selectOptions={movementObjects}
+            />
+          </Grid>
+          <FloorsRenderer path={path} />
+          {path === 'from' && (
+            <Grid item xs={12}>
+              <OrderField<Address> label="Fläche" path={path} nestedPath={'area'} select selectOptions={squares} />
+            </Grid>
           )}
-          {path === 'from' ? (
-            <OrderField<Address> label="Einpackservice" path={path} nestedPath="packservice" as="checkbox" />
-          ) : (
-            <OrderField<Address> label="Auspackservice" path={path} nestedPath="packservice" as="checkbox" />
-          )}
-        </Box>
-        <OrderField<Address>
-          label={path === 'from' ? 'Auszug aus' : 'Einzug in'}
-          path={path}
-          nestedPath="movementObject"
-          select
-          selectOptions={movementObjects}
-        />
-        <FloorsRenderer path={path} />
-        {path === 'from' && (
-          <OrderField<Address> label="Fläche" path={path} nestedPath={'area'} select selectOptions={squares} />
-        )}
+        </Grid>
       </AppCard>
     </Grid>
   );
@@ -85,11 +110,13 @@ const FloorsRenderer = ({ path }: Props) => {
 
   if (order[path]?.stockwerke) {
     return (
-      <Stack direction={'row'} spacing={2}>
-        {order[path]?.stockwerke?.map((s) => (
-          <Chip key={s} label={s} />
-        ))}
-      </Stack>
+      <Grid item xs={12}>
+        <Stack direction={'row'} spacing={2}>
+          {order[path]?.stockwerke?.map((s) => (
+            <Chip key={s} label={s} />
+          ))}
+        </Stack>
+      </Grid>
     );
   }
   return null;
