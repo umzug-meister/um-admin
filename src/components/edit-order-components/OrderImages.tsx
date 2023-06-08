@@ -37,7 +37,11 @@ export default function OrderImages() {
     );
   }, [page, curOrder]);
 
-  const length = curOrder?.images.length || 0;
+  if (!curOrder || !curOrder.images || curOrder.images.length === 0) {
+    return null;
+  }
+
+  const length = curOrder?.images?.length || 0;
 
   const handleChange = (offset: number) => {
     return function () {
@@ -47,10 +51,6 @@ export default function OrderImages() {
       });
     };
   };
-
-  if (!curOrder || !curOrder.images || curOrder.images.length === 0) {
-    return null;
-  }
 
   return (
     <>
