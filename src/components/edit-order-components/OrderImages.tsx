@@ -31,7 +31,7 @@ export default function OrderImages() {
             maxWidth: '100%',
             objectPosition: 'center',
           }}
-          src={curOrder?.images[page]}
+          src={curOrder?.images?.[page]}
         />
       </Box>
     );
