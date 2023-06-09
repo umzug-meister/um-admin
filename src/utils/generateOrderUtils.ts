@@ -79,13 +79,17 @@ export const generateOrder = (
     return 'Allgemein';
   };
 
-  const items = moebelCluster.map((moebel) => {
-    let item = {
-      name: moebel.text,
-      selectedCategory: getCat(moebel),
-      colli: moebel.answer,
-    } as Furniture;
-    return item;
+  const items = new Array<Furniture>();
+
+  moebelCluster.forEach((moebel) => {
+    if (moebel.answer && Number(moebel.answer) !== 0) {
+      const item = {
+        name: moebel.text,
+        selectedCategory: getCat(moebel),
+        colli: moebel.answer,
+      } as Furniture;
+      items.push(item);
+    }
   });
 
   let services = new Array<OrderService>();
@@ -247,7 +251,10 @@ export const generateOrder = (
       const _weitere = JSON.parse(weitere) as Weitere[];
 
       _weitere.forEach((element) => {
-        order.items.push(itemFromWeitere(element));
+        const nextItem = itemFromWeitere(element);
+        if (nextItem) {
+          order.items.push(nextItem);
+        }
       });
     } catch (e) {
       console.log(e);
@@ -351,13 +358,16 @@ function calculateVolume(entry: SperrigSchwer | Weitere): number {
   return volume;
 }
 
-function itemFromWeitere(w: Weitere): Furniture {
-  return {
-    selectedCategory: 'WEITERE',
-    colli: w.Anzahl,
-    volume: calculateVolume(w),
-    name: w.Bezeichnung.replaceAll('&', 'und'),
-  } as Furniture;
+function itemFromWeitere(w: Weitere): Furniture | undefined {
+  if (w.Bezeichnung) {
+    return {
+      selectedCategory: 'WEITERE',
+      colli: w.Anzahl,
+      volume: calculateVolume(w),
+      name: w.Bezeichnung.replaceAll('&', 'und'),
+    } as Furniture;
+  }
+  return undefined;
 }
 
 function itemFromSperrigScwer(s: SperrigSchwer, bulky: boolean, m100: boolean): Furniture {
