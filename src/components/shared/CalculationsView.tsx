@@ -1,19 +1,21 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
-import React from 'react';
-
 import { MLeistung } from 'um-types';
 
 interface Props {
-  entries?: MLeistung[];
+  entries?: MLeistung[] | number;
+  align?: 'right' | 'left';
 }
 
 const TAX = 0.19;
-export default function CalculationsView({ entries = [] }: Props) {
-  const sum = entries.reduce((prev, cur) => {
-    return prev + Number(cur.sum || 0);
-  }, 0);
+export default function CalculationsView({ entries = [], align = 'right' }: Props) {
+  const sum =
+    (Array.isArray(entries)
+      ? entries.reduce((prev, cur) => {
+          return prev + Number(cur.sum || 0);
+        }, 0)
+      : entries) || 0;
 
   const netto = sum / (1 + TAX);
   const mwst = sum - netto;
@@ -21,11 +23,11 @@ export default function CalculationsView({ entries = [] }: Props) {
 
   return (
     <Box display={'flex'} flexDirection="column" gap={1}>
-      <Typography align="right" variant="h6">
+      <Typography align={align} variant="h6">
         {`Gesamt: ${intl.format(sum)}`}
       </Typography>
-      <Typography align="right">{`MwSt: ${intl.format(mwst)}`}</Typography>
-      <Typography align="right">{`Netto: ${intl.format(netto)}`}</Typography>
+      <Typography align={align}>{`MwSt: ${intl.format(mwst)}`}</Typography>
+      <Typography align={align}>{`Netto: ${intl.format(netto)}`}</Typography>
     </Box>
   );
 }
