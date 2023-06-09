@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
@@ -6,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Accounting } from '../components/Accounting';
+import { OrderCalculator } from '../components/OrderCalculator';
 import AddressWidget from '../components/edit-order-components/AddressWidget';
 import { CustomerWidget } from '../components/edit-order-components/CustomerWidget';
 import DateTime from '../components/edit-order-components/DateTime';
@@ -90,8 +92,15 @@ export default function Edit() {
 
       <TabPanel index={5} value={value}>
         <AppGridContainer>
-          <OrderConditionsChips />
-          <OrderConditionsGrid />
+          <Grid item xs={10}>
+            <Grid container spacing={2}>
+              <OrderConditionsChips />
+              <OrderConditionsGrid />
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <OrderCalculator />
+          </Grid>
         </AppGridContainer>
       </TabPanel>
       <TabPanel index={6} value={value}>
