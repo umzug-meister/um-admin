@@ -15,7 +15,7 @@ interface Props {
 }
 
 export function AbstractOrderService({ tag }: Props) {
-  const services = useAppServices(tag);
+  const services = useAppServices(tag).sort((a: any, b: any) => (a.name as string).localeCompare(b.name));
   const order = useCurrentOrder();
 
   const dispatch = useDispatch<AppDispatch>();
