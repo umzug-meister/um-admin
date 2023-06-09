@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Add package version
-        uses: jozsefsallai/node-package-version@
+        uses: jozsefsallai/node-package-version
 
       - name: Build App
         run: npm run build
