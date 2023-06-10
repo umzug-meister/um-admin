@@ -52,8 +52,6 @@ export function OrderConditionsChips() {
 
   const transporterAmount = Number(transporterNumber) + Number(t75);
 
-  console.log(transporterAmount);
-
   const createWorkerLst = () => {
     let leistungDesc = `${workersNumber} Träger `;
     if (transporterNumber > 0) {
