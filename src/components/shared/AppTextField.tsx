@@ -16,6 +16,8 @@ import { TextField, TextFieldProps } from '@mui/material';
  * default: fullwidth
  *
  * default: minrows=8
+ *
+ * default: shrink time label
  */
 
 export function AppTextField(props: TextFieldProps) {
@@ -27,12 +29,18 @@ export function AppTextField(props: TextFieldProps) {
     size: 'small',
   };
 
+  let InputLabelProps = undefined;
+  if (props.type === 'time') {
+    InputLabelProps = { shrink: true };
+  }
+
   return (
     <TextField
       inputProps={{
         'data-hj-allow': '',
       }}
       minRows={8}
+      InputLabelProps={InputLabelProps}
       {...standardProps}
       {...props}
       value={value}
