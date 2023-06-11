@@ -8,6 +8,7 @@ import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { OPTIONS, useOption } from '../../hooks/useOption';
 import { AppDispatch } from '../../store';
 import { pushLeistung } from '../../store/appReducer';
+import { euroValue } from '../../utils/utils';
 import { AppCard } from '../shared/AppCard';
 
 import { AppPrice, MLeistung, TimeBasedPrice } from 'um-types';
@@ -171,7 +172,10 @@ export function OrderConditionsChips() {
           <Chip label="Alle Leistungen" color="primary" onClick={onAllRequest} />
           <Stack direction="row" spacing={2}>
             <Chip label="Träger & LKW" onClick={onPushRequest(createWorkerLst())} />
-            <Chip label="Rabatt" onClick={onPushRequest(createDiscountLst())} />
+            <Chip
+              label={`Rabatt ${euroValue(order.discountValue || 0)}`}
+              onClick={onPushRequest(createDiscountLst())}
+            />
             <Chip label={rideCostsLabel} onClick={onPushRequest(createRideCostsLst())} />
             <Chip
               label={`${amountOfParkingSlots} Halteverbotszone(n)`}
