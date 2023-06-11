@@ -25,6 +25,7 @@ interface Props<T> {
   enableMaps?: true;
   selectOptions?: string[];
   as?: 'default' | 'checkbox' | 'date';
+  capitalize?: true;
   id?: string;
 }
 
@@ -44,13 +45,14 @@ export default function OrderField<T>({
   as,
   enableMaps,
   id,
+  capitalize,
 }: Props<T>) {
   const value = useOrderValue(path, nestedPath);
   const dispatch = useDispatch<AppDispatch>();
   const gapiKey = useOption('gapikey');
 
   const loaderRef = useRef<Loader | null>(null);
-
+  console.log('render');
   const handleChange = useCallback(
     (value: any) => {
       const propPath: string[] = [path];
@@ -106,6 +108,16 @@ export default function OrderField<T>({
     );
   }
 
+  let onBlur = undefined;
+  if (capitalize) {
+    onBlur = () => {
+      if (value) {
+        const capitalizedValue = (value as string).capitalize();
+        handleChange(capitalizedValue);
+      }
+    };
+  }
+
   return (
     <AppTextField
       id={id}
@@ -115,6 +127,7 @@ export default function OrderField<T>({
       type={type}
       label={label}
       value={value}
+      onBlur={onBlur}
     >
       {selectOptions?.map((option) => (
         <MenuItem key={option} value={option}>

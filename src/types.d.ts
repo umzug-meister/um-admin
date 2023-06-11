@@ -17,3 +17,7 @@ interface Date {
 interface Array<T> {
   from: (index: number) => Array<T>;
 }
+
+interface String {
+  capitalize(): string;
+}

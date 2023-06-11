@@ -7,6 +7,22 @@ import AppLoader from './AppLoader';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 
+/* eslint no-extend-native: 0 */
+Date.prototype.addDays = function (days: number) {
+  this.setDate(this.getDate() + days);
+  return this;
+};
+
+Array.prototype.from = function (index: number) {
+  const newArray = [...this];
+  newArray.splice(0, index);
+  return newArray;
+};
+
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 export function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {
   document.getElementById(id)?.remove();
 
@@ -20,19 +36,6 @@ export function addScript(src: string, id: string, async?: boolean, defer?: bool
 }
 
 const JOTFORM_SCRIPT = 'https://js.jotform.com/JotForm.js';
-
-// eslint-disable-next-line no-extend-native
-Date.prototype.addDays = function (days: number) {
-  this.setDate(this.getDate() + days);
-  return this;
-};
-
-// eslint-disable-next-line no-extend-native
-Array.prototype.from = function (index: number) {
-  const newArray = [...this];
-  newArray.splice(0, index);
-  return newArray;
-};
 
 addScript(JOTFORM_SCRIPT, 'um-jf-script', true, true);
 

@@ -27,8 +27,8 @@ export function CustomerWidget() {
           select
           selectOptions={['Herr', 'Frau', '-']}
         />
-        <OrderField<Customer> label="Vorname" path="customer" nestedPath="firstName" />
-        <OrderField<Customer> label="Name" path="customer" nestedPath="lastName" />
+        <OrderField<Customer> label="Vorname" path="customer" nestedPath="firstName" capitalize />
+        <OrderField<Customer> label="Name" path="customer" nestedPath="lastName" capitalize />
         {hasEmail ? (
           <OrderField<Customer> label="E-Mail" path="customer" nestedPath="email" />
         ) : (
