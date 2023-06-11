@@ -26,3 +26,5 @@ jobs:
 
       - name: Build App
         run: npm run build
+        env:
+          GENERATE_SOURCEMAP: false
