@@ -52,7 +52,7 @@ export default function OrderField<T>({
   const gapiKey = useOption('gapikey');
 
   const loaderRef = useRef<Loader | null>(null);
-  console.log('render');
+
   const handleChange = useCallback(
     (value: any) => {
       const propPath: string[] = [path];
