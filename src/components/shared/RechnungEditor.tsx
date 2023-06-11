@@ -84,6 +84,7 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
         <AppCard title="Leistungen">
           <LeistungEdit
             hideChecks
+            suggestServices
             leistungen={rechnung.entries}
             update={(lst) => {
               onPropChange('entries', lst);
