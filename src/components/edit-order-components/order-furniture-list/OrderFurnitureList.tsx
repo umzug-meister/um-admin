@@ -54,7 +54,7 @@ export function OrderFurnitureList() {
           }}
         />
       </Box>
-      <Box sx={{ maxHeight: 'calc(100vh - 340px)', overflowY: 'auto' }}>
+      <Box sx={{ maxHeight: 'calc(100vh - 350px)', overflowY: 'auto' }}>
         <Grid alignItems="center" rowSpacing={0.5} container>
           {curItems.map((item, index) => {
             return (
