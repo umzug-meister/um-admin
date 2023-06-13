@@ -58,10 +58,6 @@ function usePageName() {
       return `Auftrag ${params.id}`;
     }
 
-    if (/drive-upload\/[0-9]/gm.test(location.pathname)) {
-      return `Auftrag ${params.id} auf Google Drive hochladen`;
-    }
-
     switch (location.pathname) {
       case '/':
         return 'Aufträge';

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
+import { clearCountry } from '../utils/utils';
 import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 
@@ -79,7 +80,7 @@ export default function OrderField<T>({
         autocomplete.addListener('place_changed', () => {
           const { formatted_address } = autocomplete.getPlace();
           if (formatted_address) {
-            handleChange(formatted_address.replace(', Deutschland', '').replace(', Германия', ''));
+            handleChange(clearCountry(formatted_address));
           }
         });
       });

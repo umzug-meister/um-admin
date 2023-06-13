@@ -14,8 +14,9 @@ export function DeleteOrderAction() {
 
   const handleDelete = useCallback(() => {
     if (window.confirm('Auftrag wirklich löschen?')) {
-      dispatch(deleteOrder());
-      navigate('/');
+      dispatch(deleteOrder()).then(() => {
+        navigate('/');
+      });
     }
   }, [dispatch, navigate]);
 

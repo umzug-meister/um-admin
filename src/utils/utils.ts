@@ -120,3 +120,11 @@ export const anrede = (customer: Customer) => {
 
   return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
 };
+
+export const clearCountry = (str: string) => {
+  // prettier-ignore
+  return str
+    .replace(', Deutschland', '')
+    .replace(', Германия', '')
+    .replace(', Germany', '');
+};
