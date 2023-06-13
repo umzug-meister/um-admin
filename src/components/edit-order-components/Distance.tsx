@@ -6,14 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../../hooks/useOption';
 import { AppDispatch, AppState } from '../../store';
 import { updateOrderProps } from '../../store/appReducer';
+import { clearCountry } from '../../utils/utils';
 import { AppCard } from '../shared/AppCard';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
 
 const represent = (distance = 0) => Number(distance / 1000).toFixed(0);
-
-const clearCountry = (place: string) => place.replace(', Deutschland', '');
 
 export default function Distance() {
   const gapiKey = useOption('gapikey');
