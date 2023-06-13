@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
@@ -39,36 +39,41 @@ export default function Orders() {
     page: 0,
   });
 
-  const onSearch = useCallback((searchValue: string) => {
-    const id = Number(searchValue);
+  const navigate = useNavigate();
 
-    setLoading(true);
-    setDisablePagination(true);
-    if (isNaN(id)) {
-      appRequest('get')(Urls.orderSearch(searchValue))
-        .then((orders) => {
-          if (Array.isArray(orders)) {
-            setData(orders);
-          } else {
+  const onSearch = useCallback(
+    (searchValue: string) => {
+      const id = Number(searchValue);
+
+      setLoading(true);
+      setDisablePagination(true);
+      if (isNaN(id)) {
+        appRequest('get')(Urls.orderSearch(searchValue))
+          .then((orders) => {
+            if (Array.isArray(orders)) {
+              setData(orders);
+            } else {
+              setData([]);
+            }
+          })
+          .finally(() => setLoading(false));
+      } else {
+        appRequest('get')(Urls.orderById(id))
+          .then((order) => {
+            if (order) {
+              navigate(`edit/${id}`);
+            } else {
+              setData([]);
+            }
+          })
+          .catch((e) => {
             setData([]);
-          }
-        })
-        .finally(() => setLoading(false));
-    } else {
-      appRequest('get')(Urls.orderById(id))
-        .then((order) => {
-          if (order) {
-            setData([order]);
-          } else {
-            setData([]);
-          }
-        })
-        .catch((e) => {
-          setData([]);
-        })
-        .finally(() => setLoading(false));
-    }
-  }, []);
+          })
+          .finally(() => setLoading(false));
+      }
+    },
+    [navigate],
+  );
 
   const onClear = useCallback(() => {
     setPaginationModel({ page: 0, pageSize: PAGE_SIZE });

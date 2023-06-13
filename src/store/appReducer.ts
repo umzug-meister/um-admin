@@ -305,13 +305,14 @@ const appSlice = createSlice({
         state.current = payload;
         state.unsavedChanges = false;
       })
+      .addCase(loadOrder.rejected, (state) => {
+        state.current = null;
+        state.unsavedChanges = false;
+      })
       .addCase(deleteOrder.fulfilled, (state) => {
         state.current = null;
         state.unsavedChanges = false;
       })
-      // .addCase(createUpdateOrder.fulfilled, (state) => {
-      //   state.unsavedChanges = false;
-      // })
       .addCase(loadAllOptions.fulfilled, (state, action) => {
         state.options = action.payload;
       })

@@ -1,10 +1,9 @@
-import { Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Accounting } from '../components/Accounting';
 import { OrderCalculator } from '../components/OrderCalculator';
@@ -24,10 +23,7 @@ import Resources from '../components/edit-order-components/Resources';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
-import { AppDispatch, AppState } from '../store';
-import { initOrder, loadOrder } from '../store/appReducer';
-
-import { Order } from 'um-types';
+import { useLoadOrder } from '../hooks/useLoadOrder';
 
 export default function Edit() {
   const order = useLoadOrder();
@@ -35,7 +31,17 @@ export default function Edit() {
   const [value, setValue] = useState(0);
 
   if (order == null) {
-    return null;
+    return (
+      <RootBox>
+        <Box m="auto" pt={5} width="max-content">
+          <Typography align="center" variant="h3">
+            Kein Auftrag gefunden
+          </Typography>
+          <br />
+          <Link to="/">Zurück</Link>
+        </Box>
+      </RootBox>
+    );
   }
 
   return (
@@ -110,22 +116,4 @@ export default function Edit() {
       </TabPanel>
     </RootBox>
   );
-}
-
-export function useLoadOrder() {
-  const order = useSelector<AppState, Order | null>((s) => s.app.current);
-  const params = useParams();
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (params.id && Number(params.id) !== -1) {
-      dispatch(loadOrder(params.id));
-    }
-
-    if (Number(params.id) === -1) {
-      dispatch(initOrder());
-    }
-  }, [params, dispatch]);
-
-  return order;
 }

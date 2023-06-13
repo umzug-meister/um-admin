@@ -1,6 +1,6 @@
+import { useLoadOrder } from '../hooks/useLoadOrder';
 import { anrede, euroValue, getPrintableDate } from '../utils/utils';
 import EMailTextTemplate from './EMailTextTemplate';
-import { useLoadOrder } from './Edit';
 
 import { Address } from 'um-types';
 

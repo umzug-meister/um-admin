@@ -28,6 +28,7 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
         <CloseOutlinedIcon />
       </IconButton>
       <TextField
+        autoFocus
         placeholder={placeholder}
         value={searchValue}
         onChange={(ev) => {
