@@ -138,8 +138,12 @@ function GridRow({
     if (!selectedOptionLabel) {
       return;
     }
-    const curOption = autocompleteOptions.find(({ name }) => name === selectedOptionLabel);
+    const curOption = findLst(selectedOptionLabel);
     curOption && onLstSelect(curOption);
+  };
+
+  const findLst = (label: any) => {
+    return autocompleteOptions.find(({ name }) => name === label);
   };
 
   return (
@@ -156,10 +160,14 @@ function GridRow({
             value={lst.desc || ''}
             inputValue={lst.desc || ''}
             onChange={onOptionChange}
-            onInputChange={(ev) => {
+            onInputChange={(ev, newValue) => {
               //@ts-ignore
-              const value = ev.target.value;
-              onPropChange('desc', value);
+              const lst = findLst(newValue);
+              if (lst) {
+                onLstSelect(lst);
+              } else {
+                onPropChange('desc', newValue);
+              }
             }}
             options={autocompleteOptions}
             getOptionLabel={(o) => {
