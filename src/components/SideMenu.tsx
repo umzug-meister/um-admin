@@ -19,8 +19,8 @@ import {
   useTheme,
 } from '@mui/material';
 
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { VersionBadge } from './VersionBadge';
 
@@ -94,19 +94,21 @@ interface DrawerItemProps {
 }
 
 function DrawerItem({ to, primaryText, onClose, children }: React.PropsWithChildren<DrawerItemProps>) {
-  const navigate = useNavigate();
-
-  const onClick = useCallback(() => {
-    navigate(to);
-    onClose();
-  }, [navigate, to, onClose]);
+  const theme = useTheme();
 
   return (
-    <ListItem disablePadding>
-      <ListItemButton onClick={onClick}>
-        <ListItemIcon>{children}</ListItemIcon>
-        <ListItemText primary={primaryText} />
-      </ListItemButton>
-    </ListItem>
+    <NavLink
+      style={({ isActive }) => {
+        return { textDecoration: 'none', color: isActive ? theme.palette.primary.main : 'unset' };
+      }}
+      to={to}
+    >
+      <ListItem disablePadding>
+        <ListItemButton onClick={onClose}>
+          <ListItemIcon>{children}</ListItemIcon>
+          <ListItemText primary={primaryText} />
+        </ListItemButton>
+      </ListItem>
+    </NavLink>
   );
 }
