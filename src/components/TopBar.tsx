@@ -37,7 +37,7 @@ export default function TopBar() {
             <MenuOutlinedIcon />
           </IconButton>
 
-          <Typography pl={5} component="div" display="flex" flexGrow={1} justifyContent="start" variant="h5">
+          <Typography pl={5} flex={1} variant="h5">
             {pageName}
           </Typography>
           <Box pr={4}>{actions}</Box>
@@ -63,7 +63,7 @@ function usePageName() {
         return 'Alle Aufträge';
 
       case '/edit/-1':
-        return 'Auftrag erstellen';
+        return 'Neuer Auftrag';
 
       case '/import':
         return 'Auftrag importieren';
