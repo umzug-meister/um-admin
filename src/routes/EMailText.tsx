@@ -63,7 +63,7 @@ export default function EMailText() {
     const color = red ? 'red' : 'black';
     return (
       `<tr style="color: ${color};">` +
-      `<t${bold ? 'h' : 'd'} align="left">${desc} : </t${bold ? 'h' : 'd'}>` +
+      `<t${bold ? 'h' : 'd'} align="left">${desc}: </t${bold ? 'h' : 'd'}>` +
       `<th align="right">${euroValue(price)} inkl. MwSt.</th>` +
       `</tr>`
     );
