@@ -14,7 +14,12 @@ export default function CopyOrderAction() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleCopy = useCallback(() => {
-    const next = { ...order, id: undefined } as Order;
+    //@ts-ignore
+    const next = {
+      ...order,
+      id: undefined,
+      lupd: undefined,
+    } as Order;
     saveOrder(next);
     setOpenSnackbar(true);
   }, [saveOrder, order]);
