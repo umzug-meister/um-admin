@@ -163,7 +163,13 @@ export function OrderConditionsChips() {
     });
   };
 
-  const rideCostsLabel = isLocalMovement ? 'Fahrtkosten, innerorts' : `Fahrtkosten ${distance ? `${distance} km` : ''}`;
+  const rideCostsLabel = isLocalMovement ? (
+    <p>
+      Fahrtkosten in <b>München</b>
+    </p>
+  ) : (
+    <p>Fahrkosten {distance ? <b>{distance} km</b> : ''}</p>
+  );
 
   return (
     <Grid item xs={12}>
@@ -173,16 +179,23 @@ export function OrderConditionsChips() {
           <Stack direction="row" spacing={2}>
             <Chip label="Träger & LKW" onClick={onPushRequest(createWorkerLst())} />
             <Chip
-              label={`Rabatt ${euroValue(order.discountValue || 0)}`}
+              label={<p>Rabatt {<b>{euroValue(order.discountValue || 0)}</b>}</p>}
               onClick={onPushRequest(createDiscountLst())}
             />
             <Chip label={rideCostsLabel} onClick={onPushRequest(createRideCostsLst())} />
             <Chip
-              label={`${amountOfParkingSlots} Halteverbotszone(n)`}
+              label={
+                <p>
+                  <b>{amountOfParkingSlots}</b> Halteverbotszone(n)
+                </p>
+              }
               onClick={onPushRequest(createParkingSlotsLst())}
             />
-            <Chip label={`Verpackung ${prices?.verpackung || 0} €`} onClick={onPushRequest(createPackingLst())} />
-            <Chip label={`Leistungen ${prices?.services || 0} €`} onClick={onPushRequest(createServicesLst())} />
+            <Chip
+              label={<p>Verpackung {<b>{euroValue(prices.verpackung)}</b>}</p>}
+              onClick={onPushRequest(createPackingLst())}
+            />
+            <Chip label={<p>Leistungen {<b>{euroValue(prices.services)}</b>}</p>} />
           </Stack>
         </Stack>
       </AppCard>
