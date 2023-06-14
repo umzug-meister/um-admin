@@ -131,14 +131,17 @@ function GridRow({
 }: GridRowProps) {
   const hasError = lst.sum !== '' && Number(lst.sum) === 0;
 
+  const sumDisabled = Boolean(lst.colli) && Boolean(lst.price);
+
   const onOptionChange = (ev: any) => {
     const selectedOptionLabel = ev?.target?.textContent;
     if (!selectedOptionLabel) {
       return;
     }
-    const curOption = autocompleteOptions.find((aco) => aco.name === selectedOptionLabel);
+    const curOption = autocompleteOptions.find(({ name }) => name === selectedOptionLabel);
     curOption && onLstSelect(curOption);
   };
+
   return (
     <Grid container spacing={2}>
       {!hideChecks && (
@@ -210,6 +213,7 @@ function GridRow({
         <AppTextField
           type="number"
           error={hasError}
+          disabled={sumDisabled}
           placeholder="Gesamt"
           InputProps={{ endAdornment: '€' }}
           value={lst.sum}
