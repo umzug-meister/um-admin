@@ -60,16 +60,16 @@ function usePageName() {
 
     switch (location.pathname) {
       case '/':
-        return 'Aufträge';
+        return 'Alle Aufträge';
 
       case '/edit/-1':
         return 'Auftrag erstellen';
 
       case '/import':
-        return 'JotForm Import';
+        return 'Auftrag importieren';
 
       case '/blanco':
-        return 'Rechnung erstellen';
+        return 'Neue Rechnung';
 
       case '/settings':
         return 'Optionen';
