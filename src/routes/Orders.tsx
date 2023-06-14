@@ -109,6 +109,17 @@ export default function Orders() {
         headerName: 'Auftrag',
       },
       {
+        field: 'src',
+        headerName: 'Art',
+        renderCell: ({ value }) => {
+          return (
+            <p title={value} style={{ width: '40px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {value}
+            </p>
+          );
+        },
+      },
+      {
         field: 'customer',
         flex: 1,
         headerName: 'Kunde',

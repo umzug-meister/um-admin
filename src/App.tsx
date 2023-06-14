@@ -29,8 +29,6 @@ const Categories = lazy(() => import('./routes/Categories'));
 const AppDiv = styled.div`
   padding: 0;
   margin: 0;
-  height: 100%;
-  width: 100%;
   display: flex;
   position: relative;
 `;
