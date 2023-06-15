@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
@@ -6,6 +7,8 @@ import App from './App';
 import AppLoader from './AppLoader';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
+
+import styled from '@emotion/styled';
 
 /* eslint no-extend-native: 0 */
 Date.prototype.addDays = function (days: number) {
@@ -45,12 +48,27 @@ link.setAttribute('type', 'text/css');
 link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 document.head.appendChild(link);
 
+const ErrorFallback = styled.div`
+  width: 400px;
+  margin: auto;
+  text-align: center;
+`;
+
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
     <HashRouter>
-      <AppLoader>
-        <App />
-      </AppLoader>
+      <ErrorBoundary
+        fallback={
+          <ErrorFallback>
+            <h1>Fehler</h1>
+            <h3>(´･_･`)</h3>
+          </ErrorFallback>
+        }
+      >
+        <AppLoader>
+          <App />
+        </AppLoader>
+      </ErrorBoundary>
     </HashRouter>
   </Provider>,
 );
