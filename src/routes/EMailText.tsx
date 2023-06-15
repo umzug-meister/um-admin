@@ -41,9 +41,9 @@ export default function EMailText() {
     if (orderAddress) {
       const { address } = orderAddress;
 
-      const ort = address?.split(', ')?.[1];
+      const ort = address?.split(', ')?.[1] || address;
 
-      return ort.trim() || '';
+      return ort?.trim() || '';
     }
     return ' ';
   };
