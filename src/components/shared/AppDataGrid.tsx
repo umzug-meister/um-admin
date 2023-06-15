@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@mui/icons-material';
-import { Backdrop, Box, Card, CircularProgress, IconButton } from '@mui/material';
+import { Backdrop, Box, CircularProgress, IconButton, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   DataGrid,
@@ -77,7 +77,7 @@ export function AppDataGrid({
   }, [columns, allowDeletion, onDelete]);
 
   return (
-    <Card elevation={0}>
+    <Paper elevation={0}>
       <Box
         position={'relative'}
         sx={{
@@ -128,7 +128,7 @@ export function AppDataGrid({
           }
         />
       </Box>
-    </Card>
+    </Paper>
   );
 }
 
