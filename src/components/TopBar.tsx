@@ -80,11 +80,11 @@ function usePageName() {
       case '/settings/packings':
         return 'Verpackung';
 
-      case '/settings/prices':
-        return 'Preise';
-
       case '/settings/furniture':
         return 'Möbel';
+
+      case '/settings/offers':
+        return 'Angebote';
 
       case '/settings/categories':
         return 'Möbel Kategorien';

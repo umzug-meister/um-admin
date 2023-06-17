@@ -13,7 +13,6 @@ import styled from '@emotion/styled';
 import de from 'date-fns/locale/de';
 
 const Import = lazy(() => import('./routes/Import'));
-const Prices = lazy(() => import('./routes/Prices'));
 const Blanco = lazy(() => import('./routes/Blanco'));
 const Orders = lazy(() => import('./routes/Orders'));
 const Packings = lazy(() => import('./routes/Packings'));
@@ -25,6 +24,7 @@ const EMailText = lazy(() => import('./routes/EMailText'));
 const DirectImport = lazy(() => import('./routes/DirectImport'));
 const Edit = lazy(() => import('./routes/Edit'));
 const Categories = lazy(() => import('./routes/Categories'));
+const OffersEditor = lazy(() => import('./routes/OffersEditor'));
 
 const AppDiv = styled.div`
   padding: 0;
@@ -123,10 +123,10 @@ function App() {
             }
           />
           <Route
-            path="prices"
+            path="offers"
             element={
               <LazyLoad>
-                <Prices />
+                <OffersEditor />
               </LazyLoad>
             }
           />

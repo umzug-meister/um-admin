@@ -1,6 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
