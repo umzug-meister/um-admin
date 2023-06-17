@@ -2,7 +2,7 @@ import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppServiceTag, Service } from 'um-types';
+import { Service } from 'um-types';
 
 export interface AppServices {
   all: Service[];
@@ -20,11 +20,8 @@ export const deleteService = createAsyncThunk('deleteService', (id: string) => {
   return appRequest('delete')(Urls.services(id)).then(() => ({ id }));
 });
 
-export const createAppService = createAsyncThunk('createAppService', (tag: AppServiceTag) => {
-  const next: Service = {
-    tag,
-  } as Service;
-  return appRequest('post')(Urls.services(''), next);
+export const createAppService = createAsyncThunk('createAppService', (service: Partial<Service>) => {
+  return appRequest('post')(Urls.services(''), service);
 });
 
 const servicesSlice = createSlice<AppServices, any, 'services'>({

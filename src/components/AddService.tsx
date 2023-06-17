@@ -5,17 +5,17 @@ import { AppDispatch } from '../store';
 import { createAppService } from '../store/servicesReducer';
 import AddButton from './shared/AddButton';
 
-import { AppServiceTag } from 'um-types';
+import { Service } from 'um-types';
 
 interface Props {
-  tag: AppServiceTag;
+  service: Partial<Service>;
 }
-export function AddServiceByTag({ tag }: Props) {
+export function AddService({ service }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
   const onClick = useCallback(() => {
-    dispatch(createAppService(tag));
-  }, [dispatch, tag]);
+    dispatch(createAppService(service));
+  }, [dispatch, service]);
 
   return <AddButton onClick={onClick} />;
 }

@@ -3,23 +3,27 @@ import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import React from 'react';
 
 interface Props {
-  title: string;
+  title: React.ReactNode;
 }
 
-export function AppCard(props: React.PropsWithChildren<Props>) {
+export function AppCard({ title, children }: React.PropsWithChildren<Props>) {
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardHeader
         sx={{ padding: 1 }}
         title={
-          <Typography color="primary" variant="h6">
-            {props.title}
-          </Typography>
+          typeof title === 'string' ? (
+            <Typography color="primary" variant="h6">
+              {title}
+            </Typography>
+          ) : (
+            title
+          )
         }
       />
       <CardContent>
         <Box display="flex" flexDirection="column" gap={2}>
-          {props.children}
+          {children}
         </Box>
       </CardContent>
     </Card>

@@ -4,7 +4,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { AddServiceByTag } from '../components/AddServiceByTag';
+import { AddService } from '../components/AddService';
 import { AppCard } from '../components/shared/AppCard';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
@@ -50,7 +50,7 @@ export default function Packings() {
     <AppGridContainer>
       <Grid item xs={12}>
         <AppCard title="Verpackung">
-          <AddServiceByTag tag={TAG} />
+          <AddService service={{ tag: TAG }} />
           <AppDataGrid
             columns={packingsColumns}
             data={packings}
