@@ -25,6 +25,8 @@ export default function OfferTab({ t35, workers }: Props) {
   const offers = useAppServices<AppPrice>(TAG);
   const data = offers.filter((offer) => Number(offer.t35) === t35 && Number(offer.workers) === workers);
 
+  data.sort((a, b) => Number(b.includedHours) - Number(a.includedHours));
+
   const [ridingCostsValue, setRidingCostsValue] = useState<any>(data[0]?.ridingCosts || 0);
   const [hourPriceValue, setHourPricevalue] = useState<any>(data[0]?.hourPrice || 0);
 
