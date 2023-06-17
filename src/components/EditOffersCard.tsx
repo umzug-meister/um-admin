@@ -10,7 +10,6 @@ import { deleteService, updateService } from '../store/servicesReducer';
 import { AddService } from './AddService';
 import { AppDataGrid } from './shared/AppDataGrid';
 import { AppTextField } from './shared/AppTextField';
-import OfferNumberRenderer from './shared/OfferNumberRenderer';
 
 import { AppPrice, AppServiceTag, Service } from 'um-types';
 
@@ -21,7 +20,7 @@ interface Props {
 
 const TAG: AppServiceTag = 'Price';
 
-export default function OfferTab({ t35, workers }: Props) {
+export default function EditOffersCard({ t35, workers }: Props) {
   const offers = useAppServices<AppPrice>(TAG);
   const data = offers.filter((offer) => Number(offer.t35) === t35 && Number(offer.workers) === workers);
 
@@ -49,33 +48,18 @@ export default function OfferTab({ t35, workers }: Props) {
   const columns: GridColDef[] = useMemo(
     () => [
       {
-        field: 'workers',
-        headerName: 'Mann',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="green" />;
-        },
+        field: 'ridingCosts',
+        headerName: 'Anfahrtskosten',
       },
       {
-        field: 't35',
-        headerName: '3.5',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="red" />;
-        },
+        field: 'hourPrice',
+        headerName: 'Stundenpreis',
       },
-
       {
         field: 'includedHours',
         headerName: 'Stunden',
         editable: true,
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="blue" />;
-        },
       },
-      { field: 'hourPrice', headerName: 'Stundenpreis', flex: 1 },
-      { field: 'ridingCosts', headerName: 'Anfahrtskosten', flex: 1 },
       { field: 'sum', headerName: 'Gesamt', editable: true },
     ],
     [],
@@ -99,9 +83,10 @@ export default function OfferTab({ t35, workers }: Props) {
 
   return (
     <>
-      <Grid pt={4} container gap={2}>
-        <Grid item xs={3}>
+      <Grid pt={4} container spacing={2}>
+        <Grid item xs={6}>
           <AppTextField
+            InputProps={{ endAdornment: '€' }}
             disabled={data.length === 0}
             label="Anfahrtskosten"
             value={ridingCostsValue}
@@ -110,9 +95,10 @@ export default function OfferTab({ t35, workers }: Props) {
           />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <AppTextField
             disabled={data.length === 0}
+            InputProps={{ endAdornment: '€/Std' }}
             label="Stundenpreis"
             value={hourPriceValue}
             onChange={(ev) => setHourPricevalue(ev.target.value)}
@@ -120,9 +106,11 @@ export default function OfferTab({ t35, workers }: Props) {
           />
         </Grid>
       </Grid>
-      <Box paddingY={4}>
+
+      <Box paddingY={2}>
         <AddService service={service} />
       </Box>
+
       <AppDataGrid
         columns={columns}
         data={data}
