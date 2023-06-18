@@ -168,7 +168,7 @@ export function OrderConditionsChips() {
       Fahrtkosten in <b>München</b>
     </p>
   ) : (
-    <p>Fahrkosten {distance ? <b>{distance} km</b> : ''}</p>
+    <p>Fahrtkosten {distance ? <b>{distance} km</b> : ''}</p>
   );
 
   return (
