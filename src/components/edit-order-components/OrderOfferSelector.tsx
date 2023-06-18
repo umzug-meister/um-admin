@@ -22,19 +22,20 @@ export default function OrderOfferSelector() {
 
   let data = [...prices];
 
+  /* eslint eqeqeq: 0 */
   if (order !== null) {
     const { transporterNumber, workersNumber, t75, timeBased } = order;
     if (workersNumber) {
-      data = data.filter((d) => d.workers === workersNumber);
+      data = data.filter((d) => d.workers == workersNumber);
     }
     if (transporterNumber) {
-      data = data.filter((d) => d.t35 === transporterNumber);
+      data = data.filter((d) => d.t35 == transporterNumber);
     }
     if (t75) {
-      data = data.filter((d) => d.t75 === t75);
+      data = data.filter((d) => d.t75 == t75);
     }
     if (timeBased?.hours) {
-      data = data.filter((d) => Number(d.includedHours) === Number(timeBased.hours));
+      data = data.filter((d) => d.includedHours == timeBased.hours);
     }
   }
 
