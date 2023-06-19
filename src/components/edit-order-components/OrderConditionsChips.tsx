@@ -195,7 +195,10 @@ export function OrderConditionsChips() {
               label={<p>Verpackung {<b>{euroValue(prices.verpackung)}</b>}</p>}
               onClick={onPushRequest(createPackingLst())}
             />
-            <Chip label={<p>Leistungen {<b>{euroValue(prices.services)}</b>}</p>} />
+            <Chip
+              onClick={onPushRequest(createServicesLst())}
+              label={<p>Leistungen {<b>{euroValue(prices.services)}</b>}</p>}
+            />
           </Stack>
         </Stack>
       </AppCard>
