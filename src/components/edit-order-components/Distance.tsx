@@ -33,6 +33,7 @@ export default function Distance() {
       loaderRef.current = new Loader({
         apiKey: gapiKey,
         libraries: ['places'],
+        language: 'de',
       });
     }
     loaderRef.current
