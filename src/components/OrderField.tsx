@@ -71,6 +71,7 @@ export default function OrderField<T>({
         loaderRef.current = new Loader({
           apiKey: gapiKey,
           libraries: ['places'],
+          language: 'de',
         });
       }
 
