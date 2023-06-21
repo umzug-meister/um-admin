@@ -21,10 +21,8 @@ jobs:
       - name: Install modules
         run: npm install
 
-      - name: Add package version
-        uses: jozsefsallai/node-package-version@v1.0.4
-
       - name: Build App
         run: npm run build
         env:
+          REACT_APP_VERSION: dev
           GENERATE_SOURCEMAP: false
