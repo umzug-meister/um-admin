@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Grid, keyframes } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -13,6 +13,18 @@ import { AppDataGrid } from '../shared/AppDataGrid';
 import OfferNumberRenderer from '../shared/OfferNumberRenderer';
 
 import { AppPrice } from 'um-types';
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+  transform: scale(1.1);
+}
+  100% {
+    transform: scale(1);
+  }
+`;
 
 export default function OrderOfferSelector() {
   const prices = useAppServices<AppPrice>('Price');
@@ -38,6 +50,8 @@ export default function OrderOfferSelector() {
       data = data.filter((d) => d.includedHours == timeBased.hours);
     }
   }
+
+  const foundOffer = data.length === 1;
 
   const setPrice = useCallback(
     (id: number | string) => {
@@ -75,14 +89,7 @@ export default function OrderOfferSelector() {
           return <OfferNumberRenderer value={value} color="red" />;
         },
       },
-      {
-        field: 't75',
-        headerName: '7.5',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="red" />;
-        },
-      },
+
       {
         field: 'includedHours',
         headerName: 'Stunden',
@@ -99,7 +106,17 @@ export default function OrderOfferSelector() {
         field: 'id',
         headerName: '',
         renderCell({ value }) {
-          return (
+          return foundOffer ? (
+            <Box
+              sx={{
+                animation: `${pulse} 800ms 2 ease`,
+              }}
+            >
+              <Button onClick={() => setPrice(value)} variant="contained" disableElevation>
+                Setzen
+              </Button>
+            </Box>
+          ) : (
             <Button onClick={() => setPrice(value)} variant="outlined" disableElevation>
               Setzen
             </Button>
@@ -108,7 +125,7 @@ export default function OrderOfferSelector() {
       },
     ];
     return cols;
-  }, [setPrice]);
+  }, [setPrice, foundOffer]);
 
   return (
     <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Box, Grid, IconButton, TextField, Typography } from '@mui/material';
 
 import React, { useCallback, useState } from 'react';
@@ -61,14 +61,14 @@ export function OrderFurnitureList() {
               <React.Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
                 <Grid item xs={1}>
                   <IconButton color="error" onClick={() => onDelete(item)}>
-                    <ClearOutlinedIcon />
+                    <DeleteOutlinedIcon />
                   </IconButton>
                 </Grid>
                 <Grid item xs={3}>
                   <Typography color="HighlightText">{item.selectedCategory}</Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography>{item.name}</Typography>
+                  <Typography color={'black'}>{item.name}</Typography>
                 </Grid>
                 <Grid item xs={2}>
                   <TextField

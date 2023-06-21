@@ -24,10 +24,19 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
 
   return (
     <Card elevation={0} sx={{ padding: 2, mb: 2 }}>
-      <IconButton color="error" onClick={handleClearRequest}>
-        <CloseOutlinedIcon />
-      </IconButton>
       <TextField
+        InputProps={{
+          startAdornment: (
+            <IconButton color="error" onClick={handleClearRequest}>
+              <CloseOutlinedIcon />
+            </IconButton>
+          ),
+          endAdornment: (
+            <IconButton color="primary" disabled={!searchValue} onClick={handleSearchRequest}>
+              <SearchOutlinedIcon />
+            </IconButton>
+          ),
+        }}
         autoFocus
         placeholder={placeholder}
         value={searchValue}
@@ -35,7 +44,7 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
           setSearchValue(ev.target.value);
         }}
         size="small"
-        sx={{ margin: '0 10px', width: '300px' }}
+        sx={{ margin: '0 10px', width: '330px' }}
         inputProps={{
           'data-hj-allow': '',
         }}
@@ -45,9 +54,6 @@ export default function SearchBar({ onClear, onSearch, placeholder }: Props) {
           }
         }}
       />
-      <IconButton disabled={!searchValue} onClick={handleSearchRequest}>
-        <SearchOutlinedIcon />
-      </IconButton>
     </Card>
   );
 }
