@@ -97,7 +97,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
   factory.addSpace();
   factory.setMarginLeft(40);
 
-  factory.addBlackHeader(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr.: ${order.id}`);
+  factory.addBlackHeader(`ANGEBOT · AUFTRAG · ABRECHNUNG - Nr: ${order.id}`);
   factory.setMarginLeft(-40);
 
   //Firma
@@ -107,6 +107,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
     });
   }
 
+  const tag = order.check24 ? 'CHECK 24' : order.myhammer ? 'MyHammer' : '';
   //Kundenname
   factory.addTable(
     null,
@@ -114,24 +115,16 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
       [
         'Name:',
         `${order.customer?.salutation || ''} ${order.customer?.firstName || ''} ${order.customer?.lastName || ''}`,
-        'Tel.:',
+        'Tel:',
         `${order.customer?.telNumber}`,
+        '',
       ],
+      ['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Anfrage Nr:', `${order.rid || ''}`, tag],
     ],
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      2: { fontStyle: 'bold' },
-    },
-  );
-
-  //Umzugsdatum
-  factory.addTable(
-    null,
-    [['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.:', `${order.rid || ''}`]],
-    {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      1: { cellWidth: CELL_WIDTH_1 },
-      2: { fontStyle: 'bold', textColor: [0, 0, 255] },
+      2: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      4: { fontStyle: 'bold', textColor: [0, 0, 255] },
     },
   );
 
@@ -142,16 +135,17 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
     2: { fontStyle: 'bold', textColor: [255, 0, 0] },
   });
 
-  //message
-  const _message = order.text?.replaceAll(';;', '');
-  factory.addTable(
-    null,
-    [['Notiz:', _message]],
+  //Notiz
+  if (order.text) {
+    factory.addTable(
+      null,
+      [['Notiz:', order.text]],
 
-    {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-    },
-  );
+      {
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      },
+    );
+  }
 };
 
 function yesNo(prop: boolean | undefined) {

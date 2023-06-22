@@ -16,6 +16,7 @@ import OrderOfferSelector from '../components/edit-order-components/OrderOfferSe
 import OrderPacking from '../components/edit-order-components/OrderPacking';
 import OrderPrice from '../components/edit-order-components/OrderPrice';
 import OrderServices from '../components/edit-order-components/OrderServices';
+import OrderSources from '../components/edit-order-components/OrderSources';
 import { OrderText } from '../components/edit-order-components/OrderText';
 import Resources from '../components/edit-order-components/Resources';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
@@ -62,6 +63,7 @@ export default function Edit() {
         <AppGridContainer>
           <CustomerWidget />
           <OrderText />
+          <OrderSources />
         </AppGridContainer>
       </TabPanel>
       <TabPanel index={1} value={value}>
