@@ -107,18 +107,22 @@ export default function Orders() {
       {
         field: 'rid',
         headerName: 'Auftrag',
-      },
-      {
-        field: 'src',
-        headerName: 'Art',
-        renderCell: ({ value }) => {
+        renderCell({ row }) {
+          const { rid, src } = row as Order;
+
           return (
-            <p title={value} style={{ width: '40px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {value}
-            </p>
+            <Box>
+              <Typography display="block" variant="caption">
+                {rid}
+              </Typography>
+              <Typography color="secondary" variant="caption">
+                {src}
+              </Typography>
+            </Box>
           );
         },
       },
+
       {
         field: 'customer',
         flex: 1,

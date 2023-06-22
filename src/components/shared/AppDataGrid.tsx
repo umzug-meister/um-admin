@@ -54,10 +54,10 @@ export function AppDataGrid({
       const deleteCol: GridColDef = {
         field: '__delete',
         headerName: 'Löschen',
+        align: 'left',
         renderCell({ row }) {
           return (
             <IconButton
-              sx={{ ml: '30px' }}
               color="error"
               onClick={() => {
                 if (window.confirm('Möchtest du es wirklich löschen?')) {
