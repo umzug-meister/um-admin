@@ -1,6 +1,6 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -205,6 +205,26 @@ export default function Orders() {
         field: 't75',
         width: 60,
         headerName: '7.5',
+      },
+      {
+        field: 'lupd',
+        headerName: 'Bearbeitet',
+        renderCell({ value }) {
+          if (value) {
+            const parts = new Date(value).toLocaleString('ru').split(', ');
+            return (
+              <Box>
+                <Typography display="block" variant="caption">
+                  {parts[0]}
+                </Typography>
+                <Typography color="secondary" variant="caption">
+                  {parts[1]}
+                </Typography>
+              </Box>
+            );
+          }
+          return null;
+        },
       },
     ],
     [],
