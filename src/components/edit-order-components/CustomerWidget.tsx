@@ -17,7 +17,7 @@ export function CustomerWidget() {
 
   const hasEmail = typeof customer?.email !== 'undefined';
   return (
-    <Grid item xs={4} xl={3}>
+    <Grid item xs={4}>
       <AppCard title="Kundendaten">
         <OrderField<Customer> path="customer" nestedPath="company" label="Firma" />
         <OrderField<Customer>
