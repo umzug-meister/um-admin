@@ -211,7 +211,7 @@ export default function Orders() {
         headerName: 'Bearbeitet',
         renderCell({ value }) {
           if (value) {
-            const parts = new Date(value).toLocaleString('ru').split(', ');
+            const parts = new Date(Number(value)).toLocaleString('ru').split(', ');
             return (
               <Box>
                 <Typography display="block" variant="caption">
