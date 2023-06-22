@@ -119,7 +119,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
         `${order.customer?.telNumber}`,
         '',
       ],
-      ['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Anfrage Nr.', `${order.rid || ''}`, tag],
+      ['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Anfrage Nr:', `${order.rid || ''}`, tag],
     ],
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
