@@ -110,15 +110,15 @@ export default function OrderField<T>({
     );
   }
 
-  let onBlur = undefined;
-  if (capitalize) {
-    onBlur = () => {
-      if (value) {
-        const capitalizedValue = (value as string).capitalize();
-        handleChange(capitalizedValue);
+  const onBlur = () => {
+    if (typeof value === 'string') {
+      let next = value.trim();
+      if (capitalize) {
+        next = next.capitalize();
       }
-    };
-  }
+      handleChange(next);
+    }
+  };
 
   return (
     <AppTextField
