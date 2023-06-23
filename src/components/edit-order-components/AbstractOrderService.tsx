@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store';
 import { updateOrderService } from '../../store/appReducer';
 import { AppDataGrid } from '../shared/AppDataGrid';
 
-import { AppService, AppServiceTag } from 'um-types';
+import { AppServiceTag, OrderService } from 'um-types';
 
 interface Props {
   tag: AppServiceTag;
@@ -20,23 +20,21 @@ export function AbstractOrderService({ tag }: Props) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const getPreis = (serv: AppService) => {
+  const getPreis = (serv: OrderService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
     if (orderServ?.price) {
-      return <i title="Alter Preis">{orderServ?.price}</i>;
+      return <p title="Alter Preis">{orderServ?.price}</p>;
     }
     return serv.price;
   };
 
-  const getColli = (serv: AppService) => {
+  const getColli = (serv: OrderService): number => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
 
-    const valueAsNumber = Number(orderServ?.colli || 0);
-
-    return valueAsNumber > 0 ? <b>{valueAsNumber}</b> : <p style={{ color: 'lightgrey' }}>{valueAsNumber}</p>;
+    return Number(orderServ?.colli || 0);
   };
 
-  const onUpdate = (next: AppService) => {
+  const onUpdate = (next: OrderService) => {
     dispatch(updateOrderService({ service: next }));
   };
 
@@ -63,5 +61,20 @@ export function AbstractOrderService({ tag }: Props) {
     },
   ];
 
-  return <AppDataGrid columns={columns} data={services} disablePagination onUpdate={onUpdate} />;
+  return (
+    <AppDataGrid
+      getRowClassName={({ row }) => {
+        const service = row as OrderService;
+
+        if (getColli(service) > 0) {
+          return 'bold';
+        }
+        return '';
+      }}
+      columns={columns}
+      data={services}
+      disablePagination
+      onUpdate={onUpdate}
+    />
+  );
 }

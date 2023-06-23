@@ -84,7 +84,7 @@ export default function Distance() {
         <TableCell sx={sx}>{label}</TableCell>
         <TableCell>{clearCountry(originAddresses[index])}</TableCell>
         <TableCell>{clearCountry(destinationAddresses[index])}</TableCell>
-        <TableCell>{represent(elem.distance?.value)}</TableCell>
+        <TableCell>{represent(elem.distance?.value)} km</TableCell>
         <TableCell>{elem.duration?.text}</TableCell>
       </TableRow>
     );
@@ -99,7 +99,7 @@ export default function Distance() {
               <TableCell></TableCell>
               <TableCell sx={sx}>Von</TableCell>
               <TableCell sx={sx}>Nach</TableCell>
-              <TableCell sx={sx}>Distanz in km</TableCell>
+              <TableCell sx={sx}>Strecke</TableCell>
               <TableCell sx={sx}>Fahrtzeit</TableCell>
             </TableRow>
           </TableHead>
@@ -108,11 +108,11 @@ export default function Distance() {
             {RenderRow(1, 'Lastfahrt')}
             {RenderRow(2, 'Rückfahrt')}
             <TableRow>
-              <TableCell sx={sx}>Gesamt</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell>{sum}</TableCell>
-              <TableCell></TableCell>
+              <TableCell colSpan={3} sx={sx}>
+                Gesamt
+              </TableCell>
+
+              <TableCell colSpan={2}>{sum} km</TableCell>
             </TableRow>
           </TableBody>
         </Table>

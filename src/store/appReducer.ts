@@ -12,7 +12,7 @@ import {
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { set } from 'lodash';
-import { AppService, Furniture, Gutschrift, MLeistung, Order, Prices, Rechnung } from 'um-types';
+import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
 function _initOrder(): Order {
   return {
@@ -213,7 +213,7 @@ const appSlice = createSlice({
       }
     },
 
-    updateOrderService(state, action: PayloadAction<{ service: AppService }>) {
+    updateOrderService(state, action: PayloadAction<{ service: OrderService }>) {
       const { service } = action.payload;
 
       if (!state.current?.services) {
