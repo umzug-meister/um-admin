@@ -44,15 +44,17 @@ export default class PdfBuilder {
     this.maxHeight = PdfBuilder.mm2pt(heightMM);
   }
 
-  public enumeratePages(text: string): void {
-    let pageCount = this.doc.getNumberOfPages();
+  public enumeratePages(text: string[]): void {
+    const pageCount = this.doc.getNumberOfPages();
+
     for (let i = 0; i < pageCount; i++) {
       this.doc.setPage(i);
       this.doc.setFontSize(7);
       this.doc.setTextColor(85, 85, 85);
+      const toPrint = [...text];
+      toPrint.push(`Seite ${this.doc.getCurrentPageInfo().pageNumber}/${pageCount}`);
 
-      let txt = `Seite ${this.doc.getCurrentPageInfo().pageNumber} von ${pageCount} | ${text}`;
-      this.doc.text(txt, PdfBuilder.mm2pt(205), PdfBuilder.mm2pt(292), { align: 'right' });
+      this.doc.text(toPrint.join(' | '), PdfBuilder.mm2pt(205), PdfBuilder.mm2pt(292), { align: 'right' });
     }
     this.resetText();
   }
