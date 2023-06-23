@@ -1,6 +1,6 @@
 {
   "name": "umzug-meister-admin",
-  "version": "3.0.80",
+  "version": "3.0.81",
   "private": true,
   "homepage": "/wp-content/plugins/um-configurator/app-dist/rcAdmin/",
   "dependencies": {
