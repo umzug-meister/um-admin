@@ -1,4 +1,4 @@
-import { Address, Category, Customer, Furniture, JFAnswer, Order, OrderService } from 'um-types';
+import { Address, Customer, Furniture, JFAnswer, Order, OrderService } from 'um-types';
 
 const SCHRAENKE = 'Schränke aufhängen / Stk.';
 const LAMPEN = 'Lampe & Lüster, De/Montage / Stk.';
@@ -50,12 +50,7 @@ export function convertData(data: any[]): ConvertedJFEntry[] {
   });
 }
 
-export const generateOrder = (
-  param: JFAnswer[],
-  allServices: OrderService[],
-  allItems: Furniture[],
-  cats: Category[],
-): Order => {
+export const generateOrder = (param: JFAnswer[], allServices: OrderService[], allItems: Furniture[]): Order => {
   const moebelStart = Number(param.find((p) => p.name === 'moebelblock')?.order)!;
 
   const moebelEnd = Number(param.find((p) => p.name === 'moebelblockEnde')?.order)!;
@@ -71,12 +66,7 @@ export const generateOrder = (
   const _name = find('name');
 
   const getCat = (moebel: JFAnswer): string => {
-    const slug = moebel.name.replace('-', '_').split('_')[0].toUpperCase();
-
-    if (slug) {
-      return slug;
-    }
-    return 'Allgemein';
+    return moebel.name.replace('-', '_').split('_')[0].toUpperCase() || 'Allgemein';
   };
 
   const items = new Array<Furniture>();
@@ -92,10 +82,11 @@ export const generateOrder = (
     }
   });
 
-  let services = new Array<OrderService>();
+  const services = new Array<OrderService>();
+
   try {
     const verpackung = find('verpackung');
-    let allVerpackung: any[] = [];
+    const allVerpackung: any[] = [];
     Object.getOwnPropertyNames(verpackung).forEach((prop) => {
       allVerpackung.push(JSON.parse(verpackung[prop]));
     });
@@ -184,6 +175,7 @@ export const generateOrder = (
     expensiveText: find('antikeUnd'),
     src: 'individuelle',
     time: '07:00',
+    timeBased: {},
   } as Order;
 
   const formText = () => {

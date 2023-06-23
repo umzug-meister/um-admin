@@ -50,13 +50,19 @@ export default function EMailText() {
 
   const stunden = () => {
     const { timeBased, from, to } = order;
-    let _stunden = '';
+    let line = '';
     if (timeBased?.hours) {
-      _stunden += `Mind. Abnahme ${timeBased.hours} Stunden (Anfang in ${getOrtFromAdress(
-        from,
-      )}, Ende in ${getOrtFromAdress(to)}): ${euroValue(timeBased.basis)} inkl. MwSt.`;
+      line += `Mind. Abnahme ${timeBased.hours} Stunden`;
+      const startLocation = getOrtFromAdress(from);
+      const endLocation = getOrtFromAdress(to);
+      if (startLocation && endLocation) {
+        line += ` (Anfang in ${getOrtFromAdress(from)}, Ende in ${getOrtFromAdress(to)})`;
+      }
+      line += ': ';
     }
-    return _stunden;
+    line += `${euroValue(timeBased.basis)} inkl. MwSt.`;
+
+    return line;
   };
 
   const line = (desc = '', price: string | number = '', red = false, bold = false) => {
