@@ -54,6 +54,7 @@ export function generateUrzPdf(p: Payload) {
   addMoebel(pdffactory, order);
   addBoxes(pdffactory, order);
   addAGB(pdffactory, options);
+  addEnumerations(pdffactory, order);
 
   if (p.base64) {
     return pdffactory.output();
@@ -61,6 +62,11 @@ export function generateUrzPdf(p: Payload) {
 
   pdffactory.save();
 }
+
+const addEnumerations = (factory: PdfBuilder, order: Order): void => {
+  const name = order.customer?.company || order.customer?.lastName || 'Auftrag';
+  factory.enumeratePages([name, String(order.id)]);
+};
 
 const PRICE = 'Preis, inkl. MwSt';
 const CELL_WIDTH_0 = 80;
