@@ -92,7 +92,7 @@ export function OrderConditionsChips() {
       (offer) =>
         (offer.t35 || 0) === transporterNumber &&
         (offer.includedHours || 0) === workersNumber &&
-        (offer.t75 || 0) === t75,
+        (offer.t75 || 0) === Number(t75 || 0),
     );
   };
 
