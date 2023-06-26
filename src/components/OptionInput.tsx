@@ -22,11 +22,11 @@ interface Props {
 export function OptionInput(props: Props) {
   const { label, name, asPassword, endAdornment, type = 'text' } = props;
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const initValue = useOption(name);
-  const [value, setValue] = useState(initValue);
   const dispatch = useDispatch<AppDispatch>();
+  const initValue = useOption(name);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState(initValue);
 
   const handleBlur = () => {
     dispatch(updateOption({ name, value }));
