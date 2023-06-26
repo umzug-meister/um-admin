@@ -30,8 +30,8 @@ export default function AddressWidget({ path }: Props) {
     const { address, parkingSlot } = addressByPath;
 
     if (address && parkingSlot) {
-      const isInMuc = ['MÜNCHEN', 'MUNICH', 'MUENCHEN'].some((city) => {
-        return address.toUpperCase().includes(city);
+      const isInMuc = ['MÜNCHEN', 'MUNICH', 'MUENCHEN'].some((mucName) => {
+        return address.toUpperCase().includes(mucName);
       });
       if (isInMuc) {
         return undefined;
