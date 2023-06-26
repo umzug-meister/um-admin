@@ -14,20 +14,39 @@ import { AppOptions } from '../../store/appReducer';
 import { AppPacking, AppService } from 'um-types';
 
 export function PrintOrderAction() {
-  const currentOrder = useCurrentOrder();
+  const order = useCurrentOrder();
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
   const options = useSelector<AppState, AppOptions>((s) => s.app.options);
 
   const saveOrder = useSaveOrder();
 
+  const checkOrderHvz = useCallback(() => {
+    if (!order) {
+      return;
+    }
+
+    const { from, to, leistungen = [] } = order;
+
+    if (from.parkingSlot || to.parkingSlot) {
+      if (leistungen.some((lst) => lst.desc.toUpperCase().includes('HALTEVERBOT'))) {
+        return;
+      } else {
+        alert(`Halteverbotzone(n) wurde(n) ausgewählt!\nBitte entweder die HVZ entfernen oder als Kondition aufnehmen.
+        `);
+      }
+    }
+    return;
+  }, [order]);
+
   const printOrder = useCallback(() => {
-    saveOrder(currentOrder).then((order) => {
+    checkOrderHvz();
+    saveOrder(order).then((order) => {
       if (order !== null) {
         generateUrzPdf({ options, order, services: [...services, ...packings] });
       }
     });
-  }, [saveOrder, currentOrder, services, packings, options]);
+  }, [saveOrder, order, services, packings, options, checkOrderHvz]);
 
   return (
     <Tooltip title="Als PDF speichern">
