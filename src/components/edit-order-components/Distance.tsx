@@ -40,15 +40,16 @@ export default function Distance() {
       .load()
       .then((google) => {
         const service = new google.maps.DistanceMatrixService();
-
-        service.getDistanceMatrix(
-          {
-            travelMode: google.maps.TravelMode.DRIVING,
-            origins: [origin, from, to],
-            destinations: [from, to, origin],
-          },
-          setResponse,
-        );
+        if (from && to) {
+          service.getDistanceMatrix(
+            {
+              travelMode: google.maps.TravelMode.DRIVING,
+              origins: [origin, from, to],
+              destinations: [from, to, origin],
+            },
+            setResponse,
+          );
+        }
       })
       .catch(console.log);
   }, [gapiKey, origin, from, to]);

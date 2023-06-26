@@ -1,10 +1,10 @@
-import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Category } from 'um-types';
 
-export interface AppCategories {
+interface AppCategories {
   all: Category[];
 }
 

@@ -6,8 +6,8 @@ import { GridBaseColDef } from '@mui/x-data-grid/internals';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { RootBox } from '../components/shared/RootBox';
 import SearchBar from '../components/shared/SearchBar';

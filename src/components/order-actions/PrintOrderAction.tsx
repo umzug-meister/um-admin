@@ -4,12 +4,12 @@ import { IconButton, Tooltip } from '@mui/material';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
+import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { AppState } from '../../store';
-import { AppOptions } from '../../store/appReducer';
 
 import { AppPacking, AppService } from 'um-types';
 

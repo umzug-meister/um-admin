@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { addScript } from '../..';
+import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useOption } from '../../hooks/useOption';
@@ -15,7 +16,6 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
 import { AppState } from '../../store';
-import { AppOptions } from '../../store/appReducer';
 
 import { AppPacking, AppService } from 'um-types';
 
@@ -279,12 +279,12 @@ const DRIVE_FILES_URL = 'https://www.googleapis.com/drive/v3/files';
 
 const DRIVE_UPLOAD_URL = (id: string) => `https://www.googleapis.com/upload/drive/v3/files/${id}`;
 
-enum AppMimeTypes {
-  G_FILE = 'application/vnd.google-apps.file',
-  G_FOLDER = 'application/vnd.google-apps.folder',
-  PDF = 'application/pdf',
-  JSON = 'application/json',
-}
+const APP_MIME_TYPES = {
+  G_FILE: 'application/vnd.google-apps.file',
+  G_FOLDER: 'application/vnd.google-apps.folder',
+  PDF: 'application/pdf',
+  JSON: 'application/json',
+} as const;
 
 interface GFile {
   id: string;
@@ -316,11 +316,11 @@ async function ls({ pageSize = 100, mimeType, parentId }: LSPayload): Promise<GF
 }
 
 function foldersIn(parentId?: string) {
-  return ls({ mimeType: AppMimeTypes.G_FOLDER, parentId });
+  return ls({ mimeType: APP_MIME_TYPES.G_FOLDER, parentId });
 }
 
 function filesIn(parentId: string) {
-  return ls({ mimeType: AppMimeTypes.PDF, pageSize: 800, parentId });
+  return ls({ mimeType: APP_MIME_TYPES.PDF, pageSize: 800, parentId });
 }
 
 function getBearerToken() {
@@ -330,7 +330,7 @@ function getBearerToken() {
 async function mkDir(name: string, parent: string) {
   const metadata = {
     name,
-    mimeType: AppMimeTypes.G_FOLDER,
+    mimeType: APP_MIME_TYPES.G_FOLDER,
     parents: [parent],
   };
 
@@ -346,11 +346,11 @@ async function mkDir(name: string, parent: string) {
 async function touchPdf(name: string, parentId: string): Promise<GFile> {
   return gapi.client.drive.files
     .create({
-      'Content-type': AppMimeTypes.JSON,
+      'Content-type': APP_MIME_TYPES.JSON,
       name,
       parents: [parentId],
       uploadType: 'multipart',
-      mimeType: AppMimeTypes.PDF,
+      mimeType: APP_MIME_TYPES.PDF,
       fields: 'id, name, kind, size',
     })
     .then((res: any) => res.result as GFile);
@@ -364,7 +364,7 @@ async function uploadContent(id: string, base64: string) {
     method: 'PATCH',
     headers: new Headers({
       Authorization: `Bearer ${getBearerToken()}`,
-      'Content-Type': AppMimeTypes.PDF,
+      'Content-Type': APP_MIME_TYPES.PDF,
     }),
     body: blob,
   }).then((res) => res.ok);

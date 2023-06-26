@@ -3,8 +3,8 @@ import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';

@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 import { AppDispatch } from '../store';
 import { setUnsavedChanges } from '../store/appReducer';
 

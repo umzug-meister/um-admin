@@ -3,6 +3,7 @@ import { Box, Chip, Grid, Stack } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import { RechnungProp } from '../../app-types';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
@@ -28,8 +29,6 @@ interface Props {
 type Labels = {
   [path: string]: string;
 };
-
-export type RechnungProp = keyof Rechnung;
 
 export function RechnungEditor({ onPropChange, rechnung }: Props) {
   const dispatch = useDispatch<AppDispatch>();
