@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, MenuItem } from '@mui/material';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, MenuItem } from '@mui/material';
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ interface Props<T> {
   as?: 'default' | 'checkbox' | 'date';
   capitalize?: true;
   id?: string;
+  checkBoxError?: string;
 }
 
 const options = {
@@ -47,6 +48,7 @@ export default function OrderField<T>({
   enableMaps,
   id,
   capitalize,
+  checkBoxError,
 }: Props<T>) {
   const value = useOrderValue(path, nestedPath);
   const dispatch = useDispatch<AppDispatch>();
@@ -92,21 +94,27 @@ export default function OrderField<T>({
     return <AppDateField label={label} value={String(value)} onDateChange={handleChange} />;
   }
 
+  const hasCheckBoxError = typeof checkBoxError === 'string';
+
   if (as === 'checkbox') {
     return (
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={Boolean(value)}
-              onChange={(ev) => {
-                handleChange(ev.target.checked);
-              }}
-            />
-          }
-          label={label}
-        />
-      </FormGroup>
+      <FormControl error={hasCheckBoxError}>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color={hasCheckBoxError ? 'error' : 'primary'}
+                checked={Boolean(value)}
+                onChange={(ev) => {
+                  handleChange(ev.target.checked);
+                }}
+              />
+            }
+            label={label}
+          />
+        </FormGroup>
+        {checkBoxError && <FormHelperText>{checkBoxError}</FormHelperText>}
+      </FormControl>
     );
   }
 
