@@ -90,9 +90,9 @@ export function OrderConditionsChips() {
   const findOffer = () => {
     return appOffers.find(
       (offer) =>
-        (offer.t35 || 0) === transporterNumber &&
-        (offer.includedHours || 0) === workersNumber &&
-        (offer.t75 || 0) === Number(t75 || 0),
+        Number(offer.t35 || 0) === Number(transporterNumber) &&
+        Number(offer.includedHours || 0) === Number(workersNumber) &&
+        Number(offer.t75 || 0) === Number(t75 || 0),
     );
   };
 
