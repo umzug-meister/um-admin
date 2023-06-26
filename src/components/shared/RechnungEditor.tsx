@@ -1,8 +1,10 @@
 import { Box, Chip, Grid, Stack } from '@mui/material';
 
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import { RechnungProp } from '../../app-types';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
@@ -17,6 +19,7 @@ import { AppGridContainer } from './AppGridContainer';
 import { AppTextField } from './AppTextField';
 import CalculationsView from './CalculationsView';
 import { PdfSaveButton } from './PdfSaveButton';
+import Pulsating from './Pulsating';
 
 import { Rechnung } from 'um-types';
 
@@ -29,8 +32,6 @@ type Labels = {
   [path: string]: string;
 };
 
-export type RechnungProp = keyof Rechnung;
-
 export function RechnungEditor({ onPropChange, rechnung }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -39,6 +40,9 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
   const saveOrder = useSaveOrder();
 
   const location = useLocation();
+
+  const [showAnimation, setShowAnimation] = useState(false);
+  console.log(showAnimation);
 
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
@@ -55,6 +59,7 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
     if (isOrderEdit && currentOrder !== null) {
       return saveOrder(currentOrder).then((order) => {
         if (order !== null) {
+          setShowAnimation(true);
           return generateRechnung(rechnung);
         }
       });
@@ -96,7 +101,14 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
       <Grid item xs={12}>
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
-          {isOrderEdit && <EmailLink />}
+          {isOrderEdit &&
+            (showAnimation ? (
+              <Pulsating>
+                <EmailLink />
+              </Pulsating>
+            ) : (
+              <EmailLink />
+            ))}
         </Box>
       </Grid>
     </AppGridContainer>

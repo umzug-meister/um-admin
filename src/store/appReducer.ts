@@ -1,7 +1,7 @@
 import { AppState } from '.';
-import { appRequest } from '../api';
 import { Urls } from '../api/Urls';
-import { OPTIONS } from '../hooks/useOption';
+import { appRequest } from '../api/fetch-client';
+import { AppOptions, OptionName } from '../app-types';
 import {
   createDueDate,
   getCustomerFullname,
@@ -40,12 +40,8 @@ interface RootState {
 }
 
 interface CreateUpdateOptionPaylod {
-  name: string;
+  name: OptionName;
   value: any;
-}
-
-export interface AppOptions {
-  [name: string]: any;
 }
 
 export const loadAllOptions = createAsyncThunk('options/loadAllOptions', () => {
@@ -60,7 +56,7 @@ export const updateOption = createAsyncThunk('options/updateOption', (payload: C
   });
 });
 
-export interface AppSlice {
+interface AppSlice {
   current: Order | null;
   options: AppOptions;
   unsavedChanges: boolean;
@@ -68,7 +64,7 @@ export interface AppSlice {
 
 const initialState: AppSlice = {
   current: null,
-  options: {},
+  options: {} as AppOptions,
   unsavedChanges: false,
 };
 
@@ -94,7 +90,7 @@ const calculate = (order: Order, options: AppOptions): Order => {
   const prices: Prices = {};
 
   prices.halteverbotszonen =
-    Number(options[OPTIONS.HVZ_PRICE]) * (Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0));
+    Number(options.hvzPrice) * (Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0));
 
   const services = order.services?.filter((s) => s.tag === 'Bohrarbeiten');
   const verpackung = order.services?.filter((s) => s.tag === 'Packmaterial');
@@ -258,7 +254,7 @@ const appSlice = createSlice({
         const newCredit: Gutschrift = {
           date: new Date().toLocaleDateString('ru'),
           text: '',
-          gNumber: state.options['gNumber'],
+          gNumber: state.options.gNumber,
           entries,
         };
         set(curOrder, ['gutschrift'], newCredit);

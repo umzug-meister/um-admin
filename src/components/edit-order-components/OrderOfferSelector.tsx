@@ -1,4 +1,4 @@
-import { Box, Button, Grid, keyframes } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -11,20 +11,9 @@ import { updateOrderProps } from '../../store/appReducer';
 import { AppCard } from '../shared/AppCard';
 import { AppDataGrid } from '../shared/AppDataGrid';
 import OfferNumberRenderer from '../shared/OfferNumberRenderer';
+import Pulsating from '../shared/Pulsating';
 
 import { AppPrice } from 'um-types';
-
-const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-  transform: scale(1.1);
-}
-  100% {
-    transform: scale(1);
-  }
-`;
 
 export default function OrderOfferSelector() {
   const prices = useAppServices<AppPrice>('Price');
@@ -107,15 +96,11 @@ export default function OrderOfferSelector() {
         headerName: '',
         renderCell({ value }) {
           return foundOffer ? (
-            <Box
-              sx={{
-                animation: `${pulse} 800ms 2 ease`,
-              }}
-            >
+            <Pulsating>
               <Button onClick={() => setPrice(value)} variant="contained" disableElevation>
                 Setzen
               </Button>
-            </Box>
+            </Pulsating>
           ) : (
             <Button onClick={() => setPrice(value)} variant="outlined" disableElevation>
               Setzen

@@ -1,5 +1,5 @@
-import { OPTIONS } from '../hooks/useOption';
-import { AppOptions } from '../store/appReducer';
+import { OPTIONS } from '..';
+import { AppOptions } from '../../src/app-types';
 import { euroValue } from '../utils/utils';
 import Agb from './Agb';
 import PdfBuilder from './PdfBuilder';
@@ -54,7 +54,6 @@ export function generateUrzPdf(p: Payload) {
   addMoebel(pdffactory, order);
   addBoxes(pdffactory, order);
   addAGB(pdffactory, options);
-  addEnumerations(pdffactory, order);
 
   if (p.base64) {
     return pdffactory.output();
@@ -62,11 +61,6 @@ export function generateUrzPdf(p: Payload) {
 
   pdffactory.save();
 }
-
-const addEnumerations = (factory: PdfBuilder, order: Order): void => {
-  const name = order.customer?.company || order.customer?.lastName || 'Auftrag';
-  factory.enumeratePages([name, String(order.id)]);
-};
 
 const PRICE = 'Preis, inkl. MwSt';
 const CELL_WIDTH_0 = 80;
@@ -103,7 +97,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
   factory.addSpace();
   factory.setMarginLeft(40);
 
-  factory.addBlackHeader(`ANGEBOT · AUFTRAG · ABRECHNUNG - Nr: ${order.id}`);
+  factory.addBlackHeader(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr.: ${order.id}`);
   factory.setMarginLeft(-40);
 
   //Firma
@@ -113,7 +107,6 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
     });
   }
 
-  const tag = order.check24 ? 'CHECK 24' : order.myhammer ? 'MyHammer' : '';
   //Kundenname
   factory.addTable(
     null,
@@ -121,16 +114,24 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
       [
         'Name:',
         `${order.customer?.salutation || ''} ${order.customer?.firstName || ''} ${order.customer?.lastName || ''}`,
-        'Tel:',
+        'Tel.:',
         `${order.customer?.telNumber}`,
-        '',
       ],
-      ['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Anfrage Nr:', `${order.rid || ''}`, tag],
     ],
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      2: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      4: { fontStyle: 'bold', textColor: [0, 0, 255] },
+      2: { fontStyle: 'bold' },
+    },
+  );
+
+  //Umzugsdatum
+  factory.addTable(
+    null,
+    [['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.:', `${order.rid || ''}`]],
+    {
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      1: { cellWidth: CELL_WIDTH_1 },
+      2: { fontStyle: 'bold', textColor: [0, 0, 255] },
     },
   );
 
@@ -141,17 +142,16 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
     2: { fontStyle: 'bold', textColor: [255, 0, 0] },
   });
 
-  //Notiz
-  if (order.text) {
-    factory.addTable(
-      null,
-      [['Notiz:', order.text]],
+  //message
+  const _message = order.text?.replaceAll(';;', '');
+  factory.addTable(
+    null,
+    [['Notiz:', _message]],
 
-      {
-        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      },
-    );
-  }
+    {
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+    },
+  );
 };
 
 function yesNo(prop: boolean | undefined) {
@@ -533,8 +533,8 @@ const addAGB = (factory: PdfBuilder, options: AppOptions): void => {
     `1 Karton zusätzlich Einpacken oder Auspacken: ${euroValue(options[OPTIONS.A_KARTON_PACK])}`,
     `Jede zusätzliche Etage am Auzugsort oder Einzugsort: ${euroValue(options[OPTIONS.A_ETAGE])}`,
 
-    `Entsorgung: ${euroValue(options[OPTIONS.DISPOSAL_CBM])}/m³ zzgl. einmaliger Pauschale in Höhe von ${euroValue(
-      options[OPTIONS.DISPOSAL_PAUSCHALE],
+    `Entsorgung: ${euroValue(options.disposalCbmPrice)}/m³ zzgl. einmaliger Pauschale in Höhe von ${euroValue(
+      options.disposalBasicPrice,
     )}`,
   ];
   factory.addPage({ top: 3, left: 8, right: 8, bottom: 3 });

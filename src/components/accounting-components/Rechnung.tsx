@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { RechnungProp } from '../../app-types';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { AppDispatch } from '../../store';
 import { initInvoice, updateOrderProps } from '../../store/appReducer';
 import AddButton from '../shared/AddButton';
-import { RechnungEditor, RechnungProp } from '../shared/RechnungEditor';
+import { RechnungEditor } from '../shared/RechnungEditor';
 
 export function Rechnung() {
   const order = useCurrentOrder();

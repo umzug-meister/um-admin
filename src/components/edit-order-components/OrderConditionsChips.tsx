@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
-import { OPTIONS, useOption } from '../../hooks/useOption';
+import { useOption } from '../../hooks/useOption';
 import { AppDispatch } from '../../store';
 import { pushLeistung } from '../../store/appReducer';
 import { euroValue } from '../../utils/utils';
@@ -18,7 +18,7 @@ export function OrderConditionsChips() {
 
   const order = useCurrentOrder();
 
-  const kmPrice = useOption(OPTIONS.KM_PRICE);
+  const kmPrice = useOption('kmPrice');
 
   const appOffers = useAppServices<AppPrice>('Price');
 

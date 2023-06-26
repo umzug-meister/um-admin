@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
+import { AppServices } from '../app-types';
 import { AppState } from '../store';
-import { AppServices } from '../store/servicesReducer';
 
 import { AppServiceTag } from 'um-types';
 
