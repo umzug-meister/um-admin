@@ -22,7 +22,7 @@ export default function EmailLink() {
   return (
     <Box>
       <a href={href}>
-        <Button>Email</Button>
+        <Button variant="outlined">E-Mail</Button>
       </a>
     </Box>
   );
