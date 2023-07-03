@@ -27,7 +27,11 @@ function _initOrder(): Order {
     },
     date: new Date().toLocaleDateString('ru'),
     items: new Array<Furniture>(),
-    timeBased: {},
+    timeBased: {
+      basis: '',
+      extra: '',
+      hours: '',
+    },
     leistungen: new Array<MLeistung>(),
     time: '07:00',
     images: new Array<string>(),
