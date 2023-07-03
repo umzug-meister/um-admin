@@ -175,7 +175,11 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     expensiveText: find('antikeUnd'),
     src: 'individuelle',
     time: '07:00',
-    timeBased: {},
+    timeBased: {
+      basis: '',
+      extra: '',
+      hours: '',
+    },
   } as Order;
 
   const formText = () => {
