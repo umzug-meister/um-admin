@@ -1,7 +1,6 @@
-import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import { Autocomplete, Grid, IconButton } from '@mui/material';
+import { Autocomplete, Box, Grid, IconButton, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
 import { useMemo } from 'react';
@@ -9,6 +8,7 @@ import { useMemo } from 'react';
 import { useAppServices } from '../hooks/useAppServices';
 import AddButton from './shared/AddButton';
 import { AppTextField } from './shared/AppTextField';
+import { DeleteButton } from './shared/DeleteButton';
 
 import { arrayMoveImmutable } from 'array-move';
 import { cloneDeep } from 'lodash';
@@ -31,6 +31,10 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks, sugg
       return idx !== index;
     });
     update(next);
+  };
+
+  const handleClear = () => {
+    update([]);
   };
 
   const onCheck = (checked: boolean, index: number) => {
@@ -95,7 +99,14 @@ export default function LeistungEdit({ leistungen = [], update, hideChecks, sugg
           />
         );
       })}
-      <AddButton onClick={addLst} />
+      <Box display={'flex'}>
+        <AddButton onClick={addLst} />
+        <Box>
+          <Tooltip title="Alle löschen">
+            <DeleteButton onDelete={handleClear} />
+          </Tooltip>
+        </Box>
+      </Box>
     </>
   );
 }
@@ -230,15 +241,19 @@ function GridRow({
       </Grid>
 
       <Grid item xs={2}>
-        <IconButton onClick={() => moveEntry(1)} disabled={disableDown}>
-          <KeyboardArrowDownOutlinedIcon />
-        </IconButton>
-        <IconButton onClick={() => moveEntry(-1)} disabled={disableUp}>
-          <KeyboardArrowUpOutlinedIcon />
-        </IconButton>
-        <IconButton onClick={onDelete} color="error">
-          <DeleteOutlined />
-        </IconButton>
+        <Box display={'flex'}>
+          <Box flex={1}>
+            <IconButton onClick={() => moveEntry(1)} disabled={disableDown}>
+              <KeyboardArrowDownOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={() => moveEntry(-1)} disabled={disableUp}>
+              <KeyboardArrowUpOutlinedIcon />
+            </IconButton>
+          </Box>
+          <Box>
+            <DeleteButton onDelete={onDelete} />
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   );

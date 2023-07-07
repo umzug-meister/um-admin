@@ -1,5 +1,4 @@
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { Box, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,6 +8,7 @@ import { AppDispatch } from '../../../store';
 import { deleteItem, updateOrderItemColli } from '../../../store/appReducer';
 import AddButton from '../../shared/AddButton';
 import { AppDialog } from '../../shared/AppDialog';
+import { DeleteButton } from '../../shared/DeleteButton';
 import { FurnitureDialogContent } from './FurnitureDialogContent';
 
 import { Furniture } from 'um-types';
@@ -60,9 +60,7 @@ export function OrderFurnitureList() {
             return (
               <React.Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
                 <Grid item xs={1}>
-                  <IconButton color="error" onClick={() => onDelete(item)}>
-                    <DeleteOutlinedIcon />
-                  </IconButton>
+                  <DeleteButton onDelete={() => onDelete(item)} />
                 </Grid>
                 <Grid item xs={3}>
                   <Typography color="HighlightText">{item.selectedCategory}</Typography>
