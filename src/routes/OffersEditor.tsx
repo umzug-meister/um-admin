@@ -15,6 +15,7 @@ export default function OffersEditor() {
       <OfferCardWrapper t35={2} workers={4} />
       <OfferCardWrapper t35={2} workers={5} />
       <OfferCardWrapper t35={2} workers={6} />
+      <OfferCardWrapper t35={3} workers={5} />
       <OfferCardWrapper t35={3} workers={6} />
     </AppGridContainer>
   );
