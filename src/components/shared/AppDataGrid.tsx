@@ -1,5 +1,4 @@
-import { DeleteOutlined } from '@mui/icons-material';
-import { Backdrop, Box, CircularProgress, IconButton, Paper } from '@mui/material';
+import { Backdrop, Box, CircularProgress, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   DataGrid,
@@ -11,6 +10,8 @@ import {
 } from '@mui/x-data-grid';
 
 import { useMemo } from 'react';
+
+import { DeleteButton } from './DeleteButton';
 
 const defaultColProps = {
   filterable: false,
@@ -57,16 +58,13 @@ export function AppDataGrid({
         align: 'left',
         renderCell({ row }) {
           return (
-            <IconButton
-              color="error"
-              onClick={() => {
+            <DeleteButton
+              onDelete={() => {
                 if (window.confirm('Möchtest du es wirklich löschen?')) {
                   onDelete?.(row.id);
                 }
               }}
-            >
-              <DeleteOutlined />
-            </IconButton>
+            />
           );
         },
       };
