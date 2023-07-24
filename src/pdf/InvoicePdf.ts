@@ -1,12 +1,13 @@
 import { calculateNumbers, euroValue } from '../utils/utils';
 import PdfBuilder from './PdfBuilder';
 import { invoiceFileName } from './filename';
+import { addDate, addHeader } from './shared';
 
 import { Gutschrift, Rechnung } from 'um-types';
 
 export const generateRechnung = (rechnung: Rechnung) => {
   const factory = new PdfBuilder(invoiceFileName(rechnung), {
-    left: 25,
+    left: 20,
     right: 12,
     top: 8,
     bottom: 3,
@@ -14,7 +15,6 @@ export const generateRechnung = (rechnung: Rechnung) => {
 
   factory.addSpace(5);
 
-  addTitle(factory);
   addHeader(factory);
   addPostAddr(factory);
   addDate(factory, rechnung.date);
@@ -30,40 +30,10 @@ export const generateRechnung = (rechnung: Rechnung) => {
   factory.save();
 };
 
-export function addTitle(factory: PdfBuilder) {
-  factory.setBold();
-  factory.addBlackHeader('UMZUG RUCK ZUCK');
-  factory.resetText();
-}
-
-export function addHeader(factory: PdfBuilder) {
-  factory.setColor(60, 60, 60);
-  const leftCol = [
-    'Tel.: 089 / 306 42 972',
-    'Mobil: 0176 / 101 71 990',
-    'Fax: 089 / 326 08 009',
-    'umzugruckzuck@gmail.com',
-  ];
-
-  const rightCol = [
-    'Alexander Berent',
-    'Am Münchfeld 31',
-    '80999 München',
-    'UST-ID-Nr. DE 18 08 27 046',
-    'Steuernummer: 144 / 139 / 21180',
-  ];
-  factory.addLeftRight(leftCol, rightCol, 8);
-}
-
 export function addPostAddr(factory: PdfBuilder) {
   factory.resetText();
-  factory.addSpace(10);
+  factory.addSpace(15);
   factory.addText(`Alexander Berent, Am Münchfeld 31, 80999 München`, 8);
-}
-
-export function addDate(factory: PdfBuilder, date: string, word = 'Rechnungsdatum') {
-  factory.addSpace(10);
-  factory.addLeftRight([], [`${word}: ${date}`]);
 }
 
 export function addCustomer(factory: PdfBuilder, { customerName, customerPlz, customerStreet, firma }: Rechnung) {
@@ -107,7 +77,7 @@ export function addTable(factory: PdfBuilder, { entries }: Rechnung | Gutschrift
       3: { halign: 'right' },
     },
     { halign: 'center' },
-    25,
+    20,
   );
 }
 
@@ -137,7 +107,7 @@ export function addText(factory: PdfBuilder, text: string) {
       0: { lineColor: [255, 255, 255] },
     },
     null,
-    25,
+    20,
   );
 }
 

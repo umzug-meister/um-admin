@@ -1,17 +1,7 @@
-import {
-  addCustomer,
-  addDate,
-  addHeader,
-  addKonto,
-  addPostAddr,
-  addPrice,
-  addTable,
-  addText,
-  addTitle,
-  move,
-} from './InvoicePdf';
+import { addCustomer, addKonto, addPostAddr, addPrice, addTable, addText, move } from './InvoicePdf';
 import PdfBuilder from './PdfBuilder';
 import { creditFileName } from './filename';
+import { addDate, addHeader } from './shared';
 
 import { Gutschrift, Rechnung } from 'um-types';
 
@@ -22,14 +12,13 @@ interface Payload {
 
 export const generateGutschrift = ({ gutschrift, rechnung }: Payload) => {
   const factory = new PdfBuilder(creditFileName(rechnung, gutschrift), {
-    left: 25,
+    left: 20,
     right: 12,
     top: 8,
     bottom: 3,
   });
 
   factory.addSpace(5);
-  addTitle(factory);
   addHeader(factory);
   addPostAddr(factory);
   addDate(factory, gutschrift.date);

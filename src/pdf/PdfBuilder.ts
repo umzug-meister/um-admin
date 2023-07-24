@@ -1,3 +1,5 @@
+import { PRIMARY, PRIMARY_LIGHT, WHITE } from './shared';
+
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { autoTable } from 'jspdf-autotable';
@@ -152,15 +154,15 @@ export default class PdfBuilder {
     this.resetText();
   }
 
-  public addTable(head: any, body: any, columnStyles?: any, headStyles?: any, margin = 20): void {
+  public addTable(head: any, body: any, columnStyles?: any, headStyles = {} as any, margin = 20): void {
     let bottom = PdfBuilder.mm2pt(10);
     ((this.doc as any).autoTable as autoTable)({
       head: head,
       body: body,
       theme: 'grid',
       columnStyles,
-      headStyles: { fillColor: [240, 240, 240], textColor: 0, ...{ ...(headStyles || {}) } },
-      bodyStyles: { halign: 'left', textColor: [0, 0, 0], lineColor: [100, 100, 100] },
+      headStyles: { fillColor: PRIMARY, textColor: WHITE, ...headStyles },
+      bodyStyles: { halign: 'left', textColor: [0, 0, 0], lineColor: PRIMARY_LIGHT },
       styles: { fontSize: 9, cellPadding: 2 },
       startY: this.y,
       margin: {
@@ -195,7 +197,7 @@ export default class PdfBuilder {
   public add2Cols(left: string[], right: string[], fontSize?: number, lh?: number, margin?: number): void {
     const lastY = this.y;
     const lastX = this.x;
-    this.setMarginLeft(margin ? margin : 10);
+    this.setMarginLeft(typeof margin !== 'undefined' ? margin : 10);
     const fs = fontSize ? fontSize : 10;
 
     const _lh = lh ? lh : fs / 2 + 2;

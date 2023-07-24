@@ -1,7 +1,8 @@
 import { euroValue } from '../utils/utils';
-import { addCustomer, addDate, addHeader, addKonto, addPostAddr, addText, addTitle, move } from './InvoicePdf';
+import { addCustomer, addKonto, addPostAddr, addText, move } from './InvoicePdf';
 import PdfBuilder from './PdfBuilder';
 import { paymentReminderFileName } from './filename';
+import { addDate, addHeader } from './shared';
 
 import { DueDate, Rechnung } from 'um-types';
 
@@ -12,17 +13,16 @@ interface PaymentReminderPayload {
 
 export const generatePaymentReminder = ({ index, rechnung }: PaymentReminderPayload) => {
   const factory = new PdfBuilder(paymentReminderFileName(rechnung, index), {
-    left: 25,
+    left: 20,
     right: 12,
     top: 8,
     bottom: 3,
   });
 
   factory.addSpace(5);
-  addTitle(factory);
   addHeader(factory);
   addPostAddr(factory);
-  addDate(factory, new Date().toLocaleDateString('ru'), 'Datum');
+  addDate(factory, new Date().toLocaleDateString('ru'));
   addCustomer(factory, rechnung);
 
   factory.addSpace(10);
@@ -129,7 +129,7 @@ function addTable(factory: PdfBuilder, rechnung: Rechnung, dueDate?: string) {
       5: { halign: 'center' },
     },
     { halign: 'center' },
-    25,
+    20,
   );
 }
 
