@@ -1,6 +1,5 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
-import { ORDER_TEXT_FIELD_ID } from '../components/edit-order-components/OrderText';
 import { euroValue } from '../utils/utils';
 import Agb from './Agb';
 import PdfBuilder from './PdfBuilder';
