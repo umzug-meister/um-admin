@@ -14,6 +14,13 @@ interface Payload {
   base64?: true;
 }
 
+const PRICE = 'Preis, inkl. MwSt';
+const CELL_WIDTH_0 = 80;
+const CELL_WIDTH_1 = 100;
+const PRIMARY = [25, 120, 186];
+const WHITE = [255, 255, 255];
+const SECONDARY = [203, 43, 27];
+
 export function generateUrzPdf(p: Payload) {
   const { options, order, services } = p;
 
@@ -37,16 +44,16 @@ export function generateUrzPdf(p: Payload) {
 
   addServices(pdffactory, order, services, {
     titleColor: () => {
-      pdffactory.setColor(255, 0, 0);
+      pdffactory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
     },
-    tableHeader: HEAD_GREEN,
+    tableHeader: PRIMARY,
   });
 
   addVerpackung(pdffactory, order, services, {
     titleColor: () => {
-      pdffactory.setColor(255, 0, 0);
+      pdffactory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
     },
-    tableHeader: HEAD_GREEN,
+    tableHeader: PRIMARY,
   });
 
   addSecondPageEnd(pdffactory);
@@ -62,11 +69,6 @@ export function generateUrzPdf(p: Payload) {
   pdffactory.save();
 }
 
-const PRICE = 'Preis, inkl. MwSt';
-const CELL_WIDTH_0 = 80;
-const CELL_WIDTH_1 = 100;
-const HEAD_GREEN = [212, 236, 186];
-
 const addTextMessage = (factory: PdfBuilder, text: string, label: string): void => {
   const head = [[label]];
   const body = [[text.replace(';;', '')]];
@@ -81,24 +83,35 @@ const addSignature = (factory: PdfBuilder, sign: string): void => {
 };
 
 const addHeader = (factory: PdfBuilder, order: Order) => {
-  factory.setBold();
-  factory.setColor(0, 0, 255);
+  const imageUrl = window.location.origin + process.env.PUBLIC_URL + '/ruckzuck_logo.png';
 
-  factory.addLeftRight(['UMZUG RUCK ZUCK'], ['', '']);
+  factory.addPngImage(imageUrl, 20, 8, 30, 38);
+
   factory.setNormal();
   factory.setColor(60, 60, 60);
-  factory.addLeftRight(
-    ['Alexander Berent', 'Am Münchfeld 31', '80999 München', 'Steuernummer: 144/139/21180'],
-    ['Tel: 089 30642972', 'Fax: 089 32608009', 'Mobil: 0176 10171990', 'umzugruckzuck@gmail.com', ''],
-    9,
-  );
-  factory.setBold();
-  factory.addLeftRight([], [`München, den ${new Date().toLocaleDateString('ru')}`]);
-  factory.addSpace();
-  factory.setMarginLeft(40);
 
-  factory.addBlackHeader(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr.: ${order.id}`);
-  factory.setMarginLeft(-40);
+  factory.addLeftRight(
+    [],
+    [
+      'Alexander Berent',
+      'Am Münchfeld 31, 80999 München',
+      '089 30642972 | 0176 10171990',
+      'umzugruckzuck@gmail.com',
+      '',
+      '',
+      'Steuernummer: 144/139/21180',
+      '',
+      '',
+      `München, den ${new Date().toLocaleDateString('ru')}`,
+    ],
+    8,
+  );
+
+  factory.setBold();
+  factory.addSpace(10);
+
+  factory.addText(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr. ${order.id}`, 12, 12, 'center');
+  factory.addSpace(5);
 
   //Firma
   if (order?.customer?.company) {
@@ -131,7 +144,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
-      2: { fontStyle: 'bold', textColor: [0, 0, 255] },
+      2: { fontStyle: 'bold' },
     },
   );
 
@@ -139,7 +152,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
   factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%']], {
     0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
     1: { cellWidth: CELL_WIDTH_1 },
-    2: { fontStyle: 'bold', textColor: [255, 0, 0] },
+    2: { fontStyle: 'bold', textColor: SECONDARY },
   });
 
   //message
@@ -201,8 +214,8 @@ function addAdresses(factory: PdfBuilder, order: Order) {
       2: { cellWidth: CELL_WIDTH_0 },
     },
     {
-      fillColor: HEAD_GREEN,
-      textColor: 0,
+      fillColor: PRIMARY,
+      textColor: WHITE,
     },
   );
 }
@@ -216,7 +229,7 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
       const styles = {
         fontStyle: 'bold',
         halign: 'left',
-        textColor: [255, 0, 0],
+        textColor: SECONDARY,
       };
       return {
         a: {
@@ -254,7 +267,7 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: HEAD_GREEN, textColor: 0 },
+    { fillColor: PRIMARY, textColor: WHITE },
   );
 };
 
@@ -264,9 +277,9 @@ const appendPrice = (factory: PdfBuilder, order: Order) => {
   if (currentY < BEST_Y_POS) {
     factory.addSpace(BEST_Y_POS - currentY);
   }
-  factory.setColor(255, 0, 0);
+  factory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
   factory.setBold();
-  factory.addText('Die Preise sind inklusive gesetzlicher Haftung i.H.v. 620,0 Euro / m³.', 8);
+  factory.addText('Die Preise sind inklusive gesetzlicher Haftung in Höhe von 620,0 Euro / m³.', 8);
   factory.resetText();
   factory.setBold();
   addPrice(factory, order, false);
@@ -292,7 +305,7 @@ const addPageTextFirstPage = (factory: PdfBuilder) => {
   );
 
   addSignature(factory, 'Kundenunterschrift');
-  factory.setColor(0, 0, 255);
+  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
   factory.addText('Bitte beachten Sie: Auflistung weiterer Leistungen befindet sich auf der nächsten Seite.', 9);
   factory.addPage();
 };
@@ -390,7 +403,7 @@ const addVerpackung = (
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: colors.tableHeader, textColor: 0 },
+    { fillColor: colors.tableHeader, textColor: WHITE },
   );
   factory.addSpace(3);
 };
@@ -427,7 +440,7 @@ const addServices = (
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: colors.tableHeader, textColor: 0 },
+    { fillColor: colors.tableHeader, textColor: WHITE },
   );
   factory.addSpace(3);
 };
@@ -439,16 +452,16 @@ const addSecondPageEnd = (factory: PdfBuilder) => {
   factory.setBold();
   factory.addText('Auszugsadresse');
   factory.resetText();
-  factory.setColor(0, 0, 255);
+  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
   factory.addText(
-    '    Umzusggut vollständig beladen:                                       (Kundenunterschrift) ___________________________',
+    '    Umzugsgut vollständig beladen:                                       (Kundenunterschrift) ___________________________',
   );
   factory.resetText();
 
   factory.setBold();
   factory.addText('Einzugsadresse');
   factory.resetText();
-  factory.setColor(0, 0, 255);
+  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
   factory.addText(
     '    Auftrag vollständig und zufriedenstellend ausgeführt:      (Kundenunterschrift) ___________________________',
   );
@@ -486,7 +499,7 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
             styles: {
               fontStyle: 'bold',
               halign: 'center',
-              textColor: [0, 0, 255],
+              textColor: SECONDARY,
             },
           },
         });
@@ -506,8 +519,8 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
     ];
 
     factory.addTable(header, body, undefined, {
-      fillColor: HEAD_GREEN,
-      textColor: 0,
+      fillColor: PRIMARY,
+      textColor: WHITE,
     });
   }
 };

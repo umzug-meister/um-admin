@@ -195,7 +195,7 @@ export default class PdfBuilder {
   public add2Cols(left: string[], right: string[], fontSize?: number, lh?: number, margin?: number): void {
     const lastY = this.y;
     const lastX = this.x;
-    this.setMarginLeft(margin ? margin : 10);
+    this.setMarginLeft(typeof margin !== 'undefined' ? margin : 10);
     const fs = fontSize ? fontSize : 10;
 
     const _lh = lh ? lh : fs / 2 + 2;
