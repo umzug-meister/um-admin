@@ -168,10 +168,7 @@ const addHeader = (factory: PdfBuilder, order: Order) => {
 };
 
 function yesNo(prop: boolean | undefined) {
-  if (prop) {
-    return 'Ja';
-  }
-  return 'Nein';
+  return prop ? 'Ja' : 'Nein';
 }
 
 function addAdresses(factory: PdfBuilder, order: Order) {
