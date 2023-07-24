@@ -1,5 +1,6 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
+import { ORDER_TEXT_FIELD_ID } from '../components/edit-order-components/OrderText';
 import { euroValue } from '../utils/utils';
 import Agb from './Agb';
 import PdfBuilder from './PdfBuilder';
@@ -39,6 +40,15 @@ export function generateUrzPdf(p: Payload) {
 
   addConditionen(pdffactory, order);
   appendPrice(pdffactory, order);
+  const y = pdffactory.getY();
+
+  if (y > 233) {
+    alert(
+      `👉 Bitte "Kunde/Notiz" kürzen.\n👉 Die Auftragsdaten passen nicht auf eine Seite. \n👉 PDF wird abgebrochen`,
+    );
+    return;
+  }
+
   addPageTextFirstPage(pdffactory);
   addTopPageTextSecondPage(pdffactory);
 
@@ -247,9 +257,11 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
 const appendPrice = (factory: PdfBuilder, order: Order) => {
   const BEST_Y_POS = 200;
   const currentY = factory.getY();
+
   if (currentY < BEST_Y_POS) {
     factory.addSpace(BEST_Y_POS - currentY);
   }
+
   factory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
   factory.setBold();
   factory.addText('Die Preise sind inklusive gesetzlicher Haftung in Höhe von 620,0 Euro / m³.', 8);
@@ -278,6 +290,7 @@ const addPageTextFirstPage = (factory: PdfBuilder) => {
   );
 
   addSignature(factory, 'Kundenunterschrift');
+
   factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
   factory.addText('Bitte beachten Sie: Auflistung weiterer Leistungen befindet sich auf der nächsten Seite.', 9);
   factory.addPage();
