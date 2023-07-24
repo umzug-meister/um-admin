@@ -120,8 +120,8 @@ const agb = {
 
     'Für Rechtsstreitigkeiten ist das Gericht, in dessen Bezirk sich die vom Absender beauftragte Firma befindet, ausschließlich zuständig.',
 
-    // "§19. Vereinbarung deutschen Rechts.",
-    // "Es gilt deutsches Recht.",
+    '§19. Vereinbarung deutschen Rechts.',
+    'Es gilt deutsches Recht.',
   ],
 };
 

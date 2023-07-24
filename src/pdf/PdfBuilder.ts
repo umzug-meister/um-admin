@@ -1,4 +1,4 @@
-import { PRIMARY, PRIMARY_LIGHT, SECONDARY, WHITE } from './shared';
+import { PRIMARY, PRIMARY_LIGHT, WHITE } from './shared';
 
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
