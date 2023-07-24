@@ -4,6 +4,7 @@ import { euroValue } from '../utils/utils';
 import Agb from './Agb';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
+import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';
 
 import { Order, OrderService, Service } from 'um-types';
 
@@ -17,9 +18,6 @@ interface Payload {
 const PRICE = 'Preis, inkl. MwSt';
 const CELL_WIDTH_0 = 80;
 const CELL_WIDTH_1 = 100;
-const PRIMARY = [25, 120, 186];
-const WHITE = [255, 255, 255];
-const SECONDARY = [203, 43, 27];
 
 export function generateUrzPdf(p: Payload) {
   const { options, order, services } = p;
@@ -33,7 +31,9 @@ export function generateUrzPdf(p: Payload) {
     bottom: 3,
   });
 
-  addHeader(pdffactory, order);
+  addHeader(pdffactory);
+  addDate(pdffactory, new Date().toLocaleDateString('ru'));
+  addTitle(pdffactory, order);
 
   addAdresses(pdffactory, order);
 
@@ -82,31 +82,7 @@ const addSignature = (factory: PdfBuilder, sign: string): void => {
   factory.resetText();
 };
 
-const addHeader = (factory: PdfBuilder, order: Order) => {
-  const imageUrl = window.location.origin + process.env.PUBLIC_URL + '/ruckzuck_logo.png';
-
-  factory.addPngImage(imageUrl, 20, 8, 30, 38);
-
-  factory.setNormal();
-  factory.setColor(60, 60, 60);
-
-  factory.addLeftRight(
-    [],
-    [
-      'Alexander Berent',
-      'Am Münchfeld 31, 80999 München',
-      '089 30642972 | 0176 10171990',
-      'umzugruckzuck@gmail.com',
-      '',
-      '',
-      'Steuernummer: 144/139/21180',
-      '',
-      '',
-      `München, den ${new Date().toLocaleDateString('ru')}`,
-    ],
-    8,
-  );
-
+const addTitle = (factory: PdfBuilder, order: Order) => {
   factory.setBold();
   factory.addSpace(10);
 
@@ -179,7 +155,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   const montage = to?.montage;
 
   factory.addTable(
-    [['BELADESTELLE', '', 'ENTLADESTELLE', '']],
+    [['Beladestelle', '', 'Entladestelle', '']],
     [
       ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, 'Straße, Nr.', `${to?.address?.split(',')[0] || ''}`],
       [
