@@ -1,4 +1,5 @@
-import { Tooltip } from '@mui/material';
+import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
+import { IconButton, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AppDispatch } from '../../store';
 import { deleteOrder } from '../../store/appReducer';
-import { DeleteButton } from '../shared/DeleteButton';
 
 export function DeleteOrderAction() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,7 +22,9 @@ export function DeleteOrderAction() {
 
   return (
     <Tooltip title="Löschen">
-      <DeleteButton onDelete={handleDelete} />
+      <IconButton onClick={handleDelete} color="error">
+        <DeleteOutlined />
+      </IconButton>
     </Tooltip>
   );
 }

@@ -46,6 +46,10 @@ export default class PdfBuilder {
     this.maxHeight = PdfBuilder.mm2pt(heightMM);
   }
 
+  public getCurrentPage(): number {
+    return this.doc.getCurrentPageInfo().pageNumber;
+  }
+
   public enumeratePages(text: string[]): void {
     const pageCount = this.doc.getNumberOfPages();
 
