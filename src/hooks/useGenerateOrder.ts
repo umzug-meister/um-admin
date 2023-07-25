@@ -7,7 +7,7 @@ import { useAppServices } from './useAppServices';
 import { AppPacking, AppService } from 'um-types';
 
 export function useGenerateOrder() {
-  const packing = useAppServices<AppPacking>('Price');
+  const packing = useAppServices<AppPacking>('Packmaterial');
   const services = useAppServices<AppService>('Bohrarbeiten');
   const allItems = useAppFurniture();
 
