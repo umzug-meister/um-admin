@@ -2,7 +2,7 @@ import { Address, Customer, Furniture, JFAnswer, Order, OrderService } from 'um-
 
 const SCHRAENKE = 'Schränke aufhängen / Stk.';
 const LAMPEN = 'Lampe & Lüster, De/Montage / Stk.';
-const KUECHE = 'Küchenabbau / Lfm.';
+const KUECHE = 'Küchenabbau / Lfm';
 const KLAVIER = 'Klavier';
 
 interface SperrigSchwer {
@@ -90,6 +90,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     Object.getOwnPropertyNames(verpackung).forEach((prop) => {
       allVerpackung.push(JSON.parse(verpackung[prop]));
     });
+    console.log('verp', allVerpackung);
     const selected: Array<{ name: string; quantity: number }> = allVerpackung.filter((elem) => elem.quantity > 0);
 
     selected.forEach((item) => {
@@ -98,6 +99,8 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
         services.push({ ...serv, colli: String(item.quantity) });
       }
     });
+    console.log(allServices);
+    console.log(services);
   } catch (e) {
     console.log(e);
   }
