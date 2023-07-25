@@ -3,7 +3,7 @@ import PdfBuilder from './PdfBuilder';
 export const PRIMARY = [25, 120, 186];
 export const WHITE = [255, 255, 255];
 export const SECONDARY = [203, 43, 27];
-export const PRIMARY_LIGHT = '#5ea1cf';
+export const PRIMARY_LIGHT = '#4793c8';
 
 export function addHeader(factory: PdfBuilder) {
   const imageUrl = window.location.origin + process.env.PUBLIC_URL + '/ruckzuck_logo.png';

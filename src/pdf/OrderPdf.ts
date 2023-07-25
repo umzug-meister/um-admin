@@ -479,11 +479,11 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
         body.push({
           desc: {
             colSpan: 3,
-            content: actualroom,
+            content: actualroom.toUpperCase(),
 
             styles: {
               fontStyle: 'bold',
-              halign: 'center',
+              halign: 'left',
               textColor: SECONDARY,
             },
           },
