@@ -44,7 +44,7 @@ const getSum = (rechnung: Rechnung) => {
     .map((e) => Number(e.sum || '0'))
     .reduce((p, c) => {
       return p + c;
-    });
+    }, 0);
 };
 
 const f_getDateByIndex = (dueDates: DueDate[]) => {
