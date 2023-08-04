@@ -254,26 +254,7 @@ export default class PdfBuilder {
     }
   }
 
-  public addTextWithNewLines(param: {
-    text: string;
-    newLineMarker?: string;
-    fontSize?: number;
-    lh?: number;
-    align?: 'left' | 'center' | 'right' | 'justify';
-    calcY?: boolean;
-  }): void {
-    const { text, align, calcY = true, fontSize, lh, newLineMarker = ';;' } = param;
-
-    text?.split(newLineMarker).forEach((text) => this.addText(text.trimStart(), fontSize, lh, align, calcY));
-  }
-
-  public addText(
-    text: string,
-    fontSize?: number,
-    lh?: number,
-    align?: 'left' | 'center' | 'right' | 'justify',
-    calcY = true,
-  ): void {
+  public addText(text: string, fontSize?: number, lh?: number, align?: 'left' | 'center' | 'right' | 'justify'): void {
     let lastX = this.x;
     let _align = align ? align : 'left';
     switch (_align) {
@@ -303,9 +284,9 @@ export default class PdfBuilder {
       lh = this.doc.getLineHeight();
       nexty = Math.ceil(dims.w / this.maxWidth) * lh + this.y + lh / 2;
     }
-    if (calcY) {
-      this.y = nexty;
-    }
+
+    this.y = nexty;
+
     this.x = lastX;
   }
 
