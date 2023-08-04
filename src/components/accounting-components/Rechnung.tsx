@@ -20,12 +20,17 @@ export function Rechnung() {
     [dispatch],
   );
 
+  const deleteAccounting = useCallback(() => {
+    dispatch(updateOrderProps({ path: ['rechnung'], value: undefined }));
+    dispatch(updateOrderProps({ path: ['gutschrift'], value: undefined }));
+  }, [dispatch]);
+
   const onInitrechnung = useCallback(() => {
     dispatch(initInvoice());
   }, [dispatch]);
 
   if (order?.rechnung) {
-    return <RechnungEditor rechnung={order.rechnung} onPropChange={onPropChange} />;
+    return <RechnungEditor rechnung={order.rechnung} onPropChange={onPropChange} deleteAccounting={deleteAccounting} />;
   }
 
   return <AddButton onClick={onInitrechnung} />;

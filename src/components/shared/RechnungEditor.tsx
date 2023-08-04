@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Stack } from '@mui/material';
+import { Box, Button, Chip, Grid, Stack } from '@mui/material';
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -26,13 +26,14 @@ import { Rechnung } from 'um-types';
 interface Props {
   rechnung: Rechnung;
   onPropChange(prop: keyof Rechnung, value: any): void;
+  deleteAccounting?: () => void;
 }
 
 type Labels = {
   [path: string]: string;
 };
 
-export function RechnungEditor({ onPropChange, rechnung }: Props) {
+export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
   const currentOrder = useCurrentOrder();
@@ -42,7 +43,6 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
   const location = useLocation();
 
   const [showAnimation, setShowAnimation] = useState(false);
-  console.log(showAnimation);
 
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
@@ -65,6 +65,12 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
       });
     }
     generateRechnung(rechnung);
+  };
+
+  const onClearRequest = () => {
+    if (window.confirm('Alle Buchhaltungsdaten (Rechnung, Mahnung(en), Gutschrift) löschen?')) {
+      deleteAccounting?.();
+    }
   };
 
   return (
@@ -109,6 +115,11 @@ export function RechnungEditor({ onPropChange, rechnung }: Props) {
             ) : (
               <EmailLink />
             ))}
+          {deleteAccounting && (
+            <Button variant="outlined" color="error" onClick={onClearRequest}>
+              Löschen
+            </Button>
+          )}
         </Box>
       </Grid>
     </AppGridContainer>

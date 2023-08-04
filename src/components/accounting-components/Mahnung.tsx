@@ -16,6 +16,7 @@ import { AppGridContainer } from '../shared/AppGridContainer';
 import { AppTextField } from '../shared/AppTextField';
 import { PdfSaveButton } from '../shared/PdfSaveButton';
 
+import { cloneDeep } from 'lodash';
 import { DueDate, Rechnung } from 'um-types';
 
 interface Props {
@@ -61,7 +62,7 @@ export function Mahnung({ index }: Props) {
 
   const update = useCallback(
     (prop: keyof DueDate, value: any) => {
-      const nextDueDates = [...(rechnung?.dueDates || [])];
+      const nextDueDates = cloneDeep(rechnung?.dueDates || []);
       const ddToUpdate = nextDueDates.find((dd) => dd.index === index);
       if (ddToUpdate) {
         //@ts-ignore
