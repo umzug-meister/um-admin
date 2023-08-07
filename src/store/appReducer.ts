@@ -226,10 +226,11 @@ const appSlice = createSlice({
         curOrder.lupd = Date.now();
         const curServices = curOrder.services;
         const available = curServices.find((s) => s.id === service.id);
+        const next = { ...service, colli: service.colli.replace(',', '.') };
         if (available) {
-          available.colli = service.colli;
+          available.colli = next.colli;
         } else {
-          curServices.push(service);
+          curServices.push(next);
         }
         state.current = calculate(curOrder, state.options);
         state.unsavedChanges = true;

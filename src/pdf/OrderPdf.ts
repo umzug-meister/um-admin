@@ -1,6 +1,6 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
-import { euroValue } from '../utils/utils';
+import { euroValue, numberValue } from '../utils/utils';
 import Agb from './Agb';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
@@ -223,7 +223,7 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
           styles,
         },
         c: {
-          content: l.colli || '',
+          content: numberValue(l.colli),
           styles,
         },
         d: {
@@ -235,7 +235,7 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
       return {
         a: l.desc,
         b: euroValue(l.price),
-        c: l.colli || '',
+        c: numberValue(l.colli),
         d: euroValue(l.sum),
       };
     }
@@ -377,7 +377,7 @@ const addVerpackung = (
         sum = euroValue(Number(price) * Number(colli));
       }
 
-      return [s.name, euroValue(price), colli, sum];
+      return [s.name, euroValue(price), numberValue(colli), sum];
     });
 
   factory.addTable(
@@ -414,7 +414,7 @@ const addServices = (
         sum = euroValue(Number(price) * Number(colli));
       }
 
-      return [s.name, euroValue(price), colli, sum];
+      return [s.name, euroValue(price), numberValue(colli), sum];
     });
 
   factory.addTable(
