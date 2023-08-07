@@ -130,14 +130,29 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
       2: { fontStyle: 'bold' },
+      3: {
+        cellWidth: CELL_WIDTH_1,
+      },
     },
   );
 
   //Volumen
-  factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%']], {
+
+  let mark = '';
+  if (order.check24) {
+    mark = 'CHECK 24';
+  }
+  if (order.myhammer) {
+    mark = 'My Hammer';
+  }
+  factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%', mark]], {
     0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
     1: { cellWidth: CELL_WIDTH_1 },
     2: { fontStyle: 'bold', textColor: SECONDARY },
+    3: {
+      fontStyle: 'bold',
+      cellWidth: CELL_WIDTH_1,
+    },
   });
 
   //message
