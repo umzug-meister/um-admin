@@ -20,11 +20,12 @@ export const calculateNumbers = (entries: MLeistung[]) => {
   };
 };
 
-export const createDueDate = (index: number): DueDate => {
+export const createDueDate = (index: number, sum = 0): DueDate => {
   return {
     index,
     costs: 0,
     date: new Date().addDays(WAITING_DAYS).toLocaleDateString('ru'),
+    sum: sum,
   };
 };
 
