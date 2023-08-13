@@ -31,12 +31,17 @@ export const generatePaymentReminder = ({ index, rechnung }: PaymentReminderPayl
 
   const currentDueDate = rechnung.dueDates.find((dd) => dd.index === index);
   const lastDueDate = rechnung.dueDates.find((dd) => dd.index === index - 1);
-  addTable(factory, rechnung, lastDueDate?.date);
-  addNumber(factory, rechnung, currentDueDate?.costs);
+  addInvoiceInfo(factory, rechnung);
+  addPaymentInfo(factory, currentDueDate, lastDueDate);
+  addNumber(factory, currentDueDate?.sum, currentDueDate?.costs);
 
   move(factory, 260);
   addKonto(factory);
   factory.save();
+};
+
+const getDueDateSum = (index: number, rechnung: Rechnung) => {
+  return rechnung.dueDates.find((dd) => dd.index === index)?.sum;
 };
 
 const getSum = (rechnung: Rechnung) => {
@@ -58,7 +63,7 @@ const f_getDateByIndex = (dueDates: DueDate[]) => {
 };
 
 const generateText = (rechnung: Rechnung, index: number): string => {
-  const sum = getSum(rechnung);
+  const sum = getDueDateSum(index, rechnung);
 
   const getDateByIndex = f_getDateByIndex(rechnung.dueDates);
 
@@ -112,11 +117,33 @@ const generateText = (rechnung: Rechnung, index: number): string => {
   return result;
 };
 
-function addTable(factory: PdfBuilder, rechnung: Rechnung, dueDate?: string) {
+function addPaymentInfo(factory: PdfBuilder, dueDate?: DueDate, lastDueDate?: DueDate) {
   factory.addSpace(5);
-  const verzug = daysBetween(parseDateString(dueDate!), new Date());
-  const head = [['Rechnung Nr.', 'vom', 'Betrag', 'Fälligkeit', 'Verzug']];
-  const body = [[rechnung.rNumber, rechnung.date, euroValue(getSum(rechnung)), dueDate, verzug]];
+
+  if (!dueDate) {
+    return;
+  }
+
+  const verzug = daysBetween(parseDateString(dueDate.date), new Date());
+
+  const head = [['Offener Betrag', 'Fälligkeit', 'Verzug']];
+  const body = [[euroValue(dueDate.sum), lastDueDate?.date, verzug]];
+
+  factory.addTable(
+    head,
+    body,
+    {
+      0: { halign: 'center' },
+      1: { halign: 'center' },
+    },
+    { halign: 'center' },
+  );
+}
+
+function addInvoiceInfo(factory: PdfBuilder, rechnung: Rechnung) {
+  factory.addSpace(5);
+  const head = [['Rechnung Nr.', 'vom', 'Betrag']];
+  const body = [[rechnung.rNumber, rechnung.date, euroValue(getSum(rechnung))]];
   factory.addTable(
     head,
     body,
@@ -124,21 +151,19 @@ function addTable(factory: PdfBuilder, rechnung: Rechnung, dueDate?: string) {
       0: { halign: 'center' },
       1: { halign: 'center' },
       2: { halign: 'center' },
-      3: { halign: 'center' },
-      4: { halign: 'center' },
-      5: { halign: 'center' },
     },
     { halign: 'center' },
     20,
   );
 }
 
-function addNumber(factory: PdfBuilder, rechnung: Rechnung, costs = 0) {
-  const sum = getSum(rechnung) + costs;
-
+function addNumber(factory: PdfBuilder, sum = 0, costs = 0) {
   factory.addSpace(5);
 
-  factory.add2Cols(['Mahngebühr:', 'Summe fälliger Posten:'], [euroValue(costs), euroValue(sum)]);
+  factory.add2Cols(
+    ['Mahngebühr:', 'Summe fälliger Posten:'],
+    [euroValue(costs), euroValue(Number(sum) + Number(costs))],
+  );
 }
 
 function daysBetween(d1: Date, d2: Date) {

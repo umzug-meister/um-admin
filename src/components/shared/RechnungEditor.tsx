@@ -169,7 +169,7 @@ const CHIPS: any = {
   Bank: 'Der Rechnungsbetrag wurde per Überweisung bezahlt.',
   'Sofort fällig': 'Die Zahlung ist sofort ohne Abzüge fällig.',
   'Bitte überweisen':
-    'Bitte überweisen Sie den offenen Gesamtbetrag unter Angabe Ihrer Rechnungsnummer bis zum {{date}} (Zahlungseingang) auf unser Konto.',
+    'Der Betrag ist nach der Erhalt der Rechnung bis zum {{date}} - unter Angabe der Rechnungsnummer - auf unser Konto zu überweisen. Nach Ablauf der Zahlungsfrist entstehen Verzugszinsen in der gesetzlich vorgesehen Höhe (z.Zt. 12,12 % - Stand 01.07.2023). Rechnungsdatum = Leistungszeitpunkt, falls nichts anderes im Rechnungstext vermerkt ist.',
   'Teil-Teil':
     'Der Teilbetrag in Höhe von ?? € wurde per Überweisung bezahlt.\nDer Teilbetrag in Höhe von ?? € wurde in Bar bezahlt.',
 };
