@@ -352,7 +352,7 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
     AGB §16 "Erweiterungen des Leistungsumfangs".`,
   );
   factory.addText(
-    `• Aufgrund der physichen Anstrengung, sind pro Stunde 8 Min Pause zu gewähren. Die Pausenzeit ist bereits
+    `• Aufgrund der physischen Anstrengung, sind pro Stunde 8 Min Pause zu gewähren. Die Pausenzeit ist bereits
     im Angebot einkalkuliert und wird von der vorgeschlagenen Zeit nicht abgezogen.`,
   );
   factory.addText(
