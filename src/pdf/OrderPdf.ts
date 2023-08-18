@@ -39,14 +39,6 @@ export function generateUrzPdf(p: Payload) {
 
   addConditionen(pdffactory, order);
   appendPrice(pdffactory, order);
-  const y = pdffactory.getY();
-
-  if (y > 233) {
-    alert(
-      `👉 Bitte "Kunde/Notiz" kürzen.\n👉 Die Auftragsdaten passen nicht auf eine Seite. \n👉 PDF wird abgebrochen`,
-    );
-    return;
-  }
 
   addPageTextFirstPage(pdffactory);
   addTopPageTextSecondPage(pdffactory);
@@ -67,9 +59,12 @@ export function generateUrzPdf(p: Payload) {
 
   addSecondPageEnd(pdffactory);
 
+  addMoreInformation(pdffactory, order);
+
   addMoebel(pdffactory, order);
   addBoxes(pdffactory, order);
   addAGB(pdffactory, options);
+  pdffactory.enumeratePages([`${order.id}`]);
 
   if (p.base64) {
     return pdffactory.output();
@@ -77,13 +72,6 @@ export function generateUrzPdf(p: Payload) {
 
   pdffactory.save();
 }
-
-const addTextMessage = (factory: PdfBuilder, text: string, label: string): void => {
-  const head = [[label]];
-  const body = [[text.replace(';;', '')]];
-  factory.addTable(head, body);
-  factory.addSpace(3);
-};
 
 const addSignature = (factory: PdfBuilder, sign: string): void => {
   factory.addText('___________________', 8, 6, 'right');
@@ -156,59 +144,76 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
   });
 
   //message
-  const _message = order.text?.replaceAll(';;', '');
-  factory.addTable(
-    null,
-    [['Notiz:', _message]],
+  if (order.text) {
+    factory.addTable(
+      null,
+      [['weitere Informationen auf Seite 3']],
 
-    {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-    },
-  );
+      {
+        0: { fontStyle: 'italic' },
+      },
+    );
+  }
 };
-
-function yesNo(prop: boolean | undefined) {
-  return prop ? 'Ja' : 'Nein';
-}
 
 function addAdresses(factory: PdfBuilder, order: Order) {
   factory.addSpace();
   const { from, to } = order;
 
-  const demontage = from?.demontage;
-  const montage = to?.montage;
+  let fromServices = [];
+  if (from?.demontage) {
+    fromServices.push('Möbeldemontage');
+  }
+  if (from.packservice) {
+    fromServices.push('Einpackservice');
+  }
+
+  let toServices = [];
+  if (to?.montage) {
+    toServices.push('Möbelmontage');
+  }
+  if (to.packservice) {
+    toServices.push('Auspackservice');
+  }
+
+  const body = [
+    ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, `${to?.address?.split(',')[0] || ''}`],
+    [
+      'PLZ und Ort',
+      `${from?.address?.split(',')?.[1]?.trimStart() || ''}`,
+      `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
+    ],
+    ['Auszug/Einzug', `${from?.movementObject || ''}`, `${to?.movementObject || ''}`],
+    ['Etage', `${from?.floor || ''}`, 'Etage', `${to?.floor || ''}`],
+    [
+      'Lift',
+      `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
+
+      `${to?.liftType || ''}${to?.isAltbau ? ', Altbau' : ''}`,
+    ],
+    ['Trageweg', `${from?.runningDistance || ''}`, 'Trageweg', `${to?.runningDistance || ''}`],
+    [
+      'Parkverbotszone',
+      `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
+      `${to?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
+    ],
+  ];
+
+  let servicesRow = undefined;
+
+  if (fromServices.length > 0 || toServices.length > 0) {
+    servicesRow = ['', fromServices.join(' + '), toServices.join(' + ')];
+  }
+
+  if (servicesRow) {
+    body.push(servicesRow);
+  }
 
   factory.addTable(
-    [['Beladestelle', '', 'Entladestelle', '']],
-    [
-      ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, 'Straße, Nr.', `${to?.address?.split(',')[0] || ''}`],
-      [
-        'PLZ und Ort',
-        `${from?.address?.split(',')?.[1]?.trimStart() || ''}`,
-        'PLZ und Ort',
-        `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
-      ],
-      ['Auszug aus', `${from?.movementObject || ''}`, 'Einzug in', `${to?.movementObject || ''}`],
-      ['Etage', `${from?.floor || ''}`, 'Etage', `${to?.floor || ''}`],
-      [
-        'Lift',
-        `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
-        'Lift',
-        `${to?.liftType || ''}${to?.isAltbau ? ', Altbau' : ''}`,
-      ],
-      ['Trageweg', `${from?.runningDistance || ''}`, 'Trageweg', `${to?.runningDistance || ''}`],
-      [
-        'Parkverbotszone',
-        `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
-        'Parkverbotszone',
-        `${to?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
-      ],
-      ['Möbeldemontage', yesNo(demontage), 'Möbelmontage', yesNo(montage)],
-      ['Einpackservice', yesNo(from?.packservice), 'Auspackservice', yesNo(to?.packservice)],
-    ],
+    [['', 'Beladestelle', 'Entladestelle']],
+    body,
     {
-      0: { cellWidth: CELL_WIDTH_0 },
-      2: { cellWidth: CELL_WIDTH_0 },
+      0: { cellWidth: CELL_WIDTH_1 },
     },
     {
       fillColor: PRIMARY,
@@ -347,8 +352,8 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
     AGB §16 "Erweiterungen des Leistungsumfangs".`,
   );
   factory.addText(
-    `• Aufgrund der Schwere der Arbeit, sind pro Stunde 8 Min Pause zu gewähren. Die Pausenzeit ist bereits im Angebot
-    einkalkuliert und wird von der vorgeschlagenen Zeit nicht abgezogen.`,
+    `• Aufgrund der physichen Anstrengung, sind pro Stunde 8 Min Pause zu gewähren. Die Pausenzeit ist bereits
+    im Angebot einkalkuliert und wird von der vorgeschlagenen Zeit nicht abgezogen.`,
   );
   factory.addText(
     `•  Werden der Firma Umzug Ruck Details des Umzuges schriftlich nicht bekannt gegeben, behält sich
@@ -474,13 +479,21 @@ const addSecondPageEnd = (factory: PdfBuilder) => {
   factory.resetText();
 };
 
-const addMoebel = (factory: PdfBuilder, order: Order) => {
-  if (order.ownItems?.trim().length > 0) {
-    factory.addPage();
-    addTextMessage(factory, order.ownItems, 'Möbelliste');
-  } else if (order.items?.length > 0) {
-    factory.addPage();
+const addMoreInformation = (factory: PdfBuilder, order: Order) => {
+  factory.addPage();
+  if (order.text) {
+    const header = [['Weitere Informationen']];
+    const body = [[order.text]];
 
+    factory.addTable(header, body);
+  }
+};
+
+const addMoebel = (factory: PdfBuilder, order: Order) => {
+  factory.addSpace();
+  if (order.ownItems?.trim().length > 0) {
+    factory.addTable([['Möbelliste']], [[order.ownItems]]);
+  } else if (order.items?.length > 0) {
     const body = [];
 
     let actualroom = '';
