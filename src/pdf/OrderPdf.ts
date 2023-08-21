@@ -184,7 +184,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
       `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
     ],
     ['Auszug/Einzug', `${from?.movementObject || ''}`, `${to?.movementObject || ''}`],
-    ['Etage', `${from?.floor || ''}`, 'Etage', `${to?.floor || ''}`],
+    ['Etage', `${from?.floor || ''}`, `${to?.floor || ''}`],
     [
       'Lift',
       `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
