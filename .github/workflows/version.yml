@@ -3,17 +3,27 @@ name: 🆙 Version Increment
 on:
   push:
     branches:
-      - main
+      - 'main'
 
 jobs:
-  version:
+  bump-version:
+    name: 'Bump Version on main'
     runs-on: ubuntu-latest
-    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v3
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
         with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - run: git config --global user.name 'Action incrementer'
-      - run: git config --global user.email 'no@email.com'
-      - run: npm version patch -m "[RELEASE] %s"
-      - run: git push
+          ref: ${{ github.ref }}
+      - name: 'Automated Version Bump'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          skip-tag: 'true'
+          patch-wording: 'patch,fixes,fix'
+          minor-wording: 'add,Adds,new,feat'
+          major-wording: 'MAJOR,cut-major'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
