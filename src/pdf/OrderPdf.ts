@@ -160,7 +160,12 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   factory.addSpace();
   const { from, to } = order;
 
-  let fromServices = [];
+  const fromServices = [];
+  const toServices = [];
+
+  const fromFloors = [`${from?.floor || ''}`];
+  const toFloors = [`${to?.floor || ''}`];
+
   if (from?.demontage) {
     fromServices.push('Möbeldemontage');
   }
@@ -168,12 +173,18 @@ function addAdresses(factory: PdfBuilder, order: Order) {
     fromServices.push('Einpackservice');
   }
 
-  let toServices = [];
   if (to?.montage) {
     toServices.push('Möbelmontage');
   }
   if (to.packservice) {
     toServices.push('Auspackservice');
+  }
+  if (from.hasLoft) {
+    fromFloors.push('Dachboden');
+  }
+
+  if (to.hasLoft) {
+    toFloors.push('Dachboden');
   }
 
   const body = [
@@ -184,7 +195,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
       `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
     ],
     ['Auszug/Einzug', `${from?.movementObject || ''}`, `${to?.movementObject || ''}`],
-    ['Etage', `${from?.floor || ''}`, `${to?.floor || ''}`],
+    ['Etage', fromFloors.join(' + '), toFloors.join(' + ')],
     [
       'Lift',
       `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
