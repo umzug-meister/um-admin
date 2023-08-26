@@ -190,7 +190,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   const body = [
     ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, `${to?.address?.split(',')[0] || ''}`],
     [
-      'PLZ und Ort',
+      'PLZ, Ort',
       `${from?.address?.split(',')?.[1]?.trimStart() || ''}`,
       `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
     ],
@@ -202,7 +202,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
 
       `${to?.liftType || ''}${to?.isAltbau ? ', Altbau' : ''}`,
     ],
-    ['Trageweg', `${from?.runningDistance || ''}`, 'Trageweg', `${to?.runningDistance || ''}`],
+    ['Trageweg', `${from?.runningDistance || ''}`, `${to?.runningDistance || ''}`],
     [
       'Parkverbotszone',
       `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
