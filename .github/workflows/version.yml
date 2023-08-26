@@ -7,13 +7,13 @@ on:
 
 jobs:
   version:
-    runs-on: ubuntu-latest
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    runs-on: ubuntu-latest
     steps:
-      - name:  'Automated Version Bump'
-        uses:  'phips28/gh-action-bump-version@master'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - name: 'Automated Version Bump'
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       # - uses: actions/checkout@v3
       #   with:
       #     token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
