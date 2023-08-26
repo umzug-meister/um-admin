@@ -156,6 +156,11 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
   }
 };
 
+function combineString(arr: string[]) {
+  const SEP = ' + ';
+  return arr.filter((s) => s).join(SEP);
+}
+
 function addAdresses(factory: PdfBuilder, order: Order) {
   factory.addSpace();
   const { from, to } = order;
@@ -163,9 +168,33 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   const fromServices = [];
   const toServices = [];
 
-  const fromFloors = [`${from?.floor || ''}`];
-  const toFloors = [`${to?.floor || ''}`];
+  const fromFloors = [];
+  const toFloors = [];
 
+  //#region floors
+  if (from.movementObject?.toLocaleLowerCase() === 'haus') {
+    fromFloors.push(...(from.stockwerke || []));
+  } else if (from?.floor) {
+    fromFloors.push(from.floor);
+  }
+
+  if (to?.movementObject?.toLocaleLowerCase() === 'haus') {
+    toFloors.push(...(to.stockwerke || []));
+  } else if (to?.floor) {
+    toFloors.push(to.floor);
+  }
+
+  if (from.hasLoft) {
+    fromFloors.push('Dachboden');
+  }
+
+  if (to.hasLoft) {
+    toFloors.push('Dachboden');
+  }
+
+  //#endregion
+
+  //#region extras
   if (from?.demontage) {
     fromServices.push('Möbeldemontage');
   }
@@ -179,13 +208,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   if (to.packservice) {
     toServices.push('Auspackservice');
   }
-  if (from.hasLoft) {
-    fromFloors.push('Dachboden');
-  }
-
-  if (to.hasLoft) {
-    toFloors.push('Dachboden');
-  }
+  //#endregion
 
   const body = [
     ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, `${to?.address?.split(',')[0] || ''}`],
@@ -195,7 +218,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
       `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
     ],
     ['Auszug/Einzug', `${from?.movementObject || ''}`, `${to?.movementObject || ''}`],
-    ['Etage', fromFloors.join(' + '), toFloors.join(' + ')],
+    ['Etage', combineString(fromFloors), combineString(toFloors)],
     [
       'Lift',
       `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
@@ -210,13 +233,13 @@ function addAdresses(factory: PdfBuilder, order: Order) {
     ],
   ];
 
-  let servicesRow = undefined;
+  const servicesRow = [];
 
   if (fromServices.length > 0 || toServices.length > 0) {
-    servicesRow = ['', fromServices.join(' + '), toServices.join(' + ')];
+    servicesRow.push(...['', combineString(fromServices), combineString(toServices)]);
   }
 
-  if (servicesRow) {
+  if (servicesRow.length > 0) {
     body.push(servicesRow);
   }
 
