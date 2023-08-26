@@ -202,7 +202,7 @@ function addAdresses(factory: PdfBuilder, order: Order) {
 
       `${to?.liftType || ''}${to?.isAltbau ? ', Altbau' : ''}`,
     ],
-    ['Trageweg', `${from?.runningDistance || ''}`, 'Trageweg', `${to?.runningDistance || ''}`],
+    ['Trageweg', `${from?.runningDistance || ''}`, `${to?.runningDistance || ''}`],
     [
       'Parkverbotszone',
       `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
