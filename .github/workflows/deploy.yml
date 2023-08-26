@@ -6,6 +6,7 @@ on:
       - 'main'
 jobs:
   build-deploy:
+    if: "contains(github.event.head_commit.message, '[RELEASE]')"
     runs-on: ubuntu-latest
     environment:
       name: UM_PROD
@@ -22,15 +23,13 @@ jobs:
         run: npm install
 
       - name: Add package version
-        uses: jozsefsallai/node-package-version@v1.0.4
+        uses: nyaa8/package-version@v1
 
       - name: Build App
         run: npm run build
         env:
           REACT_APP_VERSION: ${{ env.PACKAGE_VERSION }}
           REACT_APP_WP_HOST: ${{ vars.REACT_APP_WP_HOST }}
-          REACT_APP_DRIVE_ROOT_DIR: ${{ vars.REACT_APP_DRIVE_ROOT_DIR }}
-          GENERATE_SOURCEMAP: false
 
       - name: Delete previous app
         uses: StephanThierry/ftp-delete-action@v2.1
