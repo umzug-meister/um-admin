@@ -17,8 +17,6 @@ jobs:
         uses: 'actions/checkout@v3'
         with:
           ref: ${{ github.ref }}
-      - name: 'cat package.json'
-        run: cat ./package.json
       - name: 'Automated Version Bump'
         id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
@@ -26,9 +24,3 @@ jobs:
           skip-tag: 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - name: 'cat package.json'
-        run: cat ./package.json
-      - name: 'Output Step'
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
