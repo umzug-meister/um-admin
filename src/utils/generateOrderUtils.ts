@@ -149,7 +149,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     liftType: find('fahrstuhlgroe246'),
     movementObject: find('wohnungstyp248'),
     runningDistance: find('entfernungVom')?.concat(' m.'),
-    hasLoft: find('dachboden236'),
+    hasLoft: find('dachboden236') === 'Ja',
     parkingSlot: find('parkUnd37') === 'vom Spediteur zu organisieren',
     packservice: find('umzugsgutAuspacken') === 'Ja',
     isAltbau: find('altbauEinzug') === 'Ja',
