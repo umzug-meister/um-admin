@@ -4,6 +4,7 @@ import PdfBuilder from './PdfBuilder';
 import { paymentReminderFileName } from './filename';
 import { addDate, addHeader } from './shared';
 
+import { eachDayOfInterval } from 'date-fns';
 import { DueDate, Rechnung } from 'um-types';
 
 interface PaymentReminderPayload {
@@ -118,26 +119,29 @@ const generateText = (rechnung: Rechnung, index: number): string => {
 };
 
 function addPaymentInfo(factory: PdfBuilder, dueDate?: DueDate, lastDueDate?: DueDate) {
-  factory.addSpace(5);
+  if (dueDate && lastDueDate) {
+    factory.addSpace(5);
 
-  if (!dueDate) {
-    return;
+    const interval = { start: parseDateString(lastDueDate.date), end: new Date() };
+
+    const verzug = eachDayOfInterval(interval).length;
+
+    const head = [['Offener Betrag', 'Fälligkeit', 'Verzug']];
+    const body = [[euroValue(dueDate.sum), lastDueDate?.date, `${verzug} Tage`]];
+
+    const style = { halign: 'center' };
+    const bodyStyle = { ...style, textColor: '#ff0000' };
+    factory.addTable(
+      head,
+      body,
+      {
+        0: bodyStyle,
+        1: bodyStyle,
+        2: bodyStyle,
+      },
+      style,
+    );
   }
-
-  const verzug = daysBetween(parseDateString(dueDate.date), new Date());
-
-  const head = [['Offener Betrag', 'Fälligkeit', 'Verzug']];
-  const body = [[euroValue(dueDate.sum), lastDueDate?.date, verzug]];
-
-  factory.addTable(
-    head,
-    body,
-    {
-      0: { halign: 'center' },
-      1: { halign: 'center' },
-    },
-    { halign: 'center' },
-  );
 }
 
 function addInvoiceInfo(factory: PdfBuilder, rechnung: Rechnung) {
@@ -164,12 +168,6 @@ function addNumber(factory: PdfBuilder, sum = 0, costs = 0) {
     ['Mahngebühr:', 'Summe fälliger Posten:'],
     [euroValue(costs), euroValue(Number(sum) + Number(costs))],
   );
-}
-
-function daysBetween(d1: Date, d2: Date) {
-  const Difference_In_Time = d2.getTime() - d1.getTime();
-
-  return Math.floor(Difference_In_Time / (1000 * 3600 * 24));
 }
 
 function parseDateString(dString: string) {
