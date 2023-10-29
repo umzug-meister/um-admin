@@ -233,10 +233,11 @@ export default function Orders() {
         },
       },
       {
+        headerName: 'Rechnung',
         field: 'rechnung',
         renderCell({ value }) {
           if (value) {
-            return <ReceiptLongOutlinedIcon />;
+            return <ReceiptLongOutlinedIcon color="success" />;
           }
           return null;
         },
