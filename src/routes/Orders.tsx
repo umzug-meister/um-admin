@@ -16,7 +16,7 @@ import { getPrintableDate } from '../utils/utils';
 
 import { Order } from 'um-types';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 const generator = (function* () {
   let i = 1;
