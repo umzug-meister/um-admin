@@ -16,7 +16,7 @@ import { getPrintableDate } from '../utils/utils';
 
 import { Order } from 'um-types';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 12;
 
 const generator = (function* () {
   let i = 1;
@@ -79,7 +79,7 @@ export default function Orders() {
   const onClear = useCallback(() => {
     setPaginationModel({ page: 0, pageSize: PAGE_SIZE });
     setDisablePagination(false);
-    const next = generator.next().value as number;
+    const next = generator.next().value;
     setReset(next);
   }, []);
 
@@ -211,7 +211,6 @@ export default function Orders() {
         width: 60,
         headerName: '7.5',
       },
-
       {
         field: 'lupd',
         headerName: 'Bearbeitet',
