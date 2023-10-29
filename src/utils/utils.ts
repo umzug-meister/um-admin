@@ -200,7 +200,6 @@ export const generateText = ({ nextDueDate, sum, index, rechnung }: GenerateRemi
       );
       break;
     default:
-    case 3:
       result = result.concat(
         `auf unsere Mahnung vom ${getDateByIndex(1)} und 2. Mahnung vom ${getDateByIndex(
           2,

@@ -6,7 +6,6 @@ export function VersionBadge() {
   const local = process.env.REACT_APP_VERSION || '0.0.0';
 
   return (
-    <>
       <Card
         elevation={3}
         sx={{
@@ -27,6 +26,5 @@ export function VersionBadge() {
           </Box>
         </Box>
       </Card>
-    </>
   );
 }
