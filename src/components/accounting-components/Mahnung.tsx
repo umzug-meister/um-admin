@@ -177,7 +177,7 @@ type Labels = {
 };
 
 const labels: Labels = {
-  date: 'Fälligkeitsdatum',
+  date: 'Fälligkeitsdatum der Mahnung',
   costs: 'Mahngebühr',
   sum: 'Offener Betrag aus der Rechnung',
   text: 'Text',
