@@ -14,7 +14,7 @@ interface Props {
   path: 'from' | 'to';
 }
 
-export default function AddressWidget({ path }: Props) {
+export default function AddressWidget({ path }: Readonly<Props>) {
   const title = useMemo(() => {
     return path === 'from' ? 'Auszug' : 'Einzug';
   }, [path]);

@@ -29,7 +29,7 @@ interface Props {
   onClose: () => void;
 }
 
-export function SideMenu({ onClose, open }: Props) {
+export function SideMenu({ onClose, open }: Readonly<Props>) {
   const theme = useTheme();
 
   return (

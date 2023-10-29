@@ -113,7 +113,7 @@ interface GutschriftFieldProps {
   label?: string;
 }
 
-function GutschriftField({ value, onValue, multiline, label, as }: GutschriftFieldProps) {
+function GutschriftField({ value, onValue, multiline, label, as }: Readonly<GutschriftFieldProps>) {
   if (as === 'date') {
     return <AppDateField label={label} value={value} onDateChange={onValue} />;
   }

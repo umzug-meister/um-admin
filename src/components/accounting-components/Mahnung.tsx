@@ -23,7 +23,7 @@ interface Props {
   index: number;
 }
 
-export function Mahnung({ index }: Props) {
+export function Mahnung({ index }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const theme = useTheme();

@@ -10,7 +10,7 @@ interface AppDateFieldProps {
   onDateChange: (value: string) => void;
 }
 
-export function AppDateField({ label, disabled, value, minDate, onDateChange }: AppDateFieldProps) {
+export function AppDateField({ label, disabled, value, minDate, onDateChange }: Readonly<AppDateFieldProps>) {
   const currentValue = value ? getParseableDate(value) : '';
 
   return (
