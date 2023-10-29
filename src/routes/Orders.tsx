@@ -1,5 +1,6 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
@@ -210,15 +211,7 @@ export default function Orders() {
         width: 60,
         headerName: '7.5',
       },
-      {
-        field: 'rechnung',
-        renderCell({ value }) {
-          if (value) {
-            return 'ja';
-          }
-          return null;
-        },
-      },
+
       {
         field: 'lupd',
         headerName: 'Bearbeitet',
@@ -235,6 +228,15 @@ export default function Orders() {
                 </Typography>
               </Box>
             );
+          }
+          return null;
+        },
+      },
+      {
+        field: 'rechnung',
+        renderCell({ value }) {
+          if (value) {
+            return <ReceiptLongOutlinedIcon />;
           }
           return null;
         },
