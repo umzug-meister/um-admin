@@ -7,6 +7,7 @@ import {
   getCustomerFullname,
   getCustomerPLZ,
   getCustomerStreet,
+  getNextDueDate,
   getPrintableDate,
 } from '../utils/utils';
 
@@ -292,7 +293,7 @@ const appSlice = createSlice({
           customerPlz: getCustomerPLZ(curOrder),
           customerStreet: getCustomerStreet(curOrder),
           entries,
-          dueDates: [createDueDate(0)],
+          dueDates: [createDueDate({ date: getNextDueDate({}), index: 0, sum: 0, text: '' })],
         } as Rechnung;
 
         set(curOrder, ['rechnung'], newInvoice);

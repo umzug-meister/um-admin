@@ -90,7 +90,6 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     Object.getOwnPropertyNames(verpackung).forEach((prop) => {
       allVerpackung.push(JSON.parse(verpackung[prop]));
     });
-    console.log('verp', allVerpackung);
     const selected: Array<{ name: string; quantity: number }> = allVerpackung.filter((elem) => elem.quantity > 0);
 
     selected.forEach((item) => {
@@ -99,8 +98,6 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
         services.push({ ...serv, colli: String(item.quantity) });
       }
     });
-    console.log(allServices);
-    console.log(services);
   } catch (e) {
     console.log(e);
   }
@@ -232,7 +229,6 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
   if (hasSchwere) {
     try {
       const schwere = JSON.parse(find('auflistungDer')) as SperrigSchwer[];
-      console.log(schwere);
 
       schwere.forEach((elem) => {
         const _item = itemFromSperrigScwer(elem, false, true);
