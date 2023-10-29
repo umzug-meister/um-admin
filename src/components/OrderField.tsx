@@ -49,7 +49,7 @@ export default function OrderField<T>({
   id,
   capitalize,
   checkBoxError,
-}: Props<T>) {
+}: Readonly<Props<T>>) {
   const value = useOrderValue(path, nestedPath);
   const dispatch = useDispatch<AppDispatch>();
   const gapiKey = useOption('gapikey');

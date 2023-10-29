@@ -280,7 +280,7 @@ const appSlice = createSlice({
           }
           entries.push(entry);
           if (curOrder?.leistungen?.length > 1) {
-            entries.push(...curOrder?.leistungen?.from(1));
+            entries.push(...curOrder.leistungen.from(1));
           }
         }
 

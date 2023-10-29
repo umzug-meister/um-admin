@@ -20,14 +20,14 @@ interface Props {
 
 const TAG: AppServiceTag = 'Price';
 
-export default function EditOffersCard({ t35, workers }: Props) {
+export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
   const offers = useAppServices<AppPrice>(TAG);
   const data = offers.filter((offer) => Number(offer.t35) === t35 && Number(offer.workers) === workers);
 
   data.sort((a, b) => Number(b.includedHours) - Number(a.includedHours));
 
   const [ridingCostsValue, setRidingCostsValue] = useState<any>(data[0]?.ridingCosts || 0);
-  const [hourPriceValue, setHourPricevalue] = useState<any>(data[0]?.hourPrice || 0);
+  const [hourPriceValue, setHourPriceValue] = useState<any>(data[0]?.hourPrice || 0);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -101,7 +101,7 @@ export default function EditOffersCard({ t35, workers }: Props) {
             InputProps={{ endAdornment: '€/Std' }}
             label="Stundenpreis"
             value={hourPriceValue}
-            onChange={(ev) => setHourPricevalue(ev.target.value)}
+            onChange={(ev) => setHourPriceValue(ev.target.value)}
             onBlur={onHourPriceChange}
           />
         </Grid>

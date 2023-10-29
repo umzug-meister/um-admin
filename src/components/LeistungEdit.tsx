@@ -21,7 +21,7 @@ interface Props {
   suggestServices?: boolean;
 }
 
-export default function LeistungEdit({ leistungen = [], update, hideChecks, suggestServices = false }: Props) {
+export default function LeistungEdit({ leistungen = [], update, hideChecks, suggestServices = false }: Readonly<Props>) {
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
   const options = useMemo(() => [...services, ...packings], [services, packings]);
@@ -139,7 +139,7 @@ function GridRow({
   onCheck,
   onPropChange,
   onLstSelect,
-}: GridRowProps) {
+}:Readonly<GridRowProps>) {
   const hasError = lst.sum !== '' && Number(lst.sum) === 0;
 
   const sumDisabled = Boolean(lst.colli) && Boolean(lst.price);

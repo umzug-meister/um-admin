@@ -10,7 +10,7 @@ import { Service } from 'um-types';
 interface Props {
   service: Partial<Service>;
 }
-export function AddService({ service }: Props) {
+export function AddService({ service }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const onClick = useCallback(() => {

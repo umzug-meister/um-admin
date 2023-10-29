@@ -19,7 +19,7 @@ interface Props {
   endAdornment?: React.ReactNode;
 }
 
-export function OptionInput(props: Props) {
+export function OptionInput(props: Readonly<Props>) {
   const { label, name, asPassword, endAdornment, type = 'text' } = props;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -32,9 +32,11 @@ export function OptionInput(props: Props) {
     dispatch(updateOption({ name, value }));
   };
 
+  const asPasswordType = showPassword ? type : 'password';
+  
   return (
     <AppTextField
-      type={asPassword ? (showPassword ? type : 'password') : type}
+      type={asPassword ? asPasswordType : type}
       value={value}
       name={name}
       label={label}
