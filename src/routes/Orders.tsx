@@ -211,6 +211,15 @@ export default function Orders() {
         headerName: '7.5',
       },
       {
+        field: 'rechnung',
+        renderCell({ value }) {
+          if (value) {
+            return 'ja';
+          }
+          return null;
+        },
+      },
+      {
         field: 'lupd',
         headerName: 'Bearbeitet',
         renderCell({ value }) {

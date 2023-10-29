@@ -1,8 +1,10 @@
-import { Customer, DueDate, MLeistung, Order } from 'um-types';
+import { Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 
 const WAITING_DAYS = 10;
+
+const DEFAULT_REMINDER_COSTS = 10;
 
 export const calculateNumbers = (entries: MLeistung[]) => {
   const brutto = entries.reduce((acc, elem) => {
@@ -20,14 +22,32 @@ export const calculateNumbers = (entries: MLeistung[]) => {
   };
 };
 
-export const createDueDate = (index: number, sum = 0): DueDate => {
+interface CreateDueDateParam {
+  index: number;
+  text: string;
+  date: string;
+  sum: number;
+}
+
+export const createDueDate = (payload: CreateDueDateParam): DueDate => {
+  const { date, index, sum, text } = payload;
+
   return {
+    text,
     index,
-    costs: 0,
-    date: new Date().addDays(WAITING_DAYS).toLocaleDateString('ru'),
-    sum: sum,
+    costs: DEFAULT_REMINDER_COSTS,
+    date,
+    sum,
   };
 };
+
+interface GetNextDueDateParam {
+  date?: Date;
+}
+
+export function getNextDueDate({ date = new Date() }: GetNextDueDateParam) {
+  return date.addDays(WAITING_DAYS).toLocaleDateString('ru');
+}
 
 export function getPrintableDate(date: string | undefined, long = false) {
   if (!date || date === '') {
@@ -128,4 +148,71 @@ export const clearCountry = (str: string) => {
     .replace(', Deutschland', '')
     .replace(', Германия', '')
     .replace(', Germany', '');
+};
+
+const f_getDateByIndex = (dueDates: DueDate[]) => {
+  return function getDateByIndex(index: number) {
+    const dd = dueDates.find((dd) => dd.index === index);
+    if (dd) {
+      return dd.date;
+    }
+    return '';
+  };
+};
+
+interface GenerateReminderTextParam {
+  rechnung: Rechnung;
+  index: number;
+  sum: number;
+  nextDueDate: string;
+}
+export const generateText = ({ nextDueDate, sum, index, rechnung }: GenerateReminderTextParam): string => {
+  const getDateByIndex = f_getDateByIndex(rechnung.dueDates);
+
+  let result = 'Sehr ';
+  if (rechnung.firma?.length > 0) {
+    result = result.concat('geehrte Damen und Herren');
+  } else if (rechnung.customerName.startsWith('Frau')) {
+    result = result.concat(`geehrte ${rechnung.customerName}`);
+  } else {
+    result = result.concat(`geehrter ${rechnung.customerName}`);
+  }
+  result = result.concat(',\n\n');
+
+  switch (index) {
+    case 1:
+      result = result.concat(
+        `gewiss ist es Ihnen entgangen, dass ein Betrag in Höhe von ${euroValue(sum)}  bereits am ${getDateByIndex(
+          0,
+        )} fällig war. ` +
+          `Zur Vermeidung der Erhebung von Verzugszinsen bitten wir Sie, Ihre Zahlung bis zum ${nextDueDate} vorzunehmen.` +
+          `\n\nSollten Sie den Ausgleich bereits veranlasst haben, sehen Sie dieses Schreiben bitte als gegenstandlos an.` +
+          `\n\nMit freundlichen Grüßen\nAlexander Berent`,
+      );
+      break;
+    case 2:
+      result = result.concat(
+        `auf unsere Mahnung vom ${getDateByIndex(1)} haben Sie leider nicht reagiert. ` +
+          `Bitte überweisen Sie den fälligen Betrag bis zum ${nextDueDate}.` +
+          `\n\nFalls Sie diesen Zahlungstermin nicht einhalten, werden wir Ihnen Kosten des Mahnverfahrens und Verzugszinsen in Rechnung stellen müssen. ` +
+          `\n\nSofern Sie zwischenzeitlich die Zahlung veranlasst haben, bitten wir Sie, dieses Schreiben als gegenstandslos zu betrachten.` +
+          `\n\nMit freundlichen Grüßen\nAlexander Berent`,
+      );
+      break;
+    default:
+    case 3:
+      result = result.concat(
+        `auf unsere Mahnung vom ${getDateByIndex(1)} und 2. Mahnung vom ${getDateByIndex(
+          2,
+        )}. haben Sie nicht reagiert. ` +
+          `Bitte überweisen Sie den fälligen Betrag bis spätestens ${nextDueDate}. ` +
+          `Falls die letzte Zahlungsfrist ohne Eingang des Betrages auf unser Konto verstreicht, sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einleiten zu müssen. ` +
+          `Die Kosten des gesamten Verfahrens gehen zu Ihren Lasten.` +
+          `\n\nSofern Sie zwischenzeitlich die Zahlung veranlasst haben, bitten wir Sie, dieses Schreiben als gegenstandslos zu betrachten.` +
+          `\n\nMit freundlichen Grüßen\nAlexander Berent`,
+      );
+      break;
+  }
+
+  return result;
 };

@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generatePaymentReminder } from '../../pdf/PaymentReminderPdf';
 import { AppDispatch, AppState } from '../../store';
 import { updateOrderProps } from '../../store/appReducer';
-import { calculateNumbers, createDueDate } from '../../utils/utils';
+import { calculateNumbers, createDueDate, generateText, getNextDueDate, getParseableDate } from '../../utils/utils';
 import AddButton from '../shared/AddButton';
 import { AppCard } from '../shared/AppCard';
 import { AppDateField } from '../shared/AppDateField';
@@ -32,14 +32,15 @@ export function Mahnung({ index }: Props) {
 
   const curDueDate = useDueDate(index);
 
-  const prevDueDate = useDueDate(index - 1);
+  const lastDueDate = useDueDate(index - 1);
+
   const createDisabled = useMemo(() => {
     if (index === 1) {
       return false;
     } else {
-      return typeof prevDueDate === 'undefined';
+      return typeof lastDueDate === 'undefined';
     }
-  }, [index, prevDueDate]);
+  }, [index, lastDueDate]);
 
   const rechnung = currentOrder?.rechnung;
 
@@ -58,12 +59,19 @@ export function Mahnung({ index }: Props) {
   );
 
   const initDueDate = useCallback(() => {
-    let sum: number | undefined = calculateNumbers(rechnung?.entries || []).brutto;
-    if (index > 1) {
-      sum = rechnung?.dueDates.find((dd) => dd.index === index - 1)?.sum;
+    if (!rechnung) {
+      return;
     }
 
-    const dueDate = createDueDate(index, sum);
+    let sum: number = calculateNumbers(rechnung.entries || []).brutto;
+    if (index > 1) {
+      sum = rechnung?.dueDates.find((dd) => dd.index === index - 1)?.sum || 0;
+    }
+    const nextDueDate = getNextDueDate({ date: new Date(getParseableDate(lastDueDate?.date)) });
+
+    const text = generateText({ rechnung, index, nextDueDate, sum });
+
+    const dueDate = createDueDate({ date: nextDueDate, index, sum, text });
 
     dispatch(
       updateOrderProps({
@@ -71,7 +79,7 @@ export function Mahnung({ index }: Props) {
         value: [...(rechnung?.dueDates || []), dueDate],
       }),
     );
-  }, [dispatch, rechnung, index]);
+  }, [dispatch, rechnung, index, lastDueDate]);
 
   const update = useCallback(
     (prop: keyof DueDate, value: any) => {
@@ -97,15 +105,52 @@ export function Mahnung({ index }: Props) {
     };
   };
 
+  const label = useMemo(() => {
+    switch (index) {
+      case 1:
+        return `Rechnung ist fällig am ${lastDueDate?.date}`;
+      case 2:
+        return `1. Mahnung ist fällig am ${lastDueDate?.date}`;
+      case 3:
+        return `2. Mahnung ist fällig am ${lastDueDate?.date}`;
+
+      default:
+        return null;
+    }
+  }, [index, lastDueDate?.date]);
+
   if (curDueDate) {
     return (
       <AppGridContainer>
-        <Grid item xs={6} xl={3}>
+        <Grid item xs={12} md={3}>
           <AppCard title={`Mahnung Nr. ${index}`}>
-            <AppTextField value={prevDueDate?.date} disabled label="Fälligkeit" />
-            <MahnungField onValue={onPropValue('date')} dueDate={curDueDate} prop="date" as="date" />
-            <MahnungField onValue={onPropValue('costs')} dueDate={curDueDate} prop="costs" />
-            <MahnungField onValue={onPropValue('sum')} dueDate={curDueDate} prop="sum" />
+            <Typography variant="h6" color={'error'}>
+              {label}
+            </Typography>
+            <MahnungField
+              minDate={new Date(getParseableDate(lastDueDate?.date))}
+              onValue={onPropValue('date')}
+              dueDate={curDueDate}
+              prop="date"
+              as="date"
+            />
+            <MahnungField
+              minDate={new Date(getParseableDate(lastDueDate?.date))}
+              onValue={onPropValue('costs')}
+              dueDate={curDueDate}
+              prop="costs"
+            />
+            <MahnungField
+              minDate={new Date(getParseableDate(lastDueDate?.date))}
+              onValue={onPropValue('sum')}
+              dueDate={curDueDate}
+              prop="sum"
+            />
+          </AppCard>
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <AppCard title="Fälligkeitsdatum immer links und rechts verändern!">
+            <MahnungField onValue={onPropValue('text')} dueDate={curDueDate} prop="text" multiline />
           </AppCard>
         </Grid>
         <Grid item xs={12}>
@@ -123,6 +168,8 @@ interface MahnungFieldProps {
   dueDate: DueDate;
   prop: keyof DueDate;
   onValue: (value: any) => void;
+  multiline?: true;
+  minDate?: Date;
 }
 
 type Labels = {
@@ -130,18 +177,22 @@ type Labels = {
 };
 
 const labels: Labels = {
-  date: 'Zu bezahlen bis',
+  date: 'Fälligkeitsdatum',
   costs: 'Mahngebühr',
-  sum: 'Offener Betrag',
+  sum: 'Offener Betrag aus der Rechnung',
+  text: 'Text',
 };
 
-function MahnungField({ dueDate, prop, as, onValue }: MahnungFieldProps) {
+function MahnungField({ dueDate, prop, as, onValue, multiline, minDate }: MahnungFieldProps) {
   if (as === 'date') {
-    return <AppDateField value={dueDate[prop] as string} onDateChange={onValue} label={labels[prop]} />;
+    return (
+      <AppDateField minDate={minDate} value={dueDate[prop] as string} onDateChange={onValue} label={labels[prop]} />
+    );
   }
 
   return (
     <AppTextField
+      multiline={multiline}
       label={labels[prop]}
       type={'number'}
       value={dueDate[prop]}
