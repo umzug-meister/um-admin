@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +26,7 @@ interface Props {
 export function Mahnung({ index }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
+  const theme = useTheme();
   const currentOrder = useCurrentOrder();
 
   const saveOrder = useSaveOrder();
@@ -106,27 +107,39 @@ export function Mahnung({ index }: Props) {
   };
 
   const label = useMemo(() => {
+    let text = '';
     switch (index) {
       case 1:
-        return `Rechnung ist fällig am ${lastDueDate?.date}`;
+        text = `Rechnung ist fällig am ${lastDueDate?.date}`;
+        break;
       case 2:
-        return `1. Mahnung ist fällig am ${lastDueDate?.date}`;
+        text = `1. Mahnung ist fällig am ${lastDueDate?.date}`;
+        break;
       case 3:
-        return `2. Mahnung ist fällig am ${lastDueDate?.date}`;
+        text = `2. Mahnung ist fällig am ${lastDueDate?.date}`;
+        break;
 
       default:
-        return null;
+        break;
     }
-  }, [index, lastDueDate?.date]);
+
+    const date = new Date(getParseableDate(lastDueDate?.date));
+
+    const color = date > new Date() ? theme.palette.success.main : theme.palette.error.main;
+
+    return { text, color };
+  }, [index, lastDueDate, theme]);
 
   if (curDueDate) {
     return (
       <AppGridContainer>
         <Grid item xs={12} md={3}>
           <AppCard title={`Mahnung Nr. ${index}`}>
-            <Typography variant="h6" color={'error'}>
-              {label}
-            </Typography>
+            <Box paddingY={2}>
+              <Typography variant="h6" color={label.color}>
+                {label.text}
+              </Typography>
+            </Box>
             <MahnungField
               minDate={new Date(getParseableDate(lastDueDate?.date))}
               onValue={onPropValue('date')}

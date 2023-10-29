@@ -7,12 +7,12 @@ import { addDate, addHeader } from './shared';
 import { eachDayOfInterval } from 'date-fns';
 import { DueDate, Rechnung } from 'um-types';
 
-interface PaymentReminderPayload {
+interface PaymentReminderParam {
   rechnung: Rechnung;
   index: number;
 }
 
-export const generatePaymentReminder = ({ index, rechnung }: PaymentReminderPayload) => {
+export const generatePaymentReminder = ({ index, rechnung }: PaymentReminderParam) => {
   const factory = new PdfBuilder(paymentReminderFileName(rechnung, index), {
     left: 20,
     right: 12,

@@ -291,7 +291,7 @@ interface GFile {
   name: string;
 }
 
-interface LSPayload {
+interface LSParam {
   mimeType: string;
   pageSize?: number;
   parentId?: string;
@@ -301,7 +301,7 @@ function getByNameRegEx(regex: RegExp, files: GFile[]) {
   return files?.find((f) => regex.test(f.name));
 }
 
-async function ls({ pageSize = 100, mimeType, parentId }: LSPayload): Promise<GFile[]> {
+async function ls({ pageSize = 100, mimeType, parentId }: LSParam): Promise<GFile[]> {
   let q = `mimeType = '${mimeType}'`;
 
   if (parentId) {
