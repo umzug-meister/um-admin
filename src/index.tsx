@@ -86,12 +86,6 @@ const JOTFORM_SCRIPT = 'https://js.jotform.com/JotForm.js';
 
 addScript(JOTFORM_SCRIPT, 'um-jf-script', true, true);
 
-const link = document.createElement('link');
-link.setAttribute('rel', 'stylesheet');
-link.setAttribute('type', 'text/css');
-link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-document.head.appendChild(link);
-
 const ErrorFallback = styled.div`
   width: 400px;
   margin: auto;

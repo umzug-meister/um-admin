@@ -34,7 +34,7 @@ const theme = createTheme({
   },
   typography: {
     fontSize: 13,
-    fontFamily: 'Inter',
+    fontFamily: '"Arial", Sans-Serif',
   },
 });
 
