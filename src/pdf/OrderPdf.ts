@@ -1,7 +1,7 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
 import { euroValue, numberValue } from '../utils/utils';
-import Agb from './Agb';
+import { agb } from './Agb';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';
@@ -98,9 +98,9 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
     null,
     [
       [
-        'Name:',
+        'Name',
         `${order.customer?.salutation || ''} ${order.customer?.firstName || ''} ${order.customer?.lastName || ''}`,
-        'Tel.:',
+        'Tel.',
         `${order.customer?.telNumber}`,
       ],
     ],
@@ -113,7 +113,7 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
   //Umzugsdatum
   factory.addTable(
     null,
-    [['Umzugstermin:', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.:', `${order.rid || ''}`]],
+    [['Umzugstermin', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
@@ -133,7 +133,7 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
   if (order.myhammer) {
     mark = 'My Hammer';
   }
-  factory.addTable(null, [['Volumen:', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%', mark]], {
+  factory.addTable(null, [['Volumen', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%', mark]], {
     0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
     1: { cellWidth: CELL_WIDTH_1 },
     2: { fontStyle: 'bold', textColor: SECONDARY },
@@ -365,8 +365,14 @@ const addPrice = (factory: PdfBuilder, order: Order, showTitel = true): void => 
 
   if (isTime === true) {
     factory.addText(`Gesamtpreis für ${order.timeBased?.hours || ''} Stunden: ${euroValue(price)}`, 14, 10, 'right');
-
+    factory.setNormal();
     factory.addText(`Je angefangene weitere Stunde: ${euroValue(order.timeBased?.extra)} inkl. MwSt.`, 9, 6, 'right');
+    factory.addText(
+      'Bei einer Zeitüberschreitung von bis zu 20 min ist 1/2 Stunde zu bezahlen, ab 20 min wird eine volle Stunde berechnet.',
+      9,
+      6,
+      'right',
+    );
   } else {
     factory.addText(`Gesamt: ${euroValue(price)}`, 14, 10, 'right');
   }
@@ -386,7 +392,7 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
     AGB §16 "Erweiterungen des Leistungsumfangs".`,
   );
   factory.addText(
-    `• Aufgrund der physischen Anstrengung, sind pro Stunde 8 Min Pause zu gewähren. Die Pausenzeit ist bereits
+    `• Aufgrund der physischen Anstrengung, sind pro Stunde 5 Min Pause zu gewähren. Die Pausenzeit ist bereits
     im Angebot einkalkuliert und wird von der vorgeschlagenen Zeit nicht abgezogen.`,
   );
   factory.addText(
@@ -531,8 +537,7 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
     const body = [];
 
     let actualroom = '';
-    for (let i = 0; i < order.items.length; i++) {
-      const curItem = order.items[i];
+    for (const curItem of order.items) {
       if (Number(curItem.colli) === 0) {
         continue;
       }
@@ -582,44 +587,50 @@ function addBoxes(pdffactory: PdfBuilder, order: Order) {
 }
 
 const addAGB = (factory: PdfBuilder, options: AppOptions): void => {
-  const left = [
-    `Bett Demontage oder Montage: ${euroValue(options[OPTIONS.A_MONTAGE_BET])}`,
-    `Küche Demontage je 1 m.: ${euroValue(options[OPTIONS.A_KITCHEN_MONTAGE])}`,
-    `Schrank Demontage oder Montage je 1 m.: ${euroValue(options[OPTIONS.A_WARDROBE_MONTAGE])}`,
-    `Je zusätzliches m³ Ladevolumen: ${euroValue(options[OPTIONS.A_CBM])}`,
-  ];
-  const right = [
-    `Je 10 Meter zusätzlichem Laufweg am Auzugsort oder Einzugsort: ${euroValue(options[OPTIONS.A_10_METER])}`,
-    `1 Karton zusätzlich Einpacken oder Auspacken: ${euroValue(options[OPTIONS.A_KARTON_PACK])}`,
-    `Jede zusätzliche Etage am Auzugsort oder Einzugsort: ${euroValue(options[OPTIONS.A_ETAGE])}`,
-
-    `Entsorgung: ${euroValue(options.disposalCbmPrice)}/m³ zzgl. einmaliger Pauschale in Höhe von ${euroValue(
-      options.disposalBasicPrice,
-    )}`,
-  ];
   factory.addPage({ top: 3, left: 8, right: 8, bottom: 3 });
   factory.setBold();
-  factory.addText('Allgemeine Geschäftsbedingungen (AGB) der Durchführung des Umzugs', 7);
+  factory.addText('Allgemeine Geschäftsbedingungen der Durchführung des Umzugs', 7);
   factory.resetText();
 
-  addAGBPart(factory, Agb.agb1);
-  factory.add2Cols(left, right, 6.5, 4, 5);
-  factory.addSpace(1);
-  addAGBPart(factory, Agb.agb2);
-  factory.addText('Ich akzeptiere die Allgemeinen Geschäftsbediengungen der Firma Umzug Ruckzuck', 7);
+  addAgbText(factory, options);
+
+  factory.addSpace(2);
+
+  factory.setBold();
+  factory.addText('Ich akzeptiere die allgemeinen Geschäftsbediengungen der Firma Umzug Ruckzuck', 8);
+  factory.setNormal();
   addSignature(factory, 'Kundenunterschrift');
 };
 
-const addAGBPart = (factory: PdfBuilder, pars: string[]): void => {
-  let bold = true;
-  pars.forEach((text) => {
-    if (bold) {
-      factory.setBold();
-      factory.addTextNoSpace(text, 6);
-    } else {
-      factory.setNormal();
-      factory.addTextNoSpace(text, 7);
+const addAgbText = (pdfBuilder: PdfBuilder, options: AppOptions) => {
+  agb.forEach((paragraph, index) => {
+    pdfBuilder.addTable(
+      [[`§${index + 1} ${paragraph.title}`]],
+      [[paragraph.text]],
+      { 0: { fontSize: 7, lineColor: [255, 255, 255] } },
+      { fontSize: 7, fillColor: [255, 255, 255], textColor: [0, 0, 0] },
+      8,
+    );
+
+    const left = [
+      `Bett Demontage oder Montage: ${euroValue(options[OPTIONS.A_MONTAGE_BET])}`,
+      `Küche Demontage je 1 m.: ${euroValue(options[OPTIONS.A_KITCHEN_MONTAGE])}`,
+      `Schrank Demontage oder Montage je 1 m.: ${euroValue(options[OPTIONS.A_WARDROBE_MONTAGE])}`,
+      `Je zusätzliches m³ Ladevolumen: ${euroValue(options[OPTIONS.A_CBM])}`,
+    ];
+
+    const right = [
+      `Je 10 Meter zusätzlichem Laufweg am Auzugsort oder Einzugsort: ${euroValue(options[OPTIONS.A_10_METER])}`,
+      `1 Karton zusätzlich Einpacken oder Auspacken: ${euroValue(options[OPTIONS.A_KARTON_PACK])}`,
+      `Jede zusätzliche Etage am Auzugsort oder Einzugsort: ${euroValue(options[OPTIONS.A_ETAGE])}`,
+
+      `Entsorgung: ${euroValue(options.disposalCbmPrice)}/m³ zzgl. einmaliger Pauschale in Höhe von ${euroValue(
+        options.disposalBasicPrice,
+      )}`,
+    ];
+
+    if (paragraph.prices) {
+      pdfBuilder.add2Cols(left, right, 7, 4, 1);
     }
-    bold = !bold;
   });
 };
