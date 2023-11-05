@@ -1,4 +1,4 @@
-const agb = [
+export const agb = [
   {
     title: 'Leistungen des Möbelspediteurs.',
     text:
@@ -147,5 +147,3 @@ const agb = [
     text: 'Für Rechtsstreitigkeiten ist das Gericht, in dessen Bezirk sich die vom Absender beauftragte Firma befindet, ausschließlich zuständig. Es gilt deutsches Recht',
   },
 ];
-
-export default agb;
