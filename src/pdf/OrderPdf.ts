@@ -1,7 +1,7 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
 import { euroValue, numberValue } from '../utils/utils';
-import { agb } from './Agb';
+import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';

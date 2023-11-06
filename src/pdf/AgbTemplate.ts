@@ -116,7 +116,7 @@ export const agb = [
   {
     title: 'Abwesenheit des Absenders.',
     text:
-      'Bei der Abwesenheit des Absenders muß dieser eine Vertretung festlegen, um §10 und §14 einzuhalten,' +
+      'Bei der Abwesenheit des Absenders muß dieser eine Vertretung festlegen, um §§ "Fälligkeit des vereinbarten Entgelts" und "Schadensanzeige" einzuhalten,' +
       ' sonst erlöschen Ansprüche wegen Verlust oder Beschädigung des Gutes.',
   },
 
