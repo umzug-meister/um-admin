@@ -11,9 +11,10 @@ export const agb = [
   {
     title: 'Eigenverpackung und Möbelvorbereitung beim Umzug',
     text:
-      'Sobald die Auftraggeber*innen die Umzugskartons selbst packen, ' +
-      'dürfen die einzelnen Kartons ein Gewicht von maximal 20 kg haben. ' +
-      'Wenn die Möbel vom Auftraggeber vorbereitet werden, müssen sie vollständig von fremden Gegenständen befreit sein.',
+      'Um einen reibungslosen Ablauf beim Umzug zu gewährleistne gilt folgendes: ' +
+      'Falls die Auftraggeber*innen selbst die Umzugskartons packen, dürfen diese maximal 20 kg wiegen. ' +
+      'Möbel, die von den Auftraggeber*innen vorbereitet werden, müssen komplett frei von Fremdgegenständen sein. ' +
+      'Wenn die Auftraggeber*innen die Möbelstücke eigenständig demontieren, übernimmt die Firma Umzug Ruck Zuck keine Verantwortung für den Wiederaufbau.',
   },
   {
     title: 'Beauftragung eines weiteren Frachtführers.',
@@ -116,7 +117,7 @@ export const agb = [
   {
     title: 'Abwesenheit des Absenders.',
     text:
-      'Bei der Abwesenheit des Absenders muß dieser eine Vertretung festlegen, um §10 und §14 einzuhalten,' +
+      'Bei der Abwesenheit des Absenders muß dieser eine Vertretung festlegen, um §§ "Fälligkeit des vereinbarten Entgelts" und "Schadensanzeige" einzuhalten,' +
       ' sonst erlöschen Ansprüche wegen Verlust oder Beschädigung des Gutes.',
   },
 
@@ -144,6 +145,6 @@ export const agb = [
   },
   {
     title: 'Gerichtsstand und Recht',
-    text: 'Für Rechtsstreitigkeiten ist das Gericht, in dessen Bezirk sich die vom Absender beauftragte Firma befindet, ausschließlich zuständig. Es gilt deutsches Recht',
+    text: 'Für Rechtsstreitigkeiten ist das Gericht, in dessen Bezirk sich die vom Absender beauftragte Firma befindet, ausschließlich zuständig. Es gilt deutsches Recht.',
   },
 ];

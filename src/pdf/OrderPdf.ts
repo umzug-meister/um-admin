@@ -1,7 +1,7 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
 import { euroValue, numberValue } from '../utils/utils';
-import { agb } from './Agb';
+import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';
@@ -380,26 +380,26 @@ const addPrice = (factory: PdfBuilder, order: Order, showTitel = true): void => 
 };
 
 const addTopPageTextSecondPage = (factory: PdfBuilder) => {
+  const textBlocks = [
+    'Die Anzahl der Ladehelfer und die Arbeitsdauer in Stunden werden basierend auf den ' +
+      'von Auftraggeber*innen im Online-Formular "Umzugsanfrage/Umzugsgutliste"bereitgestellten Daten berechnet. ' +
+      'Diese Daten umfassen den Trageweg, die Zimmeranzahl, das Stockwerk und das Umzugsgutvolumen (in Kubikmetern).',
+
+    'Wenn kein Formular ausgefüllt wird, erfolgt die Berechnung gemäß der aktuellen Preisliste und Bestimmungen der AGB, insbesondere den §§ "Erweiterungen des Leistungsumfangs"',
+
+    'Aufgrund der körperlichen Belastung sind pro Stunde 5 Minuten Pause vorgesehen. ' +
+      'Die Pausenzeit ist bereits im Angebot berücksichtigt und wird nicht von der empfohlenen Gesamtdauer abgezogen.',
+
+    'Wenn die Firma Umzug Ruck nicht ausreichend detaillierte schriftliche Informationen zum Umzug erhält, ' +
+      'behält sich das Unternehmen das Recht vor, den Auftrag oder die Möbelliste um Positionen wie beispielsweise ' +
+      '"Volumen in Kubikmetern", "Schwertransport", "Trageweg" oder "Transport von sperrigen Gegenständen" zu erweitern.',
+  ];
+
   factory.resetText();
-  factory.addText('• Der Möbelaufbau erfolgt nur, wenn der Abbau durch die Firma Umzug Ruck Zuck erfolgte.');
-  factory.addText(
-    `• Anzahl der Ladehelfer und Dauer der Arbeit (Stunden) berechnet sich anhand der, von dem/der Auftraggeber(in)
-    zur Verfügung gestellten Daten aus dem Online Formular "Umzugsanfrage/Umzugsgutliste":
-    Trageweg, Zimmeranzahl, Stockwerk und Umzugsgut (m³).`,
-  );
-  factory.addText(
-    `• Wird kein Formular ausgefüllt, erfolgt die Berechnung anhand der folgenden Parameter und der
-    AGB §16 "Erweiterungen des Leistungsumfangs".`,
-  );
-  factory.addText(
-    `• Aufgrund der physischen Anstrengung, sind pro Stunde 5 Min Pause zu gewähren. Die Pausenzeit ist bereits
-    im Angebot einkalkuliert und wird von der vorgeschlagenen Zeit nicht abgezogen.`,
-  );
-  factory.addText(
-    `•  Werden der Firma Umzug Ruck Details des Umzuges schriftlich nicht bekannt gegeben, behält sich
-    das Unternehmen das Recht vor, den Auftrag, bzw. die Möbelliste um Positionen wie z.B. "Volumen m³",
-    "Schwertransport","Trageweg" oder "Transport von sperrigen Gegenständen"  zu erweitern.`,
-  );
+
+  textBlocks.forEach((block) => {
+    factory.addTable(null, [[`• ${block}`]], { 0: { lineColor: [255, 255, 255] } });
+  });
 };
 
 function getColli(serv: Service, order: Order): string {
