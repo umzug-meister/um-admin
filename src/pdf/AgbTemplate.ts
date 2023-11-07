@@ -11,7 +11,7 @@ export const agb = [
   {
     title: 'Eigenverpackung und Möbelvorbereitung beim Umzug',
     text:
-      'Um einen reibungslosen Ablauf beim Umzug zu gewährleistne gilt folgendes: ' +
+      'Um einen reibungslosen Ablauf beim Umzug zu gewährleisten gilt folgendes: ' +
       'Falls die Auftraggeber*innen selbst die Umzugskartons packen, dürfen diese maximal 20 kg wiegen. ' +
       'Möbel, die von den Auftraggeber*innen vorbereitet werden, müssen komplett frei von Fremdgegenständen sein. ' +
       'Wenn die Auftraggeber*innen die Möbelstücke eigenständig demontieren, übernimmt die Firma Umzug Ruck Zuck keine Verantwortung für den Wiederaufbau.',
