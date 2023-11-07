@@ -5,7 +5,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
@@ -16,7 +16,7 @@ import { getPrintableDate } from '../utils/utils';
 
 import { Order } from 'um-types';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 10;
 
 const generator = (function* () {
   let i = 1;
@@ -35,10 +35,7 @@ export default function Orders() {
 
   const [loading, setLoading] = useState(false);
 
-  const [paginationModel, setPaginationModel] = useState({
-    pageSize: PAGE_SIZE,
-    page: 0,
-  });
+  const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
 
   const navigate = useNavigate();
 
@@ -76,19 +73,28 @@ export default function Orders() {
     [navigate],
   );
 
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+  const setPage = useCallback(
+    (page: number) => {
+      setSearchParams({ page: String(page) });
+    },
+    [setSearchParams],
+  );
+
   const onClear = useCallback(() => {
-    setPaginationModel({ page: 0, pageSize: PAGE_SIZE });
+    setPage(1);
     setDisablePagination(false);
     const next = generator.next().value;
     setReset(next);
-  }, []);
+  }, [setPage]);
 
   useEffect(() => {
     setLoading(true);
-    appRequest('get')(Urls.orders(paginationModel.page + 1, paginationModel.pageSize))
+    appRequest('get')(Urls.orders(currentPage, PAGE_SIZE))
       .then(setData)
       .finally(() => setLoading(false));
-  }, [paginationModel.page, paginationModel.pageSize, reset]);
+  }, [currentPage, reset]);
 
   const orderColumns: GridBaseColDef[] = useMemo(
     () => [
@@ -257,8 +263,8 @@ export default function Orders() {
         disablePagination={disablePagination}
         data={data}
         columns={orderColumns}
-        setPaginationModel={setPaginationModel}
-        paginationModel={paginationModel}
+        setPaginationModel={(model) => setPage(model.page)}
+        paginationModel={{ pageSize: PAGE_SIZE, page: Number(searchParams.get('page')) }}
       />
     </RootBox>
   );
