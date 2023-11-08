@@ -22,10 +22,8 @@ jobs:
       - name: Install modules
         run: npm install
 
-      - name: Add package version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
-
       - name: Build App
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
         run: npm run build
         env:
           REACT_APP_VERSION: ${{ steps.package-version.outputs.current-version}}
