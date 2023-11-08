@@ -224,11 +224,13 @@ export default function Orders() {
         renderCell({ value }) {
           if (!value) {
             return null;
-          }
-          if (typeof value === 'number') {
-            return <AppDateCell date={new Date(Number(value))} />;
-          } else if (typeof value === 'string') {
+          } else if (typeof value === 'string' && value.includes(',')) {
+            // already readyble
             return value;
+          } else if (typeof value === 'string' && value.includes('T')) {
+            return <AppDateCell date={new Date(value)} />;
+          } else {
+            return <AppDateCell date={new Date(Number(value))} />;
           }
         },
       },
