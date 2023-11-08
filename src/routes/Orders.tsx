@@ -10,6 +10,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
+import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import SearchBar from '../components/shared/SearchBar';
 import { getPrintableDate } from '../utils/utils';
@@ -222,17 +223,7 @@ export default function Orders() {
         headerName: 'Bearbeitet',
         renderCell({ value }) {
           if (value) {
-            const parts = new Date(Number(value)).toLocaleString('ru').split(', ');
-            return (
-              <Box>
-                <Typography display="block" variant="caption">
-                  {parts[0]}
-                </Typography>
-                <Typography color="secondary" variant="caption">
-                  {parts[1]}
-                </Typography>
-              </Box>
-            );
+            return <AppDateCell date={new Date(Number(value))} />;
           }
           return null;
         },
