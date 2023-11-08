@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { AppDataGrid } from '../components/shared/AppDataGrid';
+import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import SearchBar from '../components/shared/SearchBar';
 import { useGenerateOrder } from '../hooks/useGenerateOrder';
@@ -71,7 +72,14 @@ export default function Import() {
             headerName: 'Name',
             flex: 1,
           },
-          { field: 'createdAt', headerName: 'Erstellt', flex: 1 },
+          {
+            field: 'createdAt',
+            headerName: 'Erstellt',
+            flex: 1,
+            renderCell(params) {
+              return <AppDateCell date={new Date(params.value)} />;
+            },
+          },
           { field: 'email', headerName: 'E-Mail', flex: 1 },
           { field: 'id', headerName: 'Submission ID', flex: 1 },
           {
