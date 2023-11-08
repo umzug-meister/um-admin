@@ -222,10 +222,14 @@ export default function Orders() {
         field: 'lupd',
         headerName: 'Bearbeitet',
         renderCell({ value }) {
-          if (value) {
-            return <AppDateCell date={new Date(Number(value))} />;
+          if (!value) {
+            return null;
           }
-          return null;
+          if (typeof value === 'number') {
+            return <AppDateCell date={new Date(Number(value))} />;
+          } else if (typeof value === 'string') {
+            return value;
+          }
         },
       },
       {
