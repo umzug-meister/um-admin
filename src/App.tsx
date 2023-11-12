@@ -39,21 +39,17 @@ const ContentMain = styled.main`
 
 function AppContent() {
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
-      <ThemeProvider theme={theme}>
-        <>
-          <CssBaseline />
-          <AppDiv>
-            <ContentMain>
-              <TopBar />
-              <Box mt={7}>
-                <Outlet />
-              </Box>
-            </ContentMain>
-          </AppDiv>
-        </>
-      </ThemeProvider>
-    </LocalizationProvider>
+    <>
+      <CssBaseline />
+      <AppDiv>
+        <ContentMain>
+          <TopBar />
+          <Box mt={7}>
+            <Outlet />
+          </Box>
+        </ContentMain>
+      </AppDiv>
+    </>
   );
 }
 
@@ -63,116 +59,120 @@ function LazyLoad({ children }: React.PropsWithChildren) {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<AppContent />}>
-        <Route
-          index
-          element={
-            <LazyLoad>
-              <Orders />
-            </LazyLoad>
-          }
-        />
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/" element={<AppContent />}>
+            <Route
+              index
+              element={
+                <LazyLoad>
+                  <Orders />
+                </LazyLoad>
+              }
+            />
 
-        <Route
-          path="edit/:id"
-          element={
-            <LazyLoad>
-              <Edit />
-            </LazyLoad>
-          }
-        />
-        <Route
-          path="import"
-          element={
-            <LazyLoad>
-              <Import />
-            </LazyLoad>
-          }
-        />
-        <Route
-          path="import/:id"
-          element={
-            <LazyLoad>
-              <DirectImport />
-            </LazyLoad>
-          }
-        />
-        <Route
-          path="blanco"
-          element={
-            <LazyLoad>
-              <Blanco />
-            </LazyLoad>
-          }
-        />
-        <Route
-          path="settings"
-          element={
-            <LazyLoad>
-              <Settings />
-            </LazyLoad>
-          }
-        >
+            <Route
+              path="edit/:id"
+              element={
+                <LazyLoad>
+                  <Edit />
+                </LazyLoad>
+              }
+            />
+            <Route
+              path="import"
+              element={
+                <LazyLoad>
+                  <Import />
+                </LazyLoad>
+              }
+            />
+            <Route
+              path="import/:id"
+              element={
+                <LazyLoad>
+                  <DirectImport />
+                </LazyLoad>
+              }
+            />
+            <Route
+              path="blanco"
+              element={
+                <LazyLoad>
+                  <Blanco />
+                </LazyLoad>
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <LazyLoad>
+                  <Settings />
+                </LazyLoad>
+              }
+            >
+              <Route
+                index
+                element={
+                  <LazyLoad>
+                    <Options />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="offers"
+                element={
+                  <LazyLoad>
+                    <OffersEditor />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="packings"
+                element={
+                  <LazyLoad>
+                    <Packings />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="services"
+                element={
+                  <LazyLoad>
+                    <Services />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="categories"
+                element={
+                  <LazyLoad>
+                    <Categories />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="furniture"
+                element={
+                  <LazyLoad>
+                    <FurnitureRoute />
+                  </LazyLoad>
+                }
+              />
+            </Route>
+          </Route>
           <Route
-            index
+            path="email-text/:id"
             element={
               <LazyLoad>
-                <Options />
+                <EMailText />
               </LazyLoad>
             }
           />
-          <Route
-            path="offers"
-            element={
-              <LazyLoad>
-                <OffersEditor />
-              </LazyLoad>
-            }
-          />
-          <Route
-            path="packings"
-            element={
-              <LazyLoad>
-                <Packings />
-              </LazyLoad>
-            }
-          />
-          <Route
-            path="services"
-            element={
-              <LazyLoad>
-                <Services />
-              </LazyLoad>
-            }
-          />
-          <Route
-            path="categories"
-            element={
-              <LazyLoad>
-                <Categories />
-              </LazyLoad>
-            }
-          />
-          <Route
-            path="furniture"
-            element={
-              <LazyLoad>
-                <FurnitureRoute />
-              </LazyLoad>
-            }
-          />
-        </Route>
-      </Route>
-      <Route
-        path="email-text/:id"
-        element={
-          <LazyLoad>
-            <EMailText />
-          </LazyLoad>
-        }
-      />
-    </Routes>
+        </Routes>
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 }
 

@@ -17,6 +17,7 @@ const pulse = keyframes`
 export default function Pulsating({ children }: React.PropsWithChildren) {
   return (
     <Box
+      id="pulse"
       sx={{
         animation: `${pulse} 800ms 2 ease`,
       }}

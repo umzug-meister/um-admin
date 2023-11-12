@@ -87,7 +87,7 @@ export default function Import() {
             headerName: '',
             renderCell({ row }) {
               return (
-                <Button variant="contained" onClick={() => onImportRequest(row)} color="secondary" disableElevation>
+                <Button variant="contained" onClick={() => onImportRequest(row)} color="secondary">
                   Import
                 </Button>
               );

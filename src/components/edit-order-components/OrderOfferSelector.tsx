@@ -97,12 +97,12 @@ export default function OrderOfferSelector() {
         renderCell({ value }) {
           return foundOffer ? (
             <Pulsating>
-              <Button onClick={() => setPrice(value)} variant="contained" disableElevation>
+              <Button onClick={() => setPrice(value)} variant="contained">
                 Setzen
               </Button>
             </Pulsating>
           ) : (
-            <Button onClick={() => setPrice(value)} variant="outlined" disableElevation>
+            <Button onClick={() => setPrice(value)} variant="outlined">
               Setzen
             </Button>
           );

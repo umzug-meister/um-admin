@@ -1,11 +1,16 @@
+import { useId } from 'react';
+
+import { CopyOfferButton } from '../components/CopyOfferButton';
+import EMailTextTemplate from '../components/EMailTextTemplate';
 import { useLoadOrder } from '../hooks/useLoadOrder';
 import { anrede, euroValue, getPrintableDate } from '../utils/utils';
-import EMailTextTemplate from './EMailTextTemplate';
 
 import { Address } from 'um-types';
 
 export default function EMailText() {
   const order = useLoadOrder();
+
+  const elementID = useId();
 
   if (order == null) {
     return null;
@@ -89,18 +94,24 @@ export default function EMailText() {
     return htmlString;
   };
 
+  const f = new Intl.NumberFormat('de-DE');
+
   return (
-    <EMailTextTemplate
-      date={getPrintableDate(order.date, true)}
-      time={order.time}
-      volume={order.volume}
-      anrede={anrede(order.customer)}
-      orderId={order.id || '---1'}
-      hasMontage={order.from?.demontage || order.to?.montage}
-      extra={extra()}
-      persons={persons()}
-      stunden={stunden()}
-      servicesHTML={servicesHTML()}
-    />
+    <>
+      <CopyOfferButton elementID={elementID} />
+      <EMailTextTemplate
+        elementID={elementID}
+        date={getPrintableDate(order.date, true)}
+        time={order.time}
+        volume={f.format(Number(order.volume))}
+        anrede={anrede(order.customer)}
+        orderId={order.id || '---1'}
+        hasMontage={order.from?.demontage || order.to?.montage}
+        extra={extra()}
+        persons={persons()}
+        stunden={stunden()}
+        servicesHTML={servicesHTML()}
+      />
+    </>
   );
 }

@@ -11,6 +11,7 @@ interface Props {
   volume: string | number | undefined;
   date: string | undefined;
   time: string | undefined;
+  elementID: string;
 }
 
 export default function EMailTextTemplate({
@@ -24,9 +25,11 @@ export default function EMailTextTemplate({
   volume,
   date,
   time,
+  elementID,
 }: Props) {
   return (
     <Box
+      id={elementID}
       p={1}
       sx={{
         fontSize: '14px',
@@ -53,7 +56,7 @@ export default function EMailTextTemplate({
         <li>Anfahrt / Lastfahrtkosten</li>
         {hasMontage ? <li>Möbeldemontage/Montage</li> : null}
         <li>Bereitstellung eines Umzugswagens</li>
-        <li>Versicherung: bis 2 Mio Euro</li>
+        <li>Versicherung: bis 2 Mio. Euro</li>
         <li>Be- und Entladen des LKWs</li>
         <li>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</li>
         <li>Ordentliche Rechnungsstellung</li>

@@ -10,6 +10,10 @@ interface Window {
   };
 }
 
+interface HTMLElement {
+  createTextRange: Function;
+}
+
 interface Date {
   addDays: (days: number) => Date;
 }
