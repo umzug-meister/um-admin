@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 import { useId } from 'react';
 
 import { CopyOfferButton } from '../components/CopyOfferButton';
@@ -97,7 +99,7 @@ export default function EMailText() {
   const f = new Intl.NumberFormat('de-DE');
 
   return (
-    <>
+    <Box p={1}>
       <CopyOfferButton elementID={elementID} />
       <EMailTextTemplate
         elementID={elementID}
@@ -112,6 +114,6 @@ export default function EMailText() {
         stunden={stunden()}
         servicesHTML={servicesHTML()}
       />
-    </>
+    </Box>
   );
 }
