@@ -52,10 +52,10 @@ export function CopyOfferButton({ elementID }: Readonly<Props>) {
           <Typography variant="body2">In die Zwischenablage kopiert</Typography>
         </Alert>
       </Snackbar>
-      <Box width={14}>
+      <Box width={200}>
         <Pulsating>
           <Button startIcon={<ContentCopyOutlinedIcon />} variant="contained" onClick={onCopy}>
-            Kopieren
+            Text Kopieren
           </Button>
         </Pulsating>
       </Box>

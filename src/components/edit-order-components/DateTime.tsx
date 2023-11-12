@@ -1,8 +1,10 @@
-import { Box, Grid, TextField } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { getParseableDate } from '../../utils/utils';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
+import { AppTextField } from '../shared/AppTextField';
 
 export default function DateTime() {
   return (
@@ -19,16 +21,12 @@ export default function DateTime() {
 function AppointmentRange() {
   const order = useCurrentOrder();
 
-  if (!order) {
-    return null;
-  }
-  if (order?.date_from && order.date_to) {
-    return (
-      <Box display="flex" gap={2}>
-        <TextField size="small" label="Von" fullWidth disabled value={order.date_from}></TextField>
-        <TextField size="small" label="Bis" fullWidth disabled value={order.date_to}></TextField>
-      </Box>
-    );
+  if (order?.date_from && order?.date_to) {
+    const formater = new Intl.DateTimeFormat('de-DE', { dateStyle: 'full' });
+    const startDate = new Date(getParseableDate(order.date_from));
+    const endDate = new Date(getParseableDate(order.date_to));
+    const value = formater.formatRange(startDate, endDate);
+    return <AppTextField disabled value={value} />;
   }
 
   return null;
