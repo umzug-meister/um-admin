@@ -10,9 +10,7 @@ import { EmailServicesTable } from './EmailServicesTable';
 
 import { Order } from 'um-types';
 
-interface Props extends CoreProps {}
-
-interface CoreProps extends RootProps {
+interface CoreProps {
   order: Order;
 }
 
@@ -20,13 +18,13 @@ interface RootProps {
   elementID: string;
 }
 
-export function EMailTextTemplate({ order, elementID }: Props) {
+export function EMailTextTemplate({ order }: CoreProps) {
   const f = new Intl.NumberFormat('de-DE');
 
   const hasMontage = order.from?.demontage || order.to?.montage;
 
   return (
-    <RootElement elementID={elementID}>
+    <>
       <p style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Kostenvoranschlag</p>
       <p>
         Bei Rückfragen, bitte folgende ID bereithalten:
@@ -52,7 +50,7 @@ export function EMailTextTemplate({ order, elementID }: Props) {
         <li>Ordentliche Rechnungsstellung</li>
       </ul>
 
-      <EmailServicesTemplate elementID="unused" order={order} />
+      <EmailServicesTemplate order={order} />
 
       <br />
       <p>{`Unser Kostenvoranschlag gilt bis zum ${new Date().addDays(3).toLocaleDateString('ru')}.`}</p>
@@ -71,23 +69,23 @@ export function EMailTextTemplate({ order, elementID }: Props) {
         Sollten Sie Interesse nach Renovierungs- und Ausbesserungsarbeiten haben, kontaktieren Sie bitte unseren
         Partner: 0176 305 451 65.
       </p>
-    </RootElement>
+    </>
   );
 }
 
-export function EmailServicesTemplate({ elementID, order }: Readonly<CoreProps>) {
+export function EmailServicesTemplate({ order }: Readonly<CoreProps>) {
   return (
-    <RootElement elementID={elementID}>
+    <>
       <EmailPersons order={order} />
       <BaseHoursAndPrice order={order} />
       <EmailExtraHours timeBased={order.timeBased} />
       <br />
       <EmailServicesTable order={order} />
-    </RootElement>
+    </>
   );
 }
 
-function RootElement({ elementID, children }: React.PropsWithChildren<RootProps>) {
+export function RootElement({ elementID, children }: React.PropsWithChildren<RootProps>) {
   return (
     <Box
       id={elementID}

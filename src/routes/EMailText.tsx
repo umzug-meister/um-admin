@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { useId } from 'react';
 
 import { CopyOfferButton } from '../components/CopyOfferButton';
-import { EMailTextTemplate, EmailServicesTemplate } from '../components/email-text-blocks/EMailTemplates';
+import { EMailTextTemplate, EmailServicesTemplate, RootElement } from '../components/email-text-blocks/EMailTemplates';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { useLoadOrder } from '../hooks/useLoadOrder';
 
@@ -21,11 +21,15 @@ export default function EMailText() {
     <AppGridContainer>
       <Grid item xs={12} lg={6}>
         <CopyOfferButton elementID={fullText} />
-        <EMailTextTemplate elementID={fullText} order={order} />
+        <RootElement elementID={fullText}>
+          <EMailTextTemplate order={order} />
+        </RootElement>
       </Grid>
       <Grid item xs={12} lg={6}>
         <CopyOfferButton elementID={core} />
-        <EmailServicesTemplate elementID={core} order={order} />
+        <RootElement elementID={core}>
+          <EmailServicesTemplate order={order} />
+        </RootElement>
       </Grid>
     </AppGridContainer>
   );
