@@ -3,6 +3,8 @@ import { Alert, Box, Button, Snackbar, Typography } from '@mui/material';
 
 import { useState } from 'react';
 
+import Pulsating from './shared/Pulsating';
+
 interface Props {
   elementID: string;
 }
@@ -51,9 +53,11 @@ export function CopyOfferButton({ elementID }: Readonly<Props>) {
         </Alert>
       </Snackbar>
       <Box width={200}>
-        <Button startIcon={<ContentCopyOutlinedIcon />} variant="contained" onClick={onCopy}>
-          Kopieren
-        </Button>
+        <Pulsating>
+          <Button startIcon={<ContentCopyOutlinedIcon />} variant="contained" onClick={onCopy}>
+            Text Kopieren
+          </Button>
+        </Pulsating>
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Address, Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
+import { Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 
@@ -214,15 +214,4 @@ export const generateText = ({ nextDueDate, sum, index, rechnung }: GenerateRemi
   }
 
   return result;
-};
-
-export const getOrtFromAdress = (orderAddress: Address) => {
-  if (orderAddress) {
-    const { address } = orderAddress;
-
-    const ort = address?.split(', ')?.[1] || address;
-
-    return ort?.trim() || '';
-  }
-  return ' ';
 };
