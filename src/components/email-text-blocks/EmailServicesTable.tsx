@@ -10,7 +10,7 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
   const { leistungen = [], timeBased, sum } = order;
 
   return (
-    <table style={{ maxWidth: '600px', borderBottom: '1px solid black' }}>
+    <table style={{ minWidth: '400px', maxWidth: '600px', borderBottom: '1px solid black' }}>
       <tbody>
         {leistungen
           .filter((l) => l.hidden !== true)
