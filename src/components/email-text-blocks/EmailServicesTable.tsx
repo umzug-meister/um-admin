@@ -17,11 +17,11 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
           .map((lst) => (
             <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} red={lst.red} />
           ))}
-        <ServicesTableRow
-          desc={`Gesamtbetrag ${timeBased?.hours ? `(${timeBased.hours} Stunden)` : ''}`}
-          price={sum}
-          bold
-        />
+        {timeBased?.hours ? (
+          <ServicesTableRow price={sum} bold desc={`Gesamtbetrag ${timeBased.hours} Stunden`} />
+        ) : (
+          <ServicesTableRow price={sum} bold desc="Gesamtbetrag" />
+        )}
       </tbody>
     </table>
   );

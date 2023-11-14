@@ -25,21 +25,26 @@ export function EMailTextTemplate({ order }: CoreProps) {
 
   return (
     <>
-      <p style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Kostenvoranschlag</p>
+      <h3>Kostenvoranschlag</h3>
       <p>
-        Bei Rückfragen, bitte folgende ID bereithalten:
-        <i style={{ fontStyle: 'normal', fontWeight: 'bold' }}>{` ${order.id || '---1'}`}</i>
+        {`Bei Rückfragen, bitte folgende ID bereithalten: `}
+        <strong>{order.id}</strong>
       </p>
+      <br />
       <p>{anrede(order.customer)}</p>
       <p>
         {`gerne übernehmen wir Ihren Umzug am `}
         <strong>
-          {getPrintableDate(order.date)} um {order.time} Uhr.
+          {getPrintableDate(order.date, true)} um {order.time} Uhr.
         </strong>
       </p>
-      {order.volume && <p style={{ fontWeight: 'bold' }}>Umzugsgut: {f.format(Number(order.volume))} m³</p>}
+      {order.volume && (
+        <p>
+          <strong>Umzugsgut: {f.format(Number(order.volume))} m³</strong>
+        </p>
+      )}
       <br />
-      <p style={{ textDecoration: 'bold' }}>Unser Kostenvoranschlag beinhaltet:</p>
+      <p>Unser Kostenvoranschlag beinhaltet:</p>
       <ul>
         <li>Anfahrt / Lastfahrtkosten</li>
         {hasMontage ? <li>Möbeldemontage/Montage</li> : null}
@@ -54,21 +59,23 @@ export function EMailTextTemplate({ order }: CoreProps) {
 
       <br />
       <p>{`Unser Kostenvoranschlag gilt bis zum ${new Date().addDays(3).toLocaleDateString('ru')}.`}</p>
-      <p style={{ color: 'blue', fontWeight: 'bold' }}>Im Anhang erhalten Sie den Auftrag.</p>
-      <p style={{ color: 'blue', fontWeight: 'bold' }}>
-        Ich bitte um Ihre Rückmeldung (Rückbestätigung per E-Mail ohne Unterschrift).
+      <p style={{ color: 'blue' }}>
+        <strong>Im Anhang erhalten Sie den Auftrag.</strong>
+      </p>
+      <p style={{ color: 'blue' }}>
+        <strong>Ich bitte um Ihre Rückmeldung (Rückbestätigung per E-Mail ohne Unterschrift).</strong>
       </p>
       <p style={{ color: 'red' }}>
-        {` Nutzen Sie unseren `}
+        {`Nutzen Sie unseren `}
         <a href="https://umzugruckzuck.de/umzug-muenchen-kartonrechner/">Kartonrechner</a>, um die Anzahl der Kartons zu
         schätzen!
       </p>
-      <p style={{ fontWeight: 'bold' }}>
+      <strong>
         --
         <br />
         Sollten Sie Interesse nach Renovierungs- und Ausbesserungsarbeiten haben, kontaktieren Sie bitte unseren
         Partner: 0176 305 451 65.
-      </p>
+      </strong>
     </>
   );
 }

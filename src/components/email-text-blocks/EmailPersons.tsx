@@ -22,7 +22,7 @@ export function EmailPersons({ order }: Props) {
   }
   return (
     <p>
-      <b>{value}</b>
+      <strong>{value}</strong>
     </p>
   );
 }
