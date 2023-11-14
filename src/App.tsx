@@ -44,7 +44,7 @@ function AppContent() {
       <AppDiv>
         <ContentMain>
           <TopBar />
-          <Box mt={7}>
+          <Box mt={6}>
             <Outlet />
           </Box>
         </ContentMain>
