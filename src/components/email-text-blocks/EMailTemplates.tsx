@@ -32,9 +32,9 @@ export function EMailTextTemplate({ order }: CoreProps) {
       </p>
       <p>{anrede(order.customer)}</p>
       <p>
-        gerne übernehmen wir Ihren Umzug am{' '}
+        {`gerne übernehmen wir Ihren Umzug am `}
         <strong>
-          {getPrintableDate(order.date)} um {getPrintableDate(order.time)} Uhr.
+          {getPrintableDate(order.date)} um {order.time} Uhr.
         </strong>
       </p>
       {order.volume && <p style={{ fontWeight: 'bold' }}>Umzugsgut: {f.format(Number(order.volume))} m³</p>}
