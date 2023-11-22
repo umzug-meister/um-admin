@@ -25,6 +25,12 @@ const servicesolumns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
   { field: 'name', headerName: 'Name', editable: true, flex: 1 },
   { field: 'price', headerName: 'Preis', editable: true, type: 'number' },
+  {
+    field: 'show',
+    headerName: 'In der Form anzeigen',
+    editable: true,
+    type: 'boolean',
+  },
 ];
 
 export default function Services() {
