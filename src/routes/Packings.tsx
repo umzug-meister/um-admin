@@ -31,6 +31,12 @@ export const packingsColumns: GridColDef[] = [
     editable: true,
     type: 'boolean',
   },
+  {
+    field: 'sort',
+    headerName: 'Sortierung',
+    editable: true,
+    type: 'number',
+  },
 ];
 
 const TAG: AppServiceTag = 'Packmaterial';
