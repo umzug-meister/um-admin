@@ -68,7 +68,9 @@ export const OPTIONS = {
   G_NUMBER: 'gNumber',
   JF_API_KEY: 'jfApiKey',
   ORIGIN: 'origin',
+  POOL_ID: 'poolId',
   DATA_PRIVACY_URL: 'dataPrivacyUrl',
+  HOME_URL: 'homeUrl',
 } as const;
 
 export function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {
