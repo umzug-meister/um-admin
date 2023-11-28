@@ -40,6 +40,7 @@ export function OrderFurniture() {
       <Grid item xs={6}>
         <AppCard title="Kartons & Volumen">
           <OrderField path="boxNumber" label="Kartons" type="number" />
+          <OrderField path="kleiderboxNumber" label="Kleiderboxen" type="number" />
           <OrderField path="volume" label="Volumen" type="number" />
           <OrderField path="expensiveText" multiline label="Besonders wertvolle Gegenstände" />
           <OrderImages />
