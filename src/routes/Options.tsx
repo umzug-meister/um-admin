@@ -23,6 +23,7 @@ export default function Options() {
           <OptionInput name="poolId" label="AWS Pool ID" asPassword />
           <OptionInput name="dataPrivacyUrl" label="Datenschutz URL" />
           <OptionInput name="homeUrl" label="Home URL" />
+          <OptionInput name="boxCalculatorUrl" label="Kartonrechner URL" />
         </AppCard>
       </Grid>
     </AppGridContainer>
