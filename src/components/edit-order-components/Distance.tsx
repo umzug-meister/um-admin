@@ -1,4 +1,4 @@
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -92,32 +92,30 @@ export default function Distance() {
   };
 
   return (
-    <Grid item xs={12} xl={6}>
-      <AppCard title="Fahrstrecke">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell sx={sx}>Von</TableCell>
-              <TableCell sx={sx}>Nach</TableCell>
-              <TableCell sx={sx}>Strecke</TableCell>
-              <TableCell sx={sx}>Fahrtzeit</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {RenderRow(0, 'Anfahrt')}
-            {RenderRow(1, 'Lastfahrt')}
-            {RenderRow(2, 'Rückfahrt')}
-            <TableRow>
-              <TableCell colSpan={3} sx={sx}>
-                Gesamt
-              </TableCell>
+    <AppCard title="Fahrstrecke">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell sx={sx}>Von</TableCell>
+            <TableCell sx={sx}>Nach</TableCell>
+            <TableCell sx={sx}>Strecke</TableCell>
+            <TableCell sx={sx}>Fahrtzeit</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {RenderRow(0, 'Anfahrt')}
+          {RenderRow(1, 'Lastfahrt')}
+          {RenderRow(2, 'Rückfahrt')}
+          <TableRow>
+            <TableCell colSpan={3} sx={sx}>
+              Gesamt
+            </TableCell>
 
-              <TableCell colSpan={2}>{sum} km</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </AppCard>
-    </Grid>
+            <TableCell colSpan={2}>{sum} km</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </AppCard>
   );
 }

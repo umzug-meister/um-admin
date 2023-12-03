@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import { Accounting } from '../components/Accounting';
 import { OrderCalculator } from '../components/OrderCalculator';
-import AddressWidget from '../components/edit-order-components/AddressWidget';
 import { CustomerWidget } from '../components/edit-order-components/CustomerWidget';
 import DateTime from '../components/edit-order-components/DateTime';
 import Distance from '../components/edit-order-components/Distance';
@@ -23,6 +22,7 @@ import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
+import { Addresses } from '../components/edit-order-components/addresses';
 
 export default function Edit() {
   const order = useLoadOrder();
@@ -68,9 +68,12 @@ export default function Edit() {
       </TabPanel>
       <TabPanel index={1} value={value}>
         <AppGridContainer>
-          <AddressWidget path="from" />
-          <AddressWidget path="to" />
-          <Distance />
+          <Grid item xs={12} lg={7}>
+            <Addresses />
+          </Grid>
+          <Grid item xs={12} lg={5}>
+            <Distance />
+          </Grid>
         </AppGridContainer>
       </TabPanel>
 

@@ -206,7 +206,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
 
     const newV = oldV + v;
 
-    order.volume = newV.toFixed(2);
+    order.volume = newV;
   };
 
   const hasSperrig = find('sperrigeNicht41') === 'Ja';
@@ -307,7 +307,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     if (klavierItem) {
       order.items.push({
         ...klavierItem,
-        colli: '1',
+        colli: 1,
         selectedCategory: 'Sperrige/Schwere',
       });
     } else {
@@ -357,7 +357,7 @@ function itemFromWeitere(w: Weitere): Furniture | undefined {
   if (w.Bezeichnung) {
     return {
       selectedCategory: 'WEITERE',
-      colli: w.Anzahl,
+      colli: Number(w.Anzahl),
       volume: calculateVolume(w),
       name: w.Bezeichnung.replaceAll('&', 'und'),
     } as Furniture;
@@ -368,7 +368,7 @@ function itemFromWeitere(w: Weitere): Furniture | undefined {
 function itemFromSperrigScwer(s: SperrigSchwer, bulky: boolean, m100: boolean): Furniture {
   return {
     selectedCategory: 'Sperrige/Schwere',
-    colli: '1',
+    colli: 1,
     bulky,
     m100,
     volume: 0,
