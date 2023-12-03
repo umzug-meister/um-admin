@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { AppState } from '../../store';
 import OrderField from '../OrderField';
-import { AppCard } from '../shared/AppCard';
 
 import { Address, Order } from 'um-types';
 
@@ -43,79 +42,71 @@ export default function AddressWidget({ path }: Readonly<Props>) {
 
   return (
     <Grid item xs={6} xl={3}>
-      <AppCard title={title}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <OrderField<Address>
-              label="Adresse"
-              path={path}
-              nestedPath="address"
-              enableMaps
-              id={`${path}-address-input`}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <OrderField<Address>
-              label="Entfernung bis zum Parkplatz"
-              path={path}
-              nestedPath="runningDistance"
-              select
-              selectOptions={parkingDistances}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <OrderField<Address> label="Etage" path={path} nestedPath="floor" select selectOptions={etagen} />
-          </Grid>
-          <Grid item xs={6}>
-            <OrderField<Address> label="Aufzug" path={path} nestedPath="liftType" select selectOptions={liftTypes} />
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
 
-          <Grid item xs={6}>
-            <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
-          </Grid>
-          <Grid item xs={6}>
-            <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
-          </Grid>
-          <Grid item xs={12}>
-            <OrderField<Address>
-              label="Halteverbot"
-              path={path}
-              nestedPath="parkingSlot"
-              as="checkbox"
-              checkBoxError={parkingSlotCheckBoxError}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            {path === 'from' ? (
-              <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
-            ) : (
-              <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
-            )}
-          </Grid>
-          <Grid item xs={6}>
-            {path === 'from' ? (
-              <OrderField<Address> label="Einpacken" path={path} nestedPath="packservice" as="checkbox" />
-            ) : (
-              <OrderField<Address> label="Auspacken" path={path} nestedPath="packservice" as="checkbox" />
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <OrderField<Address>
-              label={path === 'from' ? 'Auszug aus' : 'Einzug in'}
-              path={path}
-              nestedPath="movementObject"
-              select
-              selectOptions={movementObjects}
-            />
-          </Grid>
-          <FloorsRenderer path={path} />
-          {path === 'from' && (
-            <Grid item xs={12}>
-              <OrderField<Address> label="Fläche" path={path} nestedPath={'area'} select selectOptions={squares} />
-            </Grid>
-          )}
+        <Grid item xs={6}>
+          <OrderField<Address> label="Altbau" path={path} nestedPath="isAltbau" as="checkbox" />
         </Grid>
-      </AppCard>
+        <Grid item xs={6}>
+          <OrderField<Address> label="Dachboden" path={path} nestedPath="hasLoft" as="checkbox" />
+        </Grid>
+      </Grid>
+      <Grid item xs={6}>
+        {path === 'from' ? (
+          <>
+            <OrderField<Address> label="Demontage" path={path} nestedPath="demontage" as="checkbox" />
+          </>
+        ) : (
+          <OrderField<Address> label="Montage" path={path} nestedPath="montage" as="checkbox" />
+        )}
+      </Grid>
+      {path === 'from' ? (
+        <>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Küchnenlänge" path={path} nestedPath="kitchenWidth" type="number" />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Betten" path={path} nestedPath="bedNumber" type="number" />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Schränke" path={path} nestedPath="wardrobeWidth" type="number" />
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Betten" path={path} nestedPath="bedNumber" type="number" />
+          </Grid>
+          <Grid item xs={12}>
+            <OrderField<Address> label="Schränke" path={path} nestedPath="wardrobeWidth" type="number" />
+          </Grid>
+        </>
+      )}
+
+      <Grid item xs={6}>
+        {path === 'from' ? (
+          <OrderField<Address> label="Einpacken" path={path} nestedPath="packservice" as="checkbox" />
+        ) : (
+          <OrderField<Address> label="Auspacken" path={path} nestedPath="packservice" as="checkbox" />
+        )}
+      </Grid>
+      <Grid item xs={12}>
+        <OrderField<Address>
+          label={path === 'from' ? 'Auszug aus' : 'Einzug in'}
+          path={path}
+          nestedPath="movementObject"
+          select
+          selectOptions={movementObjects}
+        />
+      </Grid>
+      <FloorsRenderer path={path} />
+      {path === 'from' && (
+        <Grid item xs={12}>
+          <OrderField<Address> label="Fläche" path={path} nestedPath={'area'} select selectOptions={squares} />
+        </Grid>
+      )}
     </Grid>
   );
 }
@@ -131,9 +122,7 @@ const FloorsRenderer = ({ path }: Props) => {
     return (
       <Grid item xs={12}>
         <Stack direction={'row'} spacing={2}>
-          {order[path]?.stockwerke?.map((s) => (
-            <Chip key={s} label={s} />
-          ))}
+          {order[path]?.stockwerke?.map((s) => <Chip key={s} label={s} />)}
         </Stack>
       </Grid>
     );
@@ -143,10 +132,6 @@ const FloorsRenderer = ({ path }: Props) => {
 
 const movementObjects = ['-', 'Wohnung', 'Haus', 'Keller', 'Lager', 'Büro', 'Garten'];
 
-const parkingDistances = ['-', ...[...new Array(10).keys()].map((k) => `${(k + 1) * 10} m.`)];
-
 const etagen = ['UG', 'EG', ...[...new Array(8).keys()].map((k) => `${k + 1}. Etage`), '9+ Etage'];
 
 const squares = ['-', ...[...new Array(15).keys()].map((k) => `${(k + 1) * 10} m²`)];
-
-const liftTypes = ['-', 'kein Aufzug', '2 Personen', '4 Personen', '6 Personen', '8+ Personen'];
