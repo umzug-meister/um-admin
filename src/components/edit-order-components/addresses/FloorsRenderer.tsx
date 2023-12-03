@@ -7,7 +7,7 @@ interface Props {
   path: 'from' | 'to';
 }
 
-export const FloorsRenderer = ({ path }: Props) => {
+export const FloorsRenderer = ({ path }: Readonly<Props>) => {
   const order = useSelector<AppState, Order | null>((s) => s.app.current);
 
   if (order == null) {

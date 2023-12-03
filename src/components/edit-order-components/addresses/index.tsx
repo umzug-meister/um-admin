@@ -2,7 +2,7 @@ import { Alert, Box, Grid } from '@mui/material';
 import { Address } from 'um-types';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';
-import { GridItem } from './GridItem';
+import { GridItem } from '../../shared/GridItem';
 
 import { etagen, liftTypes, movementObjects, parkingDistances, squares } from 'um-types/constants';
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
