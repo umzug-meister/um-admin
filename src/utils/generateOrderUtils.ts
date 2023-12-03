@@ -136,6 +136,8 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     parkingSlot: find('parkUnd28') === 'vom Spediteur zu organisieren',
     packservice: find('umzugsgutIn') === 'Ja',
     isAltbau: find('altbauAuszug') === 'Ja',
+    hasGarage: find('garage24') === 'Ja',
+    hasBasement: find('keller') === 'Ja',
     demontage,
     stockwerke: find('name339'),
   } as Address;
@@ -180,15 +182,11 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
       extra: '',
       hours: '',
     },
+    costsAssumption: find('kostenubernahmeVom') === 'Ja',
   } as Order;
 
   const formText = () => {
-    [
-      ['garage24', 'Garage umziehen!'],
-      ['keller', 'Keller umziehen!'],
-      ['kostenubernahmeVom', 'Kostenübernahme von Arbeitsamt'],
-      ['kucheaufbau', 'Küchen-Aufbau'],
-    ].forEach((v) => {
+    [['kucheaufbau', 'Küchen-Aufbau']].forEach((v) => {
       if (find(v[0]) === 'Ja') {
         order.text = order.text.concat(`\n${v[1]}`);
         if (v.length === 3) {
