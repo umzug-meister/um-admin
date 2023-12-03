@@ -42,7 +42,7 @@ export function OrderFurniture() {
       </GridItem>
       <GridItem md={4} xs={12}>
         <AppCard title="Besondere Gegenstände">
-          <Alert severity="info">Der errechnete Umzugsvolumen beinhaltet KEINE "besonderen Gegenstände"</Alert>
+          <Alert severity="info">Das berechnete Umzugsvolumen beinhaltet KEINE "besonderen Gegenstände"</Alert>
           <OrderField path="expensive" label="Antik/Wertvoll angegeben?" as="checkbox" />
           {order?.expensiveText && (
             <OrderField path="expensiveText" multiline label="Besonders wertvolle Gegenstände" />
@@ -59,7 +59,7 @@ export function OrderFurniture() {
         <AppCard title="Möbelliste">
           <Grid container spacing={2}>
             <GridItem>
-              <OrderField path="volume" label="Errechnete Umzugsvolumen" type="number" />
+              <OrderField path="volume" label="berechnetes Umzugsvolumen" type="number" />
             </GridItem>
             <GridItem>
               <OrderImages />
