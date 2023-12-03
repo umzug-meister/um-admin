@@ -1,10 +1,9 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { getParseableDate } from '../../utils/utils';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
-import { AppTextField } from '../shared/AppTextField';
 
 export default function DateTime() {
   return (
@@ -25,13 +24,13 @@ function AppointmentRange() {
     const formater = new Intl.DateTimeFormat('de-DE', {
       day: '2-digit',
       month: '2-digit',
-      year: '2-digit',
-      weekday: 'long',
+      year: 'numeric',
+      weekday: 'short',
     });
     const startDate = new Date(getParseableDate(order.date_from));
     const endDate = new Date(getParseableDate(order.date_to));
     const value = formater.formatRange(startDate, endDate);
-    return <AppTextField disabled value={value} />;
+    return <Typography variant="h6">{value}</Typography>;
   }
 
   return null;
