@@ -1,22 +1,25 @@
-import { Alert, Grid, Tabs, Typography } from '@mui/material';
+import { Alert, Grid, Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
 
 import { useState } from 'react';
 
 import { Address } from 'um-types';
-import { useCurrentOrder } from '../../hooks/useCurrentOrder';
-import OrderField from '../OrderField';
-import { AppCard } from '../shared/AppCard';
-import { GridItem } from '../shared/GridItem';
-import { TabPanel } from '../shared/TabPanel';
-import { OrderFurnitureList } from './order-furniture-list/OrderFurnitureList';
-import OrderImages from './OrderImages';
+import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
+import OrderField from '../../OrderField';
+import { AppCard } from '../../shared/AppCard';
+import { AppGridContainer } from '../../shared/AppGridContainer';
+import { GridItem } from '../../shared/GridItem';
+import { TabPanel } from '../../shared/TabPanel';
+import { OrderFurnitureList } from '../order-furniture-list/OrderFurnitureList';
+import OrderImages from '../OrderImages';
+import { CustomItemsList } from './CustomItemsList';
 
 export function OrderFurniture() {
   const order = useCurrentOrder();
   const [value, setValue] = useState(order?.ownItems ? 1 : 0);
+
   return (
-    <>
+    <AppGridContainer>
       <GridItem md={4} xs={12}>
         <AppCard title="Auszug">
           <OrderField<Address> path="from" nestedPath="packservice" label="Einpacken erwünscht?" as="checkbox" />
@@ -47,11 +50,11 @@ export function OrderFurniture() {
           {order?.expensiveText && (
             <OrderField path="expensiveText" multiline label="Besonders wertvolle Gegenstände" />
           )}
-          <Typography>todo</Typography>
+          <CustomItemsList customItems={order?.expensiveItems} title="Antike" />
           <OrderField path="heavy" label="Besonders schwer angegeben?" as="checkbox" />
-          <Typography>todo</Typography>
+          <CustomItemsList customItems={order?.heavyItems} title="Schwere" />
           <OrderField path="bulky" label="Sperrige angegeben?" as="checkbox" />
-          <Typography>todo</Typography>
+          <CustomItemsList customItems={order?.bulkyItems} title="Sperrige" />
         </AppCard>
       </GridItem>
 
@@ -85,6 +88,6 @@ export function OrderFurniture() {
           </TabPanel>
         </AppCard>
       </GridItem>
-    </>
+    </AppGridContainer>
   );
 }

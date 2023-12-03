@@ -1,6 +1,6 @@
 import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
-import { euroValue, numberValue } from '../utils/utils';
+import { euroValue, getParseableDate, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
@@ -110,10 +110,14 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
     },
   );
 
+  const date = new Date(getParseableDate(order.date));
+
+  const f = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' });
+
   //Umzugsdatum
   factory.addTable(
     null,
-    [['Umzugstermin', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
+    [['Umzugstermin', `${f.format(date)} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
     {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },

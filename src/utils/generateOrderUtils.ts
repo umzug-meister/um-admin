@@ -1,4 +1,4 @@
-import { Address, Customer, Furniture, JFAnswer, Order, OrderService } from 'um-types';
+import { Address, Customer, CustomItem, Furniture, JFAnswer, Order, OrderService } from 'um-types';
 
 const SCHRAENKE = 'Schränke aufhängen / Stk.';
 const LAMPEN = 'Lampe & Lüster, De/Montage / Stk.';
@@ -199,40 +199,25 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
 
   formText();
 
-  const addVolume = (v: number) => {
-    const oldV = Number(order.volume);
-
-    const newV = oldV + v;
-
-    order.volume = newV;
-  };
-
   const hasSperrig = find('sperrigeNicht41') === 'Ja';
+  order.bulky = hasSperrig;
   if (hasSperrig) {
     try {
       const sperrige = JSON.parse(find('sperrigeGegenstande')) as SperrigSchwer[];
-
-      sperrige.forEach((s) => {
-        const _item = itemFromSperrigScwer(s, true, false);
-        addVolume(_item.volume || 0);
-        order.items.push(_item);
-      });
+      order.bulkyItems = sperrige.map(itemFromSperrigScwer);
     } catch (e) {
       console.log(e);
     }
   }
 
   const hasSchwere = find('besondersSchwere') === 'Ja';
+  order.heavy = hasSchwere;
 
   if (hasSchwere) {
     try {
       const schwere = JSON.parse(find('auflistungDer')) as SperrigSchwer[];
 
-      schwere.forEach((elem) => {
-        const _item = itemFromSperrigScwer(elem, false, true);
-        addVolume(_item.volume || 0);
-        order.items.push(_item);
-      });
+      order.heavyItems = schwere.map(itemFromSperrigScwer);
     } catch (e) {
       console.log(e);
     }
@@ -254,14 +239,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     }
   }
 
-  const kleiderboxen = find('kleiderbox60');
-  if (kleiderboxen && kleiderboxen !== '0') {
-    order.items.push({
-      selectedCategory: 'WEITERE',
-      colli: kleiderboxen,
-      name: 'Kleiderbox',
-    } as Furniture);
-  }
+  order.kleiderboxNumber = find('kleiderbox60');
 
   const lampenAnzahl = find('anzahlDer242');
   if (lampenAnzahl && lampenAnzahl !== 0) {
@@ -363,14 +341,13 @@ function itemFromWeitere(w: Weitere): Furniture | undefined {
   return undefined;
 }
 
-function itemFromSperrigScwer(s: SperrigSchwer, bulky: boolean, m100: boolean): Furniture {
+function itemFromSperrigScwer(s: SperrigSchwer): CustomItem {
   return {
-    selectedCategory: 'Sperrige/Schwere',
     colli: 1,
-    bulky,
-    m100,
-    volume: 0,
-    name: `${s.Bezeichnung.replaceAll('&', 'und')} (${s.Breite}  x ${s.Tiefe} x ${s.Höhe} cm)`,
-    weight: s.Gewicht || '',
-  } as Furniture;
+    breite: Number(s.Breite),
+    tiefe: Number(s.Tiefe),
+    hoehe: Number(s.Höhe),
+    name: `${s.Bezeichnung.replaceAll('&', 'und')}`,
+    weight: Number(s.Gewicht),
+  } as CustomItem;
 }

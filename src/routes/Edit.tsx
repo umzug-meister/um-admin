@@ -10,7 +10,6 @@ import DateTime from '../components/edit-order-components/DateTime';
 import Distance from '../components/edit-order-components/Distance';
 import { OrderConditionsChips } from '../components/edit-order-components/OrderConditionsChips';
 import { OrderConditionsGrid } from '../components/edit-order-components/OrderConditionsGrid';
-import { OrderFurniture } from '../components/edit-order-components/OrderFurniture';
 import OrderOfferSelector from '../components/edit-order-components/OrderOfferSelector';
 import OrderPacking from '../components/edit-order-components/OrderPacking';
 import OrderPrice from '../components/edit-order-components/OrderPrice';
@@ -23,6 +22,7 @@ import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
 import { Addresses } from '../components/edit-order-components/addresses';
+import { OrderFurniture } from '../components/edit-order-components/order-funiture';
 
 export default function Edit() {
   const order = useLoadOrder();
@@ -78,9 +78,7 @@ export default function Edit() {
       </TabPanel>
 
       <TabPanel index={2} value={value}>
-        <AppGridContainer>
-          <OrderFurniture />
-        </AppGridContainer>
+        <OrderFurniture />
       </TabPanel>
 
       <TabPanel index={3} value={value}>

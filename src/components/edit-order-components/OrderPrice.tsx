@@ -23,6 +23,9 @@ export default function OrderPrice() {
     if (!order?.date) {
       return null;
     }
+    if (order.discount) {
+      return null;
+    }
 
     const dateString = getParseableDate(order.date);
     const now = new Date();
@@ -35,8 +38,8 @@ export default function OrderPrice() {
     if (diff >= 29) {
       return <Alert severity="info">5% Rabatt empfohlen</Alert>;
     }
-    return <Alert severity="warning">Kein rabatt empfohlen</Alert>;
-  }, [order?.date]);
+    return <Alert severity="warning">Kein Rabatt empfohlen!</Alert>;
+  }, [order?.date, order?.discount]);
 
   const onChipClick = (value: number) => {
     dispatch(updateOrderProps({ path: ['discount'], value }));
