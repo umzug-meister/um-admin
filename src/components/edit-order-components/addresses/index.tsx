@@ -61,7 +61,7 @@ export function Addresses() {
         </AppCard>
       </GridItem>
       <GridItem>
-        <AppCard title="">
+        <AppCard title={null}>
           <OrderField<Address>
             path="from"
             label="Objekt"
@@ -85,7 +85,7 @@ export function Addresses() {
         </AppCard>
       </GridItem>
       <GridItem>
-        <AppCard title="">
+        <AppCard title={null}>
           <OrderField<Address>
             path="to"
             label="Objekt"
@@ -105,7 +105,7 @@ export function Addresses() {
         </AppCard>
       </GridItem>
       <GridItem>
-        <AppCard title="">
+        <AppCard title={null}>
           <Box display="flex" gap="2">
             <OrderField<Address> path="from" label="Dachboden" nestedPath="hasLoft" as="checkbox" />
             <OrderField<Address> path="from" label="Keller" nestedPath="hasBasement" as="checkbox" />
@@ -114,7 +114,7 @@ export function Addresses() {
         </AppCard>
       </GridItem>
       <GridItem>
-        <AppCard title="">
+        <AppCard title={null}>
           <OrderField<Address> path="to" label="Dachboden" nestedPath="hasLoft" as="checkbox" />
         </AppCard>
       </GridItem>
