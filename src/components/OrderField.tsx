@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
-import { clearCountry } from '../utils/utils';
+import { clearCountry } from 'um-types/utils';
 import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 

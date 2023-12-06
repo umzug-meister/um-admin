@@ -142,14 +142,6 @@ export const anrede = (customer: Customer) => {
   return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
 };
 
-export const clearCountry = (str: string) => {
-  // prettier-ignore
-  return str
-    .replace(', Deutschland', '')
-    .replace(', Германия', '')
-    .replace(', Germany', '');
-};
-
 const f_getDateByIndex = (dueDates: DueDate[]) => {
   return function getDateByIndex(index: number) {
     const dd = dueDates.find((dd) => dd.index === index);
