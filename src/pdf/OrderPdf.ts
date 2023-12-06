@@ -2,9 +2,9 @@ import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
 import { euroValue, getParseableDate, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
-import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
-import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';
+import PdfBuilder from './PdfBuilder';
+import { addDate, addHeader, PRIMARY, SECONDARY } from './shared';
 
 import { CustomItem, Order, OrderService, Service } from 'um-types';
 
