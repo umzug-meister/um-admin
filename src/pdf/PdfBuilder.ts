@@ -1,4 +1,4 @@
-import { PRIMARY, PRIMARY_LIGHT, WHITE } from './shared';
+import { PRIMARY_LIGHT, WHITE } from './shared';
 
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -116,6 +116,8 @@ export default class PdfBuilder {
   }
 
   public addBlackHeader(text: string): void {
+    this.setBold();
+    this.addSpace(5);
     this.addText(text, 12);
     this.resetText();
   }
@@ -158,14 +160,16 @@ export default class PdfBuilder {
     this.resetText();
   }
 
-  public addTable(head: any, body: any, columnStyles?: any, headStyles = {} as any, margin = 20): void {
+  public addTable(params: { head: any; body: any; columnStyles?: any; headStyles?: any; margin?: number }): void {
+    const { body, head, columnStyles = {}, headStyles = {}, margin = 20 } = params;
+
     let bottom = PdfBuilder.mm2pt(10);
     ((this.doc as any).autoTable as autoTable)({
       head: head,
       body: body,
       theme: 'grid',
       columnStyles,
-      headStyles: { fillColor: PRIMARY, textColor: WHITE, ...headStyles },
+      headStyles: { fillColor: PRIMARY_LIGHT, textColor: WHITE, ...headStyles },
       bodyStyles: { halign: 'left', textColor: [0, 0, 0], lineColor: PRIMARY_LIGHT },
       styles: { fontSize: 9, cellPadding: 2 },
       startY: this.y,
