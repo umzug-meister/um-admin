@@ -191,6 +191,13 @@ function addAdresses(factory: PdfBuilder, order: Order) {
   if (from.hasLoft) {
     fromFloors.push('Dachboden');
   }
+  if (from.hasBasement) {
+    fromFloors.push('Keller');
+  }
+
+  if (from.hasGarage) {
+    fromFloors.push('Garage');
+  }
 
   if (to.hasLoft) {
     toFloors.push('Dachboden');
