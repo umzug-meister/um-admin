@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../../hooks/useOption';
 import { AppDispatch, AppState } from '../../store';
 import { updateOrderProps } from '../../store/appReducer';
-import { clearCountry } from '../../utils/utils';
+import { clearCountry } from 'um-types/utils';
 import { AppCard } from '../shared/AppCard';
 
 import { Loader } from '@googlemaps/js-api-loader';
