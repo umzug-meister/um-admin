@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
-import { clearCountry } from '../utils/utils';
 import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
+import { clearCountry } from '../utils/utils';
 
 type Path = keyof Order;
 type NestedPath<T> = keyof T;

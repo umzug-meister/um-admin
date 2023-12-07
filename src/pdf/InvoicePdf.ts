@@ -68,17 +68,17 @@ export function addTable(factory: PdfBuilder, { entries }: Rechnung | Gutschrift
       e.sum ? euroValue(Number(e.sum) * multiplikator) : '',
     ];
   });
-  factory.addTable(
+  factory.addTable({
     head,
     body,
-    {
+    columnStyles: {
       1: { halign: 'right' },
       2: { halign: 'right' },
       3: { halign: 'right' },
     },
-    { halign: 'center' },
-    20,
-  );
+    headStyles: { halign: 'center' },
+    margin: 20,
+  });
 }
 
 export function addPrice(factory: PdfBuilder, { entries }: Rechnung | Gutschrift, negative = false) {
@@ -100,15 +100,15 @@ export function addPrice(factory: PdfBuilder, { entries }: Rechnung | Gutschrift
 export function addText(factory: PdfBuilder, text: string) {
   factory.addSpace(10);
   factory.resetText();
-  factory.addTable(
-    null,
-    [[text]],
-    {
+  factory.addTable({
+    head: null,
+    body: [[text]],
+    columnStyles: {
       0: { lineColor: [255, 255, 255] },
     },
-    null,
-    20,
-  );
+
+    margin: 20,
+  });
 }
 
 export function move(factory: PdfBuilder, bestYpos = 250) {

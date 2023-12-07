@@ -61,18 +61,18 @@ function addPaymentInfo(factory: PdfBuilder, dueDate?: DueDate, lastDueDate?: Du
     const head = [['Offener Betrag', 'Fälligkeit', 'Verzug']];
     const body = [[euroValue(dueDate.sum), lastDueDate?.date, `${verzug} Tage`]];
 
-    const style = { halign: 'center' };
-    const bodyStyle = { ...style, textColor: '#ff0000' };
-    factory.addTable(
+    const headStyles = { halign: 'center' };
+    const bodyStyle = { ...headStyles, textColor: '#ff0000' };
+    factory.addTable({
       head,
       body,
-      {
+      columnStyles: {
         0: bodyStyle,
         1: bodyStyle,
         2: bodyStyle,
       },
-      style,
-    );
+      headStyles,
+    });
   }
 }
 
@@ -80,17 +80,17 @@ function addInvoiceInfo(factory: PdfBuilder, rechnung: Rechnung) {
   factory.addSpace(5);
   const head = [['Rechnung Nr.', 'vom', 'Betrag']];
   const body = [[rechnung.rNumber, rechnung.date, euroValue(getSum(rechnung))]];
-  factory.addTable(
+  factory.addTable({
     head,
     body,
-    {
+    columnStyles: {
       0: { halign: 'center' },
       1: { halign: 'center' },
       2: { halign: 'center' },
     },
-    { halign: 'center' },
-    20,
-  );
+    headStyles: { halign: 'center' },
+    margin: 20,
+  });
 }
 
 function addNumber(factory: PdfBuilder, sum = 0, costs = 0) {
