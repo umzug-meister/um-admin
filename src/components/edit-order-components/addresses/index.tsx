@@ -21,11 +21,11 @@ export function Addresses() {
   }
 
   const fromAlert = useMemo(
-    () => order?.from.parkingSlot && !isInMuc(order?.from?.address),
+    () => order?.from?.parkingSlot && !isInMuc(order?.from?.address),
     [order?.from?.address, order?.from.parkingSlot],
   );
   const toAlert = useMemo(
-    () => order?.to.parkingSlot && !isInMuc(order?.to?.address),
+    () => order?.to?.parkingSlot && !isInMuc(order?.to?.address),
     [order?.to?.address, order?.to?.parkingSlot],
   );
 
