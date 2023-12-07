@@ -69,7 +69,7 @@ export function Addresses() {
             select
             selectOptions={movementObjects}
           />
-          {order?.from.movementObject === 'Haus' ? (
+          {order?.from?.movementObject === 'Haus' ? (
             <FloorsRenderer path="from" />
           ) : (
             <>
@@ -93,7 +93,7 @@ export function Addresses() {
             select
             selectOptions={movementObjects}
           />
-          {order?.to.movementObject === 'Haus' ? (
+          {order?.to?.movementObject === 'Haus' ? (
             <FloorsRenderer path="to" />
           ) : (
             <>
