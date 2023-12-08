@@ -72,7 +72,7 @@ export const OPTIONS = {
   ORIGIN: 'origin',
   POOL_ID: 'poolId',
   DATA_PRIVACY_URL: 'dataPrivacyUrl',
-  HOME_URL: 'homeUrl',
+  SUCCESS_URL: 'successUrl',
   BOX_CALCULATOR_URL: 'boxCalculatorUrl',
 } as const;
 
