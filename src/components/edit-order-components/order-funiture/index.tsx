@@ -33,8 +33,6 @@ export function OrderFurniture() {
         <AppCard title="Einzug">
           <OrderField<Address> path="to" nestedPath="packservice" label="Auspacken erwünscht?" as="checkbox" />
           <OrderField<Address> path="to" nestedPath="montage" label="Montage erwünscht?" as="checkbox" />
-          <OrderField<Address> path="to" nestedPath="bedNumber" label="Betten" type="number" />
-          <OrderField<Address> path="to" nestedPath="wardrobeWidth" label="Schränke-Gesamtbreite, m" type="number" />
         </AppCard>
       </GridItem>
       <GridItem md={4} xs={12}>

@@ -540,15 +540,14 @@ const addSecondPageEnd = (pdfBuilder: PdfBuilder) => {
 };
 
 const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
-  if (order.from.demontage || order.from.montage) {
-    pdfBuild.addBlackHeader('Montageliste');
-    const head = [['', 'Demontieren', 'Montieren']];
+  if (order.from.demontage) {
+    pdfBuild.addBlackHeader('Demonatage & Montage Liste');
     const body = [
-      ['Küche, Meter', `${order.from.kitchenWidth}`, ''],
-      ['Betten, Stück', `${order.from.bedNumber}`, `${order.from.bedNumber}`],
-      ['Schränke, Meter', `${order.from.wardrobeWidth}`, `${order.from.wardrobeWidth}`],
+      ['Küche', `${order.from.kitchenWidth}`, 'Meter'],
+      ['Betten', `${order.from.bedNumber}`, 'Stück'],
+      ['Schränke', `${order.from.wardrobeWidth}`, 'Meter'],
     ];
-    pdfBuild.addTable({ head, body });
+    pdfBuild.addTable({ head: null, body, columnStyles: { 1: { halign: 'right' } } });
   }
 };
 
@@ -580,8 +579,8 @@ const addMoebel = (pdfBuilder: PdfBuilder, order: Order) => {
         actualroom = curItem.selectedCategory || '';
         body.push({
           desc: {
-            colSpan: 3,
-            content: actualroom.toUpperCase(),
+            colSpan: 2,
+            content: actualroom,
 
             styles: {
               fontStyle: 'bold',
@@ -591,21 +590,11 @@ const addMoebel = (pdfBuilder: PdfBuilder, order: Order) => {
           },
         });
       }
-      const row: any = {};
-      row.desc = curItem.name;
-      row.colli = curItem.colli;
-      row.weight = curItem.weight;
-      body.push(row);
-    }
-    const head = [
-      {
-        desc: 'Bezeichnung',
-        colli: 'Anzahl',
-        weight: 'ggfs. Gewicht',
-      },
-    ];
 
-    pdfBuilder.addTable({ head, body });
+      body.push([curItem.name, curItem.colli]);
+    }
+
+    pdfBuilder.addTable({ head: null, body });
   }
 };
 
