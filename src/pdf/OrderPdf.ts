@@ -81,7 +81,7 @@ const addHeavy = (pdfBuilder: PdfBuilder, order: Order) => {
   }
 };
 const addBulky = (pdfBuilder: PdfBuilder, order: Order) => {
-  if (order.heavy) {
+  if (order.bulky) {
     pdfBuilder.addBlackHeader('Sperrige');
 
     addCustomItemsTable(pdfBuilder, order.bulkyItems);
@@ -91,7 +91,15 @@ const addBulky = (pdfBuilder: PdfBuilder, order: Order) => {
 const addCustomItemsTable = (pdfBuilder: PdfBuilder, customItems?: CustomItem[]) => {
   if (customItems?.length) {
     const head = [['Name', 'Anzahl', 'Breite (cm)', 'Tiefe (cm)', 'Höhe (cm)', 'Gewicht (kg)', 'Volumen (m³)']];
-    const body = customItems.map((ci) => [ci.name, ci.colli, ci.breite, ci.tiefe, ci.hoehe, ci.weight, ci.itemVolume]);
+    const body = customItems.map((ci) => [
+      ci.name,
+      ci.colli,
+      ci.breite,
+      ci.tiefe,
+      ci.hoehe,
+      ci.weight,
+      numberValue(ci.itemVolume),
+    ]);
 
     pdfBuilder.addTable({ head, body });
   }
