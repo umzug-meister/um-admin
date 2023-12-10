@@ -549,7 +549,7 @@ const addSecondPageEnd = (pdfBuilder: PdfBuilder) => {
 
 const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
   if (order.from.demontage) {
-    pdfBuild.addBlackHeader('Demonatage & Montage Liste');
+    pdfBuild.addBlackHeader('Demontage & Montage Liste');
     const body = [
       ['Küche', numberValue(order.from.kitchenWidth), 'Meter'],
       ['Betten', numberValue(order.from.bedNumber), 'Stück'],
