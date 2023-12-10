@@ -551,9 +551,9 @@ const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
   if (order.from.demontage) {
     pdfBuild.addBlackHeader('Demonatage & Montage Liste');
     const body = [
-      ['Küche', `${order.from.kitchenWidth}`, 'Meter'],
-      ['Betten', `${order.from.bedNumber}`, 'Stück'],
-      ['Schränke', `${order.from.wardrobeWidth}`, 'Meter'],
+      ['Küche', numberValue(order.from.kitchenWidth), 'Meter'],
+      ['Betten', numberValue(order.from.bedNumber), 'Stück'],
+      ['Schränke', numberValue(order.from.wardrobeWidth), 'Meter'],
     ];
     pdfBuild.addTable({ head: null, body, columnStyles: { 1: { halign: 'right' } } });
   }
@@ -599,7 +599,7 @@ const addMoebel = (pdfBuilder: PdfBuilder, order: Order) => {
         });
       }
 
-      body.push([curItem.name, curItem.colli]);
+      body.push([curItem.name, numberValue(curItem.colli)]);
     }
 
     pdfBuilder.addTable({ head: null, body });
