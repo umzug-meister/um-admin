@@ -167,7 +167,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
   }
   pdfBuilder.addTable({
     head: null,
-    body: [['Volumen', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%', mark]],
+    body: [['Volumen', `${numberValue(order.volume)} m³`, 'Max. m³ Abweichung: 10%', mark]],
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
