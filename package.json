@@ -23,7 +23,6 @@
     "react-error-boundary": "^4.0.11",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
-    "react-scripts": "5.0.1",
     "web-vitals": "^3.3.2"
   },
   "devDependencies": {
@@ -38,15 +37,16 @@
     "@types/node": "^18.18.9",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.1",
     "react-app-rewired": "^2.2.1",
     "typescript": "^4.9.5",
-    "um-types": "^1.0.18"
+    "um-types": "^1.0.18",
+    "vite": "^5.0.10"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [
