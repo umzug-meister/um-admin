@@ -32,18 +32,17 @@ export default function Distance() {
     if (loaderRef.current == null) {
       loaderRef.current = new Loader({
         apiKey: gapiKey,
-        libraries: ['places'],
         language: 'de',
       });
     }
     loaderRef.current
-      .load()
+      .importLibrary('routes')
       .then((google) => {
-        const service = new google.maps.DistanceMatrixService();
+        const service = new google.DistanceMatrixService();
         if (from && to) {
           service.getDistanceMatrix(
             {
-              travelMode: google.maps.TravelMode.DRIVING,
+              travelMode: google.TravelMode.DRIVING,
               origins: [origin, from, to],
               destinations: [from, to, origin],
             },
