@@ -1,9 +1,9 @@
 import { Avatar, Box, Card, Typography, useTheme } from '@mui/material';
+import logoUrl from '../assets/logo.png';
 
 export function VersionBadge() {
   const theme = useTheme();
 
-  const local = process.env.REACT_APP_VERSION || '0.0.0';
 
   return (
     <Card
@@ -19,11 +19,11 @@ export function VersionBadge() {
           variant="square"
           sx={{ width: 100, height: 105 }}
           alt="logo"
-          src={process.env.PUBLIC_URL + '/logo.png'}
+          src={logoUrl}
         />
         <Box display="flex" justifyContent="center">
           <Typography data-hj-allow variant="subtitle2">
-            Version: {local}
+            Version: {import.meta.env.PACKAGE_VERSION}
           </Typography>
         </Box>
       </Box>

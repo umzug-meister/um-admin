@@ -7,12 +7,12 @@ import { Alert, IconButton, Snackbar, Tooltip, Typography } from '@mui/material'
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { addScript } from '../..';
 import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useOption } from '../../hooks/useOption';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
+import { addScript } from '../../main';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
 import { AppState } from '../../store';

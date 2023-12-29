@@ -1,5 +1,5 @@
-import { OPTIONS } from '..';
 import { AppOptions } from '../../src/app-types';
+import { OPTIONS } from '../main';
 import { euroValue, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';

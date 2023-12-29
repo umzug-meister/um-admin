@@ -74,7 +74,7 @@ export function SideMenu({ onClose, open }: Readonly<Props>) {
         <Box id="bottom-sidebar">
           <Box display="flex" justifyContent="center">
             <Tooltip title="Abmelden">
-              <Link href={`${process.env.REACT_APP_WP_HOST}/wp-login.php?action=logout`}>
+              <Link href={`/wp-login.php?action=logout`}>
                 <IconButton>
                   <LogoutOutlinedIcon />
                 </IconButton>

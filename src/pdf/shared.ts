@@ -1,3 +1,4 @@
+import imageUrl from '../assets/ruckzuck_logo.png';
 import PdfBuilder from './PdfBuilder';
 
 export const PRIMARY = [25, 120, 186];
@@ -6,8 +7,6 @@ export const SECONDARY = [203, 43, 27];
 export const PRIMARY_LIGHT = '#3086c1';
 
 export function addHeader(factory: PdfBuilder) {
-  const imageUrl = window.location.origin + process.env.PUBLIC_URL + '/ruckzuck_logo.png';
-
   factory.addPngImage(imageUrl, 20, 8, 30, 38);
 
   factory.setNormal();
