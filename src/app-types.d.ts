@@ -1,4 +1,4 @@
-import { OPTIONS } from '.';
+import { OPTIONS } from './main';
 
 import { Rechnung, Service } from 'um-types';
 

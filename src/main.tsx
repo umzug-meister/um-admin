@@ -1,14 +1,10 @@
 import ReactDOM from 'react-dom/client';
-import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
 import App from './App';
 import AppLoader from './AppLoader';
-import reportWebVitals from './reportWebVitals';
 import { store } from './store';
-
-import styled from '@emotion/styled';
 
 /* eslint no-extend-native: 0 */
 Date.prototype.addDays = function (days: number) {
@@ -92,32 +88,12 @@ const JOTFORM_SCRIPT = 'https://js.jotform.com/JotForm.js';
 
 addScript(JOTFORM_SCRIPT, 'um-jf-script', true, true);
 
-const ErrorFallback = styled.div`
-  width: 400px;
-  margin: auto;
-  text-align: center;
-`;
-
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
     <HashRouter>
-      <ErrorBoundary
-        fallback={
-          <ErrorFallback>
-            <h1>Fehler</h1>
-            <h3>(´･_･`)</h3>
-          </ErrorFallback>
-        }
-      >
-        <AppLoader>
-          <App />
-        </AppLoader>
-      </ErrorBoundary>
+      <AppLoader>
+        <App />
+      </AppLoader>
     </HashRouter>
   </Provider>,
 );
-
-reportWebVitals((report) => {
-  console.log(`%cWEBVITAL[${report.rating}]:`, 'color:green;  font-size: 20px');
-  console.log(report);
-});

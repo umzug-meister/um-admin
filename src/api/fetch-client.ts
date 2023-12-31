@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-const base = '/wp-json/um-configurator/v1';
-function initBaseURL() {
-  if (!axios.defaults.baseURL) {
-    axios.defaults.baseURL = (process.env.REACT_APP_WP_HOST || '') + base;
-  }
-}
+
 
 export const appRequest = (type: 'get' | 'delete' | 'put' | 'post') => {
   const headers: any = {};
@@ -13,7 +8,6 @@ export const appRequest = (type: 'get' | 'delete' | 'put' | 'post') => {
   if (window.UMCONFUrls?.nonce) {
     headers['X-WP-NONCE'] = window.UMCONFUrls.nonce;
   }
-  initBaseURL();
 
   switch (type) {
     case 'get':
