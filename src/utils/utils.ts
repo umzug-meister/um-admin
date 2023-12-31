@@ -6,6 +6,10 @@ const WAITING_DAYS = 10;
 
 const DEFAULT_REMINDER_COSTS = 10;
 
+export function clearCountry(str: string) {
+  return str.replace(', Deutschland', '').replace(', Германия', '').replace(', Germany', '');
+}
+
 export const calculateNumbers = (entries: MLeistung[]) => {
   const brutto = entries.reduce((acc, elem) => {
     return acc + Number(elem.sum || 0);
@@ -140,14 +144,6 @@ export const anrede = (customer: Customer) => {
   }
 
   return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
-};
-
-export const clearCountry = (str: string) => {
-  // prettier-ignore
-  return str
-    .replace(', Deutschland', '')
-    .replace(', Германия', '')
-    .replace(', Germany', '');
 };
 
 const f_getDateByIndex = (dueDates: DueDate[]) => {

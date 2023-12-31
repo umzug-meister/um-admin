@@ -2,6 +2,8 @@ import { DatePicker } from '@mui/x-date-pickers';
 
 import { getParseableDate } from '../../utils/utils';
 
+import { formatISO } from 'date-fns';
+
 interface AppDateFieldProps {
   label?: string;
   disabled?: boolean;
@@ -27,9 +29,17 @@ export function AppDateField({ label, disabled, value, minDate, onDateChange }: 
           },
         },
       }}
+      onChange={(value) => {
+        if (value) {
+          try {
+            const next = formatISO(value, { representation: 'date' });
+            onDateChange(next);
+          } catch (e) {}
+        }
+      }}
       onAccept={(value: Date | null) => {
         if (value) {
-          const next = value.toLocaleDateString('ru');
+          const next = formatISO(value, { representation: 'date' });
           onDateChange(next);
         }
       }}

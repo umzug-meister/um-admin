@@ -58,12 +58,18 @@ export const OPTIONS = {
   A_WARDROBE_MONTAGE: 'awardmon',
   A_ETAGE: 'aetage',
   A_CBM: 'acbm',
-  GAPIKEY: 'gapikey',
-  CLIENT_ID: 'clientId',
+
   R_NUMBER: 'rNumber',
   G_NUMBER: 'gNumber',
+
+  GAPIKEY: 'gapikey',
+  CLIENT_ID: 'clientId',
   JF_API_KEY: 'jfApiKey',
   ORIGIN: 'origin',
+  POOL_ID: 'poolId',
+  DATA_PRIVACY_URL: 'dataPrivacyUrl',
+  SUCCESS_URL: 'successUrl',
+  BOX_CALCULATOR_URL: 'boxCalculatorUrl',
 } as const;
 
 export function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {

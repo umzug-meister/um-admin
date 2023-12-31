@@ -5,13 +5,11 @@ import { Link } from 'react-router-dom';
 
 import { Accounting } from '../components/Accounting';
 import { OrderCalculator } from '../components/OrderCalculator';
-import AddressWidget from '../components/edit-order-components/AddressWidget';
 import { CustomerWidget } from '../components/edit-order-components/CustomerWidget';
 import DateTime from '../components/edit-order-components/DateTime';
 import Distance from '../components/edit-order-components/Distance';
 import { OrderConditionsChips } from '../components/edit-order-components/OrderConditionsChips';
 import { OrderConditionsGrid } from '../components/edit-order-components/OrderConditionsGrid';
-import { OrderFurniture } from '../components/edit-order-components/OrderFurniture';
 import OrderOfferSelector from '../components/edit-order-components/OrderOfferSelector';
 import OrderPacking from '../components/edit-order-components/OrderPacking';
 import OrderPrice from '../components/edit-order-components/OrderPrice';
@@ -23,6 +21,8 @@ import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
+import { Addresses } from '../components/edit-order-components/addresses';
+import { OrderFurniture } from '../components/edit-order-components/order-funiture';
 
 export default function Edit() {
   const order = useLoadOrder();
@@ -68,16 +68,17 @@ export default function Edit() {
       </TabPanel>
       <TabPanel index={1} value={value}>
         <AppGridContainer>
-          <AddressWidget path="from" />
-          <AddressWidget path="to" />
-          <Distance />
+          <Grid item xs={12} lg={7}>
+            <Addresses />
+          </Grid>
+          <Grid item xs={12} lg={5}>
+            <Distance />
+          </Grid>
         </AppGridContainer>
       </TabPanel>
 
       <TabPanel index={2} value={value}>
-        <AppGridContainer>
-          <OrderFurniture />
-        </AppGridContainer>
+        <OrderFurniture />
       </TabPanel>
 
       <TabPanel index={3} value={value}>

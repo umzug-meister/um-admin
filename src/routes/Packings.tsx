@@ -21,8 +21,22 @@ const dp = {
 
 export const packingsColumns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
-  { field: 'name', headerName: 'Name', editable: true, width: 400 },
+  { field: 'name', headerName: 'Name', editable: true },
   { field: 'price', headerName: 'Preis', ...dp },
+  { field: 'desc', headerName: 'Beschreibung', editable: true, width: 400 },
+  { field: 'media', headerName: 'Url', editable: true },
+  {
+    field: 'show',
+    headerName: 'In der Form anzeigen',
+    editable: true,
+    type: 'boolean',
+  },
+  {
+    field: 'sort',
+    headerName: 'Sortierung',
+    editable: true,
+    type: 'number',
+  },
 ];
 
 const TAG: AppServiceTag = 'Packmaterial';

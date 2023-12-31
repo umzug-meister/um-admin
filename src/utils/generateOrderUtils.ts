@@ -1,4 +1,4 @@
-import { Address, Customer, Furniture, JFAnswer, Order, OrderService } from 'um-types';
+import { Address, Customer, CustomItem, Furniture, JFAnswer, Order, OrderService } from 'um-types';
 
 const SCHRAENKE = 'Schränke aufhängen / Stk.';
 const LAMPEN = 'Lampe & Lüster, De/Montage / Stk.';
@@ -136,6 +136,8 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     parkingSlot: find('parkUnd28') === 'vom Spediteur zu organisieren',
     packservice: find('umzugsgutIn') === 'Ja',
     isAltbau: find('altbauAuszug') === 'Ja',
+    hasGarage: find('garage24') === 'Ja',
+    hasBasement: find('keller') === 'Ja',
     demontage,
     stockwerke: find('name339'),
   } as Address;
@@ -180,15 +182,11 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
       extra: '',
       hours: '',
     },
+    costsAssumption: find('kostenubernahmeVom') === 'Ja',
   } as Order;
 
   const formText = () => {
-    [
-      ['garage24', 'Garage umziehen!'],
-      ['keller', 'Keller umziehen!'],
-      ['kostenubernahmeVom', 'Kostenübernahme von Arbeitsamt'],
-      ['kucheaufbau', 'Küchen-Aufbau'],
-    ].forEach((v) => {
+    [['kucheaufbau', 'Küchen-Aufbau']].forEach((v) => {
       if (find(v[0]) === 'Ja') {
         order.text = order.text.concat(`\n${v[1]}`);
         if (v.length === 3) {
@@ -201,40 +199,25 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
 
   formText();
 
-  const addVolume = (v: number) => {
-    const oldV = Number(order.volume);
-
-    const newV = oldV + v;
-
-    order.volume = newV.toFixed(2);
-  };
-
   const hasSperrig = find('sperrigeNicht41') === 'Ja';
+  order.bulky = hasSperrig;
   if (hasSperrig) {
     try {
       const sperrige = JSON.parse(find('sperrigeGegenstande')) as SperrigSchwer[];
-
-      sperrige.forEach((s) => {
-        const _item = itemFromSperrigScwer(s, true, false);
-        addVolume(_item.volume || 0);
-        order.items.push(_item);
-      });
+      order.bulkyItems = sperrige.map(itemFromSperrigScwer);
     } catch (e) {
       console.log(e);
     }
   }
 
   const hasSchwere = find('besondersSchwere') === 'Ja';
+  order.heavy = hasSchwere;
 
   if (hasSchwere) {
     try {
       const schwere = JSON.parse(find('auflistungDer')) as SperrigSchwer[];
 
-      schwere.forEach((elem) => {
-        const _item = itemFromSperrigScwer(elem, false, true);
-        addVolume(_item.volume || 0);
-        order.items.push(_item);
-      });
+      order.heavyItems = schwere.map(itemFromSperrigScwer);
     } catch (e) {
       console.log(e);
     }
@@ -256,14 +239,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     }
   }
 
-  const kleiderboxen = find('kleiderbox60');
-  if (kleiderboxen && kleiderboxen !== '0') {
-    order.items.push({
-      selectedCategory: 'WEITERE',
-      colli: kleiderboxen,
-      name: 'Kleiderbox',
-    } as Furniture);
-  }
+  order.kleiderboxNumber = find('kleiderbox60');
 
   const lampenAnzahl = find('anzahlDer242');
   if (lampenAnzahl && lampenAnzahl !== 0) {
@@ -307,7 +283,7 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
     if (klavierItem) {
       order.items.push({
         ...klavierItem,
-        colli: '1',
+        colli: 1,
         selectedCategory: 'Sperrige/Schwere',
       });
     } else {
@@ -357,7 +333,7 @@ function itemFromWeitere(w: Weitere): Furniture | undefined {
   if (w.Bezeichnung) {
     return {
       selectedCategory: 'WEITERE',
-      colli: w.Anzahl,
+      colli: Number(w.Anzahl),
       volume: calculateVolume(w),
       name: w.Bezeichnung.replaceAll('&', 'und'),
     } as Furniture;
@@ -365,14 +341,13 @@ function itemFromWeitere(w: Weitere): Furniture | undefined {
   return undefined;
 }
 
-function itemFromSperrigScwer(s: SperrigSchwer, bulky: boolean, m100: boolean): Furniture {
+function itemFromSperrigScwer(s: SperrigSchwer): CustomItem {
   return {
-    selectedCategory: 'Sperrige/Schwere',
-    colli: '1',
-    bulky,
-    m100,
-    volume: 0,
-    name: `${s.Bezeichnung.replaceAll('&', 'und')} (${s.Breite}  x ${s.Tiefe} x ${s.Höhe} cm)`,
-    weight: s.Gewicht || '',
-  } as Furniture;
+    colli: 1,
+    breite: Number(s.Breite),
+    tiefe: Number(s.Tiefe),
+    hoehe: Number(s.Höhe),
+    name: `${s.Bezeichnung.replaceAll('&', 'und')}`,
+    weight: Number(s.Gewicht),
+  } as CustomItem;
 }

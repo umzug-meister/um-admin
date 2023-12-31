@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Stack } from '@mui/material';
+import { Alert, Box, Chip, Grid, Stack } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 
@@ -8,9 +8,38 @@ import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 
 import { TimeBasedPrice } from 'um-types';
+import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { useMemo } from 'react';
+import { getParseableDate } from '../../utils/utils';
+
+import { differenceInDays } from 'date-fns';
 
 export default function OrderPrice() {
   const dispatch = useDispatch<AppDispatch>();
+
+  const order = useCurrentOrder();
+
+  const recomendation = useMemo(() => {
+    if (!order?.date) {
+      return null;
+    }
+    if (order.discount) {
+      return null;
+    }
+
+    const dateString = getParseableDate(order.date);
+    const now = new Date();
+
+    const date = new Date(dateString);
+    const diff = differenceInDays(date, now);
+    if (diff >= 59) {
+      return <Alert severity="info">10% Rabatt empfohlen</Alert>;
+    }
+    if (diff >= 29) {
+      return <Alert severity="info">5% Rabatt empfohlen</Alert>;
+    }
+    return <Alert severity="warning">Kein Rabatt empfohlen!</Alert>;
+  }, [order?.date, order?.discount]);
 
   const onChipClick = (value: number) => {
     dispatch(updateOrderProps({ path: ['discount'], value }));
@@ -34,6 +63,7 @@ export default function OrderPrice() {
             </Box>
           </Grid>
         </Grid>
+        {recomendation}
       </AppCard>
     </Grid>
   );

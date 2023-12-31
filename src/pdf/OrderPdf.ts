@@ -1,12 +1,11 @@
 import { AppOptions } from '../../src/app-types';
-import { OPTIONS } from '../main';
 import { euroValue, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
-import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
-import { PRIMARY, SECONDARY, WHITE, addDate, addHeader } from './shared';
+import PdfBuilder from './PdfBuilder';
+import { addDate, addHeader, PRIMARY, SECONDARY } from './shared';
 
-import { Order, OrderService, Service } from 'um-types';
+import { CustomItem, Order, OrderService, Service } from 'um-types';
 
 interface Payload {
   order: Order;
@@ -24,79 +23,115 @@ export function generateUrzPdf(p: Payload) {
 
   const filename = orderFileName(order);
 
-  const pdffactory = new PdfBuilder(filename, {
+  const pdfBuilder = new PdfBuilder(filename, {
     left: 20,
     right: 12,
     top: 8,
     bottom: 3,
   });
 
-  addHeader(pdffactory);
-  addDate(pdffactory, new Date().toLocaleDateString('ru'));
-  addTitle(pdffactory, order);
+  addHeader(pdfBuilder);
+  addDate(pdfBuilder, new Date().toLocaleDateString('ru'));
+  addTitle(pdfBuilder, order);
 
-  addAdresses(pdffactory, order);
+  addAdresses(pdfBuilder, order);
 
-  addConditionen(pdffactory, order);
-  appendPrice(pdffactory, order);
+  addConditionen(pdfBuilder, order);
+  appendPrice(pdfBuilder, order);
 
-  addPageTextFirstPage(pdffactory);
-  addTopPageTextSecondPage(pdffactory);
+  addPageTextFirstPage(pdfBuilder);
+  addTopPageTextSecondPage(pdfBuilder);
 
-  addServices(pdffactory, order, services, {
-    titleColor: () => {
-      pdffactory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
-    },
-    tableHeader: PRIMARY,
-  });
+  addServices(pdfBuilder, order, services);
 
-  addVerpackung(pdffactory, order, services, {
-    titleColor: () => {
-      pdffactory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
-    },
-    tableHeader: PRIMARY,
-  });
+  addVerpackung(pdfBuilder, order, services);
 
-  addSecondPageEnd(pdffactory);
+  addSecondPageEnd(pdfBuilder);
 
-  addMoreInformation(pdffactory, order);
-
-  addMoebel(pdffactory, order);
-  addBoxes(pdffactory, order);
-  addAGB(pdffactory, options);
-  pdffactory.enumeratePages([`${order.id}`]);
+  addMoreInformation(pdfBuilder, order);
+  addMontageList(pdfBuilder, order);
+  addAntik(pdfBuilder, order);
+  addHeavy(pdfBuilder, order);
+  addBulky(pdfBuilder, order);
+  addMoebel(pdfBuilder, order);
+  addBoxes(pdfBuilder, order);
+  addAGB(pdfBuilder, options);
+  pdfBuilder.enumeratePages([`${order.id}`]);
 
   if (p.base64) {
-    return pdffactory.output();
+    return pdfBuilder.output();
   }
 
-  pdffactory.save();
+  pdfBuilder.save();
 }
 
-const addSignature = (factory: PdfBuilder, sign: string): void => {
-  factory.addText('___________________', 8, 6, 'right');
-  factory.addText(sign, 8, 4, 'right');
-  factory.resetText();
+const addAntik = (pdfBuilder: PdfBuilder, order: Order) => {
+  if (order.expensive) {
+    pdfBuilder.addBlackHeader('Antike & Wertvolle');
+
+    addCustomItemsTable(pdfBuilder, order.expensiveItems);
+  }
+};
+const addHeavy = (pdfBuilder: PdfBuilder, order: Order) => {
+  if (order.heavy) {
+    pdfBuilder.addBlackHeader('Besonders Schwere');
+
+    addCustomItemsTable(pdfBuilder, order.heavyItems);
+  }
+};
+const addBulky = (pdfBuilder: PdfBuilder, order: Order) => {
+  if (order.bulky) {
+    pdfBuilder.addBlackHeader('Sperrige');
+
+    addCustomItemsTable(pdfBuilder, order.bulkyItems);
+  }
 };
 
-const addTitle = (factory: PdfBuilder, order: Order) => {
-  factory.setBold();
-  factory.addSpace(10);
+const addCustomItemsTable = (pdfBuilder: PdfBuilder, customItems?: CustomItem[]) => {
+  if (customItems?.length) {
+    const head = [['Name', 'Anzahl', 'Breite (cm)', 'Tiefe (cm)', 'Höhe (cm)', 'Gewicht (kg)', 'Volumen (m³)']];
+    const body = customItems.map((ci) => [
+      ci.name,
+      ci.colli,
+      ci.breite,
+      ci.tiefe,
+      ci.hoehe,
+      ci.weight,
+      numberValue(ci.itemVolume),
+    ]);
 
-  factory.addText(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr. ${order.id}`, 12, 12, 'center');
-  factory.addSpace(5);
+    pdfBuilder.addTable({ head, body });
+  }
+};
+
+const addSignature = (pdfBuilder: PdfBuilder, sign: string): void => {
+  pdfBuilder.addText('___________________', 8, 6, 'right');
+  pdfBuilder.addText(sign, 8, 4, 'right');
+  pdfBuilder.resetText();
+};
+
+const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
+  pdfBuilder.setBold();
+  pdfBuilder.addSpace(10);
+
+  pdfBuilder.addText(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr. ${order.id}`, 12, 12, 'center');
+  pdfBuilder.addSpace(5);
 
   //Firma
   if (order?.customer?.company) {
-    factory.addTable(null, [['Firma', `${order.customer.company}`]], {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+    pdfBuilder.addTable({
+      head: null,
+      body: [['Firma', `${order.customer.company}`]],
+      columnStyles: {
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      },
     });
   }
 
   //Kundenname
-  factory.addTable(
-    null,
-    [
+  pdfBuilder.addTable({
+    head: null,
+    body: [
       [
         'Name',
         `${order.customer?.salutation || ''} ${order.customer?.firstName || ''} ${order.customer?.lastName || ''}`,
@@ -104,17 +139,21 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
         `${order.customer?.telNumber}`,
       ],
     ],
-    {
+    columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       2: { fontStyle: 'bold' },
     },
-  );
+  });
+
+  const date = new Date(getParseableDate(order.date));
+
+  const f = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' });
 
   //Umzugsdatum
-  factory.addTable(
-    null,
-    [['Umzugstermin', `${order.date || ''} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
-    {
+  pdfBuilder.addTable({
+    head: null,
+    body: [['Umzugstermin', `${f.format(date)} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
+    columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
       2: { fontStyle: 'bold' },
@@ -122,7 +161,7 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
         cellWidth: CELL_WIDTH_1,
       },
     },
-  );
+  });
 
   //Volumen
 
@@ -133,26 +172,26 @@ const addTitle = (factory: PdfBuilder, order: Order) => {
   if (order.myhammer) {
     mark = 'My Hammer';
   }
-  factory.addTable(null, [['Volumen', `${order.volume || ''} m³`, 'Max. m³ Abweichung: 10%', mark]], {
-    0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-    1: { cellWidth: CELL_WIDTH_1 },
-    2: { fontStyle: 'bold', textColor: SECONDARY },
-    3: {
-      fontStyle: 'bold',
-      cellWidth: CELL_WIDTH_1,
+  pdfBuilder.addTable({
+    head: null,
+    body: [['Volumen', `${numberValue(order.volume)} m³`, 'Max. m³ Abweichung: 10%', mark]],
+    columnStyles: {
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      1: { cellWidth: CELL_WIDTH_1 },
+      2: { fontStyle: 'bold', textColor: SECONDARY },
+      3: {
+        fontStyle: 'bold',
+        cellWidth: CELL_WIDTH_1,
+      },
     },
   });
 
   //message
   if (order.text) {
-    factory.addTable(
-      null,
-      [['weitere Informationen auf Seite 3']],
-
-      {
-        0: { fontStyle: 'italic' },
-      },
-    );
+    pdfBuilder.addTable({
+      head: null,
+      body: [['weitere Informationen auf Seite 3']],
+    });
   }
 };
 
@@ -161,8 +200,8 @@ function combineString(arr: string[]) {
   return arr.filter((s) => s).join(SEP);
 }
 
-function addAdresses(factory: PdfBuilder, order: Order) {
-  factory.addSpace();
+function addAdresses(pdfBuilder: PdfBuilder, order: Order) {
+  pdfBuilder.addSpace();
   const { from, to } = order;
 
   const fromServices = [];
@@ -186,6 +225,13 @@ function addAdresses(factory: PdfBuilder, order: Order) {
 
   if (from.hasLoft) {
     fromFloors.push('Dachboden');
+  }
+  if (from.hasBasement) {
+    fromFloors.push('Keller');
+  }
+
+  if (from.hasGarage) {
+    fromFloors.push('Garage');
   }
 
   if (to.hasLoft) {
@@ -243,21 +289,14 @@ function addAdresses(factory: PdfBuilder, order: Order) {
     body.push(servicesRow);
   }
 
-  factory.addTable(
-    [['', 'Beladestelle', 'Entladestelle']],
+  pdfBuilder.addTable({
+    head: [['', 'Beladestelle', 'Entladestelle']],
     body,
-    {
-      0: { cellWidth: CELL_WIDTH_1 },
-    },
-    {
-      fillColor: PRIMARY,
-      textColor: WHITE,
-    },
-  );
+  });
 }
 
-const addConditionen = (factory: PdfBuilder, order: Order) => {
-  factory.addSpace();
+const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
+  pdfBuilder.addSpace();
   const head = [{ a: 'Konditionen', b: 'Einzelpreis', c: 'Menge', d: PRICE }];
 
   const body = (order.leistungen || []).map((l) => {
@@ -295,91 +334,95 @@ const addConditionen = (factory: PdfBuilder, order: Order) => {
     }
   });
 
-  factory.addTable(
+  pdfBuilder.addTable({
     head,
     body,
-    {
+    columnStyles: {
       1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: PRIMARY, textColor: WHITE },
-  );
+  });
 };
 
-const appendPrice = (factory: PdfBuilder, order: Order) => {
+const appendPrice = (pdfBuilder: PdfBuilder, order: Order) => {
   const BEST_Y_POS = 200;
-  const currentY = factory.getY();
+  const currentY = pdfBuilder.getY();
 
   if (currentY < BEST_Y_POS) {
-    factory.addSpace(BEST_Y_POS - currentY);
+    pdfBuilder.addSpace(BEST_Y_POS - currentY);
   }
 
-  factory.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
-  factory.setBold();
-  factory.addText('Die Preise sind inklusive gesetzlicher Haftung in Höhe von 620,0 Euro / m³.', 8);
-  factory.resetText();
-  factory.setBold();
-  addPrice(factory, order, false);
+  pdfBuilder.setColor(SECONDARY[0], SECONDARY[1], SECONDARY[2]);
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Die Preise sind inklusive gesetzlicher Haftung in Höhe von 620,0 Euro / m³.', 8);
+  pdfBuilder.resetText();
+  pdfBuilder.setBold();
+  addPrice(pdfBuilder, order, false);
 };
 
-const addPageTextFirstPage = (factory: PdfBuilder) => {
-  factory.resetText();
-  factory.addText(
+const addPageTextFirstPage = (pdfBuilder: PdfBuilder) => {
+  pdfBuilder.resetText();
+  pdfBuilder.addText(
     'Zahlungsart: An unsere Mitarbeiter vor Ort nach dem Umzug in Bar oder per Überweisung\n(Zahlungseingang auf unser Konto spätestens 1 Tag vor dem Umzug).',
     9,
   );
 
-  addSignature(factory, 'Kundenunterschrift');
+  addSignature(pdfBuilder, 'Kundenunterschrift');
 
-  factory.addLine();
-  factory.setBold();
-  factory.addText('Empfänger: Alexander Berent  |  Stadtsparkasse München  |  IBAN: DE41 7015 0000 1005 7863 20', 9);
-  factory.addLine();
+  pdfBuilder.addLine();
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Empfänger: Alexander Berent  |  Stadtsparkasse München  |  IBAN: DE41 7015 0000 1005 7863 20', 9);
+  pdfBuilder.addLine();
 
-  factory.addText(
+  pdfBuilder.addText(
     'Hiermit erteile(n) ich(wir) den Auftrag, den Umzug für o.g. abgestimmte Konditionen durchzuführen.',
     9,
   );
 
-  addSignature(factory, 'Kundenunterschrift');
+  addSignature(pdfBuilder, 'Kundenunterschrift');
 
-  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
-  factory.addText('Bitte beachten Sie: Auflistung weiterer Leistungen befindet sich auf der nächsten Seite.', 9);
-  factory.addPage();
+  pdfBuilder.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
+  pdfBuilder.addText('Bitte beachten Sie: Auflistung weiterer Leistungen befindet sich auf der nächsten Seite.', 9);
+  pdfBuilder.addPage();
 };
 
-const addPrice = (factory: PdfBuilder, order: Order, showTitel = true): void => {
+const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void => {
   const MWST = 19;
 
   const isTime = Number(order.timeBased?.hours || 0) > 0;
-  showTitel && factory.addHeader(`Preis`, 10);
+  showTitel && pdfBuilder.addHeader(`Preis`, 10);
   let price = Number(order.sum);
   let tax = (price / (100 + MWST)) * MWST;
   let netto = price - tax;
-  factory.setBold();
-  factory.addText(`Netto: ${euroValue(netto)}`, 9, 6, 'right');
-  factory.addText(`MwSt. ${MWST}%: ${euroValue(tax)}`, 9, 6, 'right');
-  factory.addLine(PdfBuilder.mm2pt(100));
-  factory.setBold();
+  pdfBuilder.setBold();
+  pdfBuilder.addText(`Netto: ${euroValue(netto)}`, 9, 6, 'right');
+  pdfBuilder.addText(`MwSt. ${MWST}%: ${euroValue(tax)}`, 9, 6, 'right');
+  pdfBuilder.addLine(PdfBuilder.mm2pt(100));
+  pdfBuilder.setBold();
 
   if (isTime === true) {
-    factory.addText(`Gesamtpreis für ${order.timeBased?.hours || ''} Stunden: ${euroValue(price)}`, 14, 10, 'right');
-    factory.setNormal();
-    factory.addText(`Je angefangene weitere Stunde: ${euroValue(order.timeBased?.extra)} inkl. MwSt.`, 9, 6, 'right');
-    factory.addText(
+    pdfBuilder.addText(`Gesamtpreis für ${order.timeBased?.hours || ''} Stunden: ${euroValue(price)}`, 14, 10, 'right');
+    pdfBuilder.setNormal();
+    pdfBuilder.addText(
+      `Je angefangene weitere Stunde: ${euroValue(order.timeBased?.extra)} inkl. MwSt.`,
+      9,
+      6,
+      'right',
+    );
+    pdfBuilder.addText(
       'Bei einer Zeitüberschreitung von bis zu 20 min ist 1/2 Stunde zu bezahlen, ab 20 min wird eine volle Stunde berechnet.',
       9,
       6,
       'right',
     );
   } else {
-    factory.addText(`Gesamt: ${euroValue(price)}`, 14, 10, 'right');
+    pdfBuilder.addText(`Gesamt: ${euroValue(price)}`, 14, 10, 'right');
   }
-  factory.setNormal();
+  pdfBuilder.setNormal();
 };
 
-const addTopPageTextSecondPage = (factory: PdfBuilder) => {
+const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   const textBlocks = [
     'Die Anzahl der Ladehelfer und die Arbeitsdauer in Stunden werden basierend auf den ' +
       'von Auftraggeber*innen im Online-Formular "Umzugsanfrage/Umzugsgutliste"bereitgestellten Daten berechnet. ' +
@@ -395,10 +438,10 @@ const addTopPageTextSecondPage = (factory: PdfBuilder) => {
       '"Volumen in Kubikmetern", "Schwertransport", "Trageweg" oder "Transport von sperrigen Gegenständen" zu erweitern.',
   ];
 
-  factory.resetText();
+  pdfBuilder.resetText();
 
   textBlocks.forEach((block) => {
-    factory.addTable(null, [[`• ${block}`]], { 0: { lineColor: [255, 255, 255] } });
+    pdfBuilder.addTable({ head: null, body: [[`• ${block}`]], columnStyles: { 0: { lineColor: [255, 255, 255] } } });
   });
 };
 
@@ -414,15 +457,8 @@ function getPrice(serv: OrderService, order: Order): string {
   return orderServices.find((s) => Number(s.id) === Number(servId))?.price || serv.price;
 }
 
-const addVerpackung = (
-  factory: PdfBuilder,
-  order: Order,
-  serv: OrderService[],
-  colors: { titleColor: Function; tableHeader: number[] },
-) => {
-  colors.titleColor();
-  factory.setBold();
-  factory.addText('Verpackung (wird nach Verbrauch berechnet)');
+const addVerpackung = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[]) => {
+  pdfBuilder.addBlackHeader('Verpackung (wird nach Verbrauch berechnet)');
 
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
 
@@ -440,28 +476,19 @@ const addVerpackung = (
       return [s.name, euroValue(price), numberValue(colli), sum];
     });
 
-  factory.addTable(
+  pdfBuilder.addTable({
     head,
     body,
-    {
+    columnStyles: {
       1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: colors.tableHeader, textColor: WHITE },
-  );
-  factory.addSpace(3);
+  });
 };
 
-const addServices = (
-  factory: PdfBuilder,
-  order: Order,
-  serv: OrderService[],
-  colors: { titleColor: Function; tableHeader: number[] },
-) => {
-  colors.titleColor();
-  factory.setBold();
-  factory.addText('Leistungen');
+const addServices = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[]) => {
+  pdfBuilder.addBlackHeader('Leistungen');
 
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
   const body = (serv || [])
@@ -477,63 +504,77 @@ const addServices = (
       return [s.name, euroValue(price), numberValue(colli), sum];
     });
 
-  factory.addTable(
+  pdfBuilder.addTable({
     head,
     body,
-    {
+    columnStyles: {
       1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
     },
-    { fillColor: colors.tableHeader, textColor: WHITE },
-  );
-  factory.addSpace(3);
+  });
 };
 
-const addSecondPageEnd = (factory: PdfBuilder) => {
-  factory.resetText();
-  factory.addText('Nach der Besichtigung wurden Mängel festgestellt: [ ] keine   [ ] Wände   [ ] Möbel   [ ] Fußböden');
+const addSecondPageEnd = (pdfBuilder: PdfBuilder) => {
+  pdfBuilder.resetText();
+  pdfBuilder.addText(
+    'Nach der Besichtigung wurden Mängel festgestellt: [ ] keine   [ ] Wände   [ ] Möbel   [ ] Fußböden',
+  );
 
-  factory.setBold();
-  factory.addText('Auszugsadresse');
-  factory.resetText();
-  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
-  factory.addText(
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Auszugsadresse');
+  pdfBuilder.resetText();
+  pdfBuilder.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
+  pdfBuilder.addText(
     '    Umzugsgut vollständig beladen:                                       (Kundenunterschrift) ___________________________',
   );
-  factory.resetText();
+  pdfBuilder.resetText();
 
-  factory.setBold();
-  factory.addText('Einzugsadresse');
-  factory.resetText();
-  factory.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
-  factory.addText(
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Einzugsadresse');
+  pdfBuilder.resetText();
+  pdfBuilder.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
+  pdfBuilder.addText(
     '    Auftrag vollständig und zufriedenstellend ausgeführt:      (Kundenunterschrift) ___________________________',
   );
-  factory.resetText();
+  pdfBuilder.resetText();
 
-  factory.setBold();
-  factory.addText(
+  pdfBuilder.setBold();
+  pdfBuilder.addText(
     'Gesamtbetrag dankend erhalten:                          (Unterschrift des Fahrers) ___________________________',
   );
-  factory.resetText();
+  pdfBuilder.resetText();
 };
 
-const addMoreInformation = (factory: PdfBuilder, order: Order) => {
-  factory.addPage();
-  if (order.text) {
-    const header = [['Weitere Informationen']];
-    const body = [[order.text]];
-
-    factory.addTable(header, body);
+const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
+  if (order.from.demontage) {
+    pdfBuild.addBlackHeader('Demontage & Montage Liste');
+    const body = [
+      ['Küche', numberValue(order.from.kitchenWidth), 'Meter'],
+      ['Betten', numberValue(order.from.bedNumber), 'Stück'],
+      ['Schränke', numberValue(order.from.wardrobeWidth), 'Meter'],
+    ];
+    pdfBuild.addTable({ head: null, body, columnStyles: { 1: { halign: 'right' } } });
   }
 };
 
-const addMoebel = (factory: PdfBuilder, order: Order) => {
-  factory.addSpace();
+const addMoreInformation = (pdfBuilder: PdfBuilder, order: Order) => {
+  pdfBuilder.addPage();
+  if (order.text) {
+    pdfBuilder.addBlackHeader('Weitere Informationen');
+    const body = [[order.text]];
+
+    pdfBuilder.addTable({ head: null, body, columnStyles: { 0: { lineColor: [255, 255, 255] } } });
+  }
+};
+
+const addMoebel = (pdfBuilder: PdfBuilder, order: Order) => {
+  const title = 'Möbelliste';
   if (order.ownItems?.trim().length > 0) {
-    factory.addTable([['Möbelliste']], [[order.ownItems]]);
+    pdfBuilder.addBlackHeader(title);
+    pdfBuilder.addTable({ head: null, body: [[order.ownItems]] });
   } else if (order.items?.length > 0) {
+    pdfBuilder.addBlackHeader(title);
     const body = [];
 
     let actualroom = '';
@@ -545,8 +586,8 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
         actualroom = curItem.selectedCategory || '';
         body.push({
           desc: {
-            colSpan: 3,
-            content: actualroom.toUpperCase(),
+            colSpan: 2,
+            content: actualroom,
 
             styles: {
               fontStyle: 'bold',
@@ -556,61 +597,55 @@ const addMoebel = (factory: PdfBuilder, order: Order) => {
           },
         });
       }
-      const row: any = {};
-      row.desc = curItem.name;
-      row.colli = curItem.colli;
-      row.weight = curItem.weight;
-      body.push(row);
-    }
-    const header = [
-      {
-        desc: 'Bezeichnung',
-        colli: 'Anzahl',
-        weight: 'ggfs. Gewicht',
-      },
-    ];
 
-    factory.addTable(header, body, undefined, {
-      fillColor: PRIMARY,
-      textColor: WHITE,
-    });
+      body.push([curItem.name, numberValue(curItem.colli)]);
+    }
+
+    pdfBuilder.addTable({ head: null, body });
   }
 };
 
 function addBoxes(pdffactory: PdfBuilder, order: Order) {
+  const textBlocks = [];
   if (order.boxNumber) {
+    textBlocks.push(`Umzugskartons: ca ${order.boxNumber}`);
+  }
+  if (order.kleiderboxNumber) {
+    textBlocks.push(`Kleiderboxen: ca ${order.kleiderboxNumber}`);
+  }
+  if (textBlocks.length > 0) {
     pdffactory.addSpace(5);
     pdffactory.setBold();
-    pdffactory.addText(`Anzahl der Umzugskartons: ca. ${order.boxNumber}`, 9);
-    pdffactory.setNormal();
   }
+  pdffactory.addText(textBlocks.join(' | '), 9);
+  pdffactory.setNormal();
 }
 
-const addAGB = (factory: PdfBuilder, options: AppOptions): void => {
-  factory.addPage({ top: 3, left: 8, right: 8, bottom: 3 });
-  factory.setBold();
-  factory.addText('Allgemeine Geschäftsbedingungen der Durchführung des Umzugs', 7);
-  factory.resetText();
+const addAGB = (pdfBuilder: PdfBuilder, options: AppOptions): void => {
+  pdfBuilder.addPage({ top: 3, left: 8, right: 8, bottom: 3 });
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Allgemeine Geschäftsbedingungen der Durchführung des Umzugs', 7);
+  pdfBuilder.resetText();
 
-  addAgbText(factory, options);
+  addAgbText(pdfBuilder, options);
 
-  factory.addSpace(2);
+  pdfBuilder.addSpace(2);
 
-  factory.setBold();
-  factory.addText('Ich akzeptiere die allgemeinen Geschäftsbediengungen der Firma Umzug Ruckzuck', 8);
-  factory.setNormal();
-  addSignature(factory, 'Kundenunterschrift');
+  pdfBuilder.setBold();
+  pdfBuilder.addText('Ich akzeptiere die allgemeinen Geschäftsbediengungen der Firma Umzug Ruckzuck', 8);
+  pdfBuilder.setNormal();
+  addSignature(pdfBuilder, 'Kundenunterschrift');
 };
 
 const addAgbText = (pdfBuilder: PdfBuilder, options: AppOptions) => {
   agb.forEach((paragraph, index) => {
-    pdfBuilder.addTable(
-      [[`§${index + 1} ${paragraph.title}`]],
-      [[paragraph.text]],
-      { 0: { fontSize: 7, lineColor: [255, 255, 255] } },
-      { fontSize: 7, fillColor: [255, 255, 255], textColor: [0, 0, 0] },
-      8,
-    );
+    pdfBuilder.addTable({
+      head: [[`§${index + 1} ${paragraph.title}`]],
+      body: [[paragraph.text]],
+      columnStyles: { 0: { fontSize: 7, lineColor: [255, 255, 255] } },
+      headStyles: { fontSize: 7, fillColor: [255, 255, 255], textColor: [0, 0, 0] },
+      margin: 8,
+    });
 
     const left = [
       `Bett Demontage oder Montage: ${euroValue(options[OPTIONS.A_MONTAGE_BET])}`,

@@ -47,6 +47,12 @@ export default function Categories() {
                 headerName: 'ID',
               },
               {
+                field: 'sort',
+                headerName: 'Sortierung',
+                type: 'number',
+                editable: true,
+              },
+              {
                 field: 'name',
                 headerName: 'Name',
                 flex: 1,

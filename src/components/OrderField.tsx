@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
-import { clearCountry } from '../utils/utils';
 import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
+import { clearCountry } from '../utils/utils';
 
 type Path = keyof Order;
 type NestedPath<T> = keyof T;
@@ -32,7 +32,7 @@ interface Props<T> {
 }
 
 const options = {
-  fields: ['formatted_address', 'address_components'],
+  fields: ['formatted_address'],
   componentRestrictions: { country: ['de', 'at', 'ch'] },
 };
 
@@ -72,13 +72,12 @@ export default function OrderField<T>({
       if (loaderRef.current == null) {
         loaderRef.current = new Loader({
           apiKey: gapiKey,
-          libraries: ['places'],
           language: 'de',
         });
       }
 
-      loaderRef.current.load().then((google) => {
-        const autocomplete = new google.maps.places.Autocomplete(document.getElementById(id!) as any, options);
+      loaderRef.current.importLibrary('places').then((google) => {
+        const autocomplete = new google.Autocomplete(document.getElementById(id!) as any, options);
 
         autocomplete.addListener('place_changed', () => {
           const { formatted_address } = autocomplete.getPlace();

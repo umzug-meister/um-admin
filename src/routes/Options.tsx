@@ -20,6 +20,10 @@ export default function Options() {
           <OptionInput name="gapikey" label="Google Api Key" asPassword />
           <OptionInput name="clientId" label="Google Client ID" asPassword />
           <OptionInput name="jfApiKey" label="JotForm Api Key" asPassword />
+          <OptionInput name="poolId" label="AWS Pool ID" asPassword />
+          <OptionInput name="dataPrivacyUrl" label="Datenschutz URL" />
+          <OptionInput name="successUrl" label="Success URL" />
+          <OptionInput name="boxCalculatorUrl" label="Kartonrechner URL" />
         </AppCard>
       </Grid>
     </AppGridContainer>

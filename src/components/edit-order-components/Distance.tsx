@@ -1,4 +1,4 @@
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useOption } from '../../hooks/useOption';
 import { AppDispatch, AppState } from '../../store';
 import { updateOrderProps } from '../../store/appReducer';
-import { clearCountry } from '../../utils/utils';
 import { AppCard } from '../shared/AppCard';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
+import { clearCountry } from '../../utils/utils';
 
 const represent = (distance = 0) => Number(distance / 1000).toFixed(0);
 
@@ -32,18 +32,17 @@ export default function Distance() {
     if (loaderRef.current == null) {
       loaderRef.current = new Loader({
         apiKey: gapiKey,
-        libraries: ['places'],
         language: 'de',
       });
     }
     loaderRef.current
-      .load()
+      .importLibrary('routes')
       .then((google) => {
-        const service = new google.maps.DistanceMatrixService();
+        const service = new google.DistanceMatrixService();
         if (from && to) {
           service.getDistanceMatrix(
             {
-              travelMode: google.maps.TravelMode.DRIVING,
+              travelMode: google.TravelMode.DRIVING,
               origins: [origin, from, to],
               destinations: [from, to, origin],
             },
@@ -92,32 +91,30 @@ export default function Distance() {
   };
 
   return (
-    <Grid item xs={12} xl={6}>
-      <AppCard title="Fahrstrecke">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell sx={sx}>Von</TableCell>
-              <TableCell sx={sx}>Nach</TableCell>
-              <TableCell sx={sx}>Strecke</TableCell>
-              <TableCell sx={sx}>Fahrtzeit</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {RenderRow(0, 'Anfahrt')}
-            {RenderRow(1, 'Lastfahrt')}
-            {RenderRow(2, 'Rückfahrt')}
-            <TableRow>
-              <TableCell colSpan={3} sx={sx}>
-                Gesamt
-              </TableCell>
+    <AppCard title="Fahrstrecke">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell sx={sx}>Von</TableCell>
+            <TableCell sx={sx}>Nach</TableCell>
+            <TableCell sx={sx}>Strecke</TableCell>
+            <TableCell sx={sx}>Fahrtzeit</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {RenderRow(0, 'Anfahrt')}
+          {RenderRow(1, 'Lastfahrt')}
+          {RenderRow(2, 'Rückfahrt')}
+          <TableRow>
+            <TableCell colSpan={3} sx={sx}>
+              Gesamt
+            </TableCell>
 
-              <TableCell colSpan={2}>{sum} km</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </AppCard>
-    </Grid>
+            <TableCell colSpan={2}>{sum} km</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </AppCard>
   );
 }
