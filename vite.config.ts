@@ -16,9 +16,11 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      sourcemap: true,
       rollupOptions: {
         output: {
           dir: 'build',
+          entryFileNames: 'main.[hash].js',
         },
       },
     },
