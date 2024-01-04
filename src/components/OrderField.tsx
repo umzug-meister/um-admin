@@ -11,7 +11,7 @@ import { AppTextField } from './shared/AppTextField';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
-import { clearCountry } from '../utils/utils';
+import { clearCountry } from 'um-types/utils';
 
 type Path = keyof Order;
 type NestedPath<T> = keyof T;

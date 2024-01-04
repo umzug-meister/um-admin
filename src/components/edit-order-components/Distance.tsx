@@ -10,7 +10,7 @@ import { AppCard } from '../shared/AppCard';
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
-import { clearCountry } from '../../utils/utils';
+import { clearCountry } from 'um-types/utils';
 
 const represent = (distance = 0) => Number(distance / 1000).toFixed(0);
 
