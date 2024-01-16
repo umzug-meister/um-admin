@@ -1,6 +1,6 @@
 import { AppState } from '.';
-import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
+import { Urls } from '../api/Urls';
 import { AppOptions, OptionName } from '../app-types';
 import {
   createDueDate,
@@ -11,8 +11,8 @@ import {
   getPrintableDate,
 } from '../utils/utils';
 
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { orderBy, set } from 'lodash';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { set } from 'lodash';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
 function _initOrder(): Order {
