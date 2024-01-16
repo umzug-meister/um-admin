@@ -12,7 +12,7 @@ import {
 } from '../utils/utils';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { set } from 'lodash';
+import { orderBy, set } from 'lodash';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
 function _initOrder(): Order {
@@ -287,6 +287,7 @@ const appSlice = createSlice({
         const newInvoice: Rechnung = {
           date: new Date().toLocaleDateString('ru'),
           text: '',
+          orderId: state.current?.id || '',
           firma: state.current?.customer.company,
           rNumber: state.options['rNumber'],
           customerName: getCustomerFullname(curOrder),

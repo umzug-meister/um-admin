@@ -74,55 +74,65 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
   };
 
   return (
-    <AppGridContainer>
-      <Grid item xs={6}>
-        <AppCard title="Kunde">
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerName" />
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
-          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
-        </AppCard>
-      </Grid>
-      <Grid item xs={6}>
-        <AppCard title="Text">
-          <InvoiceTextTemplates setText={onChipClick} />
-          <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
-        </AppCard>
-      </Grid>
-      <Grid item xs={12}>
-        <AppCard title="Leistungen">
-          <LeistungEdit
-            hideChecks
-            suggestServices
-            leistungen={rechnung.entries}
-            update={(lst) => {
-              onPropChange('entries', lst);
-            }}
-          />
-          <CalculationsView entries={rechnung.entries} />
-        </AppCard>
-      </Grid>
-      <Grid item xs={12}>
-        <Box display="flex" flexDirection="row" gap={2}>
-          <PdfSaveButton onClick={printInvoice} />
-          {isOrderEdit &&
-            (showAnimation ? (
-              <Pulsating>
+    <>
+      <AppGridContainer>
+        <Grid item xs={12}>
+          <AppCard title="Rechnung">
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="orderId" />
+          </AppCard>
+        </Grid>
+      </AppGridContainer>
+      <AppGridContainer>
+        <Grid item xs={6}>
+          <AppCard title="Kunde">
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerName" />
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
+            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
+          </AppCard>
+        </Grid>
+
+        <Grid item xs={6}>
+          <AppCard title="Text">
+            <InvoiceTextTemplates setText={onChipClick} />
+            <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
+          </AppCard>
+        </Grid>
+        <Grid item xs={12}>
+          <AppCard title="Leistungen">
+            <LeistungEdit
+              hideChecks
+              suggestServices
+              leistungen={rechnung.entries}
+              update={(lst) => {
+                onPropChange('entries', lst);
+              }}
+            />
+            <CalculationsView entries={rechnung.entries} />
+          </AppCard>
+        </Grid>
+        <Grid item xs={12}>
+          <Box display="flex" flexDirection="row" gap={2}>
+            <PdfSaveButton onClick={printInvoice} />
+            {isOrderEdit &&
+              (showAnimation ? (
+                <Pulsating>
+                  <EmailLink />
+                </Pulsating>
+              ) : (
                 <EmailLink />
-              </Pulsating>
-            ) : (
-              <EmailLink />
-            ))}
-          {deleteAccounting && (
-            <Button variant="outlined" color="error" onClick={onClearRequest}>
-              Löschen
-            </Button>
-          )}
-        </Box>
-      </Grid>
-    </AppGridContainer>
+              ))}
+            {deleteAccounting && (
+              <Button variant="outlined" color="error" onClick={onClearRequest}>
+                Löschen
+              </Button>
+            )}
+          </Box>
+        </Grid>
+      </AppGridContainer>
+    </>
   );
 }
 
@@ -133,6 +143,7 @@ const labels: Labels = {
   customerStreet: 'Straße, Nr.',
   customerPlz: 'PLZ, Ort',
   rNumber: 'Rechnungsnummer',
+  orderId: 'Auftragsnummer',
 };
 
 interface InvoiceFieldProps {

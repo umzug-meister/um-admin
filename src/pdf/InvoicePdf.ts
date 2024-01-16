@@ -1,4 +1,4 @@
-import { calculateNumbers, euroValue } from '../utils/utils';
+import { calculateNumbers, euroValue, getPrintableDate } from '../utils/utils';
 import PdfBuilder from './PdfBuilder';
 import { invoiceFileName } from './filename';
 import { addDate, addHeader } from './shared';
@@ -17,7 +17,7 @@ export const generateRechnung = (rechnung: Rechnung) => {
 
   addHeader(factory);
   addPostAddr(factory);
-  addDate(factory, rechnung.date);
+  addInvoiceInformation(factory, { ...rechnung });
   addCustomer(factory, rechnung);
   addRNumber(factory, rechnung);
   addTable(factory, rechnung);
@@ -29,6 +29,17 @@ export const generateRechnung = (rechnung: Rechnung) => {
 
   factory.save();
 };
+
+export function addInvoiceInformation(factory: PdfBuilder, params: { date: string; orderId: string | undefined }) {
+  const { date, orderId } = params;
+  factory.addSpace(5);
+
+  const info = [];
+  info.push(`Rechnungsdatum: ${getPrintableDate(date)}`);
+  orderId && info.push(`Auftragsnummer: ${orderId}`);
+
+  factory.addLeftRight([], info);
+}
 
 export function addPostAddr(factory: PdfBuilder) {
   factory.resetText();
