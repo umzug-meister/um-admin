@@ -25,6 +25,6 @@ jobs:
           patch-wording: 'fix,deps'
           minor-wording: 'new,feat,minor'
           major-wording: 'major'
-          commit-message: '[RELEASE]: {{version}}'
+          commit-message: '[RELEASE] {{version}}'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
