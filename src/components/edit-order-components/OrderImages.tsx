@@ -31,17 +31,17 @@ export default function OrderImages() {
             maxWidth: '100%',
             objectPosition: 'center',
           }}
-          src={curOrder?.images?.[page]}
+          src={curOrder?.bucketImages?.[page].Location}
         />
       </Box>
     );
   }, [page, curOrder]);
 
-  if (!curOrder || !curOrder.images || curOrder.images.length === 0) {
+  if (!curOrder || !curOrder.bucketImages || curOrder.bucketImages.length === 0) {
     return null;
   }
 
-  const length = curOrder?.images?.length || 0;
+  const length = curOrder?.bucketImages?.length || 0;
 
   const handleChange = (offset: number) => {
     return function () {
