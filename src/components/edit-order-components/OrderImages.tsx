@@ -3,7 +3,7 @@ import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlin
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import { Box, Button, ButtonGroup } from '@mui/material';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { AppDialog } from '../shared/AppDialog';
@@ -18,24 +18,6 @@ export default function OrderImages() {
   const curOrder = useCurrentOrder();
 
   const [page, setPage] = useState(0);
-
-  const currentImage = useMemo(() => {
-    return (
-      <Box>
-        <img
-          alt=""
-          style={{
-            display: 'block',
-            margin: 'auto',
-            maxHeight: 'calc(100vh - 145px)',
-            maxWidth: '100%',
-            objectPosition: 'center',
-          }}
-          src={curOrder?.bucketImages?.[page].Location}
-        />
-      </Box>
-    );
-  }, [page, curOrder]);
 
   if (!curOrder || !curOrder.bucketImages || curOrder.bucketImages.length === 0) {
     return null;
@@ -62,7 +44,19 @@ export default function OrderImages() {
         }}
       >
         <Box p={1} position="relative" width={'100%'}>
-          {currentImage}
+          <Box>
+            <img
+              alt=""
+              style={{
+                display: 'block',
+                margin: 'auto',
+                maxHeight: 'calc(100vh - 145px)',
+                maxWidth: '100%',
+                objectPosition: 'center',
+              }}
+              src={curOrder?.bucketImages?.[page].Location}
+            />
+          </Box>
           <Box position="absolute" bottom={16} right={'50%'} sx={{ transform: 'translateX(50%)' }}>
             <ButtonGroup variant="contained">
               <Button onClick={handleChange(-1)}>
