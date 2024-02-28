@@ -633,7 +633,7 @@ const addAGB = (pdfBuilder: PdfBuilder, options: AppOptions): void => {
   pdfBuilder.addSpace(2);
 
   pdfBuilder.setBold();
-  pdfBuilder.addText('Ich akzeptiere die allgemeinen Geschäftsbediengungen der Firma Umzug Ruckzuck', 8);
+  pdfBuilder.addText('Ich akzeptiere die allgemeinen Geschäftsbedingungen der Firma Umzug Ruckzuck', 8);
   pdfBuilder.setNormal();
   addSignature(pdfBuilder, 'Kundenunterschrift');
 };
