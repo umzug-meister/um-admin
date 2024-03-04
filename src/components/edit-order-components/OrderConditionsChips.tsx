@@ -118,7 +118,7 @@ export function OrderConditionsChips() {
 
   const createRideCostsLst = (): MLeistung => {
     return {
-      desc: transporterAmount > 1 ? `An/Abfartskosten ${transporterAmount} x LKW` : 'An/Abfahrtskosten',
+      desc: transporterAmount > 1 ? `An/Abfahrtskosten ${transporterAmount} x LKW` : 'An/Abfahrtskosten',
       sum: allocateRideCosts(),
       calculate: true,
     };
