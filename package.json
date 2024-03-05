@@ -1,6 +1,6 @@
 {
   "name": "umzug-meister-admin",
-  "version": "3.12.37",
+  "version": "3.12.38",
   "private": false,
   "type": "module",
   "dependencies": {
