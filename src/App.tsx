@@ -1,6 +1,6 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
 import { Suspense, lazy } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
@@ -10,7 +10,7 @@ import TopBar from './components/TopBar';
 import theme from './theme';
 
 import styled from '@emotion/styled';
-import de from 'date-fns/locale/de';
+import { de } from 'date-fns/locale/de';
 
 const Import = lazy(() => import('./routes/Import'));
 const Blanco = lazy(() => import('./routes/Blanco'));
