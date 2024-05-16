@@ -391,9 +391,11 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
     return null;
   }
 
-  const parts = date.split('.');
+  const parts = date.split('-');
   const month = parts[1];
-  const year = parts[2];
+  const year = parts[0];
+
+  console.log(parts);
 
   const inRoot = await foldersIn(rootFolder.id);
   let yearFolder = getByNameRegEx(new RegExp(`Auftrag ${year}`), inRoot);
