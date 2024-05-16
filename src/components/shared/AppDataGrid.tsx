@@ -130,8 +130,13 @@ export function AppDataGrid({
   );
 }
 
-const StyledDataGrid = styled(DataGrid)(() => ({
-  '& .bold': {
-    fontWeight: 'bold',
-  },
-}));
+const StyledDataGrid = styled(DataGrid)(({ theme }) => {
+  return {
+    '& .bold': {
+      fontWeight: 'bold',
+    },
+    '.MuiDataGrid-container--top [role=row]': {
+      background: theme.palette.background.paper,
+    },
+  };
+});
