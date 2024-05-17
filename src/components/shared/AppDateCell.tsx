@@ -11,7 +11,7 @@ export function AppDateCell({ date }: Readonly<Props>) {
   const timeFormat = new Intl.DateTimeFormat('de-DE', { timeStyle: 'medium' });
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" justifyContent={'center'} sx={{ height: '100%' }}>
       <Typography display="block" variant="caption">
         {dateFormat.format(date)}
       </Typography>
