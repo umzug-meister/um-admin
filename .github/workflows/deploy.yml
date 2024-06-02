@@ -1,12 +1,13 @@
-name: 🚀 Deploy Umzug Meister
+name: Deploy Umzug Meister
 
 on:
   push:
-    branches:
-      - 'main'
+    # Pattern matched against refs/tags
+    tags:
+      - '*'
+
 jobs:
   build-deploy:
-    if: "startsWith(github.event.head_commit.message, 'ci: version bump')"
     runs-on: ubuntu-latest
     environment:
       name: UM_PROD

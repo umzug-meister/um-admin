@@ -37,7 +37,7 @@ export function convertData(data: any[]): ConvertedJFEntry[] {
     const answers = generateAnswersArray(d.answers);
     const name = findAnswer('name', answers);
 
-    let newEntry: ConvertedJFEntry = {
+    const newEntry: ConvertedJFEntry = {
       id: String(d.id),
       answers,
       createdAt: d.created_at,
@@ -55,9 +55,9 @@ export const generateOrder = (param: JFAnswer[], allServices: OrderService[], al
 
   const moebelEnd = Number(param.find((p) => p.name === 'moebelblockEnde')?.order)!;
 
-  let moebelCluster = [...param].filter((a) => Number(a.order) > moebelStart && Number(a.order) < moebelEnd);
+  const moebelCluster = [...param].filter((a) => Number(a.order) > moebelStart && Number(a.order) < moebelEnd);
 
-  let answers = [...param].filter((a) => Number(a.order) < moebelStart || Number(a.order) > moebelEnd);
+  const answers = [...param].filter((a) => Number(a.order) < moebelStart || Number(a.order) > moebelEnd);
 
   function find(name: string) {
     return findAnswer(name, answers, true);

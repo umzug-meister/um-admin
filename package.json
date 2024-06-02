@@ -1,5 +1,5 @@
 {
-  "name": "umzug-meister-admin",
+  "name": "umzug-meister",
   "version": "4.0.18",
   "private": false,
   "type": "module",
@@ -37,7 +37,12 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.10",
     "vite-plugin-package-version": "^1.1.0",
@@ -46,7 +51,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
     "extends": [
