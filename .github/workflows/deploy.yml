@@ -2,9 +2,8 @@ name: Deploy Umzug Meister
 
 on:
   push:
-    # Pattern matched against refs/tags
     tags:
-      - '**'
+      - '*'
 
 jobs:
   build-deploy:
