@@ -108,7 +108,7 @@ export default class PdfBuilder {
   }
 
   public addHeader(text: string, fontSize?: number, align?: 'left' | 'center' | 'right' | 'justify'): void {
-    const _fontSize = fontSize ? fontSize : 16;
+    const _fontSize = fontSize ?? 16;
     this.setBold();
     this.doc.setTextColor(216, 63, 3);
     this.addText(text, _fontSize, undefined, align);
@@ -123,11 +123,11 @@ export default class PdfBuilder {
   }
 
   public addSpace(mm?: number): void {
-    this.y += PdfBuilder.mm2pt(mm || 8);
+    this.y += PdfBuilder.mm2pt(mm ?? 8);
   }
 
   public addPngImage(url: string, x: number, y: number, width: number, height: number): void {
-    let img = new Image(width, height);
+    const img = new Image(width, height);
     img.src = url;
     this.doc.addImage(
       img,
