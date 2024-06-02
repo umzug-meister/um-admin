@@ -23,6 +23,3 @@ jobs:
 
       - name: Build App
         run: npm run build
-        env:
-          REACT_APP_VERSION: dev
-          GENERATE_SOURCEMAP: false
