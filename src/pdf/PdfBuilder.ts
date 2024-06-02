@@ -146,9 +146,9 @@ export default class PdfBuilder {
   }
 
   public addLine(x?: number): void {
-    let maxX = PdfBuilder.mm2pt(PdfBuilder.dim_x - this.margin.right);
+    const maxX = PdfBuilder.mm2pt(PdfBuilder.dim_x - this.margin.right);
     this.doc.setDrawColor(150, 150, 150);
-    let _x = x || this.x;
+    const _x = x || this.x;
     this.doc.line(_x, this.y, maxX, this.y);
     this.y += 5;
     this.resetText();
@@ -163,7 +163,7 @@ export default class PdfBuilder {
   public addTable(params: { head: any; body: any; columnStyles?: any; headStyles?: any; margin?: number }): void {
     const { body, head, columnStyles = {}, headStyles = {}, margin = 20 } = params;
 
-    let bottom = PdfBuilder.mm2pt(10);
+    const bottom = PdfBuilder.mm2pt(10);
     ((this.doc as any).autoTable as autoTable)({
       head: head,
       body: body,
@@ -223,7 +223,7 @@ export default class PdfBuilder {
   }
 
   public addFooter(text: string, text2: string): void {
-    let lastY = this.y;
+    const saveYPosition = this.y;
     this.y = PdfBuilder.mm2pt(PdfBuilder.pt2mm(this.maxHeight) - 14);
     this.addLine();
     this.doc.setTextColor(85, 85, 85);
@@ -232,7 +232,7 @@ export default class PdfBuilder {
 
     this.addText(text2, 8, 6, 'center');
     this.resetText();
-    this.y = lastY;
+    this.y = saveYPosition;
   }
 
   public addTextNoSpace(text: string, fontSize?: number, lh?: number): void {
@@ -259,8 +259,8 @@ export default class PdfBuilder {
   }
 
   public addText(text: string, fontSize?: number, lh?: number, align?: 'left' | 'center' | 'right' | 'justify'): void {
-    let lastX = this.x;
-    let _align = align ? align : 'left';
+    const lastX = this.x;
+    const _align = align ? align : 'left';
     switch (_align) {
       case 'center':
         this.x = PdfBuilder.mm2pt(PdfBuilder.dim_x / 2);
