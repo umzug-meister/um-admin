@@ -6,6 +6,7 @@ on:
 
 jobs:
   bump-version:
+    if: "!startsWith(github.event.head_commit.message, 'ci: version bump')"
     name: 'Bump Version on default branch'
     runs-on: ubuntu-latest
     permissions:
