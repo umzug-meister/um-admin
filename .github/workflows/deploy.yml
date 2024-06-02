@@ -7,7 +7,6 @@ on:
 
 jobs:
   build-deploy:
-    if: "startsWith(github.event.head_commit.message, 'ci: version bump')"
     runs-on: ubuntu-latest
     environment:
       name: UM_PROD
