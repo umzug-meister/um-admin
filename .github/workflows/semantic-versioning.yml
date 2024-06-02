@@ -19,7 +19,7 @@ jobs:
           ref: ${{ github.ref }}
       - name: 'Automated Version Bump'
         id: version-bump
-        uses: 'phips28/gh-action-bump-version@v11.0.4'
+        uses: 'phips28/gh-action-bump-version@v11.0.5'
         with:
           patch-wording: 'fix,patch'
           minor-wording: 'new,feat,minor'
