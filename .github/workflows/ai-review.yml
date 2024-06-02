@@ -3,14 +3,14 @@ name: AI Code Review
 on:
   pull_request:
     paths-ignore:
-      - "**/*.json"
-      - "**/*.md"
-      - "**/*.png"
-      - "**/*.jpg"
-      - "**/*.jpeg"
-      - "**/*.gif"
-      - "**/*.svg"
-      - ".gitgnore"
+      - '**/*.json'
+      - '**/*.md'
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '.gitgnore'
 
 jobs:
   code-review:
@@ -20,9 +20,13 @@ jobs:
       pull-requests: write
     steps:
       # This step checks out a copy of your repository.
-      - uses: actions/checkout@v4
+      - name: Checkout
+        if: ${{ steps.commit_info.outputs.author  != 'renovate'}}
+        uses: actions/checkout@v4
       # This step references the directory that contains the action.
-      - uses: sshnaidm/gpt-code-review-action@v2.0
+      - name: Review
+        if: ${{ steps.commit_info.outputs.author  != 'renovate'}}
+        uses: sshnaidm/gpt-code-review-action@v2.0
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
           # model: 'gpt-4'
