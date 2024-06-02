@@ -2,11 +2,11 @@ name: Deploy Umzug Meister
 
 on:
   push:
-    tags:
-      - '*'
+    branches: ['main']
 
 jobs:
   build-deploy:
+    if: "startsWith(github.event.head_commit.message, 'ci: version bump')"
     runs-on: ubuntu-latest
 
     environment:
