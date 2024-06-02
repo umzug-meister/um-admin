@@ -1,4 +1,4 @@
-name: 🛠️ Build application
+name: Build application
 
 on:
   push:
