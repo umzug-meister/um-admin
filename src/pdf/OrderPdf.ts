@@ -393,9 +393,9 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
 
   const isTime = Number(order.timeBased?.hours || 0) > 0;
   showTitel && pdfBuilder.addHeader(`Preis`, 10);
-  let price = Number(order.sum);
-  let tax = (price / (100 + MWST)) * MWST;
-  let netto = price - tax;
+  const price = Number(order.sum);
+  const tax = (price / (100 + MWST)) * MWST;
+  const netto = price - tax;
   pdfBuilder.setBold();
   pdfBuilder.addText(`Netto: ${euroValue(netto)}`, 9, 6, 'right');
   pdfBuilder.addText(`MwSt. ${MWST}%: ${euroValue(tax)}`, 9, 6, 'right');
