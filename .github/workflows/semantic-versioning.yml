@@ -23,3 +23,5 @@ jobs:
           patch-wording: 'fix,patch'
           minor-wording: 'new,feat,minor'
           major-wording: 'major'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
