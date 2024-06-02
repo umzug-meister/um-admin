@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: 'Checkout source code'
-        uses: 'actions/checkout@v4'
+        uses: 'actions/checkout@v1'
         with:
           ref: ${{ github.ref }}
       - name: 'Automated Version Bump'
@@ -25,4 +25,4 @@ jobs:
           minor-wording: 'new,feat,minor'
           major-wording: 'major'
         env:
-          GITHUB_TOKEN: ${{ secrets.PATNAME }}
+          GITHUB_TOKEN: ${{ secrets.GHP }}
