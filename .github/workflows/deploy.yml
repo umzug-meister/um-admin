@@ -2,8 +2,9 @@ name: Deploy Umzug Meister
 
 on:
   push:
-    branches:
-      - 'main'
+    tags:
+      - '*'
+      - '**'
 
 jobs:
   build-deploy:
