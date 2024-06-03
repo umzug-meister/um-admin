@@ -14,7 +14,7 @@ on:
 
 jobs:
   code-review:
-    if: github.event.pull_request.user.login != 'renovate'
+    if: github.event.pull_request.user.name != 'renovate'
     runs-on: ubuntu-latest
     permissions:
       contents: read
