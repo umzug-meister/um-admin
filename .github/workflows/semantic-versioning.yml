@@ -1,26 +1,28 @@
-name: Semantic versioning
+name: Version Increment
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - 'main'
 
 jobs:
   bump-version:
-    name: 'Bump Version on default branch'
+    if: "!startsWith(github.event.head_commit.message, 'ci: version bump')"
+    name: 'Bump Version on main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - name: 'Checkout source code'
-        uses: 'actions/checkout@v4'
+        uses: 'actions/checkout@v1'
         with:
           ref: ${{ github.ref }}
       - name: 'Automated Version Bump'
+        id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
         with:
-          patch-wording: 'fix,patch'
+          patch-wording: 'fix,deps'
           minor-wording: 'new,feat,minor'
           major-wording: 'major'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
