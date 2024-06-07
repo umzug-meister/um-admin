@@ -85,6 +85,7 @@ export default function Import() {
           {
             field: '__import',
             headerName: '',
+              flex: 1,
             renderCell({ row }) {
               return (
                 <Button variant="contained" onClick={() => onImportRequest(row)} color="secondary">
