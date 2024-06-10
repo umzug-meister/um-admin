@@ -1,7 +1,7 @@
 import { calculateNumbers, euroValue, getPrintableDate } from '../utils/utils';
 import PdfBuilder from './PdfBuilder';
 import { invoiceFileName } from './filename';
-import { addDate, addHeader } from './shared';
+import { addHeader } from './shared';
 
 import { Gutschrift, Rechnung } from 'um-types';
 
@@ -49,7 +49,7 @@ export function addPostAddr(factory: PdfBuilder) {
 
 export function addCustomer(factory: PdfBuilder, { customerName, customerPlz, customerStreet, firma }: Rechnung) {
   factory.addSpace(5);
-  let col = [];
+  const col = [];
   firma && col.push(firma);
 
   customerName && col.push(customerName);

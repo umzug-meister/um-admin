@@ -214,7 +214,7 @@ function MahnungField({ dueDate, prop, as, onValue, multiline, minDate }: Mahnun
   );
 }
 
-export function useDueDate(index: number) {
+function useDueDate(index: number) {
   const rechnung = useSelector<AppState, Rechnung | undefined>((s) => s.app.current?.rechnung);
   return rechnung?.dueDates?.find((dd) => dd.index === index);
 }

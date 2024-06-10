@@ -1,7 +1,8 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Box, Button, Typography } from '@mui/material';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { Box, Button } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -66,6 +67,7 @@ export default function Orders() {
             }
           })
           .catch((e) => {
+            console.error(e);
             setData([]);
           })
           .finally(() => setLoading(false));
@@ -113,24 +115,9 @@ export default function Orders() {
         },
       },
       {
-        field: 'rid',
+        field: 'src',
         headerName: 'Auftrag',
-        renderCell({ row }) {
-          const { rid, src } = row as Order;
-
-          return (
-            <Box>
-              <Typography display="block" variant="caption">
-                {rid}
-              </Typography>
-              <Typography color="secondary" variant="caption">
-                {src}
-              </Typography>
-            </Box>
-          );
-        },
       },
-
       {
         field: 'customer',
         flex: 1,
@@ -250,7 +237,15 @@ export default function Orders() {
 
   return (
     <RootBox>
-      <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch} />
+      <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch}>
+        <Box display="flex" flex={1} justifyContent={'flex-end'}>
+          <Link to="/edit/-1">
+            <Button startIcon={<ModeEditOutlineOutlinedIcon />} size="large" variant="contained" disableElevation>
+              Neuer Auftrag
+            </Button>
+          </Link>
+        </Box>
+      </SearchBar>
       <AppDataGrid
         loading={loading}
         getRowClassName={(params) => {

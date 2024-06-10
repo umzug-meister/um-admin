@@ -17,7 +17,7 @@ import { AppPacking, AppServiceTag, Service } from 'um-types';
 
 const TAG: AppServiceTag = 'Bohrarbeiten';
 const aProps = {
-  type: 'number' as 'number',
+  type: 'number' as const,
   endAdornment: '€',
 };
 

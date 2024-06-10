@@ -34,7 +34,9 @@ export function AppDateField({ label, disabled, value, minDate, onDateChange }: 
           try {
             const next = formatISO(value, { representation: 'date' });
             onDateChange(next);
-          } catch (e) {}
+          } catch (e) {
+            console.error('Error parsing date', e);
+          }
         }
       }}
       onAccept={(value: Date | null) => {
