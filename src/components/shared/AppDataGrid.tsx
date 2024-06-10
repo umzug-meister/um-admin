@@ -19,7 +19,7 @@ const defaultColProps = {
   disableColumnMenu: true,
 };
 
-export const prepareCols = (cols: GridColDef[]) => {
+const prepareCols = (cols: GridColDef[]) => {
   return cols.map((cd) => ({ ...defaultColProps, ...cd }));
 };
 
@@ -98,7 +98,6 @@ export function AppDataGrid({
         >
           <CircularProgress color="primary" />
         </Backdrop>
-
         <StyledDataGrid
           rowHeight={45}
           localeText={{

@@ -4,7 +4,7 @@ import React from 'react';
 
 export function AppGridContainer({ children }: React.PropsWithChildren) {
   return (
-    <Grid container spacing={2} mt={1}>
+    <Grid container spacing={2}>
       {children}
     </Grid>
   );

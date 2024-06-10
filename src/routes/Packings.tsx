@@ -16,10 +16,10 @@ import { AppPacking, AppServiceTag, Service } from 'um-types';
 
 const dp = {
   editable: true,
-  type: 'number',
+  type: 'number' as const,
 };
 
-export const packingsColumns: GridColDef[] = [
+const packingsColumns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
   { field: 'name', headerName: 'Name', editable: true },
   { field: 'price', headerName: 'Preis', ...dp },
