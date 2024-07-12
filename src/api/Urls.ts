@@ -1,22 +1,18 @@
-const base = '/wp-json/um-configurator/v1';
+const BASE = '/wp-json/um-configurator/v1';
 
-export namespace Urls {
-  export const orders = (page: number, pageSize: number) =>
-    `${base}/order/all?posts_per_page=${pageSize}&paged=${page}&order=DESC&orderby=ID`;
-  export const orderSearch = (search: string) => `${base}/order/all?s=${search}`;
-  export const orderById = (id: string | number = ''): string => `${base}/order/${id}`;
+export const Urls = {
+  orders: (page: number, pageSize: number) =>
+    `${BASE}/order/all?posts_per_page=${pageSize}&paged=${page}&order=DESC&orderby=ID`,
 
-  export const options = (name = '') => `${base}/options/${name}`;
+  orderSearch: (search: string) => `${BASE}/order/all?s=${search}`,
 
-  export const services = (id = 'all') => {
-    return `${base}/service/${id}`;
-  };
+  orderById: (id: string | number = ''): string => `${BASE}/order/${id}`,
 
-  export const categories = (id = 'all') => {
-    return `${base}/item-category/${id}`;
-  };
+  options: (name = '') => `${BASE}/options/${name}`,
 
-  export const items = (id = 'all') => {
-    return `${base}/item/${id}`;
-  };
-}
+  services: (id = 'all') => `${BASE}/service/${id}`,
+
+  categories: (id = 'all') => `${BASE}/item-category/${id}`,
+
+  items: (id = 'all') => `${BASE}/item/${id}`,
+};
