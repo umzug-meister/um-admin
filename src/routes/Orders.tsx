@@ -5,7 +5,7 @@ import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutl
 import { Box, Button } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
@@ -158,7 +158,11 @@ export default function Orders() {
         renderCell: ({ row }) => {
           const { from } = row as Order;
 
-          return from?.parkingSlot ? <CheckOutlinedIcon color="success" /> : null;
+          return from?.parkingSlot ? (
+            <CenteredGridIcons>
+              <CheckOutlinedIcon color="success" />
+            </CenteredGridIcons>
+          ) : null;
         },
       },
       {
@@ -178,7 +182,11 @@ export default function Orders() {
         renderCell: ({ row }) => {
           const { to } = row as Order;
 
-          return to?.parkingSlot ? <CheckOutlinedIcon color="success" /> : null;
+          return to?.parkingSlot ? (
+            <CenteredGridIcons>
+              <CheckOutlinedIcon color="success" />
+            </CenteredGridIcons>
+          ) : null;
         },
       },
       {
@@ -226,7 +234,11 @@ export default function Orders() {
         field: 'rechnung',
         renderCell({ value }) {
           if (value) {
-            return <ReceiptLongOutlinedIcon color="success" />;
+            return (
+              <CenteredGridIcons>
+                <ReceiptLongOutlinedIcon color="success" />
+              </CenteredGridIcons>
+            );
           }
           return null;
         },
@@ -259,5 +271,13 @@ export default function Orders() {
         paginationModel={{ pageSize: PAGE_SIZE, page: Number(searchParams.get('page')) }}
       />
     </RootBox>
+  );
+}
+
+function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
+  return (
+    <Box display="flex" justifyContent="center" height={'100%'} alignItems="center">
+      {props.children}
+    </Box>
   );
 }

@@ -11,7 +11,7 @@ interface Window {
 }
 
 interface HTMLElement {
-  createTextRange: Function;
+  createTextRange: VoidFunction;
 }
 
 interface Date {
