@@ -9,23 +9,21 @@ import { AppGridContainer } from '../components/shared/AppGridContainer';
 export default function OffersEditor() {
   return (
     <>
+      <OfferContainer lkw={1} workers={[2, 3, 4]} />
+      <OfferContainer lkw={2} workers={[3, 4, 5, 6, 7, 8]} />
+      <OfferContainer lkw={3} workers={[5, 6, 7, 8]} />
+    </>
+  );
+}
+
+function OfferContainer({ lkw, workers }: Readonly<{ lkw: number; workers: number[] }>) {
+  return (
+    <>
+      <Typography variant="h4">{lkw} LKW</Typography>
       <AppGridContainer>
-        <OfferCardWrapper t35={1} workers={2} />
-        <OfferCardWrapper t35={1} workers={3} />
-        <OfferCardWrapper t35={1} workers={4} />
-      </AppGridContainer>
-      <AppGridContainer>
-        <OfferCardWrapper t35={2} workers={4} />
-        <OfferCardWrapper t35={2} workers={5} />
-        <OfferCardWrapper t35={2} workers={6} />
-        <OfferCardWrapper t35={2} workers={7} />
-        <OfferCardWrapper t35={2} workers={8} />
-      </AppGridContainer>
-      <AppGridContainer>
-        <OfferCardWrapper t35={3} workers={5} />
-        <OfferCardWrapper t35={3} workers={6} />
-        <OfferCardWrapper t35={3} workers={7} />
-        <OfferCardWrapper t35={3} workers={8} />
+        {workers.map((w) => (
+          <OfferCardWrapper key={w} t35={lkw} workers={w} />
+        ))}
       </AppGridContainer>
     </>
   );
@@ -36,7 +34,7 @@ interface Props {
   workers: number;
 }
 
-function OfferCardWrapper(props: Props) {
+function OfferCardWrapper(props: Readonly<Props>) {
   return (
     <Grid item xs={4}>
       <AppCard title={<Tab icon={<TabIcon {...props} />} />}>
@@ -46,14 +44,14 @@ function OfferCardWrapper(props: Props) {
   );
 }
 
-function TabIcon({ t35, workers }: Props) {
+function TabIcon({ t35, workers }: Readonly<Props>) {
   return (
     <Box display="flex" justifyContent="center" width="100%">
       <Box display="flex" gap={1} alignItems="center">
-        <Typography variant="h4">{workers}</Typography>
+        <Typography variant="h5">{workers}</Typography>
         <BoyOutlinedIcon fontSize="large" />
         <Divider orientation="vertical" flexItem />
-        <Typography variant="h4">{t35}</Typography>
+        <Typography variant="h5">{t35}</Typography>
         <LocalShippingOutlinedIcon fontSize="large" />
       </Box>
     </Box>
