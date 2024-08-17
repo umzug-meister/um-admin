@@ -9,6 +9,7 @@ import { updateOrderService } from '../../store/appReducer';
 import { AppDataGrid } from '../shared/AppDataGrid';
 
 import { AppServiceTag, OrderService } from 'um-types';
+import { euroValue } from '../../utils/utils';
 
 interface Props {
   tag: AppServiceTag;
@@ -23,9 +24,9 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
   const getPreis = (serv: OrderService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
     if (orderServ?.price) {
-      return <i title="Gebuchter Preis">{orderServ?.price}</i>;
+      return <div title="Gebuchter Preis">{euroValue(orderServ.price)}</div>;
     }
-    return serv.price;
+    return euroValue(serv.price);
   };
 
   const getColli = (serv: OrderService): number => {
