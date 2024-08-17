@@ -110,7 +110,7 @@ export default function OrderOfferSelector() {
       {
         field: 'id',
         headerName: '',
-        flex: 1,
+        width: 120,
         renderCell({ value }) {
           return foundOffer ? (
             <Pulsating>
