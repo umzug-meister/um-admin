@@ -92,14 +92,12 @@ export default function OrderOfferSelector() {
         field: 'hourPrice',
         headerName: 'Stundenpreis',
         flex: 1,
-        align: 'right',
         renderCell: ({ value }) => euroValue(value),
       },
       {
         field: 'ridingCosts',
         headerName: 'Anfahrtskosten',
         flex: 1,
-        align: 'right',
         renderCell: ({ value }) => euroValue(value),
       },
 
@@ -107,12 +105,12 @@ export default function OrderOfferSelector() {
         field: 'sum',
         headerName: 'Gesamt',
         flex: 1,
-        align: 'right',
         renderCell: ({ value }) => euroValue(value),
       },
       {
         field: 'id',
         headerName: '',
+        flex: 1,
         renderCell({ value }) {
           return foundOffer ? (
             <Pulsating>
