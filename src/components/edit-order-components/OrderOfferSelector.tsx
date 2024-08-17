@@ -73,7 +73,7 @@ export default function OrderOfferSelector() {
       },
       {
         field: 't35',
-        headerName: '3.5',
+        headerName: 'LKW 3,5',
         flex: 1,
         renderCell({ value }) {
           return <OfferNumberRenderer value={value} color="red" />;
