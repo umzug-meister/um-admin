@@ -23,7 +23,7 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
   const getPreis = (serv: OrderService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
     if (orderServ?.price) {
-      return <p title="Alter Preis">{orderServ?.price}</p>;
+      return <i title="Gebuchter Preis">{orderServ?.price}</i>;
     }
     return serv.price;
   };
