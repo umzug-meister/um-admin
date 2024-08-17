@@ -48,6 +48,7 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
     {
       field: 'price',
       headerName: 'Preis',
+      align: 'right',
       renderCell({ row }) {
         return getPreis(row);
       },

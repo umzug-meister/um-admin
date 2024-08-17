@@ -14,6 +14,7 @@ import OfferNumberRenderer from '../shared/OfferNumberRenderer';
 import Pulsating from '../shared/Pulsating';
 
 import { AppPrice } from 'um-types';
+import { euroValue } from '../../utils/utils';
 
 export default function OrderOfferSelector() {
   const prices = useAppServices<AppPrice>('Price');
@@ -87,10 +88,28 @@ export default function OrderOfferSelector() {
           return <OfferNumberRenderer value={value} color="blue" />;
         },
       },
-      { field: 'hourPrice', headerName: 'Stundenpreis', flex: 1 },
-      { field: 'ridingCosts', headerName: 'Anfahrtskosten', flex: 1 },
+      {
+        field: 'hourPrice',
+        headerName: 'Stundenpreis',
+        flex: 1,
+        align: 'right',
+        renderCell: ({ value }) => euroValue(value),
+      },
+      {
+        field: 'ridingCosts',
+        headerName: 'Anfahrtskosten',
+        flex: 1,
+        align: 'right',
+        renderCell: ({ value }) => euroValue(value),
+      },
 
-      { field: 'sum', headerName: 'Gesamt', flex: 1 },
+      {
+        field: 'sum',
+        headerName: 'Gesamt',
+        flex: 1,
+        align: 'right',
+        renderCell: ({ value }) => euroValue(value),
+      },
       {
         field: 'id',
         headerName: '',
