@@ -12,7 +12,6 @@ import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useOption } from '../../hooks/useOption';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
-import { addScript } from '../../main';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
 import { AppState } from '../../store';
@@ -21,6 +20,18 @@ import { AppPacking, AppService } from 'um-types';
 
 declare var gapi: any;
 declare var google: any;
+
+function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {
+  document.getElementById(id)?.remove();
+
+  const script = document.createElement('script');
+  script.src = src;
+  script.async = async || false;
+  script.defer = defer || false;
+  script.onload = onload;
+  script.id = id;
+  document.head.appendChild(script);
+}
 
 type UploadStateType = 'ready' | 'upload' | 'success' | 'error';
 

@@ -72,22 +72,6 @@ export const OPTIONS = {
   BOX_CALCULATOR_URL: 'boxCalculatorUrl',
 } as const;
 
-export function addScript(src: string, id: string, async?: boolean, defer?: boolean, onload?: any) {
-  document.getElementById(id)?.remove();
-
-  const script = document.createElement('script');
-  script.src = src;
-  script.async = async || false;
-  script.defer = defer || false;
-  script.onload = onload;
-  script.id = id;
-  document.head.appendChild(script);
-}
-
-const JOTFORM_SCRIPT = 'https://js.jotform.com/JotForm.js';
-
-addScript(JOTFORM_SCRIPT, 'um-jf-script', true, true);
-
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
     <HashRouter>
