@@ -26,7 +26,11 @@ export default function OrderSources() {
     <Grid item xs={2}>
       <AppCard title="Auftragsquelle">
         <OrderField path="src" label="Auftrag" select selectOptions={options} />
-        {order.src === 'individuelle' && <Alert severity="warning">Für Check24 & MyHammer 'Auftrag' setzen!</Alert>}
+        {order.src === 'individuelle' && (
+          <Alert severity="warning">
+            Für <strong>Check24, MyHammer, MöbelTransport24</strong> Auftrag setzen.
+          </Alert>
+        )}
       </AppCard>
     </Grid>
   );
