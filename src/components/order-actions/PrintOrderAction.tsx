@@ -36,7 +36,6 @@ export function PrintOrderAction() {
         `);
       }
     }
-    return;
   }, [order]);
 
   const printOrder = useCallback(() => {

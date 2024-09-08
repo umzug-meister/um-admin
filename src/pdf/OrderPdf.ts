@@ -136,54 +136,53 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       [
         'Name',
         `${order.customer?.salutation || ''} ${order.customer?.firstName || ''} ${order.customer?.lastName || ''}`,
-        'Tel.',
-        `${order.customer?.telNumber}`,
+        `Tel: ${order.customer?.telNumber}`,
       ],
     ],
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      2: { fontStyle: 'bold' },
     },
   });
 
+  let mark = '';
+  if (order.src === 'check24') {
+    mark = 'CHECK 24';
+  }
+  if (order.src === 'myhammer') {
+    mark = 'My Hammer';
+  }
+  if (order.src === 'obi') {
+    mark = 'OBI';
+  }
+
   const date = new Date(getParseableDate(order.date));
 
-  const f = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' });
+  const dateTimeFormat = new Intl.DateTimeFormat('de-DE', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    weekday: 'long',
+  });
 
   //Umzugsdatum
   pdfBuilder.addTable({
     head: null,
-    body: [['Umzugstermin', `${f.format(date)} ${order.time || ''}`, 'Umzugsanfrage Nr.', `${order.rid || ''}`]],
+    body: [['Umzugstermin', `${dateTimeFormat.format(date)} um ${order.time || ''}`, mark]],
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      1: { cellWidth: CELL_WIDTH_1 },
       2: { fontStyle: 'bold' },
-      3: {
-        cellWidth: CELL_WIDTH_1,
-      },
     },
   });
 
   //Volumen
 
-  let mark = '';
-  if (order.check24) {
-    mark = 'CHECK 24';
-  }
-  if (order.myhammer) {
-    mark = 'My Hammer';
-  }
   pdfBuilder.addTable({
     head: null,
-    body: [['Volumen', `${numberValue(order.volume)} m³`, 'Max. m³ Abweichung: 10%', mark]],
+    body: [['Volumen', `${numberValue(order.volume)} m³`, `max Abweichung des Volumens: 10%`]],
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
       1: { cellWidth: CELL_WIDTH_1 },
       2: { fontStyle: 'bold', textColor: SECONDARY },
-      3: {
-        fontStyle: 'bold',
-        cellWidth: CELL_WIDTH_1,
-      },
     },
   });
 
@@ -264,7 +263,7 @@ function addAdresses(pdfBuilder: PdfBuilder, order: Order) {
       `${from?.address?.split(',')?.[1]?.trimStart() || ''}`,
       `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
     ],
-    ['Auszug/Einzug', `${from?.movementObject || ''}`, `${to?.movementObject || ''}`],
+    ['Auszug/Einzug', `${from?.movementObject ?? ''}`, `${to?.movementObject ?? ''}`],
     ['Etage', combineString(fromFloors), combineString(toFloors)],
     [
       'Lift',
