@@ -1,5 +1,4 @@
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
-import ImportExportOutlinedIcon from '@mui/icons-material/ImportExportOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
@@ -54,8 +53,11 @@ export function SideMenu({ onClose, open }: Readonly<Props>) {
               <FormatListNumberedOutlinedIcon />
             </DrawerItem>
 
-            <DrawerItem onClose={onClose} to="/import" primaryText="Auftrag importieren">
-              <ImportExportOutlinedIcon />
+            <Box mt={1} mb={1}>
+              <Divider />
+            </Box>
+            <DrawerItem onClose={onClose} to="/blanco" primaryText="Neue Rechnung">
+              <ReceiptLongOutlinedIcon />
             </DrawerItem>
             <Box mt={1} mb={1}>
               <Divider />
@@ -63,14 +65,9 @@ export function SideMenu({ onClose, open }: Readonly<Props>) {
             <DrawerItem onClose={onClose} to="/settings" primaryText="Einstellungen">
               <SettingsOutlinedIcon />
             </DrawerItem>
-            <Box mt={1} mb={1}>
-              <Divider />
-            </Box>
-            <DrawerItem onClose={onClose} to="/blanco" primaryText="Neue Rechnung">
-              <ReceiptLongOutlinedIcon />
-            </DrawerItem>
           </List>
         </Box>
+
         <Box id="bottom-sidebar">
           <Box display="flex" justifyContent="center">
             <Tooltip title="Abmelden">
