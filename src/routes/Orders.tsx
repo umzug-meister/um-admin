@@ -128,15 +128,11 @@ export default function Orders() {
 
           switch (src) {
             case 'check24':
-              color = 'primary';
-              break;
-
+            case 'obi':
             case 'myhammer':
               color = 'error';
               break;
-            case 'obi':
-              color = 'warning';
-              break;
+
             default:
               break;
           }
