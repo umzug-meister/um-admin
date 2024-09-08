@@ -145,14 +145,19 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
   });
 
   let mark = '';
-  if (order.src === 'check24') {
-    mark = 'CHECK 24';
-  }
-  if (order.src === 'myhammer') {
-    mark = 'My Hammer';
-  }
-  if (order.src === 'obi') {
-    mark = 'OBI';
+
+  switch (order.src) {
+    case 'check24':
+      mark = 'CHECK 24';
+      break;
+    case 'myhammer':
+      mark = 'My Hammer';
+      break;
+    case 'obi':
+      mark = 'OBI';
+      break;
+    case 'moebeltransport24':
+      mark = 'MöbelTransport24';
   }
 
   const date = new Date(getParseableDate(order.date));

@@ -124,12 +124,13 @@ export default function Orders() {
             return '';
           }
 
-          let color: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' = 'default';
+          let color = 'default';
 
           switch (src) {
             case 'check24':
             case 'obi':
             case 'myhammer':
+            case 'moebeltransport24':
               color = 'error';
               break;
 
