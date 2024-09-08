@@ -1,8 +1,8 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { Box, Button, Chip, Typography } from '@mui/material';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -17,8 +17,6 @@ import SearchBar from '../components/shared/SearchBar';
 import { getPrintableDate } from '../utils/utils';
 
 import { Order } from 'um-types';
-import { capitalize } from 'lodash';
-import { de } from 'date-fns/locale/de';
 
 const PAGE_SIZE = 10;
 
