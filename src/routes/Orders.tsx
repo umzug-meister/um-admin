@@ -1,8 +1,8 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { Box, Button } from '@mui/material';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import { Box, Button, Typography } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -117,6 +117,36 @@ export default function Orders() {
       {
         field: 'src',
         headerName: 'Auftrag',
+        width: 150,
+        renderCell: ({ row }) => {
+          const { src } = row as Order;
+          if (!src) {
+            return '';
+          }
+
+          let color: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' = 'default';
+
+          switch (src) {
+            case 'check24':
+              color = 'primary';
+              break;
+
+            case 'myhammer':
+              color = 'error';
+              break;
+            case 'obi':
+              color = 'warning';
+              break;
+            default:
+              break;
+          }
+
+          return (
+            <Typography variant="inherit" color={color}>
+              {src}
+            </Typography>
+          );
+        },
       },
       {
         field: 'customer',
