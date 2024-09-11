@@ -233,10 +233,14 @@ export default function Orders() {
       },
       {
         field: 'transporterNumber',
-        headerName: 'LKW 3,5t',
-        width: 80,
+        headerName: '3.5',
+        width: 60,
       },
-
+      {
+        field: 't75',
+        width: 60,
+        headerName: '7.5',
+      },
       {
         field: 'lupd',
         headerName: 'Bearbeitet',
