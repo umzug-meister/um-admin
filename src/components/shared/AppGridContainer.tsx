@@ -1,8 +1,7 @@
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
+import { PropsWithChildren } from 'react';
 
-import React from 'react';
-
-export function AppGridContainer({ children }: React.PropsWithChildren) {
+export function AppGridContainer({ children }: Readonly<PropsWithChildren>) {
   return (
     <Grid container spacing={2}>
       {children}

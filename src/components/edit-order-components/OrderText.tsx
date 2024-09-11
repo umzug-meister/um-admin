@@ -1,4 +1,4 @@
-import { Alert, Grid } from '@mui/material';
+import { Alert, Grid2 as Grid } from '@mui/material';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 
 import OrderField from '../OrderField';
@@ -8,7 +8,7 @@ export function OrderText() {
   const order = useCurrentOrder();
 
   return (
-    <Grid item xs={6}>
+    <Grid size={6}>
       <AppCard title="Notiz">
         <OrderField path="text" multiline />
         <OrderField path="costsAssumption" as="checkbox" label="Kostenübernahme durch Arbeitsamt" />

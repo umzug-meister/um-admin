@@ -1,4 +1,4 @@
-import { Alert, Grid, Tabs } from '@mui/material';
+import { Alert, Grid2 as Grid, Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
 
 import { useState } from 'react';
@@ -18,9 +18,10 @@ export function OrderFurniture() {
   const order = useCurrentOrder();
   const [value, setValue] = useState(order?.ownItems ? 1 : 0);
 
+  const size = { xs: 12, md: 4 };
   return (
     <AppGridContainer>
-      <GridItem md={4} xs={12}>
+      <GridItem size={size}>
         <AppCard title="Auszug">
           <OrderField<Address> path="from" nestedPath="packservice" label="Einpacken erwünscht?" as="checkbox" />
           <OrderField<Address> path="from" nestedPath="demontage" label="Demontage erwünscht?" as="checkbox" />
@@ -29,19 +30,19 @@ export function OrderFurniture() {
           <OrderField<Address> path="from" nestedPath="kitchenWidth" label="Küche-Gesamtbreite, m" type="number" />
         </AppCard>
       </GridItem>
-      <GridItem md={4} xs={12}>
+      <GridItem size={size}>
         <AppCard title="Einzug">
           <OrderField<Address> path="to" nestedPath="packservice" label="Auspacken erwünscht?" as="checkbox" />
           <OrderField<Address> path="to" nestedPath="montage" label="Montage erwünscht?" as="checkbox" />
         </AppCard>
       </GridItem>
-      <GridItem md={4} xs={12}>
+      <GridItem size={size}>
         <AppCard title="Kartons">
           <OrderField path="boxNumber" label="Kartons" type="number" />
           <OrderField path="kleiderboxNumber" label="Kleiderboxen" type="number" />
         </AppCard>
       </GridItem>
-      <GridItem md={4} xs={12}>
+      <GridItem size={size}>
         <AppCard title="Besondere Gegenstände">
           <Alert severity="info">Das berechnete Umzugsvolumen beinhaltet KEINE "besonderen Gegenstände"</Alert>
           <OrderField path="expensive" label="Antik/Wertvoll angegeben?" as="checkbox" />
@@ -56,7 +57,7 @@ export function OrderFurniture() {
         </AppCard>
       </GridItem>
 
-      <GridItem md={8} xs={12}>
+      <GridItem size={{ md: 8, xs: 12 }}>
         <AppCard title="Möbelliste">
           <Grid container spacing={2}>
             <GridItem>

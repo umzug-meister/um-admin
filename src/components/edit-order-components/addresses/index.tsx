@@ -1,4 +1,4 @@
-import { Alert, Box, Grid } from '@mui/material';
+import { Alert, Box, Grid2 as Grid } from '@mui/material';
 import { Address } from 'um-types';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';

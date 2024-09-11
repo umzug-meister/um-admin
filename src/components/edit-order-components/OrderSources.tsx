@@ -1,4 +1,4 @@
-import { Alert, Grid } from '@mui/material';
+import { Alert, Grid2 as Grid } from '@mui/material';
 
 import React from 'react';
 
@@ -23,7 +23,7 @@ export default function OrderSources() {
   ];
 
   return (
-    <Grid item xs={2}>
+    <Grid size={2}>
       <AppCard title="Auftragsquelle">
         <OrderField path="src" label="Auftrag" select selectOptions={options} />
         {order.src === 'individuelle' && (

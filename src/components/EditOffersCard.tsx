@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid2 as Grid } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo, useState } from 'react';
@@ -84,7 +84,7 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
   return (
     <>
       <Grid pt={4} container spacing={2}>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <AppTextField
             InputProps={{ endAdornment: '€' }}
             disabled={data.length === 0}
@@ -95,7 +95,7 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid size={6}>
           <AppTextField
             disabled={data.length === 0}
             InputProps={{ endAdornment: '€/Std' }}

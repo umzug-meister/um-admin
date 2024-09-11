@@ -1,4 +1,4 @@
-import { Box, Grid, Tab, Tabs } from '@mui/material';
+import { Box, Grid2 as Grid, Tab, Tabs } from '@mui/material';
 
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ import { TabPanel } from './shared/TabPanel';
 export function Accounting() {
   const [value, setValue] = useState(0);
   return (
-    <Grid item xs={12}>
+    <Grid size={12}>
       <Tabs
         textColor="secondary"
         indicatorColor="secondary"

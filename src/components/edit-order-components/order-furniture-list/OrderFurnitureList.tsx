@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Box, Grid2 as Grid, TextField, Typography } from '@mui/material';
 
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -59,16 +59,16 @@ export function OrderFurnitureList() {
           {curItems.map((item, index) => {
             return (
               <React.Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
-                <Grid item xs={1}>
+                <Grid size={1}>
                   <DeleteButton onDelete={() => onDelete(item)} />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid size={3}>
                   <Typography color="HighlightText">{item.selectedCategory}</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                   <Typography color={'black'}>{item.name}</Typography>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid size={2}>
                   <TextField
                     sx={{
                       width: '60px',
