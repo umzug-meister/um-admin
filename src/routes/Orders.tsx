@@ -105,6 +105,7 @@ export default function Orders() {
         field: 'id',
         headerName: 'ID',
         type: 'number',
+        width: 120,
         renderCell: ({ row }) => {
           const { id } = row as Order;
           return (
