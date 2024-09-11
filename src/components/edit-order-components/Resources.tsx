@@ -11,11 +11,8 @@ export default function Resources() {
       <AppCard title="Träger und LKW">
         <OrderField path="workersNumber" label="Träger" type="number" />
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <OrderField path="transporterNumber" label="LKW 3.5" type="number" />
-          </Grid>
-          <Grid item xs={6}>
-            <OrderField path="t75" label="LKW 7.5" type="number" />
           </Grid>
         </Grid>
         <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="hours" label="Stunden" />
