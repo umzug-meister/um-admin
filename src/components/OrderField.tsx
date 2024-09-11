@@ -13,6 +13,8 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
 import { clearCountry } from 'um-types/utils';
 
+import { capitalize as capitalizeFn } from 'lodash';
+
 type Path = keyof Order;
 type NestedPath<T> = keyof T;
 
@@ -121,7 +123,7 @@ export default function OrderField<T>({
     if (typeof value === 'string') {
       let next = value.trim();
       if (capitalize) {
-        next = next.capitalize();
+        next = capitalizeFn(next);
       }
       handleChange(next);
     }
