@@ -56,7 +56,7 @@ export function OrderConditionsChips() {
   const createWorkerLst = () => {
     let leistungDesc = `${workersNumber} Träger `;
     if (transporterNumber > 0) {
-      leistungDesc = leistungDesc.concat(` / ${transporterNumber} x LKW 3.5t`);
+      leistungDesc = leistungDesc.concat(` / ${transporterNumber} x LKW 3,5t`);
     }
     if (t75) {
       leistungDesc = leistungDesc.concat(` / ${t75} x LKW 7.5t`);
