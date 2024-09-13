@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
