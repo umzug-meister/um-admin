@@ -36,11 +36,11 @@ interface Props {
 
 function OfferCardWrapper(props: Readonly<Props>) {
   return (
-    <Grid item xs={4}>
+    <Grid2 size={4}>
       <AppCard title={<Tab icon={<TabIcon {...props} />} />}>
         <EditOffersCard {...props} />
       </AppCard>
-    </Grid>
+    </Grid2>
   );
 }
 

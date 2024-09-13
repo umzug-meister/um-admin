@@ -1,4 +1,4 @@
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo, useState } from 'react';
@@ -83,8 +83,8 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
 
   return (
     <>
-      <Grid pt={4} container spacing={2}>
-        <Grid size={6}>
+      <Grid2 pt={4} container spacing={2}>
+        <Grid2 size={6}>
           <AppTextField
             InputProps={{ endAdornment: '€' }}
             disabled={data.length === 0}
@@ -93,9 +93,9 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
             onChange={(ev) => setRidingCostsValue(ev.target.value)}
             onBlur={onRidingCostsChange}
           />
-        </Grid>
+        </Grid2>
 
-        <Grid size={6}>
+        <Grid2 size={6}>
           <AppTextField
             disabled={data.length === 0}
             InputProps={{ endAdornment: '€/Std' }}
@@ -104,8 +104,8 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
             onChange={(ev) => setHourPriceValue(ev.target.value)}
             onBlur={onHourPriceChange}
           />
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
 
       <Box paddingY={2}>
         <AddService service={service} />

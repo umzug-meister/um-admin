@@ -1,4 +1,4 @@
-import { Alert, Box, Grid2 as Grid } from '@mui/material';
+import { Alert, Box, Grid2 } from '@mui/material';
 import { Address } from 'um-types';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';
@@ -30,7 +30,7 @@ export function Addresses() {
   );
 
   return (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <GridItem>
         <AppCard title="Auszug">
           <OrderField<Address> path="from" label="Adresse" nestedPath="address" enableMaps id="from-address-input" />
@@ -118,6 +118,6 @@ export function Addresses() {
           <OrderField<Address> path="to" label="Dachboden" nestedPath="hasLoft" as="checkbox" />
         </AppCard>
       </GridItem>
-    </Grid>
+    </Grid2>
   );
 }

@@ -37,7 +37,7 @@ export default function Categories() {
 
   return (
     <AppGridContainer>
-      <Grid item xs={12}>
+      <Grid2 size={12}>
         <AppCard title="Möbel Kategorien">
           <AddButton onClick={onAdd} />
           <AppDataGrid
@@ -67,7 +67,7 @@ export default function Categories() {
             onUpdate={onUpdate}
           />
         </AppCard>
-      </Grid>
+      </Grid2>
     </AppGridContainer>
   );
 }

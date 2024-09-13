@@ -19,18 +19,18 @@ export default function EMailText() {
 
   return (
     <AppGridContainer>
-      <Grid item xs={12} lg={6}>
+      <Grid2 size={12} lg={6}>
         <CopyOfferButton elementID={fullText} />
         <RootElement elementID={fullText}>
           <EMailTextTemplate order={order} />
         </RootElement>
-      </Grid>
-      <Grid item xs={12} lg={6}>
+      </Grid2>
+      <Grid2 size={12} lg={6}>
         <CopyOfferButton elementID={core} />
         <RootElement elementID={core}>
           <EmailServicesTemplate order={order} />
         </RootElement>
-      </Grid>
+      </Grid2>
     </AppGridContainer>
   );
 }
