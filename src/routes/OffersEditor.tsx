@@ -1,6 +1,6 @@
 import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import { Box, Divider, Grid, Tab, Typography } from '@mui/material';
+import { Box, Divider, Grid2, Tab, Typography } from '@mui/material';
 
 import EditOffersCard from '../components/EditOffersCard';
 import { AppCard } from '../components/shared/AppCard';

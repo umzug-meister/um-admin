@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback } from 'react';
