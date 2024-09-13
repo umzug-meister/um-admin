@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, Stack } from '@mui/material';
+import { Box, Button, Chip, Grid2, Stack } from '@mui/material';
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -76,15 +76,14 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
   return (
     <>
       <AppGridContainer>
-        <Grid item xs={12}>
+        <Grid2 size={12}>
           <AppCard title="Rechnung">
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="orderId" />
           </AppCard>
-        </Grid>
-      </AppGridContainer>
-      <AppGridContainer>
-        <Grid item xs={6}>
+        </Grid2>
+
+        <Grid2 size={6}>
           <AppCard title="Kunde">
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
@@ -92,15 +91,16 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
             <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
           </AppCard>
-        </Grid>
+        </Grid2>
 
-        <Grid item xs={6}>
+        <Grid2 size={6}>
           <AppCard title="Text">
             <InvoiceTextTemplates setText={onChipClick} />
             <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
           </AppCard>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid2>
+
+        <Grid2 size={12}>
           <AppCard title="Leistungen">
             <LeistungEdit
               hideChecks
@@ -112,8 +112,9 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
             />
             <CalculationsView entries={rechnung.entries} />
           </AppCard>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid2>
+
+        <Grid2 size={12}>
           <Box display="flex" flexDirection="row" gap={2}>
             <PdfSaveButton onClick={printInvoice} />
             {isOrderEdit &&
@@ -130,7 +131,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
               </Button>
             )}
           </Box>
-        </Grid>
+        </Grid2>
       </AppGridContainer>
     </>
   );

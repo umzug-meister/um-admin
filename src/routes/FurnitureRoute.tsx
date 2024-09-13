@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -133,7 +133,7 @@ export default function FurnitureRoute() {
 
   return (
     <AppGridContainer>
-      <Grid item xs={12}>
+      <Grid2 size={12}>
         <AppCard title="Möbel">
           <AddButton onClick={onAdd} />
           <AppDataGrid
@@ -146,7 +146,7 @@ export default function FurnitureRoute() {
             onUpdate={onUpdate}
           />
         </AppCard>
-      </Grid>
+      </Grid2>
     </AppGridContainer>
   );
 }

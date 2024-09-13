@@ -19,11 +19,11 @@ export default function OrderImages() {
 
   const [page, setPage] = useState(0);
 
-  if (!curOrder || !curOrder.bucketImages || curOrder.bucketImages.length === 0) {
+  if (curOrder?.bucketImages?.length === 0) {
     return null;
   }
 
-  const length = curOrder?.bucketImages?.length || 0;
+  const length = curOrder?.bucketImages?.length ?? 0;
 
   const handleChange = (offset: number) => {
     return function () {

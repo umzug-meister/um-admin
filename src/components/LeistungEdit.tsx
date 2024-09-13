@@ -1,6 +1,6 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import { Autocomplete, Box, Grid, IconButton, Tooltip } from '@mui/material';
+import { Autocomplete, Box, Grid2, IconButton, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
 import { useMemo } from 'react';
@@ -21,7 +21,12 @@ interface Props {
   suggestServices?: boolean;
 }
 
-export default function LeistungEdit({ leistungen = [], update, hideChecks, suggestServices = false }: Readonly<Props>) {
+export default function LeistungEdit({
+  leistungen = [],
+  update,
+  hideChecks,
+  suggestServices = false,
+}: Readonly<Props>) {
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
   const options = useMemo(() => [...services, ...packings], [services, packings]);
@@ -139,7 +144,7 @@ function GridRow({
   onCheck,
   onPropChange,
   onLstSelect,
-}:Readonly<GridRowProps>) {
+}: Readonly<GridRowProps>) {
   const hasError = lst.sum !== '' && Number(lst.sum) === 0;
 
   const sumDisabled = Boolean(lst.colli) && Boolean(lst.price);
@@ -158,13 +163,13 @@ function GridRow({
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       {!hideChecks && (
-        <Grid item xs={1}>
+        <Grid2 size={1}>
           <Checkbox checked={lst.calculate || false} onChange={(ev) => onCheck(ev.target.checked)} />
-        </Grid>
+        </Grid2>
       )}
-      <Grid item xs={hideChecks ? 6 : 5}>
+      <Grid2 size={hideChecks ? 6 : 5}>
         {suggestServices ? (
           <Autocomplete
             freeSolo
@@ -206,8 +211,8 @@ function GridRow({
             placeholder="Beschreibung"
           />
         )}
-      </Grid>
-      <Grid item xs={1}>
+      </Grid2>
+      <Grid2 size={1}>
         <AppTextField
           error={hasError}
           type="number"
@@ -215,9 +220,9 @@ function GridRow({
           value={lst.colli}
           onChange={(ev) => onPropChange('colli', ev.target.value)}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={1}>
+      <Grid2 size={1}>
         <AppTextField
           type="number"
           error={hasError}
@@ -226,9 +231,9 @@ function GridRow({
           onChange={(ev) => onPropChange('price', ev.target.value)}
           InputProps={{ endAdornment: '€' }}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={2}>
+      <Grid2 size={2}>
         <AppTextField
           type="number"
           error={hasError}
@@ -238,9 +243,9 @@ function GridRow({
           value={lst.sum}
           onChange={(ev) => onPropChange('sum', ev.target.value)}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={2}>
+      <Grid2 size={2}>
         <Box display={'flex'}>
           <Box flex={1}>
             <IconButton onClick={() => moveEntry(1)} disabled={disableDown}>
@@ -254,7 +259,7 @@ function GridRow({
             <DeleteButton onDelete={onDelete} />
           </Box>
         </Box>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 }

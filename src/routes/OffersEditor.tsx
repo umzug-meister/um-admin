@@ -1,6 +1,6 @@
 import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import { Box, Divider, Grid, Tab, Typography } from '@mui/material';
+import { Box, Divider, Grid2, Tab, Typography } from '@mui/material';
 
 import EditOffersCard from '../components/EditOffersCard';
 import { AppCard } from '../components/shared/AppCard';
@@ -36,11 +36,11 @@ interface Props {
 
 function OfferCardWrapper(props: Readonly<Props>) {
   return (
-    <Grid item xs={4}>
+    <Grid2 size={4}>
       <AppCard title={<Tab icon={<TabIcon {...props} />} />}>
         <EditOffersCard {...props} />
       </AppCard>
-    </Grid>
+    </Grid2>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -62,7 +62,7 @@ export function CreditContent() {
 
   return (
     <AppGridContainer>
-      <Grid item xs={6} xl={4}>
+      <Grid2 size={{ xs: 6, xl: 4 }}>
         <AppCard title="Kunde">
           <AppTextField label="Kunde" value={rechnung?.customerName} disabled />
           <AppTextField label="Strasse, Nr." value={rechnung?.customerStreet} disabled />
@@ -79,14 +79,14 @@ export function CreditContent() {
             onValue={(value) => onPropChange('gNumber', value)}
           />
         </AppCard>
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={6} xl={4}>
+      <Grid2 size={{ xs: 6, xl: 4 }}>
         <AppCard title="Text">
           <GutschriftField value={gutschrift.text} multiline onValue={(value) => onPropChange('text', value)} />
         </AppCard>
-      </Grid>
-      <Grid item xs={12} xl={8}>
+      </Grid2>
+      <Grid2 size={{ xs: 12, xl: 8 }}>
         <AppCard title="Leistungen">
           <LeistungEdit
             hideChecks
@@ -97,10 +97,10 @@ export function CreditContent() {
           />
           <CalculationsView entries={gutschrift.entries} />
         </AppCard>
-      </Grid>
-      <Grid item xs={12} xl={6}>
+      </Grid2>
+      <Grid2 size={{ xs: 12, xl: 6 }}>
         <PdfSaveButton onClick={printCredit} />
-      </Grid>
+      </Grid2>
     </AppGridContainer>
   );
 }

@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -130,10 +130,10 @@ export default function OrderOfferSelector() {
   }, [setPrice, foundOffer]);
 
   return (
-    <Grid item xs={12}>
+    <Grid2 size={12}>
       <AppCard title="Aktuelle Angebote">
         <AppDataGrid columns={columns} data={data} disablePagination paginationMode="client" />
       </AppCard>
-    </Grid>
+    </Grid2>
   );
 }

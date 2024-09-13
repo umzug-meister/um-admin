@@ -1,5 +1,5 @@
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Grid2, IconButton, Typography } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -23,25 +23,25 @@ export function FurnitureDialogContent() {
 
   return (
     <Box p={2} sx={{ width: '600px' }}>
-      <Grid container gap={1}>
+      <Grid2 container gap={1}>
         {suggestions.map((f) => {
           return (
             <>
-              <Grid item xs={4}>
+              <Grid2 size={4}>
                 <Typography color="GrayText">{f.selectedCategory}</Typography>
-              </Grid>
-              <Grid item xs={5}>
+              </Grid2>
+              <Grid2 size={5}>
                 <Typography color="CaptionText">{f.name}</Typography>
-              </Grid>
-              <Grid item xs={2}>
+              </Grid2>
+              <Grid2 size={2}>
                 <IconButton color="success" onClick={() => onAdd(f)}>
                   <AddCircleOutlineOutlinedIcon />
                 </IconButton>
-              </Grid>
+              </Grid2>
             </>
           );
         })}
-      </Grid>
+      </Grid2>
     </Box>
   );
 }
