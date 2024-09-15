@@ -32,7 +32,7 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const onDelete = useCallback(
-    (id: string) => {
+    (id: number) => {
       dispatch(deleteService(id));
     },
     [dispatch],

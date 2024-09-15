@@ -14,5 +14,5 @@ export const Urls = {
 
   categories: (id = 'all') => `${BASE}/item-category/${id}`,
 
-  items: (id = 'all') => `${BASE}/item/${id}`,
+  items: (id: string | number = 'all') => `${BASE}/item/${id}`,
 };

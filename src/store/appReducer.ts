@@ -17,6 +17,7 @@ import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung
 
 function _initOrder(): Order {
   return {
+    timestamp: Date.now(),
     customer: {
       telNumber: '',
     },

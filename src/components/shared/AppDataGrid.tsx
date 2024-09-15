@@ -33,7 +33,7 @@ interface Props {
   loading?: boolean;
   setPaginationModel?: (model: GridPaginationModel) => void;
   onUpdate?: (next: any) => void;
-  onDelete?: (id: string) => void;
+  onDelete?: (id: number) => void;
   getRowClassName?: (params: GridRowClassNameParams) => string;
 }
 

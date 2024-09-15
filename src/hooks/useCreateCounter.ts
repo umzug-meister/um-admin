@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
-import { createAppService } from '../store/servicesReducer';
-import { useAppServices } from './useAppServices';
 import { AppCounter, AppCounterType } from 'um-types';
-import { appRequest } from '../api/fetch-client';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
+import { useAppServices } from './useAppServices';
 
 export function useCreateCounter() {
   const services = useAppServices<AppCounter>('Counter') || [];
@@ -31,6 +28,6 @@ async function checkCreateCounter({ type }: CheckCreateCounterParam) {
   const month = date.getMonth() + 1;
 
   console.log('init counter: ', type);
-  const counter = { tag: 'Counter', type: type, data: { [String(year)]: { [String(month)]: [] } } };
+  const counter = { tag: 'Counter', type: type, data: { ['#' + year]: { ['#' + month]: [] } } };
   await appRequest('post')(Urls.services(''), counter);
 }
