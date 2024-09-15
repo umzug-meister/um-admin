@@ -10,7 +10,7 @@ export const Urls = {
 
   options: (name = '') => `${BASE}/options/${name}`,
 
-  services: (id = 'all') => `${BASE}/service/${id}`,
+  services: (id: number | string = 'all') => `${BASE}/service/${id}`,
 
   categories: (id = 'all') => `${BASE}/item-category/${id}`,
 

@@ -11,6 +11,7 @@ import theme from './theme';
 
 import styled from '@emotion/styled';
 import { de } from 'date-fns/locale/de';
+import { useCreateCounter } from './hooks/useCreateCounter';
 
 const Blanco = lazy(() => import('./routes/Blanco'));
 const Orders = lazy(() => import('./routes/Orders'));
@@ -56,6 +57,7 @@ function LazyLoad({ children }: Readonly<PropsWithChildren>) {
 }
 
 function App() {
+  useCreateCounter();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
       <ThemeProvider theme={theme}>

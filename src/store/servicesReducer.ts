@@ -1,9 +1,10 @@
+import { AppState } from '.';
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 import { AppServices } from '../app-types';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Service } from 'um-types';
+import { OrderSrcType, Service } from 'um-types';
 
 export const loadAllServices = createAsyncThunk('loadAllServices', () => {
   return appRequest('get')(Urls.services());
@@ -21,7 +22,22 @@ export const createAppService = createAsyncThunk('createAppService', (service: P
   return appRequest('post')(Urls.services(''), service);
 });
 
-const servicesSlice = createSlice<AppServices, any, 'services'>({
+type CountOrderPayload = {
+  id: number;
+  src: OrderSrcType;
+};
+
+export const countOrders = createAsyncThunk<void, CountOrderPayload, { state: AppState }>(
+  'countOrder',
+  async (payload, thunkApi) => {
+    const { id, src } = payload;
+    const { dispatch, getState } = thunkApi;
+    const state = getState();
+    console.log(state);
+  },
+);
+
+const servicesSlice = createSlice<AppServices, any, 'services', any>({
   name: 'services',
   initialState: {
     all: [],
