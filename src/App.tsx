@@ -17,6 +17,9 @@ const Blanco = lazy(() => import('./routes/Blanco'));
 const Orders = lazy(() => import('./routes/Orders'));
 const Packings = lazy(() => import('./routes/Packings'));
 const Settings = lazy(() => import('./routes/Settings'));
+const Statistics = lazy(() => import('./routes/Statistics'));
+const Offers = lazy(() => import('./routes/Offers'));
+const Leads = lazy(() => import('./routes/Leads'));
 const Services = lazy(() => import('./routes/Services'));
 const Options = lazy(() => import('./routes/Options'));
 const FurnitureRoute = lazy(() => import('./routes/FurnitureRoute'));
@@ -88,6 +91,32 @@ function App() {
                 </LazyLoad>
               }
             />
+
+            <Route
+              path="statistics"
+              element={
+                <LazyLoad>
+                  <Statistics />
+                </LazyLoad>
+              }
+            >
+              <Route
+                index
+                element={
+                  <LazyLoad>
+                    <Leads />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="offers"
+                element={
+                  <LazyLoad>
+                    <Offers />
+                  </LazyLoad>
+                }
+              />
+            </Route>
             <Route
               path="settings"
               element={

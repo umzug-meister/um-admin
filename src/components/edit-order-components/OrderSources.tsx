@@ -11,16 +11,7 @@ export default function OrderSources() {
   const order = useCurrentOrder();
   if (!order) return null;
 
-  const options: OrderSrcType[] = [
-    'express',
-    'individuelle',
-    'obi',
-    'check24',
-    'myhammer',
-    'Moebelliste',
-    'UmzugRuckZuck',
-    'moebeltransport24',
-  ];
+  const options = stringUnionToArray<OrderSrcType>('individuelle', 'Check24', 'MyHammer', 'MöbelTransport24', '');
 
   return (
     <Grid2 size={2}>
@@ -34,4 +25,14 @@ export default function OrderSources() {
       </AppCard>
     </Grid2>
   );
+}
+
+type ValueOf<T> = T[keyof T];
+
+type NonEmptyArray<T> = [T, ...T[]];
+
+type MustInclude<T, U extends T[]> = [T] extends [ValueOf<U>] ? U : never;
+
+function stringUnionToArray<T>() {
+  return <U extends NonEmptyArray<T>>(...elements: MustInclude<T, U>) => elements;
 }

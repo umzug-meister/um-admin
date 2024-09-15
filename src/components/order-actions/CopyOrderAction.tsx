@@ -17,7 +17,7 @@ export default function CopyOrderAction() {
     //@ts-ignore
     const next = {
       ...order,
-      isCopyOf: order?.id,
+      isCopyOf: order?.isCopyOf ?? order?.id,
       id: undefined,
       lupd: undefined,
     } as Order;
