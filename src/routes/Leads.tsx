@@ -18,7 +18,7 @@ export default function Leads() {
 
   const [dataForYear, setDataForYear] = useState<any>(leadsCounter?.data['#' + date.getFullYear()]);
 
-  const series = useMemo(
+  const SERIES = useMemo(
     () =>
       orderSrcTypes.map((src) => ({
         dataKey: src,
@@ -26,6 +26,9 @@ export default function Leads() {
       })),
     [],
   );
+
+  const MIN_DATE = useMemo(() => new Date(new Date().setFullYear(2024)), []);
+  const MAX_DATE = useMemo(() => new Date(), []);
 
   if (!leadsCounter) {
     return <Typography>keine Leads vorhanden</Typography>;
@@ -44,7 +47,14 @@ export default function Leads() {
       <Grid2 size={12}>
         <AppCard title="Leads">
           <Box>
-            <DatePicker value={date} label="Jahr" views={['year']} onYearChange={onYearChange} />
+            <DatePicker
+              maxDate={MAX_DATE}
+              minDate={MIN_DATE}
+              value={date}
+              label="Jahr"
+              views={['year']}
+              onYearChange={onYearChange}
+            />
           </Box>
           <Box height={600}>
             <BarChart
@@ -52,7 +62,7 @@ export default function Leads() {
               barLabel="value"
               dataset={dataset}
               xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-              series={series}
+              series={SERIES}
             />
           </Box>
         </AppCard>
@@ -80,8 +90,11 @@ function getMonthName(monthNumber: string) {
   return months[Number(monthNumber.replace('#', '')) - 1];
 }
 
-function convert2DataSet(dataForYear: any) {
+type DataForYearType = { [month: string]: any };
+
+function convert2DataSet(dataForYear: DataForYearType | undefined) {
   const dataset: any[] = [];
+  if (!dataForYear) return dataset;
 
   const months = Object.keys(dataForYear).sort((a, b) => a.localeCompare(b));
 
