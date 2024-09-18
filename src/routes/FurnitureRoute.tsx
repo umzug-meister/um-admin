@@ -33,7 +33,7 @@ export default function FurnitureRoute() {
   }, [dispatch]);
 
   const onDelete = useCallback(
-    (id: string) => {
+    (id: number) => {
       dispatch(deleteFurniture(id));
     },
     [dispatch],

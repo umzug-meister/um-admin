@@ -20,11 +20,11 @@ export const createFurniture = createAsyncThunk('createFurniture', () =>
   appRequest('post')(Urls.items(''), { name: 'Neu' }),
 );
 
-export const deleteFurniture = createAsyncThunk('deleteFurniture', (id: string) => {
+export const deleteFurniture = createAsyncThunk('deleteFurniture', (id: number) => {
   return appRequest('delete')(Urls.items(id)).then(() => ({ id }));
 });
 
-const furnitureSlice = createSlice<AppFurniture, any, 'furniture'>({
+const furnitureSlice = createSlice<AppFurniture, any, 'furniture', any>({
   initialState: { all: [] },
   name: 'furniture',
   reducers: {},
