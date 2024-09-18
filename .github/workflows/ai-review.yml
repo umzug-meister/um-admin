@@ -26,6 +26,7 @@ jobs:
       # This step references the directory that contains the action.
       - name: Review
         uses: sshnaidm/gpt-code-review-action@v2.0
+        continue-on-error: true
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
           # model: 'gpt-4'
