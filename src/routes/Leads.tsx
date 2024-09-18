@@ -83,7 +83,7 @@ function getMonthName(monthNumber: string) {
 function convert2DataSet(dataForYear: any) {
   const dataset: any[] = [];
 
-  const months = Object.keys(dataForYear).sort();
+  const months = Object.keys(dataForYear).sort((a, b) => a.localeCompare(b));
 
   months.forEach((month) => {
     const leads = dataForYear[month];
