@@ -1,10 +1,9 @@
-import { AppState } from '.';
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 import { AppServices } from '../app-types';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppCounter, OrderSrcType, Service } from 'um-types';
+import { Service } from 'um-types';
 
 export const loadAllServices = createAsyncThunk('loadAllServices', () => {
   return appRequest('get')(Urls.services());

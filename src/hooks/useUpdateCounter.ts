@@ -1,13 +1,11 @@
-import { useEffect } from 'react';
-import { AppCounter } from 'um-types';
-import { Urls } from '../api/Urls';
-import { appRequest } from '../api/fetch-client';
-import { useAppServices } from './useAppServices';
-import { useCurrentOrder } from './useCurrentOrder';
 import { cloneDeep, set } from 'lodash';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { AppCounter } from 'um-types';
 import { AppDispatch } from '../store';
 import { updateService } from '../store/servicesReducer';
+import { useAppServices } from './useAppServices';
+import { useCurrentOrder } from './useCurrentOrder';
 
 export function useUpdateCounter() {
   const order = useCurrentOrder();
