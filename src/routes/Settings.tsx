@@ -3,11 +3,12 @@ import { Box, Card, Divider, Stack } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import { RootBox } from '../components/shared/RootBox';
+import { AppCard } from '../components/shared/AppCard';
 
 export default function Settings() {
   return (
     <RootBox>
-      <Card variant="outlined">
+      <Card elevation={0}>
         <Box p={2}>
           <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
             <Link to="">Optionen</Link>

@@ -8,7 +8,7 @@ interface Props {
 
 export function AppCard({ title, children }: React.PropsWithChildren<Props>) {
   return (
-    <Card variant="outlined" sx={{ height: '100%' }}>
+    <Card elevation={0} sx={{ height: '100%' }}>
       <CardHeader
         sx={{ padding: 1 }}
         title={

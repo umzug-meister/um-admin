@@ -18,11 +18,24 @@ export default function Leads() {
 
   const [dataForYear, setDataForYear] = useState<any>(leadsCounter?.data['#' + date.getFullYear()]);
 
+  const colorPalette = [
+    '#bbbbbb',
+    '#ffebcd',
+    '#9b5fe0',
+    '#f9a52c',
+    '#16a4d8',
+    '#8bd346',
+    '#d64e12',
+    '#efdf48',
+    '#a52a2a',
+  ];
+
   const SERIES = useMemo(
     () =>
-      orderSrcTypes.map((src) => ({
+      orderSrcTypes.map((src, index) => ({
         dataKey: src,
         label: capitalize(src),
+        color: colorPalette[index],
       })),
     [],
   );
