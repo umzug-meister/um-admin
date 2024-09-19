@@ -29,7 +29,7 @@ export default function Leads() {
     '#efdf48',
     '#a52a2a',
   ];
-        
+
   const SERIES = useMemo(
     () =>
       orderSrcTypes.map((src, index) => ({
@@ -69,7 +69,7 @@ export default function Leads() {
               onYearChange={onYearChange}
             />
           </Box>
-          <Box height={600}>
+          <Box height={650}>
             <BarChart
               borderRadius={4}
               barLabel="value"
