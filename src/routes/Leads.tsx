@@ -29,7 +29,7 @@ export default function Leads() {
     '#efdf48',
     '#a52a2a',
   ];
-
+        
   const SERIES = useMemo(
     () =>
       orderSrcTypes.map((src, index) => ({
