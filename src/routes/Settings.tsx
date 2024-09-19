@@ -3,7 +3,6 @@ import { Box, Card, Divider, Stack } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import { RootBox } from '../components/shared/RootBox';
-import { AppCard } from '../components/shared/AppCard';
 
 export default function Settings() {
   return (
