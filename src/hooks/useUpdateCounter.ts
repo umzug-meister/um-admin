@@ -45,5 +45,6 @@ export function useUpdateCounter() {
 
       dispatch(updateService(nextCounter));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order?.src]);
 }
