@@ -22,7 +22,7 @@ export function useUpdateCounter() {
       const year = String('#' + date.getFullYear());
       const month = String('#' + String(date.getMonth() + 1));
 
-      console.log('will update counter: ', year, month);
+      console.log('will update counter: ', leadCounter.id, year, month);
 
       const nextCounter = cloneDeep(leadCounter);
 
@@ -45,5 +45,5 @@ export function useUpdateCounter() {
 
       dispatch(updateService(nextCounter));
     }
-  }, []);
+  }, [order?.src]);
 }
