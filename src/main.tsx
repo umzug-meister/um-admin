@@ -65,7 +65,6 @@ export const OPTIONS = {
 
   GAPIKEY: 'gapikey',
   CLIENT_ID: 'clientId',
-  JF_API_KEY: 'jfApiKey',
   ORIGIN: 'origin',
   POOL_ID: 'poolId',
   DATA_PRIVACY_URL: 'dataPrivacyUrl',
