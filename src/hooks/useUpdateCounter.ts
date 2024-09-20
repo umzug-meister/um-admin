@@ -24,7 +24,7 @@ export function useUpdateCounter() {
 
       console.log('will update counter: ', year, month);
 
-      let nextCounter = cloneDeep(leadCounter);
+      const nextCounter = cloneDeep(leadCounter);
 
       if (!nextCounter.data?.[year]?.[month]) {
         console.log('will create new: ', year, month);
@@ -45,5 +45,5 @@ export function useUpdateCounter() {
 
       dispatch(updateService(nextCounter));
     }
-  }, [order?.src, order?.id, order?.isCopyOf]);
+  }, []);
 }
