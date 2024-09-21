@@ -49,7 +49,7 @@ export function AppDataGrid({
   setPaginationModel,
   onUpdate,
   getRowClassName,
-}: Props) {
+}: Readonly<Props>) {
   const gridColumns = useMemo(() => {
     if (allowDeletion) {
       const deleteCol: GridColDef = {

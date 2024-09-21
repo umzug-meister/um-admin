@@ -4,6 +4,7 @@ import { orderSrcTypes } from 'um-types/constants';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
+import CopyOfLink from './CopyOfLink';
 
 export default function OrderSources() {
   const order = useCurrentOrder();
@@ -12,6 +13,7 @@ export default function OrderSources() {
   return (
     <Grid2 size={2}>
       <AppCard title="Auftragsquelle">
+        <CopyOfLink />
         <OrderField path="src" label="Auftrag" select selectOptions={orderSrcTypes} />
         {order.src === 'individuelle' && (
           <Alert severity="warning">
