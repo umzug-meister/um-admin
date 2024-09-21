@@ -30,14 +30,13 @@ export const generateGutschrift = ({ gutschrift, rechnung }: Payload) => {
 
   addPrice(factory, gutschrift, true);
 
-  gutschrift.text && addText(factory, gutschrift.text);
+  if (gutschrift.text) addText(factory, gutschrift.text);
 
   move(factory);
 
   addKonto(factory);
   factory.save();
 };
-
 const addGNumber = (factory: PdfBuilder, gNumber: string | number, rNumber: string | number) => {
   factory.addSpace(35);
   factory.setBold();

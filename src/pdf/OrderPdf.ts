@@ -1,5 +1,5 @@
 import { AppOptions } from '../../src/app-types';
-import { OPTIONS } from '../main';
+import { OPTIONS } from '../constants';
 import { euroValue, getParseableDate, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
@@ -396,7 +396,8 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
   const MWST = 19;
 
   const isTime = Number(order.timeBased?.hours || 0) > 0;
-  showTitel && pdfBuilder.addHeader(`Preis`, 10);
+  if (showTitel) pdfBuilder.addHeader(`Preis`, 10);
+
   const price = Number(order.sum);
   const tax = (price / (100 + MWST)) * MWST;
   const netto = price - tax;
@@ -426,7 +427,6 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
   }
   pdfBuilder.setNormal();
 };
-
 const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   const textBlocks = [
     'Die Anzahl der Ladehelfer und die Arbeitsdauer in Stunden werden basierend auf den ' +

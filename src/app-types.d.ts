@@ -1,4 +1,5 @@
-import { OPTIONS } from './main';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { OPTIONS } from './constants';
 
 import { Rechnung, Service } from 'um-types';
 

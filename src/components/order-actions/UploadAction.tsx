@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import CloudOffOutlinedIcon from '@mui/icons-material/CloudOffOutlined';
@@ -146,7 +147,11 @@ export default function UploadAction() {
 
   const onUploadRequest = () => {
     saveOrder(currentOrder).then(() => {
-      tokenValid ? setUploadState('upload') : authGoogleClient();
+      if (tokenValid) {
+        setUploadState('upload');
+      } else {
+        authGoogleClient();
+      }
     });
   };
 

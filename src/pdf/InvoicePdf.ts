@@ -36,11 +36,10 @@ export function addInvoiceInformation(factory: PdfBuilder, params: { date: strin
 
   const info = [];
   info.push(`Rechnungsdatum: ${getPrintableDate(date)}`);
-  orderId && info.push(`Auftragsnummer: ${orderId}`);
+  if (orderId) info.push(`Auftragsnummer: ${orderId}`);
 
   factory.addLeftRight([], info);
 }
-
 export function addPostAddr(factory: PdfBuilder) {
   factory.resetText();
   factory.addSpace(15);
@@ -50,13 +49,11 @@ export function addPostAddr(factory: PdfBuilder) {
 export function addCustomer(factory: PdfBuilder, { customerName, customerPlz, customerStreet, firma }: Rechnung) {
   factory.addSpace(5);
   const col = [];
-  firma && col.push(firma);
+  if (firma) col.push(firma);
+  if (customerName) col.push(customerName);
 
-  customerName && col.push(customerName);
-
-  customerStreet && col.push(customerStreet);
-
-  customerPlz && col.push(customerPlz);
+  if (customerStreet) col.push(customerStreet);
+  if (customerPlz) col.push(customerPlz);
   factory.addLeftRight(col, ['', '', '', '']);
 }
 

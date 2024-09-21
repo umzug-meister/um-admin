@@ -9,7 +9,7 @@ import { EmailPersons } from './EmailPersons';
 import { EmailServicesTable } from './EmailServicesTable';
 
 import { Order } from 'um-types';
-
+import { addDays } from 'date-fns';
 interface CoreProps {
   order: Order;
 }
@@ -58,7 +58,7 @@ export function EMailTextTemplate({ order }: CoreProps) {
       <EmailServicesTemplate order={order} />
 
       <br />
-      <p>{`Unser Kostenvoranschlag gilt bis zum ${new Date().addDays(3).toLocaleDateString('ru')}.`}</p>
+      <p>{`Unser Kostenvoranschlag gilt bis zum ${getPrintableDate(addDays(new Date(), 3).toDateString())}.`}</p>
       <p style={{ color: 'blue' }}>
         <strong>Im Anhang erhalten Sie den Auftrag.</strong>
       </p>

@@ -33,7 +33,7 @@ export function OptionInput(props: Readonly<Props>) {
   };
 
   const asPasswordType = showPassword ? type : 'password';
-  
+
   return (
     <AppTextField
       type={asPassword ? asPasswordType : type}

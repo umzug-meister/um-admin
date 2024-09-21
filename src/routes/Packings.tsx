@@ -54,7 +54,7 @@ export default function Packings() {
   );
 
   const onDelete = useCallback(
-    (id: string) => {
+    (id: number) => {
       dispatch(deleteService(id));
     },
     [dispatch],

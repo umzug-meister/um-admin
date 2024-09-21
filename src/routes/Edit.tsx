@@ -23,11 +23,14 @@ import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
 import { Addresses } from '../components/edit-order-components/addresses';
 import { OrderFurniture } from '../components/edit-order-components/order-funiture';
+import { useUpdateCounter } from '../hooks/useUpdateCounter';
 
 export default function Edit() {
   const order = useLoadOrder();
 
   const [value, setValue] = useState(0);
+
+  useUpdateCounter();
 
   if (order == null) {
     return (

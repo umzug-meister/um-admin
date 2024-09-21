@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/wp-json': {
-          target: 'http://localhost/wp',
+          target: 'http://localhost:8080/',
           changeOrigin: true,
           secure: false,
         },

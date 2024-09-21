@@ -13,7 +13,7 @@ export const updateService = createAsyncThunk('updateService', (service: Service
   return appRequest('put')(Urls.services(service.id), service);
 });
 
-export const deleteService = createAsyncThunk('deleteService', (id: string) => {
+export const deleteService = createAsyncThunk('deleteService', (id: number) => {
   return appRequest('delete')(Urls.services(id)).then(() => ({ id }));
 });
 
@@ -21,7 +21,7 @@ export const createAppService = createAsyncThunk('createAppService', (service: P
   return appRequest('post')(Urls.services(''), service);
 });
 
-const servicesSlice = createSlice<AppServices, any, 'services'>({
+const servicesSlice = createSlice<AppServices, any, 'services', any>({
   name: 'services',
   initialState: {
     all: [],

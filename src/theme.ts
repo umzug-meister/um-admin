@@ -13,7 +13,6 @@ const theme = createTheme({
     secondary: {
       main: '#8c8c8c',
     },
-    mode: 'light',
   },
 });
 
