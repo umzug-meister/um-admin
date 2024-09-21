@@ -273,15 +273,20 @@ const appSlice = createSlice({
       const curOrder = state.current;
       if (curOrder) {
         curOrder.lupd = Date.now();
-        const entries: MLeistung[] = [];
+
+        const invoiceLeistungen: MLeistung[] = [];
+
         if (curOrder?.leistungen) {
           const entry = { ...(curOrder?.leistungen?.[0] || {}) };
+
           if (entry.desc?.includes('Träger')) {
             entry.desc = `Umzug am ${getPrintableDate(curOrder?.date)}`;
           }
-          entries.push(entry);
+
+          invoiceLeistungen.push(entry);
+
           if (curOrder?.leistungen?.length > 1) {
-            entries.push(...curOrder.leistungen.from(1));
+            invoiceLeistungen.push(...curOrder.leistungen.slice(1));
           }
         }
 
@@ -294,7 +299,7 @@ const appSlice = createSlice({
           customerName: getCustomerFullname(curOrder),
           customerPlz: getCustomerPLZ(curOrder),
           customerStreet: getCustomerStreet(curOrder),
-          entries,
+          entries: invoiceLeistungen,
           dueDates: [createDueDate({ date: getNextDueDate({}), index: 0, sum: 0, text: '' })],
         } as Rechnung;
 

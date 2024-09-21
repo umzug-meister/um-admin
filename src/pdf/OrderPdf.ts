@@ -1,5 +1,5 @@
 import { AppOptions } from '../../src/app-types';
-import { OPTIONS } from '../main';
+import { OPTIONS } from '../constants';
 import { euroValue, getParseableDate, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
