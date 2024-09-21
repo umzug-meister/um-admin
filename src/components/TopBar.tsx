@@ -2,7 +2,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
@@ -52,15 +52,16 @@ export default function TopBar() {
 function usePageName() {
   const params = useParams();
   const location = useLocation();
+  const [sp] = useSearchParams();
 
   const pageName = useMemo(() => {
-    if (/edit\/[0-9]/gm.test(location.pathname)) {
+    if (/edit\/\d/gm.test(location.pathname)) {
       return `Auftrag ${params.id}`;
     }
 
     switch (location.pathname) {
       case '/':
-        return 'Alle Aufträge';
+        return 'Aufträge'.concat(sp.get('page') ? `, Seite ${sp.get('page')}` : '');
 
       case '/edit/-1':
         return 'Neuer Auftrag';
@@ -93,6 +94,5 @@ function usePageName() {
         return '';
     }
   }, [location, params]);
-
   return pageName;
 }
