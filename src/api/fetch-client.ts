@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-
-
 export const appRequest = (type: 'get' | 'delete' | 'put' | 'post') => {
   const headers: any = {};
 

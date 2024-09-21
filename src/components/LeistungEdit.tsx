@@ -75,7 +75,7 @@ export default function LeistungEdit({
     update(next);
   };
 
-  const onLstSelect = (lst: GridRowService, index: number) => {
+  const onLeistungSelect = (lst: GridRowService, index: number) => {
     const current = cloneDeep(leistungen);
     const curLst = current[index];
     const nextLst: MLeistung = { ...curLst, colli: 1, price: lst.price, desc: lst.name, sum: lst.price };
@@ -96,7 +96,7 @@ export default function LeistungEdit({
             disableUp={index === 0}
             hideChecks={hideChecks || false}
             suggestServices={suggestServices}
-            onLstSelect={(lst) => onLstSelect(lst, index)}
+            onLeistungSelect={(lst) => onLeistungSelect(lst, index)}
             moveEntry={(offset) => moveEntry(index, offset)}
             onCheck={(checked) => onCheck(checked, index)}
             onDelete={() => onDelete(index)}
@@ -129,7 +129,7 @@ interface GridRowProps {
   onPropChange: (prop: keyof MLeistung, value: any) => void;
   moveEntry: (offest: number) => void;
   onDelete: () => void;
-  onLstSelect: (srv: GridRowService) => void;
+  onLeistungSelect: (srv: GridRowService) => void;
 }
 
 function GridRow({
@@ -143,7 +143,7 @@ function GridRow({
   onDelete,
   onCheck,
   onPropChange,
-  onLstSelect,
+  onLeistungSelect,
 }: Readonly<GridRowProps>) {
   const hasError = lst.sum !== '' && Number(lst.sum) === 0;
 
@@ -155,7 +155,7 @@ function GridRow({
       return;
     }
     const curOption = findLst(selectedOptionLabel);
-    curOption && onLstSelect(curOption);
+    if (curOption) onLeistungSelect(curOption);
   };
 
   const findLst = (label: any) => {
@@ -180,7 +180,7 @@ function GridRow({
               //@ts-ignore
               const lst = findLst(newValue);
               if (lst) {
-                onLstSelect(lst);
+                onLeistungSelect(lst);
               } else {
                 onPropChange('desc', newValue);
               }
