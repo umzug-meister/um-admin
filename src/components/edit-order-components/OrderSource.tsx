@@ -5,16 +5,18 @@ import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 import CopyOfLink from './CopyOfLink';
+import { OrderTimestamp } from './OrderTimestamp';
 
-export default function OrderSources() {
+export default function OrderSource() {
   const order = useCurrentOrder();
   if (!order) return null;
 
   return (
     <Grid2 size={2}>
-      <AppCard title="Auftragsquelle">
+      <AppCard title="Auftrag">
+        <OrderTimestamp />
         <CopyOfLink />
-        <OrderField path="src" label="Auftrag" select selectOptions={orderSrcTypes} />
+        <OrderField path="src" label="Quelle" select selectOptions={orderSrcTypes} />
         {order.src === 'individuelle' && (
           <Alert severity="warning">
             Für <strong>Check24, MyHammer, MöbelTransport24</strong> Auftrag setzen.
