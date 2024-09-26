@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 
-import { Link } from 'react-router-dom';
+import { EditOrderButton } from '../EditOrderButton';
 
 export default function CopyOfLink() {
   const order = useCurrentOrder();
@@ -9,7 +9,9 @@ export default function CopyOfLink() {
   if (order?.isCopyOf) {
     return (
       <Box>
-        <Link to={`/edit/${order.isCopyOf}`}>Original Auftrag: {order.isCopyOf}</Link>
+        <Typography variant="body2">
+          Original Auftrag: <EditOrderButton target="_blank" id={order.isCopyOf} />
+        </Typography>
       </Box>
     );
   }

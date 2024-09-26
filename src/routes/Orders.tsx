@@ -1,5 +1,4 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { Box, Button, Typography } from '@mui/material';
@@ -17,6 +16,7 @@ import SearchBar from '../components/shared/SearchBar';
 import { getPrintableDate } from '../utils/utils';
 
 import { Order } from 'um-types';
+import { EditOrderButton } from '../components/EditOrderButton';
 
 const PAGE_SIZE = 10;
 
@@ -108,16 +108,12 @@ export default function Orders() {
         width: 120,
         renderCell: ({ row }) => {
           const { id } = row as Order;
-          return (
-            <Link to={`edit/${id}`}>
-              <Button startIcon={<EditOutlinedIcon />}>{id}</Button>
-            </Link>
-          );
+          return <EditOrderButton id={id} />;
         },
       },
       {
         field: 'src',
-        headerName: 'Auftrag',
+        headerName: 'Quelle',
         width: 150,
         renderCell: ({ row }) => {
           const { src } = row as Order;
