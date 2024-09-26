@@ -54,45 +54,42 @@ function usePageName() {
   const location = useLocation();
   const [sp] = useSearchParams();
 
-  const pageName = useMemo(() => {
-    if (/edit\/\d/gm.test(location.pathname)) {
-      return `Auftrag ${params.id}`;
-    }
+  if (/edit\/\d/gm.test(location.pathname)) {
+    return `Auftrag ${params.id}`;
+  }
 
-    switch (location.pathname) {
-      case '/':
-        return 'Aufträge'.concat(sp.get('page') ? `, Seite ${sp.get('page')}` : '');
+  switch (location.pathname) {
+    case '/':
+      return 'Aufträge'.concat(sp.get('page') ? `, Seite ${sp.get('page')}` : '');
 
-      case '/edit/-1':
-        return 'Neuer Auftrag';
+    case '/edit/-1':
+      return 'Neuer Auftrag';
 
-      case '/import':
-        return 'Auftrag importieren';
+    case '/import':
+      return 'Auftrag importieren';
 
-      case '/blanco':
-        return 'Neue Rechnung';
+    case '/blanco':
+      return 'Neue Rechnung';
 
-      case '/settings':
-        return 'Optionen';
+    case '/settings':
+      return 'Optionen';
 
-      case '/settings/services':
-        return 'Leistungen';
+    case '/settings/services':
+      return 'Leistungen';
 
-      case '/settings/packings':
-        return 'Verpackung';
+    case '/settings/packings':
+      return 'Verpackung';
 
-      case '/settings/furniture':
-        return 'Möbel';
+    case '/settings/furniture':
+      return 'Möbel';
 
-      case '/settings/offers':
-        return 'Angebote';
+    case '/settings/offers':
+      return 'Angebote';
 
-      case '/settings/categories':
-        return 'Möbel Kategorien';
+    case '/settings/categories':
+      return 'Möbel Kategorien';
 
-      default:
-        return '';
-    }
-  }, [location, params]);
-  return pageName;
+    default:
+      return '';
+  }
 }
