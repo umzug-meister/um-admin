@@ -427,6 +427,7 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
   }
   pdfBuilder.setNormal();
 };
+
 const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   const textBlocks = [
     'Die Anzahl der Ladehelfer und die Arbeitsdauer in Stunden werden basierend auf den ' +

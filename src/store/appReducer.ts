@@ -81,7 +81,7 @@ export const loadOrder = createAsyncThunk('loadOrder', (id: string) => {
 export const deleteOrder = createAsyncThunk<void, void, RootState>('deleteOrder', (_, thunkApi) => {
   const state = thunkApi.getState();
   const currentOrder = state.app.current;
-  if (currentOrder !== null && currentOrder.id) {
+  if (currentOrder?.id) {
     return appRequest('delete')(Urls.orderById(currentOrder.id));
   }
 });
@@ -134,12 +134,12 @@ const calculate = (order: Order, options: AppOptions): Order => {
   calculated.prices = prices;
 
   const sum =
-    Number(calculated.timeBased?.basis || 0) -
-    Number(calculated.discountValue || 0) +
-    Number(calculated.prices?.halteverbotszonen || 0) +
-    Number(calculated.prices?.services || 0) +
-    Number(calculated.prices?.verpackung || 0) +
-    Number(calculated.prices?.other || 0);
+    Number(calculated.timeBased?.basis ?? 0) -
+    Number(calculated.discountValue ?? 0) +
+    Number(calculated.prices?.halteverbotszonen ?? 0) +
+    Number(calculated.prices?.services ?? 0) +
+    Number(calculated.prices?.verpackung ?? 0) +
+    Number(calculated.prices?.other ?? 0);
 
   calculated.sum = sum;
 
@@ -293,7 +293,7 @@ const appSlice = createSlice({
         const newInvoice: Rechnung = {
           date: new Date().toLocaleDateString('ru'),
           text: '',
-          orderId: state.current?.id || '',
+          orderId: state.current?.id ?? '',
           firma: state.current?.customer.company,
           rNumber: state.options['rNumber'],
           customerName: getCustomerFullname(curOrder),
