@@ -6,6 +6,5 @@
       "matchUpdateTypes": ["patch"],
       "automerge": true
     }
-  ],
-  "automergeSchedule": ["before 4am on the first day of the month"]
+  ]
 }
