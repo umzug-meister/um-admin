@@ -31,7 +31,7 @@ export default function Leads() {
   const MAX_DATE = useMemo(() => new Date(), []);
 
   if (!leadsCounter) {
-    return <Typography>keine Leads vorhanden</Typography>;
+    return <Typography>keine Daten vorhanden</Typography>;
   }
 
   const onYearChange = (date: Date) => {
@@ -45,7 +45,7 @@ export default function Leads() {
   return (
     <AppGridContainer>
       <Grid2 size={12}>
-        <AppCard title="Leads">
+        <AppCard title="Anfragen">
           <Box>
             <DatePicker
               maxDate={MAX_DATE}
@@ -78,11 +78,11 @@ function getMonthName(monthNumber: string, year: number) {
 
 type DataForYearType = { [month: string]: any };
 
-type Params = {
+type Convert2DataSetParams = {
   dataForYear: DataForYearType | undefined;
   year: number;
 };
-function convert2DataSet({ year, dataForYear }: Params) {
+function convert2DataSet({ year, dataForYear }: Convert2DataSetParams) {
   const dataset: any[] = [];
   if (!dataForYear) return dataset;
 

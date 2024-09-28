@@ -236,12 +236,12 @@ export function getColorBySrc(src: OrderSrcType) {
       return '#5e257a';
 
     case 'express':
-      return '#60c19a';
+      return '#77caa8';
     case 'individuelle':
-      return '#1ca76e';
+      return '#33b07d';
     case 'Moebelliste':
-      return '#14754d';
+      return '#199663';
     case 'UmzugRuckZuck':
-      return '#0b432c';
+      return '#116442';
   }
 }
