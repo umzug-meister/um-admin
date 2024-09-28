@@ -1,7 +1,7 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Box, Button, Typography } from '@mui/material';
+import { Badge, BadgeProps, Box, Button, styled } from '@mui/material';
 import { GridBaseColDef } from '@mui/x-data-grid/internals';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -107,40 +107,18 @@ export default function Orders() {
         type: 'number',
         width: 120,
         renderCell: ({ row }) => {
-          const { id } = row as Order;
-          return <EditOrderButton id={id} />;
+          const { id, lupd } = row as Order;
+          return (
+            <StyledBadge color="warning" variant="dot" invisible={!lupd}>
+              <EditOrderButton id={id} />
+            </StyledBadge>
+          );
         },
       },
       {
         field: 'src',
         headerName: 'Quelle',
         width: 150,
-        renderCell: ({ row }) => {
-          const { src } = row as Order;
-          if (!src) {
-            return '';
-          }
-
-          let color = 'default';
-
-          switch (src) {
-            case 'check24':
-            case 'obi':
-            case 'myhammer':
-            case 'moebeltransport24':
-              color = 'error';
-              break;
-
-            default:
-              break;
-          }
-
-          return (
-            <Typography variant="inherit" color={color}>
-              {src}
-            </Typography>
-          );
-        },
       },
       {
         field: 'customer',
@@ -280,10 +258,6 @@ export default function Orders() {
       </SearchBar>
       <AppDataGrid
         loading={loading}
-        getRowClassName={(params) => {
-          const order = params.row as Order;
-          return order.lupd ? '' : 'bold';
-        }}
         disablePagination={disablePagination}
         data={data}
         columns={orderColumns}
@@ -301,3 +275,13 @@ function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
     </Box>
   );
 }
+
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: 80,
+    top: 23,
+    border: `2px solid ${theme.palette.background.paper}`,
+    borderRadius: '50%',
+    padding: '5px',
+  },
+}));

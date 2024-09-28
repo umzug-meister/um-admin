@@ -1,4 +1,3 @@
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -9,9 +8,7 @@ interface Props {
 export function EditOrderButton({ id, target }: Readonly<Props>) {
   return (
     <Link target={target} to={`/edit/${id}`}>
-      <Button size="small" startIcon={<ArrowRightIcon />}>
-        {id}
-      </Button>
+      <Button size="small">{id}</Button>
     </Link>
   );
 }

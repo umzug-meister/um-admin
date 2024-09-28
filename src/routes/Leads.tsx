@@ -8,6 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { orderSrcTypes } from 'um-types/constants';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { capitalize } from 'lodash';
+import { getColorBySrc } from '../utils/utils';
 
 export default function Leads() {
   const counters = useAppServices<AppCounter>('Counter');
@@ -19,22 +20,10 @@ export default function Leads() {
   const [dataForYear, setDataForYear] = useState<any>(leadsCounter?.data['#' + date.getFullYear()]);
 
   const SERIES = useMemo(() => {
-    const colorPalette = [
-      '#bbbbbb',
-      '#ffebcd',
-      '#9b5fe0',
-      '#f9a52c',
-      '#16a4d8',
-      '#8bd346',
-      '#d64e12',
-      '#efdf48',
-      '#a52a2a',
-    ];
-
-    return orderSrcTypes.map((src, index) => ({
+    return orderSrcTypes.map((src) => ({
       dataKey: src,
       label: capitalize(src),
-      color: colorPalette[index],
+      color: getColorBySrc(src),
     }));
   }, []);
 

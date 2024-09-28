@@ -1,4 +1,4 @@
-import { Address, Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
+import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
 
 import { addDays } from 'date-fns';
 
@@ -220,3 +220,28 @@ export const getOrtFromAdress = (orderAddress: Address) => {
   }
   return ' ';
 };
+
+export function getColorBySrc(src: OrderSrcType) {
+  switch (src) {
+    case 'check24':
+      return '#0271c2';
+
+    case 'obi':
+      return '#ff7e21';
+
+    case 'moebeltransport24':
+      return '#f40009';
+
+    case 'myhammer':
+      return '#5e257a';
+
+    case 'express':
+      return '#60c19a';
+    case 'individuelle':
+      return '#1ca76e';
+    case 'Moebelliste':
+      return '#14754d';
+    case 'UmzugRuckZuck':
+      return '#0b432c';
+  }
+}
