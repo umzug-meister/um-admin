@@ -109,7 +109,7 @@ export default function Orders() {
         renderCell: ({ row }) => {
           const { id, lupd } = row as Order;
           return (
-            <StyledBadge color="warning" variant="dot" invisible={!lupd}>
+            <StyledBadge color="warning" variant="dot" invisible={lupd}>
               <EditOrderButton id={id} />
             </StyledBadge>
           );
