@@ -51,7 +51,7 @@ export default function Leads() {
     setDataForYear(currentData);
   };
 
-  const dataset = convert2DataSet(dataForYear);
+  const dataset = convert2DataSet({ dataForYear, year: date.getFullYear() });
 
   return (
     <AppGridContainer>
@@ -69,6 +69,7 @@ export default function Leads() {
           </Box>
           <Box height={650}>
             <BarChart
+              leftAxis={null}
               borderRadius={4}
               barLabel="value"
               dataset={dataset}
@@ -82,28 +83,17 @@ export default function Leads() {
   );
 }
 
-function getMonthName(monthNumber: string) {
-  const months = [
-    'Januar',
-    'Februar',
-    'März',
-    'April',
-    'Mai',
-    'Juni',
-    'Juli',
-    'August',
-    'September',
-    'Oktober',
-    'November',
-    'Dezember',
-  ];
-
-  return months[Number(monthNumber.replace('#', '')) - 1];
+function getMonthName(monthNumber: string, year: number) {
+  return monthNumber.replace('#', '').padStart(2, '0') + '/' + (year - 2000);
 }
 
 type DataForYearType = { [month: string]: any };
 
-function convert2DataSet(dataForYear: DataForYearType | undefined) {
+type Params = {
+  dataForYear: DataForYearType | undefined;
+  year: number;
+};
+function convert2DataSet({ year, dataForYear }: Params) {
   const dataset: any[] = [];
   if (!dataForYear) return dataset;
 
@@ -113,7 +103,7 @@ function convert2DataSet(dataForYear: DataForYearType | undefined) {
     const leads = dataForYear[month];
 
     const entry: any = {
-      month: getMonthName(month),
+      month: getMonthName(month, year),
     };
 
     orderSrcTypes.forEach((src) => {
