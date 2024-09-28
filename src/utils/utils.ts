@@ -1,5 +1,7 @@
 import { Address, Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
 
+import { addDays } from 'date-fns';
+
 const MWST = 1.19;
 
 const WAITING_DAYS = 10;
@@ -46,7 +48,7 @@ interface GetNextDueDateParam {
 }
 
 export function getNextDueDate({ date = new Date() }: GetNextDueDateParam) {
-  return date.addDays(WAITING_DAYS).toLocaleDateString('ru');
+  return addDays(date, WAITING_DAYS).toLocaleDateString('ru');
 }
 
 export function getPrintableDate(date: string | undefined, long = false) {
