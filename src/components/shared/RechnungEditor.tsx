@@ -33,7 +33,7 @@ type Labels = {
   [path: string]: string;
 };
 
-export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Props) {
+export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const currentOrder = useCurrentOrder();
@@ -74,66 +74,63 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Pro
   };
 
   return (
-    <>
-      <AppGridContainer>
-        <Grid2 size={12}>
-          <AppCard title="Rechnung">
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="orderId" />
-          </AppCard>
-        </Grid2>
+    <AppGridContainer>
+      <Grid2 size={6}>
+        <AppCard title="Kunde">
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerName" />
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
+        </AppCard>
+      </Grid2>
+      <Grid2 size={6}>
+        <AppCard title="Rechnung">
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
+          <InvoiceField onChange={onPropChange} rechnung={rechnung} path="orderId" />
+        </AppCard>
+      </Grid2>
 
-        <Grid2 size={6}>
-          <AppCard title="Kunde">
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerName" />
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
-            <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
-          </AppCard>
-        </Grid2>
+      <Grid2 size={12}>
+        <AppCard title="Leistungen">
+          <LeistungEdit
+            hideChecks
+            suggestServices
+            leistungen={rechnung.entries}
+            update={(lst) => {
+              onPropChange('entries', lst);
+            }}
+          />
+          <CalculationsView entries={rechnung.entries} />
+        </AppCard>
+      </Grid2>
 
-        <Grid2 size={6}>
-          <AppCard title="Text">
-            <InvoiceTextTemplates setText={onChipClick} />
-            <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
-          </AppCard>
-        </Grid2>
+      <Grid2 size={12}>
+        <AppCard title="Text">
+          <InvoiceTextTemplates setText={onChipClick} />
+          <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
+        </AppCard>
+      </Grid2>
 
-        <Grid2 size={12}>
-          <AppCard title="Leistungen">
-            <LeistungEdit
-              hideChecks
-              suggestServices
-              leistungen={rechnung.entries}
-              update={(lst) => {
-                onPropChange('entries', lst);
-              }}
-            />
-            <CalculationsView entries={rechnung.entries} />
-          </AppCard>
-        </Grid2>
-
-        <Grid2 size={12}>
-          <Box display="flex" flexDirection="row" gap={2}>
-            <PdfSaveButton onClick={printInvoice} />
-            {isOrderEdit &&
-              (showAnimation ? (
-                <Pulsating>
-                  <EmailLink />
-                </Pulsating>
-              ) : (
+      <Grid2 size={12}>
+        <Box display="flex" flexDirection="row" gap={2}>
+          <PdfSaveButton onClick={printInvoice} />
+          {isOrderEdit &&
+            (showAnimation ? (
+              <Pulsating>
                 <EmailLink />
-              ))}
-            {deleteAccounting && (
-              <Button variant="outlined" color="error" onClick={onClearRequest}>
-                Löschen
-              </Button>
-            )}
-          </Box>
-        </Grid2>
-      </AppGridContainer>
-    </>
+              </Pulsating>
+            ) : (
+              <EmailLink />
+            ))}
+          {deleteAccounting && (
+            <Button variant="outlined" color="error" onClick={onClearRequest}>
+              Löschen
+            </Button>
+          )}
+        </Box>
+      </Grid2>
+    </AppGridContainer>
   );
 }
 

@@ -9,7 +9,7 @@ export default function EmailLink() {
     return null;
   }
   const { customer } = order;
-  const mailto = customer.email || customer.emailCopy;
+  const mailto = customer.email ?? customer.emailCopy;
 
   if (!mailto) {
     return null;
