@@ -22,11 +22,11 @@ export const createCategory = createAsyncThunk('createCategory', () => {
   });
 });
 
-export const deleteCategorie = createAsyncThunk('deleteCategorie', (id: string) => {
+export const deleteCategorie = createAsyncThunk('deleteCategorie', (id: number) => {
   return appRequest('delete')(Urls.categories(id)).then(() => ({ id }));
 });
 
-const categoriesSlice = createSlice<AppCategories, any, 'categories'>({
+const categoriesSlice = createSlice<AppCategories, any, 'categories', any>({
   name: 'categories',
   initialState: { all: [] },
   reducers: {},

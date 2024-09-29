@@ -25,7 +25,7 @@ export default function Categories() {
   );
 
   const onDelete = useCallback(
-    (id: string) => {
+    (id: number) => {
       dispatch(deleteCategorie(id));
     },
     [dispatch],
