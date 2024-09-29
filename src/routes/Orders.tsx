@@ -1,8 +1,7 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Badge, BadgeProps, Box, Button, styled } from '@mui/material';
-import { GridBaseColDef } from '@mui/x-data-grid/internals';
+import { Box, Button } from '@mui/material';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,6 +14,7 @@ import { RootBox } from '../components/shared/RootBox';
 import SearchBar from '../components/shared/SearchBar';
 import { getPrintableDate } from '../utils/utils';
 
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Order } from 'um-types';
 import { EditOrderButton } from '../components/EditOrderButton';
 
@@ -99,26 +99,19 @@ export default function Orders() {
       .finally(() => setLoading(false));
   }, [currentPage, reset]);
 
-  const orderColumns: GridBaseColDef[] = useMemo(
+  const orderColumns: GridColDef<Order>[] = useMemo(
     () => [
       {
         field: 'id',
         headerName: 'ID',
         type: 'number',
-        width: 120,
-        renderCell: ({ row }) => {
-          const { id, lupd } = row as Order;
-          return (
-            <StyledBadge color="warning" variant="dot" invisible={Boolean(lupd)}>
-              <EditOrderButton id={id} />
-            </StyledBadge>
-          );
-        },
+        width: 100,
+        renderCell: ({ value }: GridRenderCellParams<Order, number>) => <EditOrderButton id={value} />,
       },
       {
         field: 'src',
         headerName: 'Quelle',
-        width: 150,
+        width: 100,
       },
       {
         field: 'customer',
@@ -126,7 +119,7 @@ export default function Orders() {
         headerName: 'Kunde',
         align: 'left',
         renderCell: ({ row }) => {
-          const { customer } = row as Order;
+          const { customer } = row;
           if (!customer) {
             return '';
           }
@@ -139,9 +132,7 @@ export default function Orders() {
       {
         field: 'date',
         headerName: 'Datum',
-        renderCell({ value }) {
-          return getPrintableDate(value);
-        },
+        renderCell: ({ value }) => getPrintableDate(value),
       },
       {
         field: 'from',
@@ -149,7 +140,7 @@ export default function Orders() {
         align: 'left',
         flex: 1,
         renderCell: ({ row }) => {
-          const { from } = row as Order;
+          const { from } = row;
           return from?.address || '';
         },
       },
@@ -158,7 +149,7 @@ export default function Orders() {
         headerName: 'HVZ',
         width: 25,
         renderCell: ({ row }) => {
-          const { from } = row as Order;
+          const { from } = row;
 
           return from?.parkingSlot ? (
             <CenteredGridIcons>
@@ -173,7 +164,7 @@ export default function Orders() {
         align: 'left',
         flex: 1,
         renderCell: ({ row }) => {
-          const { to } = row as Order;
+          const { to } = row;
           return to?.address || '';
         },
       },
@@ -182,7 +173,7 @@ export default function Orders() {
         headerName: 'HVZ',
         width: 25,
         renderCell: ({ row }) => {
-          const { to } = row as Order;
+          const { to } = row;
 
           return to?.parkingSlot ? (
             <CenteredGridIcons>
@@ -197,18 +188,18 @@ export default function Orders() {
         width: 60,
       },
       {
-        field: 'timeBased',
-        width: 80,
-        headerName: 'Stunden',
-        renderCell: ({ row }) => {
-          const { timeBased } = row as Order;
-          return timeBased?.hours || '';
-        },
+        field: 'transporterNumber',
+        headerName: '3,5t',
+        width: 60,
       },
       {
-        field: 'transporterNumber',
-        headerName: 'LKW 3,5t',
-        width: 80,
+        field: 'timeBased',
+        width: 60,
+        headerName: 'Std.',
+        renderCell: ({ row }) => {
+          const { timeBased } = row;
+          return timeBased?.hours || '';
+        },
       },
 
       {
@@ -218,7 +209,7 @@ export default function Orders() {
           if (!value) {
             return null;
           } else if (typeof value === 'string' && value.includes(',')) {
-            // already readyble
+            // already readable
             return value;
           } else if (typeof value === 'string' && value.includes('T')) {
             return <AppDateCell date={new Date(value)} />;
@@ -257,6 +248,10 @@ export default function Orders() {
         </Box>
       </SearchBar>
       <AppDataGrid
+        getRowClassName={(params) => {
+          const order = params.row as Order;
+          return order.lupd ? '' : 'bold';
+        }}
         loading={loading}
         disablePagination={disablePagination}
         data={data}
@@ -275,13 +270,3 @@ function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
     </Box>
   );
 }
-
-const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    right: 80,
-    top: 23,
-    border: `2px solid ${theme.palette.background.paper}`,
-    borderRadius: '50%',
-    padding: '5px',
-  },
-}));
