@@ -86,7 +86,7 @@ function convert2DataSet({ year, dataForYear }: Convert2DataSetParams) {
   const dataset: any[] = [];
   if (!dataForYear) return dataset;
 
-  const months = Object.keys(dataForYear).sort((a, b) => a.localeCompare(b));
+  const months = Object.keys(dataForYear);
 
   months.forEach((month) => {
     const leads = dataForYear[month];
