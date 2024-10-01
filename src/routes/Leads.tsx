@@ -82,11 +82,17 @@ type Convert2DataSetParams = {
   dataForYear: DataForYearType | undefined;
   year: number;
 };
+function sortMonths(a: string, b: string): number {
+  const aMonth = Number(a.replace('#', ''));
+  const bMonth = Number(b.replace('#', ''));
+  return aMonth - bMonth;
+}
+
 function convert2DataSet({ year, dataForYear }: Convert2DataSetParams) {
   const dataset: any[] = [];
   if (!dataForYear) return dataset;
 
-  const months = Object.keys(dataForYear);
+  const months = Object.keys(dataForYear).toSorted(sortMonths);
 
   months.forEach((month) => {
     const leads = dataForYear[month];
