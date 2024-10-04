@@ -51,21 +51,24 @@ export function getNextDueDate({ date = new Date() }: GetNextDueDateParam) {
   return addDays(date, WAITING_DAYS).toLocaleDateString('ru');
 }
 
-const DATE_REGEX = /\d{2}.\d{2}.\d{4}/gm;
+const PRINT_DATE_REGEX = /\d{2}.\d{2}.\d{4}/gm;
+const PARSEABLE_DATE_REGEX = /\d{4}-\d{2}-\d{2}/gm;
 
 export function getPrintableDate(date: string | undefined, long = false) {
   if (!date || date === '') {
     return '';
   }
 
-  const isPrintable = DATE_REGEX.test(date);
+  const isPrintable = PRINT_DATE_REGEX.test(date);
+
+  if (isPrintable) return date;
 
   if (long) {
     return new Intl.DateTimeFormat('de-DE', {
       dateStyle: 'full',
     }).format(new Date(getParseableDate(date)));
   }
-  return isPrintable ? date : new Date(date).toLocaleDateString('ru');
+  return new Date(date).toLocaleDateString('ru');
 }
 
 export function getParseableDate(date: any) {
@@ -73,7 +76,7 @@ export function getParseableDate(date: any) {
     return '';
   }
 
-  const parseable = DATE_REGEX.test(date);
+  const parseable = PARSEABLE_DATE_REGEX.test(date);
   if (parseable) {
     return date;
   }
@@ -84,6 +87,7 @@ export function getParseableDate(date: any) {
     .reverse()
     .join('-');
 }
+
 export function getCustomerFullname(order?: Order | null) {
   if (order?.customer) {
     return `${order?.customer?.salutation || ''} ${order.customer?.firstName || ''} ${

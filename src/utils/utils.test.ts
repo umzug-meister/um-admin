@@ -1,4 +1,6 @@
-import { euroValue, getCustomerFullname, getCustomerStreet, getParseableDate } from './utils';
+import { euroValue, getCustomerFullname, getCustomerStreet, getParseableDate, getPrintableDate } from './utils';
+
+import { expect, test, describe } from 'vitest';
 
 import { Order } from 'um-types';
 
@@ -22,12 +24,34 @@ describe('euroValue', () => {
   });
 });
 
+describe('getPrintableDate', () => {
+  test('undefined', () => {
+    expect(getParseableDate(undefined)).toBe('');
+  });
+
+  test('print-format', () => {
+    const pd = getPrintableDate('10.12.2022');
+    expect(pd).equal('10.12.2022');
+  });
+  test('parseable-date', () => {
+    const pd = getPrintableDate('2022-12-10');
+    expect(pd).equal('10.12.2022');
+  });
+
+  test('parseable-date, long', () => {
+    const pd = getPrintableDate('2022-12-10', true);
+    expect(pd).equal('Samstag, 10. Dezember 2022');
+  });
+});
+
 describe('getParseableDate', () => {
   test('undefined', () => {
     expect(getParseableDate(undefined)).toBe('');
   });
   test('print-format', () => {
-    expect(getParseableDate('10.12.2022')).toBe('2022-12-10');
+    const pd = getParseableDate('10.12.2022');
+
+    expect(pd).equal('2022-12-10');
   });
   test('already parseable', () => {
     expect(getParseableDate('2022-12-10')).toBe('2022-12-10');

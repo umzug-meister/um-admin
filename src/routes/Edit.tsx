@@ -8,7 +8,7 @@ import { OrderCalculator } from '../components/OrderCalculator';
 import { CustomerWidget } from '../components/edit-order-components/CustomerWidget';
 import DateTime from '../components/edit-order-components/DateTime';
 import Distance from '../components/edit-order-components/Distance';
-import { OrderConditionsChips } from '../components/edit-order-components/OrderConditionsChips';
+import { OrderConditionsChips } from '../components/edit-order-components/order-conditions-chips';
 import { OrderConditionsGrid } from '../components/edit-order-components/OrderConditionsGrid';
 import OrderOfferSelector from '../components/edit-order-components/OrderOfferSelector';
 import OrderPacking from '../components/edit-order-components/OrderPacking';
