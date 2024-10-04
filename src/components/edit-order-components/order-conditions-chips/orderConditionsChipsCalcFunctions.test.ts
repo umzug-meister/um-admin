@@ -1,6 +1,6 @@
-import { expect, test, describe, vi } from 'vitest';
-import { isLocalMovement } from './orderConditionsChipsCalcFunctions';
 import { Address } from 'um-types';
+import { describe, expect, test } from 'vitest';
+import { isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
 describe('orderConditionsChipsCalcFunctions', () => {
   test('is-local-movement, true', () => {
