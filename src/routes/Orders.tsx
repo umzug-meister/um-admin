@@ -1,22 +1,22 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
-import SearchBar from '../components/shared/SearchBar';
+import OrderSearchBar from '../components/shared/search/OrderSearchBar';
 import { getPrintableDate } from '../utils/utils';
 
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Order } from 'um-types';
 import { EditOrderButton } from '../components/EditOrderButton';
+import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
 
 const PAGE_SIZE = 10;
 
@@ -41,41 +41,18 @@ export default function Orders() {
 
   const navigate = useNavigate();
 
-  const onSearch = useCallback(
-    (searchValue: string) => {
-      const id = Number(searchValue);
+  const onSearchFn = useOrderSearch(() => setLoading(false));
 
-      setLoading(true);
-      setDisablePagination(true);
-      if (isNaN(id)) {
-        appRequest('get')(Urls.orderSearch(searchValue))
-          .then((orders) => {
-            if (Array.isArray(orders)) {
-              setData(orders);
-            } else {
-              setData([]);
-            }
-          })
-          .finally(() => setLoading(false));
+  const onSearch = (s: string) => {
+    onSearchFn(s).then((orders) => {
+      if (orders.length === 1) {
+        const id = data[0].id;
+        navigate(`edit/${id}`);
       } else {
-        appRequest('get')(Urls.orderById(id))
-          .then((order) => {
-            if (order) {
-              navigate(`edit/${id}`);
-            } else {
-              setData([]);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-            setData([]);
-          })
-          .finally(() => setLoading(false));
+        setData(orders);
       }
-    },
-    [navigate],
-  );
-
+    });
+  };
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const setPage = useCallback(
@@ -238,15 +215,7 @@ export default function Orders() {
 
   return (
     <RootBox>
-      <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch}>
-        <Box display="flex" flex={1} justifyContent="flex-end">
-          <Link to="/edit/-1">
-            <Button startIcon={<ModeEditOutlineOutlinedIcon />} size="medium" variant="contained">
-              Neuer Auftrag
-            </Button>
-          </Link>
-        </Box>
-      </SearchBar>
+      <OrderSearchBar onClear={onClear} onSearch={onSearch} />
       <AppDataGrid
         getRowClassName={(params) => {
           const order = params.row as Order;

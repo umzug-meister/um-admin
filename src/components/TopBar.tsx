@@ -6,6 +6,8 @@ import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
+import OrderSearch from './order-search';
+import RootActions from './RootActions';
 
 export default function TopBar() {
   const [open, setOpen] = useState(false);
@@ -17,11 +19,23 @@ export default function TopBar() {
     setOpen(false);
   }, [setOpen]);
 
-  const actions = useMemo(() => {
+  const endActions = useMemo(() => {
     if (location.pathname.startsWith('/edit')) {
       return <OrderEditActions />;
+    } else {
+      return <RootActions />;
     }
-    return null;
+  }, [location]);
+
+  const startActions = useMemo(() => {
+    if (location.pathname === '/') {
+      return null;
+    }
+    return (
+      <Box marginX={2}>
+        <OrderSearch />
+      </Box>
+    );
   }, [location]);
 
   return (
@@ -36,11 +50,11 @@ export default function TopBar() {
           >
             <MenuOutlinedIcon />
           </IconButton>
-
-          <Typography pl={5} flex={1} variant="h5">
+          {startActions}
+          <Typography margin="auto" variant="h5">
             {pageName}
           </Typography>
-          <Box pr={4}>{actions}</Box>
+          <Box>{endActions}</Box>
         </Toolbar>
       </AppBar>
 
