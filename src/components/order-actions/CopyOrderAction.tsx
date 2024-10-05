@@ -18,6 +18,12 @@ export default function CopyOrderAction() {
     const next = {
       ...order,
       isCopyOf: order?.isCopyOf ?? order?.id,
+      customer: {
+        ...(order?.customer ?? {}),
+
+        email: undefined,
+        emailCopy: order?.customer?.emailCopy ?? order?.customer?.email,
+      },
       id: undefined,
       lupd: undefined,
     } as Order;
