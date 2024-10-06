@@ -35,7 +35,7 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
               {id} | {getCustomerFullname(order)}
             </Typography>
             <Typography variant="caption">
-              {from.address} - {to.address}
+              {from?.address} - {to?.address}
             </Typography>
             <OrderResources order={order} />
           </Box>
