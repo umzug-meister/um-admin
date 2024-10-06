@@ -45,7 +45,7 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
                 Umzug am: {getPrintableDate(date)}
               </Typography>
 
-              {order.lupd && (
+              {typeof order.lupd === 'number' && (
                 <Typography variant="caption">Aktualisiert am: {format.format(new Date(order.lupd))}</Typography>
               )}
             </Box>
