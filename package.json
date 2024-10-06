@@ -1,6 +1,6 @@
 {
   "name": "umzug-meister",
-  "version": "5.7.21",
+  "version": "5.7.22",
   "private": false,
   "type": "module",
   "dependencies": {
