@@ -16,7 +16,6 @@ export default function OrderSearchBar({ onClear, onSearch }: Readonly<Props>) {
 
   const handleSearchRequest = useCallback(() => {
     const searchValue = inputRef.current?.value?.trim() || '';
-    console.log('searchValue', searchValue);
     onSearch(searchValue);
   }, [onSearch]);
 

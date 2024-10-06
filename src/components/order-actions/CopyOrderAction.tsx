@@ -50,7 +50,7 @@ export default function CopyOrderAction() {
         </Alert>
       </Snackbar>
       <Tooltip title="Kopieren">
-        <IconButton onClick={handleCopy}>
+        <IconButton onClick={handleCopy} color="inherit">
           <FileCopyOutlinedIcon />
         </IconButton>
       </Tooltip>

@@ -2,12 +2,13 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import RootActions from './RootActions';
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
 import OrderSearch from './order-search';
+import { HomeOutlined } from '@mui/icons-material';
 
 export default function TopBar() {
   const [open, setOpen] = useState(false);
@@ -38,18 +39,33 @@ export default function TopBar() {
     );
   }, [location]);
 
+  const mainAction = useMemo(() => {
+    return (
+      <>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            setOpen((open) => !open);
+          }}
+        >
+          <MenuOutlinedIcon />
+        </IconButton>
+        {location.pathname !== '/' && (
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <IconButton color="inherit">
+              <HomeOutlined />
+            </IconButton>
+          </Link>
+        )}
+      </>
+    );
+  }, [location]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar variant="outlined" color="inherit" position="fixed" elevation={0}>
         <Toolbar variant="dense">
-          <IconButton
-            color="inherit"
-            onClick={() => {
-              setOpen((open) => !open);
-            }}
-          >
-            <MenuOutlinedIcon />
-          </IconButton>
+          {mainAction}
           {startActions}
           <Typography margin="auto" variant="h5">
             {pageName}

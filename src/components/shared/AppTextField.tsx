@@ -26,7 +26,6 @@ export function AppTextField(props: TextFieldProps) {
   const standardProps: TextFieldProps = {
     variant: 'outlined',
     fullWidth: true,
-    size: 'small',
   };
 
   let InputLabelProps = undefined;
@@ -36,17 +35,14 @@ export function AppTextField(props: TextFieldProps) {
 
   return (
     <TextField
-      slotProps={{
-        htmlInput: {
-          'data-hj-allow': '',
-        },
-        inputLabel: {
-          ...InputLabelProps,
-        },
+      inputProps={{
+        'data-hj-allow': '',
       }}
+      InputLabelProps={InputLabelProps}
       minRows={8}
       {...standardProps}
       {...props}
+      size="small"
       value={value}
     />
   );

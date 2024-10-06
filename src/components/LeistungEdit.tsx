@@ -196,16 +196,9 @@ function GridRow({
               }
               return o.name;
             }}
-            renderInput={(params) => (
-              <AppTextField
-                {...params}
-                size="small"
-                inputProps={{
-                  'data-hj-allow': '',
-                  ...params?.inputProps,
-                }}
-              />
-            )}
+            renderInput={(params) => {
+              return <AppTextField {...params} label="Leistung" />;
+            }}
           />
         ) : (
           <AppTextField

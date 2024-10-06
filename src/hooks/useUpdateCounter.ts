@@ -22,15 +22,12 @@ export function useUpdateCounter() {
     const leadCounter = counters.find((c) => c.type === 'Lead');
     if (leadCounter) {
       const date = new Date(order.timestamp);
-
       const year = String('#' + date.getFullYear());
       const month = String('#' + String(date.getMonth() + 1));
 
       console.log('will update counter: ', leadCounter.id, year, month);
 
       appRequest('get')(Urls.services(leadCounter.id)).then((nextCounter) => {
-        console.log('will update counter: ', leadCounter.id, year, month);
-
         if (!nextCounter.data?.[year]?.[month]) {
           console.log('will create new: ', year, month);
           set(nextCounter, ['data', year, month], []);

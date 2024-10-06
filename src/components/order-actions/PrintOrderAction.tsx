@@ -53,7 +53,7 @@ export function PrintOrderAction() {
 
   return (
     <Tooltip title="Als PDF speichern">
-      <IconButton onClick={printOrder}>
+      <IconButton onClick={printOrder} color="inherit">
         <FileDownloadOutlinedIcon />
       </IconButton>
     </Tooltip>

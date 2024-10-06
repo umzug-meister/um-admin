@@ -43,11 +43,11 @@ export default function FurnitureRoute() {
     (row: Furniture) => {
       const next = { ...row };
 
-      const isChecked = (categoryId: string) => {
+      const isChecked = (categoryId: string | number) => {
         return row.categoryRefs?.some((c) => Number(c.id) === Number(categoryId)) || false;
       };
 
-      const onChange = (checked: boolean, catId: string) => {
+      const onChange = (checked: boolean, catId: string | number) => {
         if (checked) {
           const newCategory = categories.find((c) => Number(c.id) === Number(catId));
 
