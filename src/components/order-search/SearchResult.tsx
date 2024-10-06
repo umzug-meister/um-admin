@@ -40,9 +40,7 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
               </Typography>
 
               {order.lupd && (
-                <>
-                  <Typography variant="caption">Aktualisiert am: {format.format(new Date(order.lupd))}</Typography>
-                </>
+                <Typography variant="caption">Aktualisiert am: {format.format(new Date(order.lupd))}</Typography>
               )}
             </Box>
             <Box display={'flex'} justifyContent={'flex-end'}>
