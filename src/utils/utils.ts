@@ -89,12 +89,26 @@ export function getParseableDate(date: any) {
 }
 
 export function getCustomerFullname(order?: Order | null) {
-  if (order?.customer) {
-    return `${order?.customer?.salutation || ''} ${order.customer?.firstName || ''} ${
-      order.customer?.lastName || ''
-    }`.trim();
+  if (!order?.customer) {
+    return '';
   }
-  return '';
+  const arr = [];
+  const { company, firstName, lastName, salutation } = order.customer;
+
+  if (salutation) {
+    arr.push(salutation);
+  }
+  if (firstName) {
+    arr.push(firstName.trim());
+  }
+  if (lastName) {
+    arr.push(lastName.trim());
+  }
+  if (company) {
+    arr.push(`(${company.trim()})`);
+  }
+
+  return arr.join(' ');
 }
 
 export function getCustomerStreet(order?: Order | null) {
@@ -247,3 +261,7 @@ export function getColorBySrc(src: OrderSrcType) {
       return '#116442';
   }
 }
+
+export const getAmountOfParkingSlots = (order: Order): number => {
+  return Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0);
+};

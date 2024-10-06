@@ -11,7 +11,7 @@ import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import OrderSearchBar from '../components/shared/search/OrderSearchBar';
-import { getPrintableDate } from '../utils/utils';
+import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Order } from 'um-types';
@@ -43,16 +43,20 @@ export default function Orders() {
 
   const onSearchFn = useOrderSearch(() => setLoading(false));
 
-  const onSearch = (s: string) => {
-    onSearchFn(s).then((orders) => {
-      if (orders.length === 1) {
-        const id = data[0].id;
-        navigate(`edit/${id}`);
-      } else {
-        setData(orders);
-      }
-    });
-  };
+  const onSearch = useCallback(
+    (searchValue: string) => {
+      onSearchFn(searchValue).then((orders) => {
+        if (orders.length === 1 && !isNaN(Number(searchValue))) {
+          const id = orders[0].id;
+          navigate(`/edit/${id}`);
+        } else {
+          setData(orders);
+        }
+      });
+    },
+    [onSearchFn, navigate],
+  );
+
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const setPage = useCallback(
@@ -95,16 +99,7 @@ export default function Orders() {
         flex: 1,
         headerName: 'Kunde',
         align: 'left',
-        renderCell: ({ row }) => {
-          const { customer } = row;
-          if (!customer) {
-            return '';
-          }
-          if (customer.company) {
-            return customer.company;
-          }
-          return `${customer.salutation || ''} ${customer.firstName || ''} ${customer.lastName || ''}`;
-        },
+        renderCell: ({ row }) => getCustomerFullname(row),
       },
       {
         field: 'date',
@@ -215,7 +210,9 @@ export default function Orders() {
 
   return (
     <RootBox>
-      <OrderSearchBar onClear={onClear} onSearch={onSearch} />
+      <Box width={'330px'}>
+        <OrderSearchBar onClear={onClear} onSearch={onSearch} />
+      </Box>
       <AppDataGrid
         getRowClassName={(params) => {
           const order = params.row as Order;
@@ -231,7 +228,6 @@ export default function Orders() {
     </RootBox>
   );
 }
-
 function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
   return (
     <Box display="flex" justifyContent="center" height={'100%'} alignItems="center">

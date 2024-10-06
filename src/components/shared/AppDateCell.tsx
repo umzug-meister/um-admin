@@ -8,7 +8,7 @@ interface Props {
 export function AppDateCell({ date }: Readonly<Props>) {
   const dateFormat = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' });
 
-  const timeFormat = new Intl.DateTimeFormat('de-DE', { timeStyle: 'medium' });
+  const timeFormat = new Intl.DateTimeFormat('de-DE', { timeStyle: 'short' });
 
   return (
     <Box display="flex" flexDirection="column" justifyContent={'center'} sx={{ height: '100%' }}>

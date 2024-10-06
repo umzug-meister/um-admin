@@ -1,9 +1,9 @@
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Button, DialogActions, DialogTitle } from '@mui/material';
+import { Button, DialogActions } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import { useState } from 'react';
-import { OrderSearchDialogContent } from './OrderSearchDialogContent';
 import { KeyboardIcon } from '../KeyboardIcon';
+import { OrderSearchDialogContent } from './OrderSearchDialogContent';
 
 export default function OrderSearch() {
   const [open, setOpen] = useState(false);
@@ -18,12 +18,11 @@ export default function OrderSearch() {
 
   return (
     <>
-      <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleClose}>
-        <DialogTitle>Auftrag Suchen</DialogTitle>
+      <Dialog fullWidth={true} maxWidth={'md'} open={open} onClose={handleClose}>
         <OrderSearchDialogContent />
         <DialogActions>
           <Button onClick={handleClose} endIcon={<KeyboardIcon label="esc" />}>
-            Abbrechen
+            Schließen
           </Button>
         </DialogActions>
       </Dialog>
@@ -37,6 +36,7 @@ export default function OrderSearch() {
         }}
         startIcon={<SearchOutlinedIcon />}
         variant="outlined"
+        size="small"
       >
         {`Auftrag Suchen...`}
       </Button>

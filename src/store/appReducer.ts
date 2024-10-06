@@ -4,6 +4,7 @@ import { Urls } from '../api/Urls';
 import { AppOptions, OptionName } from '../app-types';
 import {
   createDueDate,
+  getAmountOfParkingSlots,
   getCustomerFullname,
   getCustomerPLZ,
   getCustomerStreet,
@@ -95,8 +96,7 @@ const calculate = (order: Order, options: AppOptions): Order => {
 
   const prices: Prices = {};
 
-  prices.halteverbotszonen =
-    Number(options.hvzPrice) * (Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0));
+  prices.halteverbotszonen = Number(options.hvzPrice) * getAmountOfParkingSlots(order);
 
   const services = order.services?.filter((s) => s.tag === 'Bohrarbeiten');
   const verpackung = order.services?.filter((s) => s.tag === 'Packmaterial');
