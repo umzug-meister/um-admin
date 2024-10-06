@@ -21,7 +21,7 @@ export default function OrderSearch() {
   return (
     <>
       <Dialog fullWidth={true} maxWidth={'md'} open={open} onClose={handleClose}>
-        <OrderSearchDialogContent />
+        <OrderSearchDialogContent onClose={handleClose} />
         <DialogActions>
           <Button onClick={handleClose} endIcon={<KeyboardIcon label="esc" />}>
             Schließen

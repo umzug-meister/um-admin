@@ -1,7 +1,7 @@
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import { Box, Chip, DialogContent, DialogTitle, Typography } from '@mui/material';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '../../store';
@@ -11,15 +11,18 @@ import { useOrderSearch } from '../shared/search/orderSearchQuery';
 import { SearchResult } from './SearchResult';
 
 import { Order } from 'um-types';
+import { Loading } from '../shared/Loading';
 
-export function OrderSearchDialogContent() {
+export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => void }>) {
   const [results, setResults] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const onSearchFn = useOrderSearch();
+  const onSearchFn = useOrderSearch(() => setLoading(false));
   const dispatch = useDispatch<AppDispatch>();
 
   const onSearch = (searchValue: string) => {
     if (searchValue) {
+      setLoading(true);
       onSearchFn(searchValue).then((results) => {
         setResults(results);
         dispatch(addSearchResults({ searchValue }));
@@ -31,9 +34,13 @@ export function OrderSearchDialogContent() {
 
   const lastSearchValues = Object.keys(appSearch);
 
-  const onClear = useCallback(() => {
-    setResults([]);
-  }, []);
+  const onClear = () => {
+    if (results.length > 0) {
+      setResults([]);
+    } else {
+      onClose();
+    }
+  };
 
   return (
     <>
@@ -41,6 +48,7 @@ export function OrderSearchDialogContent() {
         <OrderSearchBar onSearch={onSearch} onClear={onClear} />
       </DialogTitle>
       <DialogContent>
+        <Loading open={loading} />
         <Box display="flex" flexDirection={'column'} gap={2}>
           {results.length === 0 && (
             <Box display="flex" gap={2}>
