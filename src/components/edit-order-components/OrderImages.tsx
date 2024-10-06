@@ -21,7 +21,7 @@ export default function OrderImages() {
   const length = curOrder?.bucketImages?.length ?? 0;
 
   if (length === 0) {
-    return null
+    return null;
   }
 
   const handleChange = (offset: number) => {

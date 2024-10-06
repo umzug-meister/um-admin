@@ -19,7 +19,10 @@ export default function CalculationsView({ entries = [], align = 'right' }: Prop
 
   const netto = sum / (1 + TAX);
   const mwst = sum - netto;
-  const intl = new Intl.NumberFormat('de-de', { style: 'currency', currency: 'EUR' });
+  const intl = new Intl.NumberFormat('de-de', {
+    style: 'currency',
+    currency: 'EUR',
+  });
 
   return (
     <Box display={'flex'} flexDirection="column" gap={1}>

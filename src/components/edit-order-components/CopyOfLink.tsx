@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 
+import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { EditOrderButton } from '../EditOrderButton';
 
 export default function CopyOfLink() {

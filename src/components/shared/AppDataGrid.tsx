@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   DataGrid,
@@ -12,6 +12,7 @@ import {
 import { useMemo } from 'react';
 
 import { DeleteButton } from './DeleteButton';
+import { Loading } from './Loading';
 
 const defaultColProps = {
   filterable: false,
@@ -44,7 +45,7 @@ export function AppDataGrid({
   paginationMode = 'server',
   disablePagination,
   allowDeletion,
-  loading,
+  loading = false,
   onDelete,
   setPaginationModel,
   onUpdate,
@@ -92,12 +93,7 @@ export function AppDataGrid({
           },
         }}
       >
-        <Backdrop
-          open={loading || false}
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer - 1, position: 'absolute' }}
-        >
-          <CircularProgress color="primary" />
-        </Backdrop>
+        <Loading open={loading} />
         <StyledDataGrid
           rowHeight={45}
           localeText={{
@@ -108,7 +104,7 @@ export function AppDataGrid({
           autoHeight
           columns={gridColumns}
           rows={data}
-          rowCount={10000}
+          rowCount={paginationMode === 'server' ? 10000 : undefined}
           paginationMode={paginationMode}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}

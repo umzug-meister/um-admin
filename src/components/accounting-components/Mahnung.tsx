@@ -68,7 +68,9 @@ export function Mahnung({ index }: Readonly<Props>) {
     if (index > 1) {
       sum = rechnung?.dueDates.find((dd) => dd.index === index - 1)?.sum ?? 0;
     }
-    const nextDueDate = getNextDueDate({ date: new Date(getParseableDate(lastDueDate?.date)) });
+    const nextDueDate = getNextDueDate({
+      date: new Date(getParseableDate(lastDueDate?.date)),
+    });
 
     const text = generateText({ rechnung, index, nextDueDate, sum });
 

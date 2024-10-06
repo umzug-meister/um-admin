@@ -30,7 +30,6 @@ export function OrderEditActions() {
       </Stack>
 
       <DeleteOrderAction />
-      <Divider orientation="vertical" />
     </Stack>
   );
 }

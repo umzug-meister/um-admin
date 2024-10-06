@@ -1,22 +1,22 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
+import { EditOrderButton } from '../components/EditOrderButton';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
-import SearchBar from '../components/shared/SearchBar';
-import { getPrintableDate } from '../utils/utils';
+import OrderSearchBar from '../components/shared/search/OrderSearchBar';
+import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
+import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Order } from 'um-types';
-import { EditOrderButton } from '../components/EditOrderButton';
 
 const PAGE_SIZE = 10;
 
@@ -41,39 +41,21 @@ export default function Orders() {
 
   const navigate = useNavigate();
 
+  const onSearchFn = useOrderSearch(() => setLoading(false));
+
   const onSearch = useCallback(
     (searchValue: string) => {
-      const id = Number(searchValue);
-
       setLoading(true);
-      setDisablePagination(true);
-      if (isNaN(id)) {
-        appRequest('get')(Urls.orderSearch(searchValue))
-          .then((orders) => {
-            if (Array.isArray(orders)) {
-              setData(orders);
-            } else {
-              setData([]);
-            }
-          })
-          .finally(() => setLoading(false));
-      } else {
-        appRequest('get')(Urls.orderById(id))
-          .then((order) => {
-            if (order) {
-              navigate(`edit/${id}`);
-            } else {
-              setData([]);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-            setData([]);
-          })
-          .finally(() => setLoading(false));
-      }
+      onSearchFn(searchValue).then((orders) => {
+        if (orders.length === 1 && !isNaN(Number(searchValue))) {
+          const id = orders[0].id;
+          navigate(`/edit/${id}`);
+        } else {
+          setData(orders);
+        }
+      });
     },
-    [navigate],
+    [onSearchFn, navigate],
   );
 
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -118,16 +100,7 @@ export default function Orders() {
         flex: 1,
         headerName: 'Kunde',
         align: 'left',
-        renderCell: ({ row }) => {
-          const { customer } = row;
-          if (!customer) {
-            return '';
-          }
-          if (customer.company) {
-            return customer.company;
-          }
-          return `${customer.salutation || ''} ${customer.firstName || ''} ${customer.lastName || ''}`;
-        },
+        renderCell: ({ row }) => getCustomerFullname(row),
       },
       {
         field: 'date',
@@ -238,15 +211,9 @@ export default function Orders() {
 
   return (
     <RootBox>
-      <SearchBar placeholder="Suche..." onClear={onClear} onSearch={onSearch}>
-        <Box display="flex" flex={1} justifyContent="flex-end">
-          <Link to="/edit/-1">
-            <Button startIcon={<ModeEditOutlineOutlinedIcon />} size="medium" variant="contained">
-              Neuer Auftrag
-            </Button>
-          </Link>
-        </Box>
-      </SearchBar>
+      <Box width={'330px'}>
+        <OrderSearchBar onClear={onClear} onSearch={onSearch} />
+      </Box>
       <AppDataGrid
         getRowClassName={(params) => {
           const order = params.row as Order;
@@ -257,12 +224,14 @@ export default function Orders() {
         data={data}
         columns={orderColumns}
         setPaginationModel={(model) => setPage(model.page)}
-        paginationModel={{ pageSize: PAGE_SIZE, page: Number(searchParams.get('page')) }}
+        paginationModel={{
+          pageSize: PAGE_SIZE,
+          page: Number(searchParams.get('page')),
+        }}
       />
     </RootBox>
   );
 }
-
 function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
   return (
     <Box display="flex" justifyContent="center" height={'100%'} alignItems="center">

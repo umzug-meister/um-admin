@@ -11,10 +11,6 @@ export default function EmailLink() {
   const { customer } = order;
   const mailto = customer.email ?? customer.emailCopy;
 
-  if (!mailto) {
-    return null;
-  }
-
   const body = `${anrede(customer)}%0D%0AIm Anhang befindet sich Ihre Rechnung.%0D%0A`;
 
   const href = `mailto:${mailto}?subject=Ihre Rechnung&body=${body}`;
@@ -22,7 +18,9 @@ export default function EmailLink() {
   return (
     <Box>
       <a href={href}>
-        <Button variant="contained">E-Mail</Button>
+        <Button disableElevation variant="outlined">
+          E-Mail
+        </Button>
       </a>
     </Box>
   );

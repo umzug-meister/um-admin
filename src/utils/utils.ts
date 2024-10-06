@@ -1,6 +1,5 @@
-import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
-
 import { addDays } from 'date-fns';
+import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 
@@ -89,12 +88,26 @@ export function getParseableDate(date: any) {
 }
 
 export function getCustomerFullname(order?: Order | null) {
-  if (order?.customer) {
-    return `${order?.customer?.salutation || ''} ${order.customer?.firstName || ''} ${
-      order.customer?.lastName || ''
-    }`.trim();
+  if (!order?.customer) {
+    return '';
   }
-  return '';
+  const arr = [];
+  const { company, firstName, lastName, salutation } = order.customer;
+
+  if (salutation) {
+    arr.push(salutation);
+  }
+  if (firstName) {
+    arr.push(firstName.trim());
+  }
+  if (lastName) {
+    arr.push(lastName.trim());
+  }
+  if (company) {
+    arr.push(`(${company.trim()})`);
+  }
+
+  return arr.join(' ');
 }
 
 export function getCustomerStreet(order?: Order | null) {
@@ -121,7 +134,10 @@ export function euroValue(value: string | number | undefined) {
     toFormat = value.replace(',', '.');
   }
 
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(Number(toFormat));
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(Number(toFormat));
 }
 
 export function numberValue(value: string | number | undefined) {
@@ -247,3 +263,7 @@ export function getColorBySrc(src: OrderSrcType) {
       return '#116442';
   }
 }
+
+export const getAmountOfParkingSlots = (order: Order): number => {
+  return Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0);
+};

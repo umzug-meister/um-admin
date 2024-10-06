@@ -1,11 +1,11 @@
 import { Box } from '@mui/system';
 
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
-export function RootBox(props: React.PropsWithChildren) {
+export function RootBox({ children }: Readonly<PropsWithChildren>) {
   return (
     <Box p={1} m={'auto'} sx={{ maxWidth: '1800px' }} display="flex" flexDirection="column" gap={2}>
-      {props.children}
+      {children}
     </Box>
   );
 }

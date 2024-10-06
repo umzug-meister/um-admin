@@ -1,4 +1,5 @@
-import { Grid2Props, Grid2 } from '@mui/material';
+import { Grid2, Grid2Props } from '@mui/material';
+
 import { PropsWithChildren } from 'react';
 
 export function GridItem(props: Readonly<PropsWithChildren<Grid2Props>>) {
