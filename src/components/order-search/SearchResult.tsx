@@ -60,11 +60,7 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
 }
 
 function OrderResources({ order }: Readonly<{ order: Order }>) {
-  const {
-    timeBased: { basis, hours },
-    transporterNumber,
-    workersNumber,
-  } = order;
+  const { timeBased, transporterNumber, workersNumber } = order;
 
   const chipProps: ChipProps = {
     size: 'small',
@@ -78,8 +74,8 @@ function OrderResources({ order }: Readonly<{ order: Order }>) {
     <Box mt={1} display={'flex'} gap={2}>
       {Boolean(workersNumber) && <Chip {...chipProps} label={`Mann: ${workersNumber}`} />}
       {Boolean(transporterNumber) && <Chip {...chipProps} label={`LKW: ${transporterNumber}`} />}
-      {Boolean(hours) && <Chip {...chipProps} label={`Stunden: ${hours}`} />}
-      {Boolean(basis) && <Chip {...chipProps} label={`${basis}€`} />}
+      {Boolean(timeBased?.hours) && <Chip {...chipProps} label={`Stunden: ${timeBased.hours}`} />}
+      {Boolean(timeBased?.basis) && <Chip {...chipProps} label={`${timeBased.basis}€`} />}
       {Boolean(parkingSlots) && <Chip {...chipProps} label={`HVZ: ${parkingSlots}`} />}
     </Box>
   );
