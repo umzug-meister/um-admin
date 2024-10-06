@@ -41,7 +41,7 @@ export default function TopBar() {
 
   const mainAction = useMemo(() => {
     return (
-      <>
+      <Box display={'flex'} gap={1}>
         <IconButton
           color="inherit"
           onClick={() => {
@@ -57,7 +57,7 @@ export default function TopBar() {
             </IconButton>
           </Link>
         )}
-      </>
+      </Box>
     );
   }, [location]);
 

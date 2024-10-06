@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '../../store';
-import { AppSearch, addSearchResults } from '../../store/searchReducer';
+import { addSearchResults } from '../../store/searchReducer';
 import OrderSearchBar from '../shared/search/OrderSearchBar';
 import { useOrderSearch } from '../shared/search/orderSearchQuery';
 import { SearchResult } from './SearchResult';
@@ -30,9 +30,7 @@ export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => 
     }
   };
 
-  const appSearch = useSelector<AppState, AppSearch>((s) => s.search);
-
-  const lastSearchValues = Object.keys(appSearch);
+  const appSearch = useSelector<AppState, string[]>((s) => s.search.all);
 
   const onClear = () => {
     if (results.length > 0) {
@@ -52,7 +50,7 @@ export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => 
         <Box display="flex" flexDirection={'column'} gap={2}>
           {results.length === 0 && (
             <Box display="flex" gap={2}>
-              {lastSearchValues.map((searchValue) => (
+              {appSearch.map((searchValue) => (
                 <Chip
                   color="primary"
                   variant="outlined"

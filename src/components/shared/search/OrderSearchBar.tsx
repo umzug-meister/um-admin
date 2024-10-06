@@ -49,7 +49,7 @@ export default function OrderSearchBar({ onClear, onSearch }: Readonly<Props>) {
         },
       }}
       autoFocus
-      placeholder={'Suchen...'}
+      placeholder={'Auftrag suchen...'}
       onKeyDown={({ key }) => {
         if (key === 'Enter') {
           handleSearchRequest();

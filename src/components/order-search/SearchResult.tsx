@@ -50,7 +50,7 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
               )}
             </Box>
             <Box display={'flex'} justifyContent={'flex-end'}>
-              <LaunchOutlinedIcon color="primary" fontSize="small" />
+              <LaunchOutlinedIcon color="disabled" fontSize="small" />
             </Box>
           </Box>
         </Box>
@@ -69,6 +69,7 @@ function OrderResources({ order }: Readonly<{ order: Order }>) {
   const chipProps: ChipProps = {
     size: 'small',
     variant: 'outlined',
+    color: 'info',
   };
 
   const parkingSlots = getAmountOfParkingSlots(order);

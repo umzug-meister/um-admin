@@ -7,14 +7,15 @@ export function KeyboardIcon({ label }: Readonly<{ label: React.ReactNode }>) {
     <Box
       display={'flex'}
       sx={{
-        width: 'min-content',
+        width: 'max-content',
         fontSize: '12px!important',
         paddingX: '2px',
-        border: 2,
-        color: 'grey.600',
+        border: 1,
+        color: 'grey.800',
+        backgroundColor: 'white',
         borderColor: 'divider',
         borderRadius: 2,
-        textTransform: 'lowercase',
+        textTransform: 'capitalize',
       }}
     >
       {label}

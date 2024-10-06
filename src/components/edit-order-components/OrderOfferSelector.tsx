@@ -12,7 +12,6 @@ import { euroValue } from '../../utils/utils';
 import { AppCard } from '../shared/AppCard';
 import { AppDataGrid } from '../shared/AppDataGrid';
 import OfferNumberRenderer from '../shared/OfferNumberRenderer';
-import Pulsating from '../shared/Pulsating';
 
 import { AppPrice } from 'um-types';
 
@@ -40,8 +39,6 @@ export default function OrderOfferSelector() {
       data = data.filter((d) => d.includedHours == timeBased.hours);
     }
   }
-
-  const foundOffer = data.length === 1;
 
   const setPrice = useCallback(
     (id: number | string) => {
@@ -112,13 +109,7 @@ export default function OrderOfferSelector() {
         headerName: '',
         width: 120,
         renderCell({ value }) {
-          return foundOffer ? (
-            <Pulsating>
-              <Button onClick={() => setPrice(value)} variant="contained">
-                Setzen
-              </Button>
-            </Pulsating>
-          ) : (
+          return (
             <Button onClick={() => setPrice(value)} variant="outlined">
               Setzen
             </Button>
@@ -127,7 +118,7 @@ export default function OrderOfferSelector() {
       },
     ];
     return cols;
-  }, [setPrice, foundOffer]);
+  }, [setPrice]);
 
   return (
     <Grid2 size={12}>

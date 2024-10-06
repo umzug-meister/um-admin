@@ -12,8 +12,9 @@ const searchSlice = createSlice({
   reducers: {
     addSearchResults(state, action: PayloadAction<{ searchValue: string }>) {
       const { searchValue } = action.payload;
-
-      state.all.push(searchValue);
+      if (!state.all.includes(searchValue)) {
+        state.all.push(searchValue);
+      }
     },
   },
 });

@@ -1,6 +1,5 @@
 import { Box, Button, Chip, Grid2, Stack } from '@mui/material';
 
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -19,7 +18,6 @@ import { AppGridContainer } from './AppGridContainer';
 import { AppTextField } from './AppTextField';
 import CalculationsView from './CalculationsView';
 import { PdfSaveButton } from './PdfSaveButton';
-import Pulsating from './Pulsating';
 
 import { Rechnung } from 'um-types';
 
@@ -42,8 +40,6 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Rea
 
   const location = useLocation();
 
-  const [showAnimation, setShowAnimation] = useState(false);
-
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
     onPropChange('text', text.replace('{{date}}', date));
@@ -59,7 +55,6 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Rea
     if (isOrderEdit && currentOrder !== null) {
       return saveOrder(currentOrder).then((order) => {
         if (order !== null) {
-          setShowAnimation(true);
           return generateRechnung(rechnung);
         }
       });
@@ -115,17 +110,12 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Rea
       <Grid2 size={12}>
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
-          {isOrderEdit &&
-            (showAnimation ? (
-              <Pulsating>
-                <EmailLink />
-              </Pulsating>
-            ) : (
-              <EmailLink />
-            ))}
+
+          <EmailLink />
+
           {deleteAccounting && (
             <Button variant="outlined" color="error" onClick={onClearRequest}>
-              Löschen
+              Alles Löschen
             </Button>
           )}
         </Box>
