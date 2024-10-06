@@ -45,7 +45,7 @@ export function AppDataGrid({
   paginationMode = 'server',
   disablePagination,
   allowDeletion,
-  loading,
+  loading = false,
   onDelete,
   setPaginationModel,
   onUpdate,
@@ -104,7 +104,7 @@ export function AppDataGrid({
           autoHeight
           columns={gridColumns}
           rows={data}
-          rowCount={10000}
+          rowCount={paginationMode === 'server' ? 10000 : undefined}
           paginationMode={paginationMode}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}

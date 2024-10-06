@@ -137,6 +137,7 @@ export default function FurnitureRoute() {
         <AppCard title="Möbel">
           <AddButton onClick={onAdd} />
           <AppDataGrid
+            loading={false}
             columns={columns}
             data={furniture}
             paginationMode="client"

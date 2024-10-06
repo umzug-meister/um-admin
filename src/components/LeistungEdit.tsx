@@ -1,6 +1,6 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import { Autocomplete, Box, Grid2, IconButton, Tooltip } from '@mui/material';
+import { Autocomplete, Box, Grid2, IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
 import { useMemo } from 'react';
@@ -113,9 +113,7 @@ export default function LeistungEdit({
       <Box display={'flex'}>
         <AddButton onClick={addLst} />
         <Box>
-          <Tooltip title="Alle löschen">
-            <DeleteButton onDelete={handleClear} />
-          </Tooltip>
+          <DeleteButton onDelete={handleClear} />
         </Box>
       </Box>
     </>

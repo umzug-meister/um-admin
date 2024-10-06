@@ -36,11 +36,15 @@ export function AppTextField(props: TextFieldProps) {
 
   return (
     <TextField
-      inputProps={{
-        'data-hj-allow': '',
+      slotProps={{
+        htmlInput: {
+          'data-hj-allow': '',
+        },
+        inputLabel: {
+          ...InputLabelProps,
+        },
       }}
       minRows={8}
-      InputLabelProps={InputLabelProps}
       {...standardProps}
       {...props}
       value={value}
