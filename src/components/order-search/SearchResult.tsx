@@ -1,10 +1,16 @@
-import { Box, Card, Chip, ChipProps, Typography, useTheme } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Order } from 'um-types';
-import { getAmountOfParkingSlots, getCustomerFullname, getPrintableDate } from '../../utils/utils';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
+import { Box, Card, Chip, ChipProps, Typography, useTheme } from '@mui/material';
 
-const format = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
+import { Link } from 'react-router-dom';
+
+import { getAmountOfParkingSlots, getCustomerFullname, getPrintableDate } from '../../utils/utils';
+
+import { Order } from 'um-types';
+
+const format = new Intl.DateTimeFormat('de-DE', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+});
 
 export function SearchResult({ order }: Readonly<{ order: Order }>) {
   const { id, date, from, to } = order;

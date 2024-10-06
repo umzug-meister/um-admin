@@ -94,7 +94,11 @@ export function AppDataGrid({
       >
         <Backdrop
           open={loading || false}
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer - 1, position: 'absolute' }}
+          sx={{
+            color: '#fff',
+            zIndex: (theme) => theme.zIndex.drawer - 1,
+            position: 'absolute',
+          }}
         >
           <CircularProgress color="primary" />
         </Backdrop>

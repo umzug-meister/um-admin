@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import { Button } from '@mui/material';
+
+import { Link } from 'react-router-dom';
 
 interface Props {
   id: string | number | undefined;

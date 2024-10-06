@@ -66,7 +66,14 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
   );
 
   const service: Partial<Service> = useMemo(() => {
-    return { hourPrice: hourPriceValue, ridingCosts: ridingCostsValue, t35, t75: 0, workers, tag: TAG };
+    return {
+      hourPrice: hourPriceValue,
+      ridingCosts: ridingCostsValue,
+      t35,
+      t75: 0,
+      workers,
+      tag: TAG,
+    };
   }, [hourPriceValue, ridingCostsValue, t35, workers]);
 
   const onRidingCostsChange = () => {

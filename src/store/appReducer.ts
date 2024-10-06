@@ -1,6 +1,6 @@
 import { AppState } from '.';
-import { appRequest } from '../api/fetch-client';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 import { AppOptions, OptionName } from '../app-types';
 import {
   createDueDate,
@@ -12,7 +12,7 @@ import {
   getPrintableDate,
 } from '../utils/utils';
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { set } from 'lodash';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
@@ -300,7 +300,14 @@ const appSlice = createSlice({
           customerPlz: getCustomerPLZ(curOrder),
           customerStreet: getCustomerStreet(curOrder),
           entries: invoiceLeistungen,
-          dueDates: [createDueDate({ date: getNextDueDate({}), index: 0, sum: 0, text: '' })],
+          dueDates: [
+            createDueDate({
+              date: getNextDueDate({}),
+              index: 0,
+              sum: 0,
+              text: '',
+            }),
+          ],
         } as Rechnung;
 
         set(curOrder, ['rechnung'], newInvoice);

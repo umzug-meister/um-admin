@@ -1,27 +1,28 @@
-import { Box, Chip, DialogContent, DialogTitle, Typography } from '@mui/material';
-import OrderSearchBar from '../shared/search/OrderSearchBar';
-import { useCallback, useState } from 'react';
-import { useOrderSearch } from '../shared/search/orderSearchQuery';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, AppState } from '../../store';
-import { addSearchResults, AppSearch } from '../../store/searchReducer';
-import { Order } from 'um-types';
-import { SearchResult } from './SearchResult';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import { Box, Chip, DialogContent, DialogTitle, Typography } from '@mui/material';
+
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { AppDispatch, AppState } from '../../store';
+import { AppSearch, addSearchResults } from '../../store/searchReducer';
+import OrderSearchBar from '../shared/search/OrderSearchBar';
+import { useOrderSearch } from '../shared/search/orderSearchQuery';
+import { SearchResult } from './SearchResult';
+
+import { Order } from 'um-types';
 
 export function OrderSearchDialogContent() {
   const [results, setResults] = useState<Order[]>([]);
 
-  const onFinally = () => {};
-
-  const onSearchFn = useOrderSearch(onFinally);
+  const onSearchFn = useOrderSearch();
   const dispatch = useDispatch<AppDispatch>();
 
   const onSearch = (searchValue: string) => {
     if (searchValue) {
       onSearchFn(searchValue).then((results) => {
         setResults(results);
-        dispatch(addSearchResults({ results, searchValue }));
+        dispatch(addSearchResults({ searchValue }));
       });
     }
   };
@@ -34,13 +35,6 @@ export function OrderSearchDialogContent() {
     setResults([]);
   }, []);
 
-  const getResultsFromStore = (searchValue: string) => {
-    const searchResults = appSearch[searchValue];
-    if (searchResults) {
-      setResults(searchResults);
-    }
-  };
-
   return (
     <>
       <DialogTitle>
@@ -52,12 +46,13 @@ export function OrderSearchDialogContent() {
             <Box display="flex" gap={2}>
               {lastSearchValues.map((searchValue) => (
                 <Chip
+                  color="primary"
                   variant="outlined"
                   size="small"
                   label={searchValue}
                   key={searchValue}
-                  deleteIcon={<HistoryOutlinedIcon />}
-                  onClick={() => getResultsFromStore(searchValue)}
+                  icon={<HistoryOutlinedIcon />}
+                  onClick={() => onSearch(searchValue)}
                 />
               ))}
             </Box>

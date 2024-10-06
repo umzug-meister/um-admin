@@ -1,20 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order } from 'um-types';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export type AppSearch = {
-  [searchvalue: string]: Order[];
+  all: string[];
 };
 
-const initialState: AppSearch = {};
+const initialState: AppSearch = { all: [] };
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    addSearchResults(state, action: PayloadAction<{ searchValue: string; results: Order[] }>) {
-      const { results, searchValue } = action.payload;
+    addSearchResults(state, action: PayloadAction<{ searchValue: string }>) {
+      const { searchValue } = action.payload;
 
-      state[searchValue] = results;
+      state.all.push(searchValue);
     },
   },
 });

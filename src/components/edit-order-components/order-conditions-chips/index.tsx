@@ -10,9 +10,9 @@ import { AppDispatch } from '../../../store';
 import { pushLeistung } from '../../../store/appReducer';
 import { euroValue } from '../../../utils/utils';
 import { AppCard } from '../../shared/AppCard';
+import { calculateRideCostsByKm, getParkingsSlotsAmount, isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
 import { AppPrice, MLeistung, TimeBasedPrice } from 'um-types';
-import { calculateRideCostsByKm, getParkingsSlotsAmount, isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
 export function OrderConditionsChips() {
   const dispatch = useDispatch<AppDispatch>();
@@ -95,7 +95,11 @@ export function OrderConditionsChips() {
     if (localMovement) {
       return offerRideCosts;
     }
-    const kmRideCosts = calculateRideCostsByKm({ distance, kmPrice, transporterAmount });
+    const kmRideCosts = calculateRideCostsByKm({
+      distance,
+      kmPrice,
+      transporterAmount,
+    });
     return Math.max(offerRideCosts, kmRideCosts);
   };
 

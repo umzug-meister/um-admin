@@ -1,34 +1,20 @@
-import { Order } from 'um-types';
-import { appRequest } from '../../../api/fetch-client';
 import { Urls } from '../../../api/Urls';
+import { appRequest } from '../../../api/fetch-client';
 
-export function useOrderSearch(onFinally: () => void) {
+import { Order } from 'um-types';
+
+export function useOrderSearch(onFinally?: () => void) {
   return function (searchValue: string): Promise<Order[]> {
-    const id = Number(searchValue);
-    if (isNaN(id)) {
-      return appRequest('get')(Urls.orderSearch(searchValue))
-        .then((orders) => {
-          if (Array.isArray(orders)) {
-            return orders;
-          } else {
-            return [];
-          }
-        })
-        .finally(onFinally);
-    } else {
-      return appRequest('get')(Urls.orderById(id))
-        .then((order) => {
-          if (order) {
-            return [order];
-          } else {
-            return [];
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          return [];
-        })
-        .finally(onFinally);
-    }
+    const url = isNaN(Number(searchValue)) ? Urls.orderSearch(searchValue) : Urls.orderById(searchValue);
+
+    return appRequest('get')(url)
+      .then((result) => (Array.isArray(result) ? result : [result]))
+
+      .catch((e) => {
+        console.error(e);
+        return [];
+      })
+
+      .finally(onFinally);
   };
 }

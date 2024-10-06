@@ -8,8 +8,9 @@ import { EmailExtraHours } from './EmailExtraHours';
 import { EmailPersons } from './EmailPersons';
 import { EmailServicesTable } from './EmailServicesTable';
 
-import { Order } from 'um-types';
 import { addDays } from 'date-fns';
+import { Order } from 'um-types';
+
 interface CoreProps {
   order: Order;
 }

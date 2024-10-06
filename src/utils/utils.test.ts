@@ -7,9 +7,8 @@ import {
   getPrintableDate,
 } from './utils';
 
-import { expect, test, describe } from 'vitest';
-
 import { Order } from 'um-types';
+import { describe, expect, test } from 'vitest';
 
 describe('euroValue', () => {
   test('undefined', () => {
@@ -72,7 +71,9 @@ describe('getCustomerFullname', () => {
 
   test('customer full', () => {
     expect(
-      getCustomerFullname({ customer: { firstName: 'Max', lastName: 'Meier', salutation: 'Herr' } } as Order),
+      getCustomerFullname({
+        customer: { firstName: 'Max', lastName: 'Meier', salutation: 'Herr' },
+      } as Order),
     ).toBe('Herr Max Meier');
   });
 });
@@ -89,17 +90,28 @@ describe('getCustomerStreet', () => {
   });
 
   test('has street', () => {
-    expect(getCustomerStreet({ to: { address: 'Street 2, 80804 Muenchen' } } as Order)).toBe('Street 2');
+    expect(
+      getCustomerStreet({
+        to: { address: 'Street 2, 80804 Muenchen' },
+      } as Order),
+    ).toBe('Street 2');
   });
 
   test('has street, with country', () => {
-    expect(getCustomerStreet({ to: { address: 'Street 2, 80804 Muenchen, Deutschland' } } as Order)).toBe('Street 2');
+    expect(
+      getCustomerStreet({
+        to: { address: 'Street 2, 80804 Muenchen, Deutschland' },
+      } as Order),
+    ).toBe('Street 2');
   });
 });
 
 describe('getMountOfParkingSlots', () => {
   test('both from and to have parking slots', () => {
-    const order = { from: { parkingSlot: true }, to: { parkingSlot: true } } as Order;
+    const order = {
+      from: { parkingSlot: true },
+      to: { parkingSlot: true },
+    } as Order;
     expect(getAmountOfParkingSlots(order)).toBe(2);
   });
 
@@ -109,7 +121,10 @@ describe('getMountOfParkingSlots', () => {
   });
 
   test('only to has parking slot', () => {
-    const order = { from: { parkingSlot: false }, to: { parkingSlot: true } } as Order;
+    const order = {
+      from: { parkingSlot: false },
+      to: { parkingSlot: true },
+    } as Order;
     expect(getAmountOfParkingSlots(order)).toBe(1);
   });
 
@@ -123,20 +138,29 @@ describe('getCustomerFullname', () => {
   test('customer with all fields', () => {
     expect(
       getCustomerFullname({
-        customer: { salutation: 'Frau', firstName: 'Anna', lastName: 'Schmidt', company: 'ABC GmbH' },
+        customer: {
+          salutation: 'Frau',
+          firstName: 'Anna',
+          lastName: 'Schmidt',
+          company: 'ABC GmbH',
+        },
       } as Order),
     ).toBe('Frau Anna Schmidt (ABC GmbH)');
   });
 
   test('customer without salutation', () => {
     expect(
-      getCustomerFullname({ customer: { firstName: 'John', lastName: 'Doe', company: 'XYZ Inc.' } } as Order),
+      getCustomerFullname({
+        customer: { firstName: 'John', lastName: 'Doe', company: 'XYZ Inc.' },
+      } as Order),
     ).toBe('John Doe (XYZ Inc.)');
   });
 
   test('customer without company', () => {
     expect(
-      getCustomerFullname({ customer: { salutation: 'Mr.', firstName: 'James', lastName: 'Bond' } } as Order),
+      getCustomerFullname({
+        customer: { salutation: 'Mr.', firstName: 'James', lastName: 'Bond' },
+      } as Order),
     ).toBe('Mr. James Bond');
   });
 
@@ -155,7 +179,11 @@ describe('getCustomerFullname', () => {
   test('customer with whitespace in names', () => {
     expect(
       getCustomerFullname({
-        customer: { firstName: '  John  ', lastName: '  Doe  ', company: '  ABC Ltd.  ' },
+        customer: {
+          firstName: '  John  ',
+          lastName: '  Doe  ',
+          company: '  ABC Ltd.  ',
+        },
       } as Order),
     ).toBe('John Doe (ABC Ltd.)');
   });

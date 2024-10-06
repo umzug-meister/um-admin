@@ -1,22 +1,22 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { Box } from '@mui/material';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
+import { EditOrderButton } from '../components/EditOrderButton';
 import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import OrderSearchBar from '../components/shared/search/OrderSearchBar';
+import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
 import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Order } from 'um-types';
-import { EditOrderButton } from '../components/EditOrderButton';
-import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
 
 const PAGE_SIZE = 10;
 
@@ -45,6 +45,7 @@ export default function Orders() {
 
   const onSearch = useCallback(
     (searchValue: string) => {
+      setLoading(true);
       onSearchFn(searchValue).then((orders) => {
         if (orders.length === 1 && !isNaN(Number(searchValue))) {
           const id = orders[0].id;
@@ -223,7 +224,10 @@ export default function Orders() {
         data={data}
         columns={orderColumns}
         setPaginationModel={(model) => setPage(model.page)}
-        paginationModel={{ pageSize: PAGE_SIZE, page: Number(searchParams.get('page')) }}
+        paginationModel={{
+          pageSize: PAGE_SIZE,
+          page: Number(searchParams.get('page')),
+        }}
       />
     </RootBox>
   );

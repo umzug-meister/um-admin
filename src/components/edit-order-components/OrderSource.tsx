@@ -1,11 +1,12 @@
 import { Alert, Grid2 } from '@mui/material';
 
-import { orderSrcTypes } from 'um-types/constants';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 import CopyOfLink from './CopyOfLink';
 import { OrderTimestamp } from './OrderTimestamp';
+
+import { orderSrcTypes } from 'um-types/constants';
 
 export default function OrderSource() {
   const order = useCurrentOrder();

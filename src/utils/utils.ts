@@ -1,6 +1,5 @@
-import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
-
 import { addDays } from 'date-fns';
+import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 
@@ -135,7 +134,10 @@ export function euroValue(value: string | number | undefined) {
     toFormat = value.replace(',', '.');
   }
 
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(Number(toFormat));
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(Number(toFormat));
 }
 
 export function numberValue(value: string | number | undefined) {

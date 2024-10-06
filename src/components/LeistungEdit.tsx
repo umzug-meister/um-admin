@@ -78,7 +78,13 @@ export default function LeistungEdit({
   const onLeistungSelect = (lst: GridRowService, index: number) => {
     const current = cloneDeep(leistungen);
     const curLst = current[index];
-    const nextLst: MLeistung = { ...curLst, colli: 1, price: lst.price, desc: lst.name, sum: lst.price };
+    const nextLst: MLeistung = {
+      ...curLst,
+      colli: 1,
+      price: lst.price,
+      desc: lst.name,
+      sum: lst.price,
+    };
 
     current[index] = nextLst;
     update(current);

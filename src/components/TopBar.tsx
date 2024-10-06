@@ -4,10 +4,10 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import RootActions from './RootActions';
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
 import OrderSearch from './order-search';
-import RootActions from './RootActions';
 
 export default function TopBar() {
   const [open, setOpen] = useState(false);

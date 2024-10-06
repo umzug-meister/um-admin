@@ -103,7 +103,10 @@ function DrawerItem({ to, primaryText, onClose, children }: React.PropsWithChild
   return (
     <NavLink
       style={({ isActive }) => {
-        return { textDecoration: 'none', color: isActive ? theme.palette.primary.main : 'unset' };
+        return {
+          textDecoration: 'none',
+          color: isActive ? theme.palette.primary.main : 'unset',
+        };
       }}
       to={to}
     >

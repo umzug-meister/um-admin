@@ -4,8 +4,8 @@ import { furnitureReducer } from './furnitureReducer';
 import { searchReducer } from './searchReducer';
 import { servicesReducer } from './servicesReducer';
 
-import { createStateSyncMiddleware, initMessageListener } from 'redux-state-sync';
 import { configureStore } from '@reduxjs/toolkit';
+import { createStateSyncMiddleware, initMessageListener } from 'redux-state-sync';
 
 const store = configureStore({
   reducer: {
