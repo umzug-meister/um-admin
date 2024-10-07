@@ -254,13 +254,13 @@ export function getColorBySrc(src: OrderSrcType) {
       return '#5e257a';
 
     case 'express':
-      return '#77caa8';
+      return '#addfcb';
     case 'individuelle':
-      return '#33b07d';
+      return '#70c8a4';
     case 'Moebelliste':
-      return '#199663';
+      return '#33b07d';
     case 'UmzugRuckZuck':
-      return '#116442';
+      return '#247b58';
   }
 }
 
