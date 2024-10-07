@@ -30,7 +30,14 @@ export function Rechnung() {
   }, [dispatch]);
 
   if (order?.rechnung) {
-    return <RechnungEditor rechnung={order.rechnung} onPropChange={onPropChange} deleteAccounting={deleteAccounting} />;
+    return (
+      <RechnungEditor
+        rechnung={order.rechnung}
+        onPropChange={onPropChange}
+        deleteAccounting={deleteAccounting}
+        relocationDate={order.date}
+      />
+    );
   }
 
   return <AddButton onClick={onInitrechnung} />;

@@ -5,7 +5,6 @@ import { searchReducer } from './searchReducer';
 import { servicesReducer } from './servicesReducer';
 
 import { configureStore } from '@reduxjs/toolkit';
-import { createStateSyncMiddleware, initMessageListener } from 'redux-state-sync';
 
 const store = configureStore({
   reducer: {
@@ -15,13 +14,7 @@ const store = configureStore({
     app: appReducer,
     search: searchReducer,
   },
-  //@ts-ignore
-  middleware(getDefaultMiddleware) {
-    return getDefaultMiddleware().concat(createStateSyncMiddleware());
-  },
 });
-
-initMessageListener(store);
 
 export { store };
 

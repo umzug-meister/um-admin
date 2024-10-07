@@ -9,7 +9,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
 import { AppDispatch } from '../../store';
 import { updateOption } from '../../store/appReducer';
-import { getPrintableDate } from '../../utils/utils';
+import { calculateNumbers, euroValue, getPrintableDate } from '../../utils/utils';
 import LeistungEdit from '../LeistungEdit';
 import EmailLink from '../accounting-components/EmailLink';
 import { AppCard } from './AppCard';
@@ -25,13 +25,14 @@ interface Props {
   rechnung: Rechnung;
   onPropChange(prop: keyof Rechnung, value: any): void;
   deleteAccounting?: () => void;
+  relocationDate?: string;
 }
 
 type Labels = {
   [path: string]: string;
 };
 
-export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Readonly<Props>) {
+export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, relocationDate }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const currentOrder = useCurrentOrder();
@@ -42,7 +43,16 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting }: Rea
 
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
-    onPropChange('text', text.replace('{{date}}', date));
+
+    const { brutto: sum } = calculateNumbers(rechnung.entries);
+
+    const paymentDate = relocationDate ? getPrintableDate(relocationDate) : '??';
+    const preparedText = text
+      .replace('{{date}}', date)
+      .replace('{{sum}}', euroValue(sum))
+      .replace('{{paymentDate}}', paymentDate);
+
+    onPropChange('text', preparedText);
   };
 
   const isOrderEdit = location.pathname.startsWith('/edit');
@@ -142,7 +152,7 @@ interface InvoiceFieldProps {
   multiline?: true;
 }
 
-function InvoiceField({ onChange, path, rechnung, as, multiline }: InvoiceFieldProps) {
+function InvoiceField({ onChange, path, rechnung, as, multiline }: Readonly<InvoiceFieldProps>) {
   if (as === 'date') {
     return (
       <AppDateField
@@ -164,11 +174,11 @@ function InvoiceField({ onChange, path, rechnung, as, multiline }: InvoiceFieldP
 }
 
 const CHIPS: any = {
-  Bar: 'Der Rechnungsbetrag wurde bereits in Bar bezahlt.',
-  Bank: 'Der Rechnungsbetrag wurde per Überweisung bezahlt.',
+  Bar: 'Der Rechnungsbetrag in Höhe von {{sum}} wurde am {{paymentDate}} in Bar bezahlt.',
+  Bank: 'Der Rechnungsbetrag in Höhe von {{sum}} wurde am ?? per Überweisung bezahlt.',
   'Sofort fällig': 'Die Zahlung ist sofort ohne Abzüge fällig.',
   'Bitte überweisen':
-    'Bitte überweisen Sie den offenen Gesamtbetrag unter Angabe Ihrer Rechnungsnummer bis zum {{date}} (Zahlungseingang) auf unser Konto.',
+    'Bitte überweisen Sie den offenen Gesamtbetrag in Höhe von {{sum}} unter Angabe Ihrer Rechnungsnummer bis zum {{date}} (Zahlungseingang) auf unser Konto.',
   'Teil-Teil':
     'Der Teilbetrag in Höhe von ?? € wurde per Überweisung bezahlt.\nDer Teilbetrag in Höhe von ?? € wurde in Bar bezahlt.',
 };
@@ -177,11 +187,11 @@ interface InvoiceTextTemplatesProps {
   setText(text: string): void;
 }
 
-function InvoiceTextTemplates({ setText }: InvoiceTextTemplatesProps) {
+function InvoiceTextTemplates({ setText }: Readonly<InvoiceTextTemplatesProps>) {
   return (
     <Stack direction="row" spacing={2}>
-      {Object.keys(CHIPS).map((k, idx) => {
-        return <Chip key={idx} label={k} onClick={() => setText(CHIPS[k])} />;
+      {Object.keys(CHIPS).map((k) => {
+        return <Chip key={k} label={k} onClick={() => setText(CHIPS[k])} />;
       })}
     </Stack>
   );
