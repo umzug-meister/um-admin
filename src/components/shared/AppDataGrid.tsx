@@ -96,9 +96,6 @@ export function AppDataGrid({
         <Loading open={loading} />
         <StyledDataGrid
           rowHeight={45}
-          localeText={{
-            noResultsOverlayLabel: 'Keine Ergebnisse',
-          }}
           getRowClassName={getRowClassName}
           disableRowSelectionOnClick
           autoHeight
