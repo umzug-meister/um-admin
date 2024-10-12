@@ -54,7 +54,10 @@ function addPaymentInfo(factory: PdfBuilder, dueDate?: DueDate, lastDueDate?: Du
   if (dueDate && lastDueDate) {
     factory.addSpace(5);
 
-    const interval = { start: parseDateString(lastDueDate.date), end: parseDateString(dueDate.date) };
+    const interval = {
+      start: parseDateString(lastDueDate.date),
+      end: parseDateString(dueDate.date),
+    };
 
     const verzug = eachDayOfInterval(interval).length;
 

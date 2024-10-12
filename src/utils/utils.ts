@@ -1,4 +1,5 @@
-import { Address, Customer, DueDate, MLeistung, Order, Rechnung } from 'um-types';
+import { addDays } from 'date-fns';
+import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 
@@ -46,23 +47,27 @@ interface GetNextDueDateParam {
 }
 
 export function getNextDueDate({ date = new Date() }: GetNextDueDateParam) {
-  return date.addDays(WAITING_DAYS).toLocaleDateString('ru');
+  return addDays(date, WAITING_DAYS).toLocaleDateString('ru');
 }
+
+const PRINT_DATE_REGEX = /\d{2}.\d{2}.\d{4}/gm;
+const PARSEABLE_DATE_REGEX = /\d{4}-\d{2}-\d{2}/gm;
 
 export function getPrintableDate(date: string | undefined, long = false) {
   if (!date || date === '') {
     return '';
   }
-  const regex = /[0-9]{2}.[0-9]{2}.[0-9]{4}/gm;
 
-  const isPrintable = regex.test(date);
+  const isPrintable = PRINT_DATE_REGEX.test(date);
+
+  if (isPrintable) return date;
 
   if (long) {
     return new Intl.DateTimeFormat('de-DE', {
       dateStyle: 'full',
     }).format(new Date(getParseableDate(date)));
   }
-  return isPrintable ? date : new Date(date).toLocaleDateString('ru');
+  return new Date(date).toLocaleDateString('ru');
 }
 
 export function getParseableDate(date: any) {
@@ -70,9 +75,7 @@ export function getParseableDate(date: any) {
     return '';
   }
 
-  const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/gm;
-
-  const parseable = regex.test(date);
+  const parseable = PARSEABLE_DATE_REGEX.test(date);
   if (parseable) {
     return date;
   }
@@ -85,12 +88,26 @@ export function getParseableDate(date: any) {
 }
 
 export function getCustomerFullname(order?: Order | null) {
-  if (order?.customer) {
-    return `${order?.customer?.salutation || ''} ${order.customer?.firstName || ''} ${
-      order.customer?.lastName || ''
-    }`.trim();
+  if (!order?.customer) {
+    return '';
   }
-  return '';
+  const arr = [];
+  const { company, firstName, lastName, salutation } = order.customer;
+
+  if (salutation) {
+    arr.push(salutation);
+  }
+  if (firstName) {
+    arr.push(firstName.trim());
+  }
+  if (lastName) {
+    arr.push(lastName.trim());
+  }
+  if (company) {
+    arr.push(`(${company.trim()})`);
+  }
+
+  return arr.join(' ');
 }
 
 export function getCustomerStreet(order?: Order | null) {
@@ -117,7 +134,10 @@ export function euroValue(value: string | number | undefined) {
     toFormat = value.replace(',', '.');
   }
 
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(Number(toFormat));
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(Number(toFormat));
 }
 
 export function numberValue(value: string | number | undefined) {
@@ -217,4 +237,33 @@ export const getOrtFromAdress = (orderAddress: Address) => {
     return ort?.trim() || '';
   }
   return ' ';
+};
+
+export function getColorBySrc(src: OrderSrcType) {
+  switch (src) {
+    case 'check24':
+      return '#0271c2';
+
+    case 'obi':
+      return '#ff7e21';
+
+    case 'moebeltransport24':
+      return '#f40009';
+
+    case 'myhammer':
+      return '#5e257a';
+
+    case 'express':
+      return '#addfcb';
+    case 'individuelle':
+      return '#70c8a4';
+    case 'Moebelliste':
+      return '#33b07d';
+    case 'UmzugRuckZuck':
+      return '#247b58';
+  }
+}
+
+export const getAmountOfParkingSlots = (order: Order): number => {
+  return Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0);
 };

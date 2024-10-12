@@ -6,10 +6,10 @@ import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { AppDispatch } from '../../store';
 import { updateOrderService } from '../../store/appReducer';
+import { euroValue } from '../../utils/utils';
 import { AppDataGrid } from '../shared/AppDataGrid';
 
 import { AppServiceTag, OrderService } from 'um-types';
-import { euroValue } from '../../utils/utils';
 
 interface Props {
   tag: AppServiceTag;

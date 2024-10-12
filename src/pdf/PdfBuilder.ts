@@ -170,7 +170,11 @@ export default class PdfBuilder {
       theme: 'grid',
       columnStyles,
       headStyles: { fillColor: PRIMARY_LIGHT, textColor: WHITE, ...headStyles },
-      bodyStyles: { halign: 'left', textColor: [0, 0, 0], lineColor: PRIMARY_LIGHT },
+      bodyStyles: {
+        halign: 'left',
+        textColor: [0, 0, 0],
+        lineColor: PRIMARY_LIGHT,
+      },
       styles: { fontSize: 9, cellPadding: 2 },
       startY: this.y,
       margin: {
@@ -279,12 +283,18 @@ export default class PdfBuilder {
     lh = lh ? lh : this.doc.getLineHeight();
     let nexty = Math.ceil(dims.w / this.maxWidth) * lh + this.y + lh;
     if (nexty <= this.maxHeight) {
-      this.doc.text(text, this.x, this.y + lh, { maxWidth: this.maxWidth, align: _align });
+      this.doc.text(text, this.x, this.y + lh, {
+        maxWidth: this.maxWidth,
+        align: _align,
+      });
     } else {
       this.doc.addPage('a4', 'p');
 
       this.y = PdfBuilder.mm2pt(this.margin.top);
-      this.doc.text(text, this.x, this.y, { maxWidth: this.maxWidth, align: _align });
+      this.doc.text(text, this.x, this.y, {
+        maxWidth: this.maxWidth,
+        align: _align,
+      });
       lh = this.doc.getLineHeight();
       nexty = Math.ceil(dims.w / this.maxWidth) * lh + this.y + lh / 2;
     }

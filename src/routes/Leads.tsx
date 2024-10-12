@@ -1,13 +1,17 @@
 import { Box, Grid2, Typography } from '@mui/material';
-import { AppGridContainer } from '../components/shared/AppGridContainer';
-import { AppCard } from '../components/shared/AppCard';
-import { useAppServices } from '../hooks/useAppServices';
-import { AppCounter } from 'um-types';
-import { useMemo, useState } from 'react';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { orderSrcTypes } from 'um-types/constants';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import { useMemo, useState } from 'react';
+
+import { AppCard } from '../components/shared/AppCard';
+import { AppGridContainer } from '../components/shared/AppGridContainer';
+import { useAppServices } from '../hooks/useAppServices';
+import { getColorBySrc } from '../utils/utils';
+
 import { capitalize } from 'lodash';
+import { AppCounter } from 'um-types';
+import { orderSrcTypes } from 'um-types/constants';
 
 export default function Leads() {
   const counters = useAppServices<AppCounter>('Counter');
@@ -19,22 +23,10 @@ export default function Leads() {
   const [dataForYear, setDataForYear] = useState<any>(leadsCounter?.data['#' + date.getFullYear()]);
 
   const SERIES = useMemo(() => {
-    const colorPalette = [
-      '#bbbbbb',
-      '#ffebcd',
-      '#9b5fe0',
-      '#f9a52c',
-      '#16a4d8',
-      '#8bd346',
-      '#d64e12',
-      '#efdf48',
-      '#a52a2a',
-    ];
-
-    return orderSrcTypes.map((src, index) => ({
+    return orderSrcTypes.map((src) => ({
       dataKey: src,
       label: capitalize(src),
-      color: colorPalette[index],
+      color: getColorBySrc(src),
     }));
   }, []);
 
@@ -42,7 +34,7 @@ export default function Leads() {
   const MAX_DATE = useMemo(() => new Date(), []);
 
   if (!leadsCounter) {
-    return <Typography>keine Leads vorhanden</Typography>;
+    return <Typography>keine Daten vorhanden</Typography>;
   }
 
   const onYearChange = (date: Date) => {
@@ -56,7 +48,7 @@ export default function Leads() {
   return (
     <AppGridContainer>
       <Grid2 size={12}>
-        <AppCard title="Leads">
+        <AppCard title="Anfragen">
           <Box>
             <DatePicker
               maxDate={MAX_DATE}
@@ -89,15 +81,21 @@ function getMonthName(monthNumber: string, year: number) {
 
 type DataForYearType = { [month: string]: any };
 
-type Params = {
+type Convert2DataSetParams = {
   dataForYear: DataForYearType | undefined;
   year: number;
 };
-function convert2DataSet({ year, dataForYear }: Params) {
+function sortMonths(a: string, b: string): number {
+  const aMonth = Number(a.replace('#', ''));
+  const bMonth = Number(b.replace('#', ''));
+  return aMonth - bMonth;
+}
+
+function convert2DataSet({ year, dataForYear }: Convert2DataSetParams) {
   const dataset: any[] = [];
   if (!dataForYear) return dataset;
 
-  const months = Object.keys(dataForYear).sort((a, b) => a.localeCompare(b));
+  const months = Object.keys(dataForYear).toSorted(sortMonths);
 
   months.forEach((month) => {
     const leads = dataForYear[month];

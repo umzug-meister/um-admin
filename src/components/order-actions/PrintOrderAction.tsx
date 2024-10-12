@@ -42,14 +42,18 @@ export function PrintOrderAction() {
     checkOrderHvz();
     saveOrder(order).then((order) => {
       if (order !== null) {
-        generateUrzPdf({ options, order, services: [...services, ...packings] });
+        generateUrzPdf({
+          options,
+          order,
+          services: [...services, ...packings],
+        });
       }
     });
   }, [saveOrder, order, services, packings, options, checkOrderHvz]);
 
   return (
     <Tooltip title="Als PDF speichern">
-      <IconButton onClick={printOrder}>
+      <IconButton onClick={printOrder} color="inherit">
         <FileDownloadOutlinedIcon />
       </IconButton>
     </Tooltip>

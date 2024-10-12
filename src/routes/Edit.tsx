@@ -8,7 +8,6 @@ import { OrderCalculator } from '../components/OrderCalculator';
 import { CustomerWidget } from '../components/edit-order-components/CustomerWidget';
 import DateTime from '../components/edit-order-components/DateTime';
 import Distance from '../components/edit-order-components/Distance';
-import { OrderConditionsChips } from '../components/edit-order-components/OrderConditionsChips';
 import { OrderConditionsGrid } from '../components/edit-order-components/OrderConditionsGrid';
 import OrderOfferSelector from '../components/edit-order-components/OrderOfferSelector';
 import OrderPacking from '../components/edit-order-components/OrderPacking';
@@ -17,12 +16,14 @@ import OrderServices from '../components/edit-order-components/OrderServices';
 import OrderSource from '../components/edit-order-components/OrderSource';
 import { OrderText } from '../components/edit-order-components/OrderText';
 import Resources from '../components/edit-order-components/Resources';
+import { Addresses } from '../components/edit-order-components/addresses';
+import { OrderConditionsChips } from '../components/edit-order-components/order-conditions-chips';
+import { OrderFurniture } from '../components/edit-order-components/order-funiture';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
-import { Addresses } from '../components/edit-order-components/addresses';
-import { OrderFurniture } from '../components/edit-order-components/order-funiture';
+import { useSetDocumentTitle } from '../hooks/useSetDocumentTitle';
 import { useUpdateCounter } from '../hooks/useUpdateCounter';
 
 export default function Edit() {
@@ -31,6 +32,7 @@ export default function Edit() {
   const [value, setValue] = useState(0);
 
   useUpdateCounter();
+  useSetDocumentTitle(order?.id);
 
   if (order == null) {
     return (

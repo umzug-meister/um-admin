@@ -1,9 +1,10 @@
 import { AppState } from '.';
-import { appRequest } from '../api/fetch-client';
 import { Urls } from '../api/Urls';
+import { appRequest } from '../api/fetch-client';
 import { AppOptions, OptionName } from '../app-types';
 import {
   createDueDate,
+  getAmountOfParkingSlots,
   getCustomerFullname,
   getCustomerPLZ,
   getCustomerStreet,
@@ -11,7 +12,7 @@ import {
   getPrintableDate,
 } from '../utils/utils';
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { set } from 'lodash';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
@@ -95,8 +96,7 @@ const calculate = (order: Order, options: AppOptions): Order => {
 
   const prices: Prices = {};
 
-  prices.halteverbotszonen =
-    Number(options.hvzPrice) * (Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0));
+  prices.halteverbotszonen = Number(options.hvzPrice) * getAmountOfParkingSlots(order);
 
   const services = order.services?.filter((s) => s.tag === 'Bohrarbeiten');
   const verpackung = order.services?.filter((s) => s.tag === 'Packmaterial');
@@ -300,7 +300,14 @@ const appSlice = createSlice({
           customerPlz: getCustomerPLZ(curOrder),
           customerStreet: getCustomerStreet(curOrder),
           entries: invoiceLeistungen,
-          dueDates: [createDueDate({ date: getNextDueDate({}), index: 0, sum: 0, text: '' })],
+          dueDates: [
+            createDueDate({
+              date: getNextDueDate({}),
+              index: 0,
+              sum: 0,
+              text: '',
+            }),
+          ],
         } as Rechnung;
 
         set(curOrder, ['rechnung'], newInvoice);

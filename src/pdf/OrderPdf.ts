@@ -447,7 +447,11 @@ const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   pdfBuilder.resetText();
 
   textBlocks.forEach((block) => {
-    pdfBuilder.addTable({ head: null, body: [[`• ${block}`]], columnStyles: { 0: { lineColor: [255, 255, 255] } } });
+    pdfBuilder.addTable({
+      head: null,
+      body: [[`• ${block}`]],
+      columnStyles: { 0: { lineColor: [255, 255, 255] } },
+    });
   });
 };
 
@@ -560,7 +564,11 @@ const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
       ['Betten', numberValue(order.from.bedNumber), 'Stück'],
       ['Schränke', numberValue(order.from.wardrobeWidth), 'Meter'],
     ];
-    pdfBuild.addTable({ head: null, body, columnStyles: { 1: { halign: 'right' } } });
+    pdfBuild.addTable({
+      head: null,
+      body,
+      columnStyles: { 1: { halign: 'right' } },
+    });
   }
 };
 
@@ -570,7 +578,11 @@ const addMoreInformation = (pdfBuilder: PdfBuilder, order: Order) => {
     pdfBuilder.addBlackHeader('Weitere Informationen');
     const body = [[order.text]];
 
-    pdfBuilder.addTable({ head: null, body, columnStyles: { 0: { lineColor: [255, 255, 255] } } });
+    pdfBuilder.addTable({
+      head: null,
+      body,
+      columnStyles: { 0: { lineColor: [255, 255, 255] } },
+    });
   }
 };
 
@@ -649,7 +661,11 @@ const addAgbText = (pdfBuilder: PdfBuilder, options: AppOptions) => {
       head: [[`§${index + 1} ${paragraph.title}`]],
       body: [[paragraph.text]],
       columnStyles: { 0: { fontSize: 7, lineColor: [255, 255, 255] } },
-      headStyles: { fontSize: 7, fillColor: [255, 255, 255], textColor: [0, 0, 0] },
+      headStyles: {
+        fontSize: 7,
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+      },
       margin: 8,
     });
 

@@ -3,16 +3,17 @@ import Tab from '@mui/material/Tab';
 
 import { useState } from 'react';
 
-import { Address } from 'um-types';
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';
 import { AppGridContainer } from '../../shared/AppGridContainer';
 import { GridItem } from '../../shared/GridItem';
 import { TabPanel } from '../../shared/TabPanel';
-import { OrderFurnitureList } from '../order-furniture-list/OrderFurnitureList';
 import OrderImages from '../OrderImages';
+import { OrderFurnitureList } from '../order-furniture-list/OrderFurnitureList';
 import { CustomItemsList } from './CustomItemsList';
+
+import { Address } from 'um-types';
 
 export function OrderFurniture() {
   const order = useCurrentOrder();

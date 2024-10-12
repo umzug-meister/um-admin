@@ -22,7 +22,7 @@ export function SaveOrderAction() {
 
   return (
     <Tooltip title="Speichern">
-      <IconButton onClick={handleSave}>
+      <IconButton onClick={handleSave} color="inherit">
         <Badge color={color} variant="dot">
           <SaveOutlinedIcon />
         </Badge>

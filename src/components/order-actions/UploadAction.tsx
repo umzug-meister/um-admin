@@ -160,7 +160,7 @@ export default function UploadAction() {
       case 'ready': {
         return (
           <Tooltip title="Auf Google Drive hochladen">
-            <IconButton onClick={onUploadRequest}>
+            <IconButton onClick={onUploadRequest} color="inherit">
               <BackupOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -410,8 +410,6 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
   const parts = date.split('-');
   const month = parts[1];
   const year = parts[0];
-
-  console.log(parts);
 
   const inRoot = await foldersIn(rootFolder.id);
   let yearFolder = getByNameRegEx(new RegExp(`Auftrag ${year}`), inRoot);

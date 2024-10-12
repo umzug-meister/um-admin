@@ -3,13 +3,14 @@ import { Chip, Divider, Grid2, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useAppServices } from '../../hooks/useAppServices';
-import { useCurrentOrder } from '../../hooks/useCurrentOrder';
-import { useOption } from '../../hooks/useOption';
-import { AppDispatch } from '../../store';
-import { pushLeistung } from '../../store/appReducer';
-import { euroValue } from '../../utils/utils';
-import { AppCard } from '../shared/AppCard';
+import { useAppServices } from '../../../hooks/useAppServices';
+import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
+import { useOption } from '../../../hooks/useOption';
+import { AppDispatch } from '../../../store';
+import { pushLeistung } from '../../../store/appReducer';
+import { euroValue } from '../../../utils/utils';
+import { AppCard } from '../../shared/AppCard';
+import { calculateRideCostsByKm, getParkingsSlotsAmount, isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
 import { AppPrice, MLeistung, TimeBasedPrice } from 'um-types';
 
@@ -36,7 +37,6 @@ export function OrderConditionsChips() {
   }
 
   const {
-    t75 = 0,
     transporterNumber = 0,
     workersNumber = 0,
     timeBased = {} as TimeBasedPrice,
@@ -47,32 +47,27 @@ export function OrderConditionsChips() {
     distance,
   } = order;
 
-  const isLocalMovement = from?.address?.includes('München') && to?.address?.includes('München');
+  const localMovement = isLocalMovement(from, to);
 
-  const amountOfParkingSlots = Number(from?.parkingSlot || 0) + Number(to?.parkingSlot || 0);
+  const amountOfParkingSlots = getParkingsSlotsAmount(from, to);
 
-  const transporterAmount = Number(transporterNumber) + Number(t75);
+  const transporterAmount = Number(transporterNumber);
 
   const createWorkerLst = () => {
-    let leistungDesc = `${workersNumber} Träger `;
+    const descArr = [`${workersNumber} Träger`];
+
     if (transporterNumber > 0) {
-      leistungDesc = leistungDesc.concat(` / ${transporterNumber} x LKW 3,5t`);
+      descArr.push(`/ ${transporterNumber} x LKW 3,5t`);
     }
-    if (t75) {
-      leistungDesc = leistungDesc.concat(` / ${t75} x LKW 7.5t`);
-    }
-    if (timeBased) {
-      if (timeBased.hours) {
-        leistungDesc = leistungDesc
-          .concat(' ')
-          .concat(`\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`);
-      }
+
+    if (timeBased?.hours) {
+      descArr.push(`\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`);
     }
 
     const leistung: MLeistung = {
       hidden: true,
       calculate: false,
-      desc: leistungDesc,
+      desc: descArr.join(' '),
       sum: timeBased.basis,
     };
     return leistung;
@@ -80,7 +75,7 @@ export function OrderConditionsChips() {
 
   const createDiscountLst = (): MLeistung => {
     return {
-      desc: `Rabatt  ${discount} %`,
+      desc: `Rabatt ${discount} %`,
       sum: `-${order.discountValue}`,
       calculate: false,
       red: true,
@@ -89,30 +84,22 @@ export function OrderConditionsChips() {
 
   const findOffer = () => {
     return appOffers.find(
-      (offer) =>
-        Number(offer.t35 || 0) === Number(transporterNumber) &&
-        Number(offer.includedHours || 0) === Number(workersNumber) &&
-        Number(offer.t75 || 0) === Number(t75 || 0),
+      (appOffer) =>
+        Number(appOffer.t35 || 0) === Number(transporterNumber) &&
+        Number(appOffer.includedHours || 0) === Number(timeBased.hours),
     );
-  };
-
-  const calculateKmPrice = () => {
-    const baseKmPrice = Number(distance || 0) * Number(kmPrice || 0);
-
-    const costs = baseKmPrice * transporterAmount;
-
-    return Math.round(costs / 5) * 5;
   };
 
   const allocateRideCosts = () => {
     const offerRideCosts = findOffer()?.ridingCosts || 0;
-
-    if (isLocalMovement) {
+    if (localMovement) {
       return offerRideCosts;
     }
-
-    const kmRideCosts = calculateKmPrice();
-
+    const kmRideCosts = calculateRideCostsByKm({
+      distance,
+      kmPrice,
+      transporterAmount,
+    });
     return Math.max(offerRideCosts, kmRideCosts);
   };
 
@@ -163,14 +150,6 @@ export function OrderConditionsChips() {
     });
   };
 
-  const rideCostsLabel = isLocalMovement ? (
-    <p>
-      Fahrtkosten in <b>München</b>
-    </p>
-  ) : (
-    <p>Fahrtkosten {distance ? <b>{distance} km</b> : ''}</p>
-  );
-
   return (
     <Grid2 size={12}>
       <AppCard title="Konditionen hinzufügen">
@@ -182,7 +161,10 @@ export function OrderConditionsChips() {
               label={<p>Rabatt {<b>{euroValue(order.discountValue || 0)}</b>}</p>}
               onClick={onPushRequest(createDiscountLst())}
             />
-            <Chip label={rideCostsLabel} onClick={onPushRequest(createRideCostsLst())} />
+            <Chip
+              label={<RideCostsLabel distance={distance} isLocalMovement={localMovement} />}
+              onClick={onPushRequest(createRideCostsLst())}
+            />
             <Chip
               label={
                 <p>
@@ -203,5 +185,15 @@ export function OrderConditionsChips() {
         </Stack>
       </AppCard>
     </Grid2>
+  );
+}
+
+function RideCostsLabel({ isLocalMovement, distance }: { distance: number; isLocalMovement: boolean }) {
+  return isLocalMovement ? (
+    <p>
+      Fahrtkosten in <b>München</b>
+    </p>
+  ) : (
+    <p>Fahrtkosten {distance ? <b>{distance} km</b> : ''}</p>
   );
 }

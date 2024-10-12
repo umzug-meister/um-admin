@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { PropsWithChildren, Suspense, lazy } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
-import { Fallback } from './components/Fallback';
+import { Loading } from './components/shared/Loading';
 import TopBar from './components/TopBar';
 import theme from './theme';
 
@@ -45,7 +45,7 @@ function AppContent() {
       <AppDiv>
         <ContentMain>
           <TopBar />
-          <Box mt={6}>
+          <Box mt={7}>
             <Outlet />
           </Box>
         </ContentMain>
@@ -55,7 +55,7 @@ function AppContent() {
 }
 
 function LazyLoad({ children }: Readonly<PropsWithChildren>) {
-  return <Suspense fallback={<Fallback />}>{children}</Suspense>;
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
 }
 
 function App() {

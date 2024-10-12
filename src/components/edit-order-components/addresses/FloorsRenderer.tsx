@@ -1,7 +1,10 @@
 import { Chip, Stack } from '@mui/material';
+
 import { useSelector } from 'react-redux';
-import { Order } from 'um-types';
+
 import { AppState } from '../../../store';
+
+import { Order } from 'um-types';
 
 interface Props {
   path: 'from' | 'to';

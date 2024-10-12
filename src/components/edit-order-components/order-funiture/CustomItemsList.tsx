@@ -1,6 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { CustomItem } from 'um-types';
+
 import theme from '../../../theme';
+
+import { CustomItem } from 'um-types';
 
 interface Props {
   customItems?: CustomItem[];

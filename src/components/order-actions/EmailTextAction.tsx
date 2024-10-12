@@ -23,7 +23,7 @@ export function EmailTextAction() {
 
   return (
     <Tooltip title="E-Mail Text">
-      <IconButton onClick={onEmailRequest}>
+      <IconButton onClick={onEmailRequest} color="inherit">
         <EmailOutlinedIcon />
       </IconButton>
     </Tooltip>

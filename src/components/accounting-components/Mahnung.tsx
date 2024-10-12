@@ -66,9 +66,11 @@ export function Mahnung({ index }: Readonly<Props>) {
 
     let sum: number = calculateNumbers(rechnung.entries || []).brutto;
     if (index > 1) {
-      sum = rechnung?.dueDates.find((dd) => dd.index === index - 1)?.sum || 0;
+      sum = rechnung?.dueDates.find((dd) => dd.index === index - 1)?.sum ?? 0;
     }
-    const nextDueDate = getNextDueDate({ date: new Date(getParseableDate(lastDueDate?.date)) });
+    const nextDueDate = getNextDueDate({
+      date: new Date(getParseableDate(lastDueDate?.date)),
+    });
 
     const text = generateText({ rechnung, index, nextDueDate, sum });
 
@@ -196,7 +198,7 @@ const labels: Labels = {
   text: 'Text',
 };
 
-function MahnungField({ dueDate, prop, as, onValue, multiline, minDate }: MahnungFieldProps) {
+function MahnungField({ dueDate, prop, as, onValue, multiline, minDate }: Readonly<MahnungFieldProps>) {
   if (as === 'date') {
     return (
       <AppDateField minDate={minDate} value={dueDate[prop] as string} onDateChange={onValue} label={labels[prop]} />

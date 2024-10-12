@@ -1,9 +1,9 @@
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import {
   Box,
   Divider,
@@ -47,8 +47,8 @@ export function SideMenu({ onClose, open }: Readonly<Props>) {
           <VersionBadge />
 
           <List>
-            <DrawerItem onClose={onClose} to="/edit/-1" primaryText="Neuer Auftrag">
-              <ModeEditOutlineOutlinedIcon />
+            <DrawerItem onClose={onClose} to="/edit/-1" primaryText="Auftrag">
+              <AddOutlinedIcon />
             </DrawerItem>
             <DrawerItem onClose={onClose} primaryText="Alle Aufträge" to="/">
               <FormatListNumberedOutlinedIcon />
@@ -103,7 +103,10 @@ function DrawerItem({ to, primaryText, onClose, children }: React.PropsWithChild
   return (
     <NavLink
       style={({ isActive }) => {
-        return { textDecoration: 'none', color: isActive ? theme.palette.primary.main : 'unset' };
+        return {
+          textDecoration: 'none',
+          color: isActive ? theme.palette.primary.main : 'unset',
+        };
       }}
       to={to}
     >

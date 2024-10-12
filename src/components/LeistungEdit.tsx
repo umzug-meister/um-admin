@@ -1,6 +1,6 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import { Autocomplete, Box, Grid2, IconButton, Tooltip } from '@mui/material';
+import { Autocomplete, Box, Grid2, IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
 import { useMemo } from 'react';
@@ -78,7 +78,13 @@ export default function LeistungEdit({
   const onLeistungSelect = (lst: GridRowService, index: number) => {
     const current = cloneDeep(leistungen);
     const curLst = current[index];
-    const nextLst: MLeistung = { ...curLst, colli: 1, price: lst.price, desc: lst.name, sum: lst.price };
+    const nextLst: MLeistung = {
+      ...curLst,
+      colli: 1,
+      price: lst.price,
+      desc: lst.name,
+      sum: lst.price,
+    };
 
     current[index] = nextLst;
     update(current);
@@ -107,9 +113,7 @@ export default function LeistungEdit({
       <Box display={'flex'}>
         <AddButton onClick={addLst} />
         <Box>
-          <Tooltip title="Alle löschen">
-            <DeleteButton onDelete={handleClear} />
-          </Tooltip>
+          <DeleteButton onDelete={handleClear} />
         </Box>
       </Box>
     </>
@@ -192,16 +196,9 @@ function GridRow({
               }
               return o.name;
             }}
-            renderInput={(params) => (
-              <AppTextField
-                {...params}
-                size="small"
-                inputProps={{
-                  'data-hj-allow': '',
-                  ...params?.inputProps,
-                }}
-              />
-            )}
+            renderInput={(params) => {
+              return <AppTextField {...params} label="Leistung" />;
+            }}
           />
         ) : (
           <AppTextField
@@ -229,7 +226,7 @@ function GridRow({
           placeholder="Preis"
           value={lst.price}
           onChange={(ev) => onPropChange('price', ev.target.value)}
-          InputProps={{ endAdornment: '€' }}
+          slotProps={{ input: { endAdornment: '€' } }}
         />
       </Grid2>
 
@@ -239,7 +236,7 @@ function GridRow({
           error={hasError}
           disabled={sumDisabled}
           placeholder="Gesamt"
-          InputProps={{ endAdornment: '€' }}
+          slotProps={{ input: { endAdornment: '€' } }}
           value={lst.sum}
           onChange={(ev) => onPropChange('sum', ev.target.value)}
         />

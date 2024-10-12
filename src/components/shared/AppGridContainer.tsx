@@ -1,4 +1,5 @@
 import { Grid2 } from '@mui/material';
+
 import { PropsWithChildren } from 'react';
 
 export function AppGridContainer({ children }: Readonly<PropsWithChildren>) {

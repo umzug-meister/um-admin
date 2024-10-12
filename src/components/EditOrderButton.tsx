@@ -1,5 +1,6 @@
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import { Button } from '@mui/material';
+
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 export function EditOrderButton({ id, target }: Readonly<Props>) {
   return (
     <Link target={target} to={`/edit/${id}`}>
-      <Button size="small" startIcon={<ArrowRightIcon />}>
+      <Button size="small" endIcon={<ChevronRightOutlinedIcon fontSize="small" />}>
         {id}
       </Button>
     </Link>

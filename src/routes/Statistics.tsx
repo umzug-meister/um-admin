@@ -10,7 +10,7 @@ export default function Statistics() {
       <Card elevation={0}>
         <Box p={2}>
           <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-            <Link to="">Leads</Link>
+            <Link to="">Anfragen</Link>
             {/* <Link to="offers">Angebote</Link> */}
           </Stack>
         </Box>

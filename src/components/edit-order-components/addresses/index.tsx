@@ -1,13 +1,15 @@
 import { Alert, Box, Grid2 } from '@mui/material';
-import { Address } from 'um-types';
+
+import { useMemo } from 'react';
+
+import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';
 import { GridItem } from '../../shared/GridItem';
-
-import { etagen, liftTypes, movementObjects, parkingDistances, squares } from 'um-types/constants';
-import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
 import { FloorsRenderer } from './FloorsRenderer';
-import { useMemo } from 'react';
+
+import { Address } from 'um-types';
+import { etagen, liftTypes, movementObjects, parkingDistances, squares } from 'um-types/constants';
 
 export function Addresses() {
   const order = useCurrentOrder();
