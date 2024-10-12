@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 
 import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
+import { RootBox } from '../components/shared/RootBox';
 import { useAppServices } from '../hooks/useAppServices';
 import { getColorBySrc } from '../utils/utils';
 
@@ -46,32 +47,34 @@ export default function Leads() {
   const dataset = convert2DataSet({ dataForYear, year: date.getFullYear() });
 
   return (
-    <AppGridContainer>
-      <Grid2 size={12}>
-        <AppCard title="Anfragen">
-          <Box>
-            <DatePicker
-              maxDate={MAX_DATE}
-              minDate={MIN_DATE}
-              value={date}
-              label="Jahr"
-              views={['year']}
-              onYearChange={onYearChange}
-            />
-          </Box>
-          <Box height={650}>
-            <BarChart
-              leftAxis={null}
-              borderRadius={4}
-              barLabel="value"
-              dataset={dataset}
-              xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-              series={SERIES}
-            />
-          </Box>
-        </AppCard>
-      </Grid2>
-    </AppGridContainer>
+    <RootBox>
+      <AppGridContainer>
+        <Grid2 size={12}>
+          <AppCard title="Anfragen">
+            <Box>
+              <DatePicker
+                maxDate={MAX_DATE}
+                minDate={MIN_DATE}
+                value={date}
+                label="Jahr"
+                views={['year']}
+                onYearChange={onYearChange}
+              />
+            </Box>
+            <Box height={650}>
+              <BarChart
+                leftAxis={null}
+                borderRadius={4}
+                barLabel="value"
+                dataset={dataset}
+                xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+                series={SERIES}
+              />
+            </Box>
+          </AppCard>
+        </Grid2>
+      </AppGridContainer>
+    </RootBox>
   );
 }
 
