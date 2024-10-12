@@ -8,7 +8,7 @@ import { updateService } from '../store/servicesReducer';
 import { useAppServices } from './useAppServices';
 import { useCurrentOrder } from './useCurrentOrder';
 
-import { set } from 'lodash';
+import { set } from 'es-toolkit/compat';
 import { AppCounter } from 'um-types';
 
 export function useUpdateCounter() {

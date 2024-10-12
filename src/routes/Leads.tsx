@@ -9,7 +9,7 @@ import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { useAppServices } from '../hooks/useAppServices';
 import { getColorBySrc } from '../utils/utils';
 
-import { capitalize } from 'lodash';
+import { capitalize } from 'es-toolkit';
 import { AppCounter } from 'um-types';
 import { orderSrcTypes } from 'um-types/constants';
 

@@ -13,7 +13,7 @@ import {
 } from '../utils/utils';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { set } from 'lodash';
+import { set } from 'es-toolkit/compat';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
 function _initOrder(): Order {

@@ -11,7 +11,7 @@ import { AppTextField } from './shared/AppTextField';
 import { DeleteButton } from './shared/DeleteButton';
 
 import { arrayMoveImmutable } from 'array-move';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'es-toolkit';
 import { AppPacking, AppService, MLeistung } from 'um-types';
 
 interface Props {
