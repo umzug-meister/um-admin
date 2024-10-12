@@ -10,7 +10,7 @@ import { RootBox } from '../components/shared/RootBox';
 import { useAppServices } from '../hooks/useAppServices';
 import { getColorBySrc } from '../utils/utils';
 
-import { capitalize } from 'es-toolkit';
+import { capitalize } from 'lodash';
 import { AppCounter } from 'um-types';
 import { orderSrcTypes } from 'um-types/constants';
 

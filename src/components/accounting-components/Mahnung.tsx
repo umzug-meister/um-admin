@@ -16,7 +16,7 @@ import { AppGridContainer } from '../shared/AppGridContainer';
 import { AppTextField } from '../shared/AppTextField';
 import { PdfSaveButton } from '../shared/PdfSaveButton';
 
-import { cloneDeep } from 'es-toolkit';
+import { cloneDeep } from 'lodash';
 import { DueDate, Rechnung } from 'um-types';
 
 interface Props {
