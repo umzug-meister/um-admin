@@ -42,8 +42,8 @@ export function OptionInput(props: Readonly<Props>) {
       label={label}
       onBlur={handleBlur}
       onChange={(ev) => setValue(ev.target.value)}
-      InputProps={
-        asPassword
+      slotProps={{
+        input: asPassword
           ? {
               endAdornment: (
                 <IconButton
@@ -57,8 +57,8 @@ export function OptionInput(props: Readonly<Props>) {
                 </IconButton>
               ),
             }
-          : { endAdornment }
-      }
+          : { endAdornment },
+      }}
     />
   );
 }

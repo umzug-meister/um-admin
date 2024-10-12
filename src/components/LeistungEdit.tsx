@@ -226,7 +226,7 @@ function GridRow({
           placeholder="Preis"
           value={lst.price}
           onChange={(ev) => onPropChange('price', ev.target.value)}
-          InputProps={{ endAdornment: '€' }}
+          slotProps={{ input: { endAdornment: '€' } }}
         />
       </Grid2>
 
@@ -236,7 +236,7 @@ function GridRow({
           error={hasError}
           disabled={sumDisabled}
           placeholder="Gesamt"
-          InputProps={{ endAdornment: '€' }}
+          slotProps={{ input: { endAdornment: '€' } }}
           value={lst.sum}
           onChange={(ev) => onPropChange('sum', ev.target.value)}
         />

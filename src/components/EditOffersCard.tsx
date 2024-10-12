@@ -93,7 +93,7 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
       <Grid2 pt={4} container spacing={2}>
         <Grid2 size={6}>
           <AppTextField
-            InputProps={{ endAdornment: '€' }}
+            slotProps={{ input: { endAdornment: '€' } }}
             disabled={data.length === 0}
             label="Anfahrtskosten"
             value={ridingCostsValue}
@@ -105,7 +105,7 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
         <Grid2 size={6}>
           <AppTextField
             disabled={data.length === 0}
-            InputProps={{ endAdornment: '€/Std' }}
+            slotProps={{ input: { endAdornment: '€/Std' } }}
             label="Stundenpreis"
             value={hourPriceValue}
             onChange={(ev) => setHourPriceValue(ev.target.value)}

@@ -24,9 +24,6 @@ export function AppDateField({ label, disabled, value, minDate, onDateChange }: 
       slotProps={{
         textField: {
           size: 'small',
-          inputProps: {
-            'data-hj-allow': '',
-          },
         },
       }}
       onChange={(value) => {
