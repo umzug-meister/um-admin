@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, styled } from '@mui/material';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,8 +11,6 @@ import { AppCard } from '../shared/AppCard';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from 'um-types';
 import { clearCountry } from 'um-types/utils';
-
-const represent = (distance = 0) => Number(distance / 1000).toFixed(0);
 
 export default function Distance() {
   const gapiKey = useOption('gapikey');
@@ -54,14 +52,12 @@ export default function Distance() {
   }, [gapiKey, origin, from, to]);
 
   const sum = useMemo(() => {
-    const sumInM = response?.rows.reduce(
+    const sumInMeter = response?.rows.reduce(
       (result, row, index) => result + (row.elements[index].distance?.value || 0),
       0,
     );
-    return represent(sumInM);
+    return distanceInKm(sumInMeter);
   }, [response]);
-
-  const sx = useMemo(() => ({ fontWeight: 'bold' }), []);
 
   useEffect(() => {
     if (String(order?.distance) !== sum && sum !== '0') {
@@ -73,43 +69,25 @@ export default function Distance() {
     return null;
   }
 
-  const RenderRow = (index: number, label: string) => {
-    if (!response) {
-      return null;
-    }
-    const { originAddresses, destinationAddresses, rows } = response;
-    const elem = rows[index].elements[index];
-    return (
-      <TableRow>
-        <TableCell sx={sx}>{label}</TableCell>
-        <TableCell>{clearCountry(originAddresses[index])}</TableCell>
-        <TableCell>{clearCountry(destinationAddresses[index])}</TableCell>
-        <TableCell>{represent(elem.distance?.value)} km</TableCell>
-        <TableCell>{elem.duration?.text}</TableCell>
-      </TableRow>
-    );
-  };
-
   return (
     <AppCard title="Fahrstrecke">
       <Table>
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
-            <TableCell sx={sx}>Von</TableCell>
-            <TableCell sx={sx}>Nach</TableCell>
-            <TableCell sx={sx}>Strecke</TableCell>
-            <TableCell sx={sx}>Fahrtzeit</TableCell>
+            <BoldTableCell>Von</BoldTableCell>
+            <BoldTableCell>Nach</BoldTableCell>
+            <BoldTableCell>Strecke</BoldTableCell>
+            <BoldTableCell>Fahrtzeit</BoldTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {RenderRow(0, 'Anfahrt')}
-          {RenderRow(1, 'Lastfahrt')}
-          {RenderRow(2, 'Rückfahrt')}
+          <DistanceRow label="Anfahrt" response={response} index={0} />
+          <DistanceRow label="Lastfahrt" response={response} index={1} />
+          <DistanceRow label="Rückfahrt" response={response} index={2} />
+
           <TableRow>
-            <TableCell colSpan={3} sx={sx}>
-              Gesamt
-            </TableCell>
+            <BoldTableCell colSpan={3}>Gesamt</BoldTableCell>
 
             <TableCell colSpan={2}>{sum} km</TableCell>
           </TableRow>
@@ -118,3 +96,36 @@ export default function Distance() {
     </AppCard>
   );
 }
+
+function DistanceRow({
+  label,
+  index,
+  response,
+}: {
+  label: string;
+  index: number;
+  response: google.maps.DistanceMatrixResponse | null | undefined;
+}) {
+  if (!response) {
+    return null;
+  }
+
+  const { originAddresses, destinationAddresses, rows } = response;
+  const elem = rows[index].elements[index];
+
+  return (
+    <TableRow>
+      <BoldTableCell>{label}</BoldTableCell>
+      <TableCell>{clearCountry(originAddresses[index])}</TableCell>
+      <TableCell>{clearCountry(destinationAddresses[index])}</TableCell>
+      <TableCell>{distanceInKm(elem.distance?.value)} km</TableCell>
+      <TableCell>{elem.duration?.text}</TableCell>
+    </TableRow>
+  );
+}
+
+const distanceInKm = (distance = 0) => Number(distance / 1000).toFixed(0);
+
+const BoldTableCell = styled(TableCell)({
+  fontWeight: 'bold',
+});
