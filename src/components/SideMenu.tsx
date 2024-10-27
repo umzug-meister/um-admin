@@ -102,6 +102,9 @@ function DrawerItem({ to, primaryText, onClose, children }: React.PropsWithChild
 
   return (
     <NavLink
+      className={({ isActive }) => {
+        return isActive ? 'active-menu-link' : '';
+      }}
       style={({ isActive }) => {
         return {
           textDecoration: 'none',

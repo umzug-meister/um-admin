@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 
 import App from './App';
 import AppLoader from './AppLoader';
+import './index.css';
 import { store } from './store';
 
 import '@fontsource/roboto/300.css';

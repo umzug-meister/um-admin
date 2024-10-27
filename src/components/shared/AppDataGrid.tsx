@@ -78,7 +78,9 @@ export function AppDataGrid({
   return (
     <Paper elevation={0}>
       <Box
-        position={'relative'}
+        display={'flex'}
+        flexDirection={'column'}
+        maxHeight={'800px'}
         sx={{
           '& .MuiDataGrid-footerContainer': {
             display: `${disablePagination ? 'none' : 'block'}`,
@@ -98,7 +100,6 @@ export function AppDataGrid({
           rowHeight={45}
           getRowClassName={getRowClassName}
           disableRowSelectionOnClick
-          autoHeight
           columns={gridColumns}
           rows={data}
           rowCount={paginationMode === 'server' ? 10000 : undefined}

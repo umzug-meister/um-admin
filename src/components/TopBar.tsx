@@ -1,3 +1,4 @@
+import { HomeOutlined } from '@mui/icons-material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 
@@ -8,7 +9,6 @@ import RootActions from './RootActions';
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
 import OrderSearch from './order-search';
-import { HomeOutlined } from '@mui/icons-material';
 
 export default function TopBar() {
   const [open, setOpen] = useState(false);
