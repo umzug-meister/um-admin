@@ -14,6 +14,7 @@ on:
 
 jobs:
   code-review:
+    name: 'AI Code Review'
     if: github.event.pull_request.user.name != 'renovate'
     runs-on: ubuntu-latest
     permissions:
