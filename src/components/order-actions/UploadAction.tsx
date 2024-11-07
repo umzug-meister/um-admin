@@ -16,6 +16,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
 import { AppState } from '../../store';
+import { getParseableDate } from '../../utils/utils';
 
 import { AppPacking, AppService } from 'um-types';
 
@@ -407,7 +408,7 @@ async function getPath(date: string, fileName: string): Promise<PathReturn | nul
     return null;
   }
 
-  const parts = date.split('-');
+  const parts = getParseableDate(date).split('-');
   const month = parts[1];
   const year = parts[0];
 
