@@ -1,4 +1,4 @@
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
 import { IconButton, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
@@ -24,7 +24,7 @@ export function EmailTextAction() {
   return (
     <Tooltip title="E-Mail Text">
       <IconButton onClick={onEmailRequest} color="inherit">
-        <EmailOutlinedIcon />
+        <MessageOutlinedIcon />
       </IconButton>
     </Tooltip>
   );

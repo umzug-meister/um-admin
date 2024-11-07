@@ -11,9 +11,7 @@ export const orderFileName = (order: Order) => {
   if (order.transporterNumber) {
     filename = filename.concat('+').concat(order.transporterNumber?.toString()).concat('x3.5');
   }
-  if (order.t75) {
-    filename = filename.concat('+').concat(order.t75?.toString()).concat('x7.5');
-  }
+
   if (order.timeBased?.hours) {
     filename = filename.concat('_').concat(order.timeBased?.hours?.toString()).concat('_Std');
   }
