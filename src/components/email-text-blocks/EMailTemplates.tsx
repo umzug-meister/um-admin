@@ -73,7 +73,7 @@ export function EMailTextTemplate({ order }: CoreProps) {
       </p>
       <strong>
         --
-        <br />
+        <hr />
         Sollten Sie Interesse nach Renovierungs- und Ausbesserungsarbeiten haben, kontaktieren Sie bitte unseren
         Partner: 0176 305 451 65.
       </strong>

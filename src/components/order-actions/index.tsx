@@ -3,6 +3,7 @@ import { Divider, Stack } from '@mui/material';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import CopyOrderAction from './CopyOrderAction';
 import { DeleteOrderAction } from './DeleteOrderAction';
+import EditEmailAction from './EditEmailAction';
 import { EmailTextAction } from './EmailTextAction';
 import { PrintOrderAction } from './PrintOrderAction';
 import { SaveOrderAction } from './SaveOrderAction';
@@ -25,8 +26,11 @@ export function OrderEditActions() {
 
       <Stack direction="row" spacing={2}>
         <PrintOrderAction />
-        <EmailTextAction />
         <UploadAction />
+      </Stack>
+      <Stack direction="row" spacing={2}>
+        <EmailTextAction />
+        <EditEmailAction />
       </Stack>
 
       <DeleteOrderAction />

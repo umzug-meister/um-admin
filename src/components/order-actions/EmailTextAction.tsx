@@ -22,7 +22,7 @@ export function EmailTextAction() {
   }, [currentOrder, saveOrder]);
 
   return (
-    <Tooltip title="E-Mail Text">
+    <Tooltip title="Angebotstext">
       <IconButton onClick={onEmailRequest} color="inherit">
         <MessageOutlinedIcon />
       </IconButton>
