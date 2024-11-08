@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import React from 'react';
 
-import { anrede, getPrintableDate } from '../../utils/utils';
+import { anrede, getPrintableDate, numberValue } from '../../utils/utils';
 import { BaseHoursAndPrice } from './EmailBaseHoursAndPrice';
 import { EmailExtraHours } from './EmailExtraHours';
 import { EmailPersons } from './EmailPersons';
@@ -41,7 +41,7 @@ export function EMailTextTemplate({ order }: CoreProps) {
       </p>
       {order.volume && (
         <p>
-          <strong>Umzugsgut: {f.format(Number(order.volume))} m³</strong>
+          <strong>Umzugsgut: {numberValue(order.volume)} m³</strong>
         </p>
       )}
       <br />
@@ -73,7 +73,7 @@ export function EMailTextTemplate({ order }: CoreProps) {
       </p>
       <strong>
         --
-        <hr />
+        <br />
         Sollten Sie Interesse nach Renovierungs- und Ausbesserungsarbeiten haben, kontaktieren Sie bitte unseren
         Partner: 0176 305 451 65.
       </strong>

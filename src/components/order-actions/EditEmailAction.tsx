@@ -17,15 +17,22 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
-import EMailText from '../../routes/EMailText';
 import { EMailTextTemplate } from '../email-text-blocks/EMailTemplates';
 import { AppTextField } from '../shared/AppTextField';
 
+const EMAIL_TEXT_ID = 'email-text-in-dialog';
+
 export default function EditEmailAction() {
   const [open, setOpen] = React.useState(false);
+  const order = useCurrentOrder();
+
+  if (!order) return null;
 
   return (
     <>
+      <Box id={EMAIL_TEXT_ID} display="none">
+        <EMailTextTemplate order={order} />
+      </Box>
       <Tooltip title="E-Mail erstellen">
         <IconButton onClick={() => setOpen(true)} color="inherit">
           <EmailOutlinedIcon />
@@ -39,19 +46,18 @@ export default function EditEmailAction() {
 function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
   const order = useCurrentOrder();
   const [subject, setSubject] = useState('');
-  const [html, setHtml] = useState('<strong>Test</strong>');
-  console.log(html);
+  const [html, setHtml] = useState('<p></p>');
 
   useEffect(() => {
-    const html = document.getElementById('email-text')?.innerHTML;
-    console.log(html);
-    setHtml(html);
-  }, []);
+    const emailTemplate = document.getElementById(EMAIL_TEXT_ID)?.innerHTML;
+    if (emailTemplate) setHtml(emailTemplate);
+  }, [order]);
 
   if (!order) return null;
 
   const { open, onClose } = props;
   const { customer } = order;
+
   return (
     <Dialog fullWidth maxWidth="lg" open={open} onClose={onClose}>
       <DialogTitle color="primary">
@@ -61,9 +67,6 @@ function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <Box id="email-text" display={'none'}>
-          <EMailTextTemplate order={order} />
-        </Box>
         <Box display={'flex'} flexDirection="column" gap={1}>
           <AppTextField
             disabled
