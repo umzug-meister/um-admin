@@ -33,7 +33,7 @@ export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
       <p>Unser Kostenvoranschlag beinhaltet:</p>
       <ul>
         <li>Anfahrt / Lastfahrtkosten</li>
-        {hasMontage && <li>Möbeldemontage/Montage</li>}
+        {hasMontage && <li>Möbeldemontage und Montage</li>}
         <li>Bereitstellung eines Umzugswagens</li>
         <li>Versicherung: bis 2 Mio. Euro</li>
         <li>Be- und Entladen des LKWs</li>
