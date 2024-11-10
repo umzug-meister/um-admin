@@ -1,54 +1,39 @@
 import { Box } from '@mui/material';
 
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
 import { anrede, getPrintableDate, numberValue } from '../../utils/utils';
-import { BaseHoursAndPrice } from './EmailBaseHoursAndPrice';
-import { EmailExtraHours } from './EmailExtraHours';
-import { EmailPersons } from './EmailPersons';
 import { EmailServicesTable } from './EmailServicesTable';
+import { SumTemplate } from './SumTemplate';
+import { WorkerCosts } from './WorkerCosts';
 
 import { addDays } from 'date-fns';
 import { Order } from 'um-types';
-
-interface CoreProps {
-  order: Order;
-}
 
 interface RootProps {
   elementID: string;
 }
 
-export function EMailTextTemplate({ order }: CoreProps) {
-  const f = new Intl.NumberFormat('de-DE');
-
-  const hasMontage = order.from?.demontage || order.to?.montage;
+export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
+  const hasMontage = Boolean(order.from?.demontage || order.to?.montage);
 
   return (
     <>
-      <h3>Kostenvoranschlag</h3>
       <p>
-        {`Bei Rückfragen, bitte folgende ID bereithalten: `}
+        {`Bitte halten Sie bei Rückfragen folgende Nummer bereit: `}
         <strong>{order.id}</strong>
       </p>
-      <br />
       <p>{anrede(order.customer)}</p>
       <p>
-        {`gerne übernehmen wir Ihren Umzug am `}
-        <strong>
-          {getPrintableDate(order.date, true)} um {order.time} Uhr.
-        </strong>
+        gerne übernehmen wir Ihren Umzug am
+        {' ' + getPrintableDate(order.date, true)} ab {order.time} Uhr.
       </p>
-      {order.volume && (
-        <p>
-          <strong>Umzugsgut: {numberValue(order.volume)} m³</strong>
-        </p>
-      )}
-      <br />
+      {Boolean(order.volume) && <p>Umzugsgut: {numberValue(order.volume)} m³</p>}
+      <h2>Kostenvoranschlag</h2>
       <p>Unser Kostenvoranschlag beinhaltet:</p>
       <ul>
         <li>Anfahrt / Lastfahrtkosten</li>
-        {hasMontage ? <li>Möbeldemontage/Montage</li> : null}
+        {hasMontage && <li>Möbeldemontage und Montage</li>}
         <li>Bereitstellung eines Umzugswagens</li>
         <li>Versicherung: bis 2 Mio. Euro</li>
         <li>Be- und Entladen des LKWs</li>
@@ -61,15 +46,16 @@ export function EMailTextTemplate({ order }: CoreProps) {
       <br />
       <p>{`Unser Kostenvoranschlag gilt bis zum ${getPrintableDate(addDays(new Date(), 3).toDateString())}.`}</p>
       <p style={{ color: 'blue' }}>
-        <strong>Im Anhang erhalten Sie den Auftrag.</strong>
+        <strong>
+          Im Anhang finden Sie den Auftrag. Wir bitten um Ihre Rückmeldung (Rückbestätigung per E-Mail ohne
+          Unterschrift).
+        </strong>
       </p>
-      <p style={{ color: 'blue' }}>
-        <strong>Ich bitte um Ihre Rückmeldung (Rückbestätigung per E-Mail ohne Unterschrift).</strong>
-      </p>
+
       <p style={{ color: 'red' }}>
         {`Nutzen Sie unseren `}
-        <a href="https://umzugruckzuck.de/umzug-muenchen-kartonrechner/">Kartonrechner</a>, um die Anzahl der Kartons zu
-        schätzen!
+        <a href="https://umzugruckzuck.de/umzug-muenchen-kartonrechner/">Kartonrechner</a>, um die benötigte Anzahl an
+        Kartons zu schätzen!
       </p>
       <strong>
         --
@@ -81,26 +67,23 @@ export function EMailTextTemplate({ order }: CoreProps) {
   );
 }
 
-export function EmailServicesTemplate({ order }: Readonly<CoreProps>) {
+export function EmailServicesTemplate({ order }: Readonly<{ order: Order }>) {
   return (
     <>
-      <EmailPersons order={order} />
-      <BaseHoursAndPrice order={order} />
-      <EmailExtraHours timeBased={order.timeBased} />
-      <br />
+      <WorkerCosts order={order} />
       <EmailServicesTable order={order} />
+      <SumTemplate order={order} />
     </>
   );
 }
 
-export function RootElement({ elementID, children }: React.PropsWithChildren<RootProps>) {
+export function RootElement({ elementID, children }: PropsWithChildren<RootProps>) {
   return (
     <Box
       id={elementID}
       sx={{
         fontSize: '14px',
         fontFamily: 'Arial, Helvetica, sans-serif',
-        color: 'black',
       }}
     >
       {children}
