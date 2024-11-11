@@ -35,9 +35,9 @@ export function Discount({ order }: Readonly<Props>) {
   return (
     <>
       <p style={{ textAlign: 'right' }}>--------------------</p>
-      <p style={{ textAlign: 'right' }}>Zwischensumme: {euroValue(Number(sum) - Number(discount.sum))}</p>
-      <p style={{ textAlign: 'right', color: '#D2122E' }}>Rabatt: {euroValue(discount.sum)}</p>
-      <p style={{ textAlign: 'right', fontWeight: 'bolder' }}>Gesamtbetrag, inkl. MwSt: {euroValue(sum)}</p>
+      <p style={{ textAlign: 'right' }}>Zwischensumme {euroValue(Number(sum) - Number(discount.sum))}</p>
+      <p style={{ textAlign: 'right', color: '#21A870' }}>Rabatt: {euroValue(discount.sum)}</p>
+      <p style={{ textAlign: 'right', fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(sum)}</p>
     </>
   );
 }

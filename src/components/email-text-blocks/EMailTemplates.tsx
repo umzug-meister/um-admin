@@ -20,19 +20,19 @@ export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
   return (
     <>
       <p>
-        {`Bitte halten Sie bei Rückfragen folgende Nummer bereit: `}
+        Bitte halten Sie bei Rückfragen folgende Nummer bereit:&nbsp;
         <strong>{order.id}</strong>
       </p>
       <br />
       <p>{anrede(order.customer)}</p>
       <p>
-        Vielen Dank für Ihre Anfrage. Wir freuen uns, Ihnen folgendes Angebot unterbreiten zu können. Gerne übernehmen
-        wir Ihren Umzug{' '}
+        Vielen Dank für Ihre Anfrage. Gerne übernehmen wir Ihren Umzug&nbsp;
         <strong>
-          am {getPrintableDate(order.date, true)} ab {order.time} Uhr.
+          am {getPrintableDate(order.date, true)} ab {order.time} Uhr
         </strong>
+        &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können:
       </p>
-      {Boolean(order.volume) && <p>Berechnetes Umzugsgut: {numberValue(order.volume)} m³</p>}
+      {Boolean(order.volume) && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
       <br />
       <h3>🚛 Kostenvoranschlag</h3>
       <p>Unser Kostenvoranschlag beinhaltet:</p>
@@ -71,6 +71,7 @@ export function RootElement({ elementID, children }: PropsWithChildren<RootProps
       sx={{
         fontSize: '14px',
         fontFamily: 'Arial, Helvetica, sans-serif',
+        maxWidth: '900px',
       }}
     >
       {children}
