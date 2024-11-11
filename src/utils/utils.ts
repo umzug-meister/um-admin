@@ -60,7 +60,7 @@ export function getPrintableDate(date: string | undefined, long = false) {
 
   const isPrintable = PRINT_DATE_REGEX.test(date);
 
-  if (isPrintable) return date;
+  if (isPrintable && !long) return date;
 
   if (long) {
     return new Intl.DateTimeFormat('de-DE', {

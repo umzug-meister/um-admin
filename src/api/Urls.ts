@@ -1,20 +1,24 @@
-const BASE = '/wp-json/um-configurator/v1';
+const UM_API = '/wp-json/um-configurator/v1';
 
 type IdType = string | number;
 
 export const Urls = {
   orders: (page: number, pageSize: number) =>
-    `${BASE}/order/all?posts_per_page=${pageSize}&paged=${page}&order=DESC&orderby=ID`,
+    `${UM_API}/order/all?posts_per_page=${pageSize}&paged=${page}&order=DESC&orderby=ID`,
 
-  orderSearch: (search: string) => `${BASE}/order/all?s=${search}`,
+  orderSearch: (search: string) => `${UM_API}/order/all?s=${search}`,
 
-  orderById: (id: IdType = ''): string => `${BASE}/order/${id}`,
+  orderById: (id: IdType = ''): string => `${UM_API}/order/${id}`,
 
-  options: (name = '') => `${BASE}/options/${name}`,
+  options: (name = '') => `${UM_API}/options/${name}`,
 
-  services: (id: IdType = 'all') => `${BASE}/service/${id}`,
+  services: (id: IdType = 'all') => `${UM_API}/service/${id}`,
 
-  categories: (id: IdType = 'all') => `${BASE}/item-category/${id}`,
+  categories: (id: IdType = 'all') => `${UM_API}/item-category/${id}`,
 
-  items: (id: IdType = 'all') => `${BASE}/item/${id}`,
+  items: (id: IdType = 'all') => `${UM_API}/item/${id}`,
+};
+
+export const MailProxyUrls = {
+  sendMail: `${import.meta.env.VITE_MAIL_PROXY_URL}/send-mail`,
 };

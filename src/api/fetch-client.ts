@@ -10,12 +10,14 @@ export const appRequest = (type: 'get' | 'delete' | 'put' | 'post') => {
   switch (type) {
     case 'get':
       return (url: string) => axios.get(url, { headers }).then((res) => res.data);
-
     case 'delete':
       return (url: string) => axios.delete(url, { headers });
     case 'put':
       return (url: string, data?: any) => axios.put(url, data, { headers }).then((res) => res.data);
     case 'post':
-      return (url: string, data?: any) => axios.post(url, data, { headers }).then((res) => res.data);
+      return (url: string, data?: any, customHeaders = headers) => {
+        console.log('ch', customHeaders);
+        return axios.post(url, data, { headers: customHeaders }).then((res) => res.data);
+      };
   }
 };

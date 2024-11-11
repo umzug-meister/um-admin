@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { euroValue, getOrtFromAdress } from '../../utils/utils';
+import { Dotted } from './Dotted';
 
 import { Order } from 'um-types';
 
@@ -25,19 +24,18 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
   }
   baseHours += `${euroValue(timeBased.basis)} inkl. MwSt.`;
 
-  let extraHours = '';
+  let extraHours: string | undefined;
   if (timeBased?.extra) {
     extraHours = `Jede weitere Stunde: ${euroValue(timeBased.extra)} inkl. MwSt.`;
   }
 
   return (
     <>
-      <h3>Personalkosten</h3>
-      <strong>{workersAndTransporters.join(' ')}</strong>
-      <ul>
-        <li>{baseHours}</li>
-        {extraHours && <li>{extraHours}</li>}
-      </ul>
+      <br />
+      <h3>👨‍🔧 Personalkosten</h3>
+      <Dotted>{workersAndTransporters.join(' ')}</Dotted>
+      <Dotted>{baseHours}</Dotted>
+      {extraHours && <Dotted>{extraHours}</Dotted>}
     </>
   );
 }

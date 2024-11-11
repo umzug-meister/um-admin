@@ -1,4 +1,3 @@
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import {
   Box,
@@ -16,7 +15,9 @@ import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+import { sendOffer } from '../../api/mail-proxy-client';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { getPrintableDate } from '../../utils/utils';
 import { EMailTextTemplate } from '../email-text-blocks/EMailTemplates';
 import { AppTextField } from '../shared/AppTextField';
 
@@ -45,7 +46,7 @@ export default function EditEmailAction() {
 
 function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
   const order = useCurrentOrder();
-  const [subject, setSubject] = useState('');
+  const [subject, setSubject] = useSubject();
   const [html, setHtml] = useState('<p></p>');
 
   useEffect(() => {
@@ -58,14 +59,25 @@ function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>
   const { open, onClose } = props;
   const { customer } = order;
 
+  const onSend = () => {
+    const email = {
+      to: (customer.email ?? customer.emailCopy) as string,
+      subject,
+      templateName: 'email',
+      variables: {
+        date: getPrintableDate(order.date),
+        content: html,
+      },
+    };
+
+    sendOffer(email).then(() => {
+      console.log('Email sent');
+    });
+  };
+
   return (
-    <Dialog fullWidth maxWidth="lg" open={open} onClose={onClose}>
-      <DialogTitle color="primary">
-        <Typography sx={{ display: 'flex' }}>
-          <CreateOutlinedIcon sx={{ marginRight: 2 }} />
-          E-Mail erstellen
-        </Typography>
-      </DialogTitle>
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
+      <DialogTitle>E-Mail Erstellen</DialogTitle>
       <DialogContent>
         <Box display={'flex'} flexDirection="column" gap={1}>
           <AppTextField
@@ -90,10 +102,22 @@ function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Abbrechen</Button>
-        <Button variant="contained" color="primary" onClick={onClose}>
+        <Button variant="contained" color="primary" onClick={onSend}>
           Senden
         </Button>
       </DialogActions>
     </Dialog>
   );
+}
+
+function useSubject() {
+  const order = useCurrentOrder();
+  const [subject, setSubject] = useState('');
+  useEffect(() => {
+    if (order) {
+      setSubject(`📦 Umzugsangebot zu Ihrer Anfrage ${order.id} am ${order.date}`);
+    }
+  }, [order]);
+
+  return [subject, setSubject as (value: string) => void] as const;
 }

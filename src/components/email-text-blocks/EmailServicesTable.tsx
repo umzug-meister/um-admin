@@ -1,4 +1,5 @@
 import { euroValue } from '../../utils/utils';
+import { Dotted } from './Dotted';
 
 import { Order } from 'um-types';
 
@@ -11,14 +12,32 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
 
   return (
     <>
-      <h3>Zusätzliche Kosten</h3>
-      <ul>
-        {leistungen
-          .filter((l) => l.hidden !== true)
-          .map((lst) => (
-            <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} red={lst.red} />
-          ))}
-      </ul>
+      <br />
+      <h3>📦 Zusätzliche Kosten</h3>
+      {leistungen
+        .filter((l) => l.hidden !== true)
+        .filter((l) => !l.red)
+        .map((lst) => (
+          <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} red={lst.red} />
+        ))}
+    </>
+  );
+}
+
+export function Discount({ order }: Readonly<Props>) {
+  const { leistungen = [], sum } = order;
+
+  const discount = leistungen.filter((l) => l.red === true)?.[0];
+  if (!discount) {
+    return null;
+  }
+
+  return (
+    <>
+      <p style={{ textAlign: 'right' }}>--------------------</p>
+      <p style={{ textAlign: 'right' }}>Zwischensumme: {euroValue(Number(sum) - Number(discount.sum))}</p>
+      <p style={{ textAlign: 'right', color: '#D2122E' }}>Rabatt: {euroValue(discount.sum)}</p>
+      <p style={{ textAlign: 'right', fontWeight: 'bolder' }}>Gesamtbetrag, inkl. MwSt: {euroValue(sum)}</p>
     </>
   );
 }
@@ -34,8 +53,8 @@ function ServicesTableRow({ desc, price, red, bold }: Readonly<RowProps>) {
   const color = red ? 'red' : 'black';
 
   return (
-    <li style={{ color, fontWeight: bold ? 'bold' : 'normal' }}>
-      {desc}: {euroValue(price)} inkl. MwSt.
-    </li>
+    <Dotted style={{ color, fontWeight: bold ? 'bold' : 'normal', whiteSpace: 'pre-wrap' }}>
+      {desc.replace('\n', ',')}: {euroValue(price)}
+    </Dotted>
   );
 }

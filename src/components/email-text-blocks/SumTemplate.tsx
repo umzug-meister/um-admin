@@ -15,5 +15,5 @@ export function SumTemplate({ order }: Readonly<Props>) {
   }
 
   arr.push(`${euroValue(sum)} inkl. MwSt.`);
-  return <h2>{arr.join(' ')}</h2>;
+  return <h3>{arr.join(' ')}</h3>;
 }
