@@ -161,6 +161,7 @@ const appSlice = createSlice({
 
     updateOrderProps(state, action: PayloadAction<{ path: string[]; value: any }>) {
       const { path, value } = action.payload;
+      console.log(action.payload);
 
       const curOrder = state.current;
       if (curOrder) {

@@ -1,20 +1,11 @@
-import { Box } from '@mui/material';
-
-import { PropsWithChildren } from 'react';
-
-import { anrede, getPrintableDate, numberValue } from '../../utils/utils';
+import { anrede, getPrintableDate, numberValue } from '../../../../utils/utils';
 import { Dotted } from './Dotted';
-import { Discount, EmailServicesTable } from './EmailServicesTable';
-import { WorkerCosts } from './WorkerCosts';
+import { EmailOfferOptions } from './EmailOfferOptions';
 
 import { addDays } from 'date-fns';
 import { Order } from 'um-types';
 
-interface RootProps {
-  elementID: string;
-}
-
-export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
+export function EMailOfferTemplate({ order }: Readonly<{ order: Order }>) {
   const hasMontage = Boolean(order.from?.demontage || order.to?.montage);
 
   return (
@@ -43,7 +34,7 @@ export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
       <Dotted>Be- und Entladen des LKWs</Dotted>
       <Dotted>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</Dotted>
       <Dotted>Ordentliche Rechnungsstellung</Dotted>
-      <EmailServicesTemplate order={order} />
+      <EmailOfferOptions order={order} />
       <br />
       <p>
         Unser Kostenvoranschlag gilt bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())}. <br />
@@ -51,30 +42,5 @@ export function EMailTextTemplate({ order }: Readonly<{ order: Order }>) {
         ohne Unterschrift).
       </p>
     </>
-  );
-}
-
-export function EmailServicesTemplate({ order }: Readonly<{ order: Order }>) {
-  return (
-    <>
-      <WorkerCosts order={order} />
-      <EmailServicesTable order={order} />
-      <Discount order={order} />
-    </>
-  );
-}
-
-export function RootElement({ elementID, children }: PropsWithChildren<RootProps>) {
-  return (
-    <Box
-      id={elementID}
-      sx={{
-        fontSize: '14px',
-        fontFamily: 'Arial, Helvetica, sans-serif',
-        maxWidth: '900px',
-      }}
-    >
-      {children}
-    </Box>
   );
 }

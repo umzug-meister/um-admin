@@ -1,4 +1,4 @@
-import { euroValue } from '../../utils/utils';
+import { euroValue } from '../../../../utils/utils';
 import { Dotted } from './Dotted';
 
 import { Order } from 'um-types';
@@ -24,7 +24,7 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
   );
 }
 
-export function Discount({ order }: Readonly<Props>) {
+export function Costs({ order }: Readonly<Props>) {
   const { leistungen = [], sum } = order;
 
   const discount = leistungen.filter((l) => l.red === true)?.[0];

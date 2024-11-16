@@ -16,7 +16,6 @@ export const appRequest = (type: 'get' | 'delete' | 'put' | 'post') => {
       return (url: string, data?: any) => axios.put(url, data, { headers }).then((res) => res.data);
     case 'post':
       return (url: string, data?: any, customHeaders = headers) => {
-        console.log('ch', customHeaders);
         return axios.post(url, data, { headers: customHeaders }).then((res) => res.data);
       };
   }

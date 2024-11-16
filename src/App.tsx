@@ -20,7 +20,7 @@ const Leads = lazy(() => import('./routes/Leads'));
 const Services = lazy(() => import('./routes/Services'));
 const Options = lazy(() => import('./routes/Options'));
 const FurnitureRoute = lazy(() => import('./routes/FurnitureRoute'));
-const EMailText = lazy(() => import('./routes/EMailText'));
+const EMailText = lazy(() => import('./features/email/routes/EMailText'));
 const Edit = lazy(() => import('./routes/Edit'));
 const Categories = lazy(() => import('./routes/Categories'));
 const OffersEditor = lazy(() => import('./routes/OffersEditor'));

@@ -1,16 +1,17 @@
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
-import { IconButton, Tooltip } from '@mui/material';
 
 import { useCallback } from 'react';
 
-import { useCurrentOrder } from '../../hooks/useCurrentOrder';
-import { useSaveOrder } from '../../hooks/useSaveOrder';
+import { useCurrentOrder } from '../../../../hooks/useCurrentOrder';
+import { useSaveOrder } from '../../../../hooks/useSaveOrder';
+import { MenuItemWithIcon } from '../MenuItemWithIcon';
 
-export function EmailTextAction() {
+export function EmailTextAction({ handleClose }: EmailActionProps) {
   const currentOrder = useCurrentOrder();
   const saveOrder = useSaveOrder();
 
   const onEmailRequest = useCallback(() => {
+    handleClose();
     saveOrder(currentOrder).then((order) => {
       if (order !== null) {
         const id = order.id;
@@ -19,13 +20,11 @@ export function EmailTextAction() {
         window.open(`${origin}${pathname}#/email-text/${id}`, '_blank');
       }
     });
-  }, [currentOrder, saveOrder]);
+  }, [currentOrder, saveOrder, handleClose]);
 
   return (
-    <Tooltip title="Angebotstext">
-      <IconButton onClick={onEmailRequest} color="inherit">
-        <MessageOutlinedIcon />
-      </IconButton>
-    </Tooltip>
+    <MenuItemWithIcon onClick={onEmailRequest} text="Angebotstext anzeigen">
+      <MessageOutlinedIcon />
+    </MenuItemWithIcon>
   );
 }
