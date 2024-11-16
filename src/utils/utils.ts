@@ -153,13 +153,16 @@ export function numberValue(value: string | number | undefined) {
 }
 
 export const anrede = (customer: Customer) => {
-  const { salutation, lastName, company } = customer;
+  const { salutation, lastName, firstName, company } = customer;
 
   if (company && !lastName) {
     return 'Sehr geehrte Damen und Herren,';
   }
 
-  return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
+  if (['Frau', 'Herr'].includes(salutation)) {
+    return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
+  }
+  return `Hallo ${firstName} ${lastName},`;
 };
 
 const f_getDateByIndex = (dueDates: DueDate[]) => {

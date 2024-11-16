@@ -15,11 +15,11 @@ import { useOfferSubject } from '../../hooks/useOfferSubject';
 import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
 import { MenuItemWithIcon } from '../MenuItemWithIcon';
-import { EMailOfferTemplate } from '../email-text-blocks/EmailOfferTemplate';
+import { EMailOfferTemplate } from '../email-text-blocks/offer/EmailOfferTemplate';
 
 import { AppPacking, AppService } from 'um-types';
 
-const EMAIL_TEXT_ID = 'email-text-in-dialog';
+const EMAIL_TEXT_ID = 'offer-email-text-in-dialog';
 
 export function SendOfferAction({ handleClose }: EmailActionProps) {
   const [open, setOpen] = useState(false);

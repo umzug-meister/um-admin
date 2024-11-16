@@ -1,14 +1,20 @@
 import CancelScheduleSendOutlinedIcon from '@mui/icons-material/CancelScheduleSendOutlined';
+import { Box } from '@mui/material';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../../../hooks/useCurrentOrder';
+import { useSaveOrder } from '../../../../hooks/useSaveOrder';
 import { AppDispatch } from '../../../../store';
 import { updateOrderProps } from '../../../../store/appReducer';
 import { useRejectionSubject } from '../../hooks/useRejectionSubject';
+import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
 import { MenuItemWithIcon } from '../MenuItemWithIcon';
+import { RejectionEmailTemplate } from '../email-text-blocks/rejection/RejectionEmailTemplate';
+
+const EMAIL_TEXT_ID = 'rejection-email-text-in-dialog';
 
 export function SendRejectionAction({ handleClose }: EmailActionProps) {
   const [open, setOpen] = useState(false);
@@ -25,6 +31,9 @@ export function SendRejectionAction({ handleClose }: EmailActionProps) {
 
   return (
     <>
+      <Box id={EMAIL_TEXT_ID} display="none">
+        <RejectionEmailTemplate />
+      </Box>
       <MenuItemWithIcon onClick={onOpen} text="Absage versenden">
         <CancelScheduleSendOutlinedIcon />
       </MenuItemWithIcon>
@@ -36,15 +45,33 @@ export function SendRejectionAction({ handleClose }: EmailActionProps) {
 function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
   const order = useCurrentOrder();
 
+  const saveOrder = useSaveOrder();
+
   const [subject, setSubject] = useRejectionSubject();
   const [html, setHtml] = useState('<p></p>');
+
+  useEffect(() => {
+    const emailTemplate = document.getElementById(EMAIL_TEXT_ID)?.innerHTML;
+    if (emailTemplate) setHtml(emailTemplate);
+  }, [order]);
 
   if (!order) return null;
 
   const { open, onClose } = props;
   const { customer } = order;
 
-  const onSend = () => {};
+  const onSend = () => {
+    saveOrder(order).then(() => {
+      sendMail({
+        type: 'rejection' as const,
+        subject,
+        to: (customer.email ?? customer.emailCopy) as string,
+        variables: {
+          content: html,
+        },
+      });
+    });
+  };
 
   return (
     <EmailEditor

@@ -1,5 +1,5 @@
-import { euroValue, getOrtFromAdress } from '../../../../utils/utils';
-import { Dotted } from './Dotted';
+import { euroValue, getOrtFromAdress } from '../../../../../utils/utils';
+import { Dotted } from '../Dotted';
 
 import { Order } from 'um-types';
 

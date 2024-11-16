@@ -1,5 +1,5 @@
-import { anrede, getPrintableDate, numberValue } from '../../../../utils/utils';
-import { Dotted } from './Dotted';
+import { anrede, getPrintableDate, numberValue } from '../../../../../utils/utils';
+import { Dotted } from '../Dotted';
 import { EmailOfferOptions } from './EmailOfferOptions';
 
 import { addDays } from 'date-fns';

@@ -1,14 +1,9 @@
 import { MailProxyUrls } from '../../api/Urls';
 import { appRequest } from '../../api/fetch-client';
 
-type RejectionEmailData = {
+type BaseEmailData = {
   to: string;
   subject: string;
-  type: 'rejection';
-  attachment: {
-    filename: string;
-    content: string;
-  };
   variables: {
     /**
      * html text
@@ -16,24 +11,28 @@ type RejectionEmailData = {
     content: string;
   };
 };
+
+type RejectionEmailData = {
+  type: 'rejection';
+} & BaseEmailData;
+
+type InvoiceEmailData = {
+  type: 'invoice';
+  attachment: {
+    filename: string;
+    content: string;
+  };
+} & BaseEmailData;
 
 type OfferEmailData = {
-  to: string;
-  subject: string;
-  type: 'offer' | 'rejection' | 'invoice';
+  type: 'offer';
   attachment: {
     filename: string;
     content: string;
   };
-  variables: {
-    /**
-     * html text
-     */
-    content: string;
-  };
-};
+} & BaseEmailData;
 
-type MailData = OfferEmailData | RejectionEmailData;
+type EmailData = OfferEmailData | RejectionEmailData | InvoiceEmailData;
 
 const HEADERS = {
   'x-api-key': import.meta.env.VITE_MAIL_PROXY_API_KEY,
@@ -41,6 +40,6 @@ const HEADERS = {
 
 const URL = MailProxyUrls.sendMail;
 
-export function sendMail(data: MailData) {
+export function sendMail(data: EmailData) {
   return appRequest('post')(URL, data, HEADERS);
 }
