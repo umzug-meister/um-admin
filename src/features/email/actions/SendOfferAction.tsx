@@ -13,7 +13,7 @@ import { orderFileName } from '../../../pdf/filename';
 import { AppState } from '../../../store';
 import { EmailEditor } from '../components/EmailEditor';
 import { MenuItemWithIcon } from '../components/MenuItemWithIcon';
-import { EMailOfferTemplate } from '../components/email-text-blocks/EmailOfferTemplates';
+import { EMailOfferTemplate } from '../components/email-text-blocks/EmailOfferTemplate';
 import { useOfferSubject } from '../hooks/useOfferSubject';
 import { sendMail } from '../mail-proxy-client';
 

@@ -6,7 +6,7 @@ import { CopyOfferButton } from '../../../components/CopyOfferButton';
 import { AppGridContainer } from '../../../components/shared/AppGridContainer';
 import { useLoadOrder } from '../../../hooks/useLoadOrder';
 import { EmailOfferOptions } from '../components/email-text-blocks/EmailOfferOptions';
-import { EMailOfferTemplate } from '../components/email-text-blocks/EmailOfferTemplates';
+import { EMailOfferTemplate } from '../components/email-text-blocks/EmailOfferTemplate';
 
 export default function EMailText() {
   const order = useLoadOrder();

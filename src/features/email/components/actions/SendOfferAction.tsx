@@ -15,7 +15,7 @@ import { useOfferSubject } from '../../hooks/useOfferSubject';
 import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
 import { MenuItemWithIcon } from '../MenuItemWithIcon';
-import { EMailOfferTemplate } from '../email-text-blocks/EmailOfferTemplates';
+import { EMailOfferTemplate } from '../email-text-blocks/EmailOfferTemplate';
 
 import { AppPacking, AppService } from 'um-types';
 
