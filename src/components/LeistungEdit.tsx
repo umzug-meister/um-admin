@@ -1,7 +1,6 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Autocomplete, Box, Grid2, IconButton } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
 
 import { useMemo } from 'react';
 
@@ -17,16 +16,10 @@ import { AppPacking, AppService, MLeistung } from 'um-types';
 interface Props {
   leistungen: MLeistung[] | undefined;
   update: (leistungen: MLeistung[]) => void;
-  hideChecks?: boolean;
   suggestServices?: boolean;
 }
 
-export default function LeistungEdit({
-  leistungen = [],
-  update,
-  hideChecks,
-  suggestServices = false,
-}: Readonly<Props>) {
+export default function LeistungEdit({ leistungen = [], update, suggestServices = false }: Readonly<Props>) {
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
   const options = useMemo(() => [...services, ...packings], [services, packings]);
@@ -40,12 +33,6 @@ export default function LeistungEdit({
 
   const handleClear = () => {
     update([]);
-  };
-
-  const onCheck = (checked: boolean, index: number) => {
-    const current = cloneDeep(leistungen);
-    current[index] = { ...current[index], calculate: checked };
-    update(current);
   };
 
   const calculateSum = (prop: keyof MLeistung, lst: MLeistung) => {
@@ -100,11 +87,9 @@ export default function LeistungEdit({
             autocompleteOptions={options}
             disableDown={index === leistungen.length - 1}
             disableUp={index === 0}
-            hideChecks={hideChecks || false}
             suggestServices={suggestServices}
             onLeistungSelect={(lst) => onLeistungSelect(lst, index)}
             moveEntry={(offset) => moveEntry(index, offset)}
-            onCheck={(checked) => onCheck(checked, index)}
             onDelete={() => onDelete(index)}
             onPropChange={(prop, value) => onPropChange(prop, value, index)}
           />
@@ -124,12 +109,10 @@ type GridRowService = AppService | AppPacking;
 
 interface GridRowProps {
   lst: MLeistung;
-  hideChecks: boolean;
   suggestServices: boolean;
   autocompleteOptions: GridRowService[];
   disableUp: boolean;
   disableDown: boolean;
-  onCheck: (checked: boolean) => void;
   onPropChange: (prop: keyof MLeistung, value: any) => void;
   moveEntry: (offest: number) => void;
   onDelete: () => void;
@@ -138,14 +121,12 @@ interface GridRowProps {
 
 function GridRow({
   lst,
-  hideChecks,
   suggestServices,
   autocompleteOptions,
   disableDown,
   disableUp,
   moveEntry,
   onDelete,
-  onCheck,
   onPropChange,
   onLeistungSelect,
 }: Readonly<GridRowProps>) {
@@ -168,12 +149,7 @@ function GridRow({
 
   return (
     <Grid2 container spacing={2}>
-      {!hideChecks && (
-        <Grid2 size={1}>
-          <Checkbox checked={lst.calculate || false} onChange={(ev) => onCheck(ev.target.checked)} />
-        </Grid2>
-      )}
-      <Grid2 size={hideChecks ? 6 : 5}>
+      <Grid2 size={6}>
         {suggestServices ? (
           <Autocomplete
             freeSolo

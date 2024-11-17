@@ -1,6 +1,6 @@
 import { AppOptions } from '../../src/app-types';
 import { OPTIONS } from '../constants';
-import { euroValue, getParseableDate, numberValue } from '../utils/utils';
+import { calculateNumbers, euroValue, getParseableDate, numberValue } from '../utils/utils';
 import { agb } from './AgbTemplate';
 import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
@@ -398,9 +398,7 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
   const isTime = Number(order.timeBased?.hours || 0) > 0;
   if (showTitel) pdfBuilder.addHeader(`Preis`, 10);
 
-  const price = Number(order.sum);
-  const tax = (price / (100 + MWST)) * MWST;
-  const netto = price - tax;
+  const { brutto, netto, tax } = calculateNumbers(order.leistungen);
   pdfBuilder.setBold();
   pdfBuilder.addText(`Netto: ${euroValue(netto)}`, 9, 6, 'right');
   pdfBuilder.addText(`MwSt. ${MWST}%: ${euroValue(tax)}`, 9, 6, 'right');
@@ -408,7 +406,12 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
   pdfBuilder.setBold();
 
   if (isTime === true) {
-    pdfBuilder.addText(`Gesamtpreis für ${order.timeBased?.hours || ''} Stunden: ${euroValue(price)}`, 14, 10, 'right');
+    pdfBuilder.addText(
+      `Gesamtpreis für ${order.timeBased?.hours || ''} Stunden: ${euroValue(brutto)}`,
+      14,
+      10,
+      'right',
+    );
     pdfBuilder.setNormal();
     pdfBuilder.addText(
       `Je angefangene weitere Stunde: ${euroValue(order.timeBased?.extra)} inkl. MwSt.`,
@@ -423,7 +426,7 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
       'right',
     );
   } else {
-    pdfBuilder.addText(`Gesamt: ${euroValue(price)}`, 14, 10, 'right');
+    pdfBuilder.addText(`Gesamt: ${euroValue(brutto)}`, 14, 10, 'right');
   }
   pdfBuilder.setNormal();
 };
@@ -449,7 +452,7 @@ const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   textBlocks.forEach((block) => {
     pdfBuilder.addTable({
       head: null,
-      body: [[`• ${block}`]],
+      body: [[` &#9;• ${block}`]],
       columnStyles: { 0: { lineColor: [255, 255, 255] } },
     });
   });

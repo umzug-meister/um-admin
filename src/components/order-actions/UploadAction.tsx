@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useOption } from '../../hooks/useOption';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
@@ -219,24 +220,6 @@ export default function UploadAction() {
       </Snackbar>
     </>
   );
-}
-//#endregion
-
-//#region Hook
-
-function useLocalStorage(storageKey: string) {
-  const [value, setValue] = useState(
-    JSON.parse(
-      //@ts-ignore
-      localStorage.getItem(storageKey),
-    ),
-  );
-
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, storageKey]);
-
-  return [value, setValue];
 }
 //#endregion
 

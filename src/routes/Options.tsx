@@ -3,6 +3,7 @@ import { Grid2 } from '@mui/material';
 import { OptionInput } from '../components/OptionInput';
 import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
+import SendEmailFeatures from '../features/experimentals/SendEmailFeatures';
 
 export default function Options() {
   return (
@@ -23,6 +24,11 @@ export default function Options() {
           <OptionInput name="dataPrivacyUrl" label="Datenschutz URL" />
           <OptionInput name="successUrl" label="Success URL" />
           <OptionInput name="boxCalculatorUrl" label="Kartonrechner URL" />
+        </AppCard>
+      </Grid2>
+      <Grid2 size={{ xs: 6, xl: 4 }}>
+        <AppCard title="Experimentelle Einstellungen">
+          <SendEmailFeatures />
         </AppCard>
       </Grid2>
     </AppGridContainer>

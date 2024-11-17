@@ -1,3 +1,8 @@
 .active-menu-link svg {
   color: #007fff;
 }
+
+.quill {
+  height: calc(100% - 50px);
+  border-radius: 10px;
+}

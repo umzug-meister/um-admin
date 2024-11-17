@@ -7,7 +7,7 @@ const WAITING_DAYS = 10;
 
 const DEFAULT_REMINDER_COSTS = 10;
 
-export const calculateNumbers = (entries: MLeistung[]) => {
+export const calculateNumbers = (entries: MLeistung[] = []) => {
   const brutto = entries.reduce((acc, elem) => {
     return acc + Number(elem.sum || 0);
   }, 0);
@@ -60,7 +60,7 @@ export function getPrintableDate(date: string | undefined, long = false) {
 
   const isPrintable = PRINT_DATE_REGEX.test(date);
 
-  if (isPrintable) return date;
+  if (isPrintable && !long) return date;
 
   if (long) {
     return new Intl.DateTimeFormat('de-DE', {
@@ -153,13 +153,16 @@ export function numberValue(value: string | number | undefined) {
 }
 
 export const anrede = (customer: Customer) => {
-  const { salutation, lastName, company } = customer;
+  const { salutation, lastName, firstName, company } = customer;
 
   if (company && !lastName) {
     return 'Sehr geehrte Damen und Herren,';
   }
 
-  return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
+  if (['Frau', 'Herr'].includes(salutation)) {
+    return salutation === 'Frau' ? `Sehr geehrte Frau ${lastName},` : `Sehr geehrter Herr ${lastName},`;
+  }
+  return `Hallo ${firstName} ${lastName},`;
 };
 
 const f_getDateByIndex = (dueDates: DueDate[]) => {

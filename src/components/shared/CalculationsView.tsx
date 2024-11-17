@@ -1,36 +1,25 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
+import { calculateNumbers, euroValue } from '../../utils/utils';
+
 import { MLeistung } from 'um-types';
 
 interface Props {
-  entries?: MLeistung[] | number;
+  entries?: MLeistung[];
   align?: 'right' | 'left';
 }
 
-const TAX = 0.19;
 export default function CalculationsView({ entries = [], align = 'right' }: Props) {
-  const sum =
-    (Array.isArray(entries)
-      ? entries.reduce((prev, cur) => {
-          return prev + Number(cur.sum || 0);
-        }, 0)
-      : entries) || 0;
-
-  const netto = sum / (1 + TAX);
-  const mwst = sum - netto;
-  const intl = new Intl.NumberFormat('de-de', {
-    style: 'currency',
-    currency: 'EUR',
-  });
+  const { brutto, netto, tax } = calculateNumbers(entries);
 
   return (
     <Box display={'flex'} flexDirection="column" gap={1}>
       <Typography align={align} variant="h6">
-        {`Gesamt: ${intl.format(sum)}`}
+        {`Gesamt: ${euroValue(brutto)}`}
       </Typography>
-      <Typography align={align}>{`MwSt: ${intl.format(mwst)}`}</Typography>
-      <Typography align={align}>{`Netto: ${intl.format(netto)}`}</Typography>
+      <Typography align={align}>{`MwSt: ${euroValue(tax)}`}</Typography>
+      <Typography align={align}>{`Netto: ${euroValue(netto)}`}</Typography>
     </Box>
   );
 }
