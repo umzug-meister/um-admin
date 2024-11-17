@@ -21,6 +21,12 @@ export default defineConfig(({ mode }) => {
         output: {
           dir: 'build',
           entryFileNames: 'main.[hash].js',
+          assetFileNames(chunkInfo) {
+            if (chunkInfo.name === 'index.css') {
+              return 'main.[hash].css';
+            }
+            return 'assets/' + chunkInfo.name;
+          },
         },
       },
     },
