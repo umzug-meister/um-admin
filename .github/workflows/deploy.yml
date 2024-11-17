@@ -1,4 +1,4 @@
-name: Deploy Umzug Meister
+name: Deploy UM Admin
 
 on:
   push:
