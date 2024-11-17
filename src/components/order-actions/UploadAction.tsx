@@ -12,7 +12,6 @@ import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { useOption } from '../../hooks/useOption';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
@@ -51,8 +50,6 @@ export default function UploadAction() {
   const [tokenAvailable, setTokenAvailable] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const gapiKey = useOption('gapikey');
-  const clientId = useOption('clientId');
   const options = useSelector<AppState, AppOptions>((s) => s.app.options);
   const [services] = useState(useAppServices<AppService>('Bohrarbeiten'));
   const [packings] = useState(useAppServices<AppPacking>('Packmaterial'));
@@ -62,6 +59,9 @@ export default function UploadAction() {
   const tClient = useRef<any>(null);
   const currentPath = useRef<string[] | null>(null);
   const currentFileName = useRef<string | null>(null);
+
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const gapiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   useEffect(() => {
     if (gapiKey) {
