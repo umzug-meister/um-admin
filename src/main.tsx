@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import 'react-quill-new/dist/quill.snow.css';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 

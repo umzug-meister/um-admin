@@ -1,8 +1,7 @@
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Box } from '@mui/material';
 
-import React, { useEffect, useState } from 'react';
-import 'react-quill-new/dist/quill.snow.css';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { AppOptions } from '../../../../app-types';
