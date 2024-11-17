@@ -9,6 +9,7 @@ import {
   getCustomerPLZ,
   getCustomerStreet,
   getNextDueDate,
+  getParseableDate,
   getPrintableDate,
 } from '../utils/utils';
 
@@ -291,7 +292,7 @@ const appSlice = createSlice({
         }
 
         const newInvoice: Rechnung = {
-          date: new Date().toLocaleDateString('ru'),
+          date: getParseableDate(new Date().toLocaleDateString('ru')),
           text: '',
           orderId: state.current?.id ?? '',
           firma: state.current?.customer.company,
