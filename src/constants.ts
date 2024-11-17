@@ -38,10 +38,7 @@ export const OPTIONS = {
   R_NUMBER: 'rNumber',
   G_NUMBER: 'gNumber',
 
-  GAPIKEY: 'gapikey',
-  CLIENT_ID: 'clientId',
   ORIGIN: 'origin',
-  POOL_ID: 'poolId',
   DATA_PRIVACY_URL: 'dataPrivacyUrl',
   SUCCESS_URL: 'successUrl',
   BOX_CALCULATOR_URL: 'boxCalculatorUrl',

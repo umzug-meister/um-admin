@@ -13,7 +13,6 @@ import { Order } from 'um-types';
 import { clearCountry } from 'um-types/utils';
 
 export default function Distance() {
-  const gapiKey = useOption('gapikey');
   const origin = useOption('origin');
 
   const [response, setResponse] = useState<google.maps.DistanceMatrixResponse | null>();
@@ -23,6 +22,8 @@ export default function Distance() {
   const dispatch = useDispatch<AppDispatch>();
 
   const order = useSelector<AppState, Order | null>((s) => s.app.current);
+
+  const gapiKey = import.meta.env.VITE_GAPI_KEY;
   const from = order?.from?.address;
   const to = order?.to?.address;
 

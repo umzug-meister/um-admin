@@ -3,7 +3,6 @@ import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Men
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useOption } from '../hooks/useOption';
 import { AppDispatch, AppState } from '../store';
 import { updateOrderProps } from '../store/appReducer';
 import { AppDateField } from './shared/AppDateField';
@@ -53,7 +52,7 @@ export default function OrderField<T>({
 }: Readonly<Props<T>>) {
   const value = useOrderValue(path, nestedPath);
   const dispatch = useDispatch<AppDispatch>();
-  const gapiKey = useOption('gapikey');
+  const gapiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   const loaderRef = useRef<Loader | null>(null);
 
