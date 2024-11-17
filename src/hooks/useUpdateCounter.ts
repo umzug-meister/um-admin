@@ -25,11 +25,8 @@ export function useUpdateCounter() {
       const year = String('#' + date.getFullYear());
       const month = String('#' + String(date.getMonth() + 1));
 
-      console.log('will update counter: ', leadCounter.id, year, month);
-
       appRequest('get')(Urls.services(leadCounter.id)).then((nextCounter) => {
         if (!nextCounter.data?.[year]?.[month]) {
-          console.log('will create new: ', year, month);
           set(nextCounter, ['data', year, month], []);
         }
 
@@ -39,10 +36,8 @@ export function useUpdateCounter() {
 
         if (index !== -1) {
           leadsByMonth.splice(index, 1, nextLead);
-          console.log('will update lead: ', nextLead);
         } else {
           leadsByMonth.push(nextLead);
-          console.log('will add lead: ', nextLead);
         }
 
         dispatch(updateService(nextCounter));
