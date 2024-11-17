@@ -23,7 +23,8 @@ export default function Distance() {
 
   const order = useSelector<AppState, Order | null>((s) => s.app.current);
 
-  const gapiKey = import.meta.env.VITE_GAPI_KEY;
+  const gapiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
   const from = order?.from?.address;
   const to = order?.to?.address;
 
