@@ -54,7 +54,7 @@ function ServicesTableRow({ desc, price, red, bold }: Readonly<RowProps>) {
 
   return (
     <Dotted style={{ color, fontWeight: bold ? 'bold' : 'normal', whiteSpace: 'pre-wrap' }}>
-      {desc.replace('\n', ',')}: {euroValue(price)}
+      {desc.replace(/\n/g, ',')}: {euroValue(price)}
     </Dotted>
   );
 }
