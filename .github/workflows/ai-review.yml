@@ -1,4 +1,4 @@
-name: AI Code Review
+name: OpenAI Code Review
 
 on:
   pull_request:
@@ -13,24 +13,11 @@ on:
       - '.gitgnore'
 
 jobs:
-  code-review:
-    name: 'AI Code Review'
-    if: github.event.pull_request.user.name != 'renovate'
-    runs-on: ubuntu-latest
+  call_code_review:
+    name: Call Code Review
+    uses: umzug-meister/workflows/.github/workflows/ai-review.yml@main
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     permissions:
       contents: read
       pull-requests: write
-    steps:
-      # This step checks out a copy of your repository.
-      - name: Checkout
-        uses: actions/checkout@v4
-      # This step references the directory that contains the action.
-      - name: Review
-        uses: sshnaidm/gpt-code-review-action@v2.0
-        continue-on-error: true
-        with:
-          openai-key: ${{ secrets.OPENAI_API_KEY }}
-          # model: 'gpt-4'
-          max-length: 12000
-          # prompt: 'Only suggest performance improvements for this code.'
-          # post-if-error: false
