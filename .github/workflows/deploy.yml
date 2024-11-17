@@ -13,7 +13,7 @@ jobs:
       name: UM_PROD
     env:
       VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
-      VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}};
+      VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}}
       VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       VITE_GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
     steps:
