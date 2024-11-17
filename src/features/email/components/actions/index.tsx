@@ -3,6 +3,7 @@ import { Divider, IconButton, Menu, MenuList, Paper } from '@mui/material';
 
 import { useState } from 'react';
 
+import { useLocalStorage } from '../../../../hooks/useLocalStorage';
 import { EmailTextAction } from './EmailTextAction';
 import { SendOfferAction } from './SendOfferAction';
 import { SendRejectionAction } from './SendRejectionAction';
@@ -11,6 +12,7 @@ export function EmailActions() {
   const EMAIL_MENU_ID = 'email-menu';
   const EMAIL_MENU_BUTTON_ID = 'email-menu-button';
 
+  const [emailEnabled] = useLocalStorage('send-mail');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,10 +45,10 @@ export function EmailActions() {
           }}
         >
           <MenuList>
-            <SendOfferAction handleClose={handleClose} />
+            {emailEnabled && <SendOfferAction handleClose={handleClose} />}
             <EmailTextAction handleClose={handleClose} />
             <Divider />
-            <SendRejectionAction handleClose={handleClose} />
+            {emailEnabled && <SendRejectionAction handleClose={handleClose} />}
           </MenuList>
         </Menu>
       </Paper>

@@ -104,14 +104,12 @@ export default function Edit() {
 
       <TabPanel index={5} value={value}>
         <AppGridContainer>
-          <Grid2 size={{ xs: 10 }}>
+          <Grid2 size={{ xs: 12 }}>
             <Grid2 container spacing={2}>
               <OrderConditionsChips />
               <OrderConditionsGrid />
+              <OrderCalculator />
             </Grid2>
-          </Grid2>
-          <Grid2 size={{ xs: 2 }}>
-            <OrderCalculator />
           </Grid2>
         </AppGridContainer>
       </TabPanel>

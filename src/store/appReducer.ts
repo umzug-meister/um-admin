@@ -3,6 +3,7 @@ import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 import { AppOptions, OptionName } from '../app-types';
 import {
+  calculateNumbers,
   createDueDate,
   getAmountOfParkingSlots,
   getCustomerFullname,
@@ -104,7 +105,6 @@ const calculate = (order: Order, options: AppOptions): Order => {
 
   let servicesPrice = 0;
   let verpackungPrice = 0;
-  let otherPrices = 0;
 
   if (services?.length > 0) {
     services.forEach((s) => {
@@ -121,28 +121,11 @@ const calculate = (order: Order, options: AppOptions): Order => {
     });
   }
 
-  if (order?.leistungen?.length > 0) {
-    order.leistungen.forEach((l) => {
-      if (l.sum && l.calculate === true) {
-        otherPrices += Number(l.sum);
-      }
-    });
-  }
-
   prices.services = servicesPrice;
   prices.verpackung = verpackungPrice;
-  prices.other = otherPrices;
   calculated.prices = prices;
 
-  const sum =
-    Number(calculated.timeBased?.basis ?? 0) -
-    Number(calculated.discountValue ?? 0) +
-    Number(calculated.prices?.halteverbotszonen ?? 0) +
-    Number(calculated.prices?.services ?? 0) +
-    Number(calculated.prices?.verpackung ?? 0) +
-    Number(calculated.prices?.other ?? 0);
-
-  calculated.sum = sum;
+  calculated.sum = calculateNumbers(order.leistungen).brutto;
 
   return calculated;
 };
