@@ -28,16 +28,18 @@ export function Costs({ order }: Readonly<Props>) {
   const { leistungen = [], sum } = order;
 
   const discount = leistungen.filter((l) => l.red === true)?.[0];
-  if (!discount) {
-    return null;
-  }
 
   return (
     <>
-      <p style={{ textAlign: 'right' }}>--------------------</p>
-      <p style={{ textAlign: 'right' }}>Zwischensumme {euroValue(Number(sum) - Number(discount.sum))}</p>
-      <p style={{ textAlign: 'right', color: '#21A870' }}>Rabatt: {euroValue(discount.sum)}</p>
-      <p style={{ textAlign: 'right', fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(sum)}</p>
+      <p style={{ textAlign: 'left' }}>--------------------</p>
+      {discount && (
+        <>
+          <p style={{ textAlign: 'right' }}>Zwischensumme {euroValue(Number(sum) - Number(discount.sum))}</p>
+          <p style={{ textAlign: 'right', color: '#21A870' }}>Rabatt: {euroValue(discount.sum)}</p>
+        </>
+      )}
+
+      <p style={{ textAlign: 'left', fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(sum)}</p>
     </>
   );
 }
