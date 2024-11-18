@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, AppState } from '../../store';
 import { addSearchResults } from '../../store/searchReducer';
+import { Loading } from '../shared/Loading';
 import OrderSearchBar from '../shared/search/OrderSearchBar';
 import { useOrderSearch } from '../shared/search/orderSearchQuery';
 import { SearchResult } from './SearchResult';
 
 import { Order } from 'um-types';
-import { Loading } from '../shared/Loading';
 
 export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => void }>) {
   const [results, setResults] = useState<Order[]>([]);
