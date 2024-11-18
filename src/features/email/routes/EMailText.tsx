@@ -20,13 +20,13 @@ export default function EMailText() {
 
   return (
     <AppGridContainer>
-      <Grid2 size={{ xs: 12, lg: 6 }}>
+      <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={fullText} />
         <RootElement elementID={fullText}>
           <EMailOfferTemplate order={order} />
         </RootElement>
       </Grid2>
-      <Grid2 size={{ xs: 12, lg: 6 }}>
+      <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={core} />
         <RootElement elementID={core}>
           <EmailOfferOptions order={order} />
@@ -44,6 +44,9 @@ function RootElement({ elementID, children }: PropsWithChildren<{ elementID: str
         fontSize: '14px',
         fontFamily: 'Arial, Helvetica, sans-serif',
         maxWidth: '900px',
+        '& p': {
+          margin: '0.5rem 0',
+        },
       }}
     >
       {children}

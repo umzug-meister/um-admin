@@ -28,7 +28,7 @@ export function EMailOfferTemplate({ order }: Readonly<{ order: Order }>) {
       <h3>🚛 Kostenvoranschlag</h3>
       <p>Unser Kostenvoranschlag beinhaltet:</p>
       <Dotted>Anfahrt / Lastfahrtkosten</Dotted>
-      {hasMontage && <Dotted> Möbeldemontage und Montage</Dotted>}
+      {hasMontage && <Dotted>Möbeldemontage und Montage</Dotted>}
       <Dotted>Bereitstellung eines Umzugswagens</Dotted>
       <Dotted>Versicherung: bis 2 Mio. Euro</Dotted>
       <Dotted>Be- und Entladen des LKWs</Dotted>

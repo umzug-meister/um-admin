@@ -22,6 +22,7 @@ export function SendRejectionAction({ handleClose }: EmailActionProps) {
   const dispatch = useDispatch<AppDispatch>();
   const onRequestClose = () => {
     handleClose();
+    setOpen(false);
   };
 
   const onOpen = () => {
@@ -69,6 +70,8 @@ function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
         variables: {
           content: html,
         },
+      }).then(() => {
+        onClose();
       });
     });
   };
