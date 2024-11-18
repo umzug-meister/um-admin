@@ -1,29 +1,11 @@
-name: Build and Lint
+name: NodeJS PR Check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm run test
+    name: Check Pull Request
+    uses: umzug-meister/workflows/.github/workflows/node-pr-check.yml@main
+    with:
+      node_version: '22'

@@ -1,6 +1,7 @@
 import { appReducer } from './appReducer';
 import { categoriesReducer } from './categoriesReducer';
 import { furnitureReducer } from './furnitureReducer';
+import { notificationsReducer } from './notificationReducer';
 import { searchReducer } from './searchReducer';
 import { servicesReducer } from './servicesReducer';
 
@@ -13,6 +14,7 @@ const store = configureStore({
     furniture: furnitureReducer,
     app: appReducer,
     search: searchReducer,
+    notifications: notificationsReducer,
   },
 });
 

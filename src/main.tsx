@@ -12,8 +12,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-console.log('App start');
-
 ReactDOM.createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>
     <HashRouter>

@@ -1,6 +1,6 @@
 {
   "sonarlint.connectedMode.project": {
-    "connectionId": "nikolai-k",
-    "projectKey": "sputnyq_umzug-meister"
+    "connectionId": "umzug-meister",
+    "projectKey": "umzug-meister_um-admin"
   }
 }

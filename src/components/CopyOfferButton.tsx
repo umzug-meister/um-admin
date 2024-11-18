@@ -1,13 +1,16 @@
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import { Alert, Box, Button, Snackbar, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { AppDispatch } from '../store';
+import { addNotification } from '../store/notificationReducer';
 
 interface Props {
   elementID: string;
 }
 export function CopyOfferButton({ elementID }: Readonly<Props>) {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const onCopy = () => {
     const text = document.getElementById(elementID);
@@ -29,27 +32,12 @@ export function CopyOfferButton({ elementID }: Readonly<Props>) {
       }
 
       document.execCommand('copy');
-      setOpenSnackbar(true);
+      dispatch(addNotification({ message: 'In die Zwischenablage kopiert', severity: 'success' }));
     }
   };
 
   return (
     <Box>
-      <Snackbar
-        open={openSnackbar}
-        onClose={() => {
-          setOpenSnackbar(false);
-        }}
-        autoHideDuration={6000}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <Alert severity="success">
-          <Typography variant="body2">In die Zwischenablage kopiert</Typography>
-        </Alert>
-      </Snackbar>
       <Box width={200}>
         <Button startIcon={<ContentCopyOutlinedIcon />} variant="contained" onClick={onCopy}>
           Kopieren
