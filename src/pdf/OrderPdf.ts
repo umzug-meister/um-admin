@@ -181,15 +181,17 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
 
   //Volumen
 
-  pdfBuilder.addTable({
-    head: null,
-    body: [['Volumen', `${numberValue(order.volume)} m³`, `max Abweichung des Volumens: 10%`]],
-    columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-      1: { cellWidth: CELL_WIDTH_1 },
-      2: { fontStyle: 'bold', textColor: SECONDARY },
-    },
-  });
+  if (order.volume && order.volume > 0) {
+    pdfBuilder.addTable({
+      head: null,
+      body: [['Volumen', `${numberValue(order.volume)} m³`, `max Abweichung des Volumens: 10%`]],
+      columnStyles: {
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+        1: { cellWidth: CELL_WIDTH_1 },
+        2: { fontStyle: 'bold', textColor: SECONDARY },
+      },
+    });
+  }
 
   //message
   if (order.text) {
