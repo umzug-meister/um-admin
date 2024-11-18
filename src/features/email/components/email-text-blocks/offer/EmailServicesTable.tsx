@@ -1,4 +1,4 @@
-import { euroValue } from '../../../../../utils/utils';
+import { calculateNumbers, euroValue } from '../../../../../utils/utils';
 import { Dotted } from '../Dotted';
 
 import { Order } from 'um-types';
@@ -25,8 +25,9 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
 }
 
 export function Costs({ order }: Readonly<Props>) {
-  const { leistungen = [], sum } = order;
+  const { leistungen = [] } = order;
 
+  const { brutto } = calculateNumbers(leistungen);
   const discount = leistungen.filter((l) => l.red === true)?.[0];
   const textAlign = 'left';
 
@@ -35,12 +36,12 @@ export function Costs({ order }: Readonly<Props>) {
       <p style={{ textAlign }}>--------------------</p>
       {discount && (
         <>
-          <p style={{ textAlign }}>Zwischensumme {euroValue(Number(sum) - Number(discount.sum))}</p>
+          <p style={{ textAlign }}>Zwischensumme {euroValue(Number(brutto) - Number(discount.sum))}</p>
           <p style={{ textAlign, color: '#21A870' }}>Rabatt: {euroValue(discount.sum)}</p>
         </>
       )}
 
-      <p style={{ textAlign, fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(sum)}</p>
+      <p style={{ textAlign, fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(brutto)}</p>
     </>
   );
 }
