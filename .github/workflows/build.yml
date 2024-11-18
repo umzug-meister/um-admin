@@ -1,4 +1,4 @@
-name: JS/TS PR Check
+name: NodeJS PR Check
 
 on:
   pull_request:
