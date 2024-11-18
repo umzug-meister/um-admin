@@ -454,7 +454,7 @@ const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   textBlocks.forEach((block) => {
     pdfBuilder.addTable({
       head: null,
-      body: [[` &#9;• ${block}`]],
+      body: [[` • ${block}`]],
       columnStyles: { 0: { lineColor: [255, 255, 255] } },
     });
   });
