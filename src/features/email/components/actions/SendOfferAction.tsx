@@ -2,14 +2,15 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Box } from '@mui/material';
 
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppOptions } from '../../../../app-types';
 import { useAppServices } from '../../../../hooks/useAppServices';
 import { useCurrentOrder } from '../../../../hooks/useCurrentOrder';
 import { generateUrzPdf } from '../../../../pdf/OrderPdf';
 import { orderFileName } from '../../../../pdf/filename';
-import { AppState } from '../../../../store';
+import { AppDispatch, AppState } from '../../../../store';
+import { addNotification } from '../../../../store/notificationReducer';
 import { useOfferSubject } from '../../hooks/useOfferSubject';
 import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
@@ -52,6 +53,8 @@ function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
 
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     const emailTemplate = document.getElementById(EMAIL_TEXT_ID)?.innerHTML;
     if (emailTemplate) setHtml(emailTemplate);
@@ -80,13 +83,13 @@ function EmailEditDialog(props: Readonly<{ open: boolean; onClose: () => void }>
         },
         attachment: { content: orderAsBase64.split('base64,')[1], filename },
       })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          dispatch(addNotification({ severity: 'success', message: 'E-Mail wurde erfolgreich versendet' }));
           onClose();
         })
         .catch((err) => {
-          console.log(err);
-          alert('Fehler beim Senden der E-Mail');
+          console.error(err);
+          dispatch(addNotification({ severity: 'error', message: 'E-Mail konnte nicht versendet werden' }));
         });
     }
   };

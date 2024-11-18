@@ -7,6 +7,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 
 import TopBar from './components/TopBar';
 import { Loading } from './components/shared/Loading';
+import { NotificationSnackbar } from './features/notifications/NotificationsSnackbar';
 import theme from './theme';
 
 import styled from '@emotion/styled';
@@ -59,6 +60,8 @@ function LazyLoad({ children }: Readonly<PropsWithChildren>) {
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
+      <NotificationSnackbar />
+
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<AppContent />}>

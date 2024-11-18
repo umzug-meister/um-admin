@@ -3,10 +3,10 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import CloudOffOutlinedIcon from '@mui/icons-material/CloudOffOutlined';
 import CloudSyncOutlinedIcon from '@mui/icons-material/CloudSyncOutlined';
-import { Alert, IconButton, Snackbar, Tooltip, Typography } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 
-import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppOptions } from '../../app-types';
 import { useAppServices } from '../../hooks/useAppServices';
@@ -15,7 +15,8 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { orderFileName } from '../../pdf/filename';
-import { AppState } from '../../store';
+import { AppDispatch, AppState } from '../../store';
+import { addNotification } from '../../store/notificationReducer';
 import { getParseableDate } from '../../utils/utils';
 
 import { AppPacking, AppService } from 'um-types';
@@ -48,7 +49,8 @@ export default function UploadAction() {
 
   const [gapiLoaded, setGapiLoaded] = useState(false);
   const [tokenAvailable, setTokenAvailable] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const options = useSelector<AppState, AppOptions>((s) => s.app.options);
   const [services] = useState(useAppServices<AppService>('Bohrarbeiten'));
@@ -86,17 +88,26 @@ export default function UploadAction() {
     }
   }, [tokenValid, token, gapiLoaded]);
 
-  const finishUpload = (res: boolean) => {
-    if (res) {
-      setUploadState('success');
+  const finishUpload = useCallback(
+    (res: boolean) => {
+      if (res) {
+        dispatch(
+          addNotification({
+            severity: 'info',
+            message: `Auftrag wurde hochegeladen:\n  ${currentPath.current?.join(' / ')} / ${currentFileName.current}`,
+          }),
+        );
+        setUploadState('success');
 
-      setTimeout(() => {
-        setUploadState('ready');
-      }, 3000);
-    } else {
-      setUploadState('error');
-    }
-  };
+        setTimeout(() => {
+          setUploadState('ready');
+        }, 3000);
+      } else {
+        setUploadState('error');
+      }
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (tokenAvailable && uploadState === 'upload' && currentOrder) {
@@ -112,7 +123,7 @@ export default function UploadAction() {
         getPath(currentOrder.date, fileName).then((path) => {
           if (path) {
             currentPath.current = path.path;
-            setOpenSnackbar(true);
+
             uploadContent(path.fileId, orderAsBase64).then(finishUpload);
           } else {
             return setUploadState('error');
@@ -120,7 +131,7 @@ export default function UploadAction() {
         });
       }
     }
-  }, [tokenAvailable, uploadState, currentOrder, options, packings, services]);
+  }, [tokenAvailable, uploadState, currentOrder, options, packings, services, dispatch, finishUpload]);
 
   const authGoogleClient = () => {
     if (tClient.current) {
@@ -189,7 +200,14 @@ export default function UploadAction() {
       case 'error':
         return (
           <Tooltip title="Ein Fehler ist aufgetreten">
-            <IconButton color="error" onClick={() => alert(`⚠️ Die Datei konnte nicht hochgeladen werden!`)}>
+            <IconButton
+              color="error"
+              onClick={() => {
+                dispatch(
+                  addNotification({ severity: 'error', message: 'Der Auftrag konnte nicht hochgeladen werden' }),
+                );
+              }}
+            >
               <CloudOffOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -200,26 +218,7 @@ export default function UploadAction() {
     }
   };
 
-  return (
-    <>
-      {iconButton()}
-      <Snackbar
-        open={openSnackbar}
-        onClose={() => {
-          setOpenSnackbar(false);
-        }}
-      >
-        <Alert
-          onClose={() => {
-            setOpenSnackbar(false);
-          }}
-          severity={uploadState === 'error' ? 'error' : 'info'}
-        >
-          <Typography variant="body2">{`${currentPath.current?.join(' / ')} / ${currentFileName.current}`}</Typography>
-        </Alert>
-      </Snackbar>
-    </>
-  );
+  return <>{iconButton()}</>;
 }
 //#endregion
 
