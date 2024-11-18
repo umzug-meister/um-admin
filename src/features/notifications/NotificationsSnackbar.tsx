@@ -22,10 +22,10 @@ export const NotificationSnackbar = () => {
 
   return (
     <>
-      {notifications.map((notification, index) => (
-        <Snackbar key={index} open={true} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-          <Alert variant="filled" severity={notification.severity || 'info'}>
-            {notification.message}
+      {notifications.map(({ message, severity }) => (
+        <Snackbar key={message} open={true} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+          <Alert variant="filled" severity={severity}>
+            {message}
           </Alert>
         </Snackbar>
       ))}
