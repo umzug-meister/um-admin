@@ -15,6 +15,7 @@ import {
 } from '../utils/utils';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { format } from 'date-fns';
 import { set } from 'lodash';
 import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
@@ -30,7 +31,7 @@ function _initOrder(): Order {
     to: {
       montage: false,
     },
-    date: new Date().toLocaleDateString('ru'),
+    date: format(new Date(), 'yyyy-MM-dd'),
     items: new Array<Furniture>(),
     timeBased: {
       basis: '',

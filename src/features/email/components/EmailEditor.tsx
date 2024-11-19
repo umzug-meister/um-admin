@@ -2,8 +2,11 @@ import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
 import ReactQuill from 'react-quill-new';
+import { useDispatch } from 'react-redux';
 
 import { AppTextField } from '../../../components/shared/AppTextField';
+import { AppDispatch } from '../../../store';
+import { addNotification } from '../../../store/notificationReducer';
 
 interface Props {
   open: boolean;
@@ -12,7 +15,7 @@ interface Props {
   setSubject(subject: string): void;
   html: string;
   setHtml(html: string): void;
-  onSend(): void;
+  onSend(): Promise<any>;
   to: string | undefined;
   attachmentName?: string;
 }
@@ -28,6 +31,19 @@ export function EmailEditor({
   to,
   attachmentName,
 }: Readonly<Props>) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onSendEmail = () => {
+    onSend()
+      .then(() => {
+        onClose();
+        dispatch(addNotification({ severity: 'success', message: 'E-Mail wurde erfolgreich versendet' }));
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(addNotification({ severity: 'error', message: 'E-Mail konnte nicht versendet werden' }));
+      });
+  };
   return (
     <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
       <DialogTitle>E-Mail erstellen</DialogTitle>
@@ -55,7 +71,7 @@ export function EmailEditor({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Abbrechen</Button>
-        <Button variant="contained" color="primary" onClick={onSend} disabled={!to}>
+        <Button variant="contained" color="primary" onClick={onSendEmail} disabled={!to}>
           Senden
         </Button>
       </DialogActions>

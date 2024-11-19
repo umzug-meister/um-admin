@@ -8,7 +8,6 @@ import { useCurrentOrder } from '../../../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../../../hooks/useSaveOrder';
 import { AppDispatch } from '../../../../store';
 import { updateOrderProps } from '../../../../store/appReducer';
-import { addNotification } from '../../../../store/notificationReducer';
 import { useRejectionSubject } from '../../hooks/useRejectionSubject';
 import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
@@ -49,8 +48,6 @@ function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
 
   const saveOrder = useSaveOrder();
 
-  const dispatch = useDispatch<AppDispatch>();
-
   const [subject, setSubject] = useRejectionSubject();
   const [html, setHtml] = useState('<p></p>');
 
@@ -65,7 +62,7 @@ function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
   const { customer } = order;
 
   const onSend = () => {
-    saveOrder(order).then(() => {
+    return saveOrder(order).then(() => {
       sendMail({
         type: 'rejection' as const,
         subject,
@@ -73,15 +70,7 @@ function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
         variables: {
           content: html,
         },
-      })
-        .then(() => {
-          dispatch(addNotification({ severity: 'success', message: 'E-Mail wurde erfolgreich versendet' }));
-          onClose();
-        })
-        .catch((err) => {
-          console.error(err);
-          dispatch(addNotification({ severity: 'error', message: 'E-Mail konnte nicht versendet werden' }));
-        });
+      });
     });
   };
 
