@@ -72,7 +72,7 @@ export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) 
       subject={subject}
       setSubject={setSubject}
       open={open}
-      attachmentName={filename}
+      attachmentNames={[filename]}
       onClose={onClose}
     />
   );

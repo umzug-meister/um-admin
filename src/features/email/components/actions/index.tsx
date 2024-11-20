@@ -3,17 +3,24 @@ import { Divider, IconButton, Menu, MenuList, Paper } from '@mui/material';
 
 import { useState } from 'react';
 
-import { useLocalStorage } from '../../../../hooks/useLocalStorage';
+import { useCurrentOrder } from '../../../../hooks/useCurrentOrder';
 import { EmailTextAction } from './EmailTextAction';
+import { SendMultipleOfferAction } from './SendMultipleOfferAction';
 import { SendOfferAction } from './SendOfferAction';
 import { SendRejectionAction } from './SendRejectionAction';
 
-export function EmailActions() {
-  const EMAIL_MENU_ID = 'email-menu';
-  const EMAIL_MENU_BUTTON_ID = 'email-menu-button';
+const EMAIL_MENU_ID = 'email-menu';
+const EMAIL_MENU_BUTTON_ID = 'email-menu-button';
 
-  const [emailEnabled] = useLocalStorage('send-mail');
+export function EmailActions() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const order = useCurrentOrder();
+
+  if (!order) return null;
+
+  const allowOpiniated = typeof order.isCopyOf !== 'undefined';
+
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,10 +52,11 @@ export function EmailActions() {
           }}
         >
           <MenuList>
-            {emailEnabled && <SendOfferAction handleClose={handleClose} />}
+            <SendOfferAction handleClose={handleClose} />
             <EmailTextAction handleClose={handleClose} />
+            {allowOpiniated && <SendMultipleOfferAction handleClose={handleClose} />}
             <Divider />
-            {emailEnabled && <SendRejectionAction handleClose={handleClose} />}
+            <SendRejectionAction handleClose={handleClose} />
           </MenuList>
         </Menu>
       </Paper>

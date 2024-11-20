@@ -29,7 +29,7 @@ export function Costs({ order }: Readonly<Props>) {
 
   const { brutto } = calculateNumbers(leistungen);
   const discount = leistungen.filter((l) => l.red === true)?.[0];
-  const textAlign = 'left';
+  const textAlign = 'right';
 
   return (
     <>

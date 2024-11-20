@@ -5,8 +5,12 @@ import { EmailOfferOptions } from './EmailOfferOptions';
 import { addDays } from 'date-fns';
 import { Order } from 'um-types';
 
-export function EMailOfferTemplate({ order }: Readonly<{ order: Order }>) {
-  const hasMontage = Boolean(order.from?.demontage || order.to?.montage);
+export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order; rootOrder?: Order }>) {
+  let hasMontage = Boolean(order.from?.demontage || order.to?.montage);
+
+  if (!hasMontage) {
+    hasMontage = Boolean(rootOrder?.from?.montage || order?.to?.demontage);
+  }
 
   return (
     <>
@@ -21,12 +25,13 @@ export function EMailOfferTemplate({ order }: Readonly<{ order: Order }>) {
         <strong>
           am {getPrintableDate(order.date, true)} ab {order.time} Uhr
         </strong>
-        &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können:
+        &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können.&nbsp;
+        {rootOrder && `Wir bieten Ihnen zwei Optionen an.`}
       </p>
-      {Boolean(order.volume) && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
+      {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
       <br />
       <h3>🚛 Kostenvoranschlag</h3>
-      <p>Unser Kostenvoranschlag beinhaltet:</p>
+      <p>Alle unseren Kostenvoranschläge beinhaltet:</p>
       <Dotted>Anfahrt / Lastfahrtkosten</Dotted>
       {hasMontage && <Dotted>Möbeldemontage und Montage</Dotted>}
       <Dotted>Bereitstellung eines Umzugswagens</Dotted>
@@ -34,7 +39,13 @@ export function EMailOfferTemplate({ order }: Readonly<{ order: Order }>) {
       <Dotted>Be- und Entladen des LKWs</Dotted>
       <Dotted>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</Dotted>
       <Dotted>Ordentliche Rechnungsstellung</Dotted>
+      {rootOrder && <h2 style={{ textAlign: 'center' }}>Option 1</h2>}
       <EmailOfferOptions order={order} />
+      {rootOrder && (
+        <>
+          <h2 style={{ textAlign: 'center' }}>Option 2</h2> <EmailOfferOptions order={rootOrder} />
+        </>
+      )}
       <br />
       <p>
         Unser Kostenvoranschlag gilt bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())}. <br />

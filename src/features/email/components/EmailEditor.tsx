@@ -1,4 +1,5 @@
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
 import ReactQuill from 'react-quill-new';
@@ -17,7 +18,7 @@ interface Props {
   setHtml(html: string): void;
   onSend(): Promise<any>;
   to: string | undefined;
-  attachmentName?: string;
+  attachmentNames?: string[];
 }
 
 export function EmailEditor({
@@ -29,7 +30,7 @@ export function EmailEditor({
   setSubject,
   subject,
   to,
-  attachmentName,
+  attachmentNames,
 }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -50,6 +51,7 @@ export function EmailEditor({
       <DialogContent>
         <Box display={'flex'} flexDirection="column" gap={1}>
           <AppTextField
+            fullWidth
             disabled
             value={to}
             slotProps={{
@@ -58,29 +60,42 @@ export function EmailEditor({
               },
             }}
           />
+
           <AppTextField
             onChange={(event) => setSubject(event.target.value)}
             value={subject}
             slotProps={{ input: { startAdornment: <Typography sx={{ marginRight: 2 }}>Betreff:</Typography> } }}
           />
+
           <Box sx={{ height: 650 }}>
             <ReactQuill theme="snow" value={html} onChange={setHtml} />
           </Box>
         </Box>
-        <Attachment name={attachmentName} />
+        {attachmentNames?.length && (
+          <Box display={'flex'} gap={1} flexDirection={'column'}>
+            {attachmentNames.map((name) => (
+              <Attachment key={name} name={name} />
+            ))}
+          </Box>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Abbrechen</Button>
-        <Button variant="contained" color="primary" onClick={onSendEmail} disabled={!to}>
-          Senden
+        <Button
+          startIcon={<SendOutlinedIcon />}
+          variant="contained"
+          color="primary"
+          onClick={onSendEmail}
+          disabled={!to}
+        >
+          E-Mail versenden
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-function Attachment({ name }: { name: string | undefined }) {
-  if (!name) return null;
+function Attachment({ name }: { name: string }) {
   return (
     <Box display={'flex'}>
       <Box display={'flex'}>
