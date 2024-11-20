@@ -3,8 +3,8 @@ import { Button, ButtonProps } from '@mui/material';
 
 export function PdfSaveButton(props: ButtonProps) {
   return (
-    <Button startIcon={<FileDownloadOutlinedIcon />} variant="contained" disableElevation {...props}>
-      Als PDF speichern
+    <Button startIcon={<FileDownloadOutlinedIcon />} variant="contained" {...props}>
+      PDF speichern
     </Button>
   );
 }

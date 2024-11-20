@@ -5,29 +5,32 @@ import { addHeader } from './shared';
 
 import { Gutschrift, Rechnung } from 'um-types';
 
-export const generateRechnung = (rechnung: Rechnung) => {
-  const factory = new PdfBuilder(invoiceFileName(rechnung), {
+export const generateRechnung = ({ rechnung, base64 }: { rechnung: Rechnung; base64: boolean }) => {
+  const pdfBuilder = new PdfBuilder(invoiceFileName(rechnung), {
     left: 20,
     right: 12,
     top: 8,
     bottom: 3,
   });
 
-  factory.addSpace(5);
+  pdfBuilder.addSpace(5);
 
-  addHeader(factory);
-  addPostAddr(factory);
-  addInvoiceInformation(factory, { ...rechnung });
-  addCustomer(factory, rechnung);
-  addRNumber(factory, rechnung);
-  addTable(factory, rechnung);
-  addPrice(factory, rechnung);
-  addText(factory, rechnung.text);
-  move(factory);
-  addVermerk(factory);
-  addKonto(factory);
+  addHeader(pdfBuilder);
+  addPostAddr(pdfBuilder);
+  addInvoiceInformation(pdfBuilder, { ...rechnung });
+  addCustomer(pdfBuilder, rechnung);
+  addRNumber(pdfBuilder, rechnung);
+  addTable(pdfBuilder, rechnung);
+  addPrice(pdfBuilder, rechnung);
+  addText(pdfBuilder, rechnung.text);
+  move(pdfBuilder);
+  addVermerk(pdfBuilder);
+  addKonto(pdfBuilder);
+  if (base64) {
+    return pdfBuilder.output();
+  }
 
-  factory.save();
+  pdfBuilder.save();
 };
 
 export function addInvoiceInformation(factory: PdfBuilder, params: { date: string; orderId: string | undefined }) {

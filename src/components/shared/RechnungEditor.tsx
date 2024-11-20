@@ -1,9 +1,12 @@
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Box, Button, Chip, Grid2, Stack } from '@mui/material';
 
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { RechnungProp } from '../../app-types';
+import { InvoiceEmailDialog } from '../../features/invoice/InvoiceEmailDialog';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
@@ -39,7 +42,9 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
 
   const saveOrder = useSaveOrder();
 
-  const location = useLocation();
+  const { pathname } = useLocation();
+
+  const [open, setOpen] = useState(false);
 
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
@@ -55,7 +60,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
     onPropChange('text', preparedText);
   };
 
-  const isOrderEdit = location.pathname.startsWith('/edit');
+  const isOrderEdit = pathname.startsWith('/edit');
 
   const printInvoice = () => {
     const rNumber = rechnung?.rNumber;
@@ -65,11 +70,11 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
     if (isOrderEdit && currentOrder !== null) {
       return saveOrder(currentOrder).then((order) => {
         if (order !== null) {
-          return generateRechnung(rechnung);
+          return generateRechnung({ rechnung, base64: false });
         }
       });
     }
-    generateRechnung(rechnung);
+    generateRechnung({ base64: false, rechnung });
   };
 
   const onClearRequest = () => {
@@ -99,7 +104,6 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
       <Grid2 size={12}>
         <AppCard title="Leistungen">
           <LeistungEdit
-            hideChecks
             suggestServices
             leistungen={rechnung.entries}
             update={(lst) => {
@@ -121,14 +125,18 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
 
-          <EmailLink />
+          <Button startIcon={<SendOutlinedIcon />} variant="contained" onClick={() => setOpen(true)}>
+            Rechnung versenden
+          </Button>
 
+          <EmailLink />
           {deleteAccounting && (
             <Button variant="outlined" color="error" onClick={onClearRequest}>
-              Alles Löschen
+              Löschen
             </Button>
           )}
         </Box>
+        <InvoiceEmailDialog open={open} onClose={() => setOpen(false)} invoice={rechnung} />
       </Grid2>
     </AppGridContainer>
   );
