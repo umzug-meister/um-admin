@@ -18,18 +18,18 @@ type RejectionEmailData = {
 
 type InvoiceEmailData = {
   type: 'invoice';
-  attachment: {
+  attachments: {
     filename: string;
     content: string;
-  };
+  }[];
 } & BaseEmailData;
 
 type OfferEmailData = {
   type: 'offer';
-  attachment: {
+  attachments: {
     filename: string;
     content: string;
-  };
+  }[];
 } & BaseEmailData;
 
 type EmailData = OfferEmailData | RejectionEmailData | InvoiceEmailData;

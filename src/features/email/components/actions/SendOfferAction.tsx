@@ -71,7 +71,7 @@ function EmailEditDialog({ onClose, open, order }: Readonly<{ open: boolean; onC
         variables: {
           content: html,
         },
-        attachment: { content: orderAsBase64.split('base64,')[1], filename },
+        attachments: [{ content: orderAsBase64, filename }],
       });
     }
     return Promise.reject(new Error('Order has no date'));

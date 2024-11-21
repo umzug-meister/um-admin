@@ -46,6 +46,7 @@ export function EmailActions() {
           id={EMAIL_MENU_ID}
           anchorEl={anchorEl}
           open={open}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           onClose={handleClose}
           MenuListProps={{
             'aria-labelledby': EMAIL_MENU_BUTTON_ID,

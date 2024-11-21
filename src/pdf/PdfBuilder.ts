@@ -85,8 +85,12 @@ export default class PdfBuilder {
     this.doc.save(this.filename);
   }
 
+  /**
+   *
+   * @returns the base64 encoded pdf
+   */
   public output(): string {
-    return this.doc.output('datauristring', { filename: this.filename });
+    return this.doc.output('datauristring', { filename: this.filename }).split('base64,')[1];
   }
 
   public addPage(margin?: Margin): void {

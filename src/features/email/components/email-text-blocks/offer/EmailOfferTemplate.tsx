@@ -16,7 +16,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
     <>
       <p>
         Bitte halten Sie bei Rückfragen folgende Nummer bereit:&nbsp;
-        <strong>{order.id}</strong>
+        <strong>{rootOrder?.id || order.id}</strong>
       </p>
       <br />
       <p>{anrede(order.customer)}</p>
@@ -29,9 +29,16 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
         {rootOrder && `Wir bieten Ihnen zwei Optionen an.`}
       </p>
       {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
+      {rootOrder && <h2 style={{ textAlign: 'center', color: '#21a870' }}>1. Option</h2>}
+      <EmailOfferOptions order={order} />
+      {rootOrder && (
+        <>
+          <br />
+          <h2 style={{ textAlign: 'center', color: '#21a870' }}>2. Option</h2> <EmailOfferOptions order={rootOrder} />
+        </>
+      )}
       <br />
-      <h3>🚛 Kostenvoranschlag</h3>
-      <p>Alle unseren Kostenvoranschläge beinhaltet:</p>
+      <h3>Alle unseren Kostenvoranschläge beinhalten</h3>
       <Dotted>Anfahrt / Lastfahrtkosten</Dotted>
       {hasMontage && <Dotted>Möbeldemontage und Montage</Dotted>}
       <Dotted>Bereitstellung eines Umzugswagens</Dotted>
@@ -39,16 +46,9 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <Dotted>Be- und Entladen des LKWs</Dotted>
       <Dotted>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</Dotted>
       <Dotted>Ordentliche Rechnungsstellung</Dotted>
-      {rootOrder && <h2 style={{ textAlign: 'center' }}>Option 1</h2>}
-      <EmailOfferOptions order={order} />
-      {rootOrder && (
-        <>
-          <h2 style={{ textAlign: 'center' }}>Option 2</h2> <EmailOfferOptions order={rootOrder} />
-        </>
-      )}
       <br />
       <p>
-        Unser Kostenvoranschlag gilt bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())}. <br />
+        Unser Kostenvoranschlag gilt bis zum {addDays(new Date(), 3).toLocaleDateString()}. <br />
         Im Anhang finden Sie den Auftrag. <strong>Wir bitten um Ihre Rückmeldung</strong> (Rückbestätigung per E-Mail
         ohne Unterschrift).
       </p>

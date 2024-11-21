@@ -46,7 +46,7 @@ export function SendMultipleOfferAction({ handleClose }: EmailActionProps) {
       <Box id={EMAIL_TEXT_ID} display="none">
         <EMailOfferTemplate order={order} rootOrder={rootOrder} />
       </Box>
-      <MenuItemWithIcon text="2 Angebote versenden" onClick={() => setOpen(true)}>
+      <MenuItemWithIcon text={` 2 Angebote versenden (${order.id} & ${rootOrder.id})`} onClick={() => setOpen(true)}>
         <SendTimeExtensionOutlinedIcon />
       </MenuItemWithIcon>
       <EmailEditDialog open={open} onClose={handleClose} order={order} rootOrder={rootOrder} />
@@ -91,7 +91,7 @@ function EmailEditDialog({ onClose, open, order, rootOrder }: Readonly<Props>) {
       services: [...services, ...packings],
       base64: true,
     });
-    if (order.date && orderAsBase64) {
+    if (order.date && orderAsBase64 && rootOrderAsBase64) {
       return sendMail({
         type: 'offer' as const,
         to: (customer.email ?? customer.emailCopy) as string,
@@ -99,10 +99,13 @@ function EmailEditDialog({ onClose, open, order, rootOrder }: Readonly<Props>) {
         variables: {
           content: html,
         },
-        attachment: { content: orderAsBase64.split('base64,')[1], filename },
+        attachments: [
+          { content: orderAsBase64, filename },
+          { content: rootOrderAsBase64, filename: rootfilename },
+        ],
       });
     }
-    return Promise.reject(new Error('Order has no date'));
+    return Promise.reject(new Error('Etwas is schief gelaufen'));
   };
 
   return (

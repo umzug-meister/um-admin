@@ -1,4 +1,4 @@
-import { euroValue } from '../../../../../utils/utils';
+import { calculateNumbers, euroValue } from '../../../../../utils/utils';
 
 import { Order } from 'um-types';
 
@@ -7,8 +7,9 @@ interface Props {
 }
 
 export function SumTemplate({ order }: Readonly<Props>) {
-  const { timeBased, sum } = order;
+  const { timeBased, leistungen } = order;
 
+  const { brutto: sum } = calculateNumbers(leistungen);
   const arr = ['Gesamtbetrag:'];
   if (timeBased?.hours) {
     arr[0] = `Gesamtbetrag (${timeBased?.hours} Std.):`;

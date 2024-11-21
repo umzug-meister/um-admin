@@ -22,16 +22,15 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
     }
     baseHours += ': ';
   }
-  baseHours += `${euroValue(timeBased.basis)} inkl. MwSt.`;
+  baseHours += `${euroValue(timeBased.basis)}`;
 
   let extraHours: string | undefined;
   if (timeBased?.extra) {
-    extraHours = `Jede weitere Stunde: ${euroValue(timeBased.extra)} inkl. MwSt.`;
+    extraHours = `Jede weitere Stunde: ${euroValue(timeBased.extra)}`;
   }
 
   return (
     <>
-      <br />
       <h3>👨‍🔧 Personalkosten</h3>
       <Dotted>{workersAndTransporters.join(' ')}</Dotted>
       <Dotted>{baseHours}</Dotted>
