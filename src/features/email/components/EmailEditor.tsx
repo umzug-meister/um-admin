@@ -11,26 +11,26 @@ import { addNotification } from '../../../store/notificationReducer';
 
 interface Props {
   open: boolean;
-  onClose(): void;
   subject: string;
-  setSubject(subject: string): void;
   html: string;
-  setHtml(html: string): void;
-  onSend(): Promise<any>;
   to: string | undefined;
   attachmentNames?: string[];
+  onSend(): Promise<any>;
+  setSubject(subject: string): void;
+  onClose(): void;
+  setHtml(html: string): void;
 }
 
 export function EmailEditor({
   open,
-  onClose,
   html,
-  onSend,
-  setHtml,
-  setSubject,
   subject,
   to,
   attachmentNames,
+  setSubject,
+  setHtml,
+  onClose,
+  onSend,
 }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -74,7 +74,7 @@ export function EmailEditor({
         {attachmentNames?.length && (
           <Box display={'flex'} gap={1}>
             {attachmentNames.map((name) => (
-              <Attachment key={name} name={name} />
+              <Chip size="small" key={name} label={name} icon={<AttachFileOutlinedIcon />}></Chip>
             ))}
           </Box>
         )}
@@ -93,8 +93,4 @@ export function EmailEditor({
       </DialogActions>
     </Dialog>
   );
-}
-
-function Attachment({ name }: { name: string }) {
-  return <Chip size="small" label={name} icon={<AttachFileOutlinedIcon />}></Chip>;
 }
