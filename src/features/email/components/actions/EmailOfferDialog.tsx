@@ -56,10 +56,10 @@ export function EmailEditDialog({ onClose, open, order, rootOrder, emailTextId }
         services: [...services, ...packings],
         base64: true,
       });
-    if (order.date && orderAsBase64 && rootOrderAsBase64) {
+    if (order.date && orderAsBase64) {
       const attachments = [{ content: orderAsBase64, filename }];
 
-      if (rootOrder && rootfilename) {
+      if (rootOrderAsBase64 && rootfilename) {
         attachments.push({ content: rootOrderAsBase64, filename: rootfilename });
       }
       return sendMail({
