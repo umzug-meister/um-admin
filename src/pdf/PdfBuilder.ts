@@ -21,7 +21,7 @@ export default class PdfBuilder {
   static readonly dim_y = 297;
   static readonly pt_mm_factor = 0.353;
   doc: jsPDF;
-  private filename: string;
+  private readonly filename: string;
   private readonly default_fontsize = 10;
   private x: number;
   y: number;
