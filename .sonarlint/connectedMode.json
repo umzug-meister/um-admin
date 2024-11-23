@@ -1,4 +1,4 @@
 {
-  "sonarCloudOrganization": "umzug-meister",
-  "projectKey": "umzug-meister_um-admin"
+    "sonarCloudOrganization": "umzug-meister",
+    "projectKey": "umzug-meister_um-admin"
 }

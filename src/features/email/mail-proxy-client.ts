@@ -1,7 +1,8 @@
 import { MailProxyUrls } from '../../api/Urls';
 import { appRequest } from '../../api/fetch-client';
 
-type BaseEmailData = {
+type EmailData = {
+  type: 'offer' | 'rejection' | 'invoice';
   to: string;
   subject: string;
   variables: {
@@ -10,29 +11,11 @@ type BaseEmailData = {
      */
     content: string;
   };
+  attachments?: {
+    filename: string;
+    content: string;
+  }[];
 };
-
-type RejectionEmailData = {
-  type: 'rejection';
-} & BaseEmailData;
-
-type InvoiceEmailData = {
-  type: 'invoice';
-  attachment: {
-    filename: string;
-    content: string;
-  };
-} & BaseEmailData;
-
-type OfferEmailData = {
-  type: 'offer';
-  attachment: {
-    filename: string;
-    content: string;
-  };
-} & BaseEmailData;
-
-type EmailData = OfferEmailData | RejectionEmailData | InvoiceEmailData;
 
 const HEADERS = {
   'x-api-key': import.meta.env.VITE_MAIL_PROXY_API_KEY,

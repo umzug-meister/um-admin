@@ -21,7 +21,7 @@ export default class PdfBuilder {
   static readonly dim_y = 297;
   static readonly pt_mm_factor = 0.353;
   doc: jsPDF;
-  private filename: string;
+  private readonly filename: string;
   private readonly default_fontsize = 10;
   private x: number;
   y: number;
@@ -85,8 +85,12 @@ export default class PdfBuilder {
     this.doc.save(this.filename);
   }
 
+  /**
+   *
+   * @returns the base64 encoded pdf
+   */
   public output(): string {
-    return this.doc.output('datauristring', { filename: this.filename });
+    return this.doc.output('datauristring', { filename: this.filename }).split('base64,')[1];
   }
 
   public addPage(margin?: Margin): void {

@@ -64,12 +64,13 @@ function EmailDialog(props: Readonly<{ open: boolean; onClose: () => void }>) {
   const onSend = () => {
     return saveOrder(order).then(() => {
       sendMail({
-        type: 'rejection' as const,
+        type: 'rejection',
         subject,
         to: (customer.email ?? customer.emailCopy) as string,
         variables: {
           content: html,
         },
+        attachments: [],
       });
     });
   };
