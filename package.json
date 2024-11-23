@@ -1,6 +1,6 @@
 {
   "name": "um-admin",
-  "version": "5.19.5",
+  "version": "5.19.6",
   "private": false,
   "type": "module",
   "dependencies": {
