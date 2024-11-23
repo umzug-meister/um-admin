@@ -12,7 +12,6 @@ import { MenuItemWithIcon } from '../MenuItemWithIcon';
 import { EMailOfferTemplate } from '../email-text-blocks/offer/EmailOfferTemplate';
 import { EmailEditDialog } from './EmailOfferDialog';
 import { EmailTextAction } from './EmailTextAction';
-import { SendMultipleOfferAction } from './SendMultipleOfferAction';
 import { SendRejectionAction } from './SendRejectionAction';
 
 import { Order } from 'um-types';
@@ -54,6 +53,16 @@ export function EmailActions() {
 
   return (
     <>
+      <IconButton
+        id={EMAIL_MENU_BUTTON_ID}
+        aria-controls={open ? EMAIL_MENU_ID : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        color="inherit"
+      >
+        <EmailOutlinedIcon />
+      </IconButton>
       <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID} display="none">
         <EMailOfferTemplate order={order} rootOrder={rootOrder} />
       </Box>
@@ -73,16 +82,6 @@ export function EmailActions() {
         rootOrder={rootOrder}
         emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
       />
-      <IconButton
-        id={EMAIL_MENU_BUTTON_ID}
-        aria-controls={open ? EMAIL_MENU_ID : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        color="inherit"
-      >
-        <EmailOutlinedIcon />
-      </IconButton>
       <Paper>
         <Menu
           id={EMAIL_MENU_ID}
