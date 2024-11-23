@@ -53,6 +53,25 @@ export function EmailActions() {
 
   return (
     <>
+      <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID} display="none">
+        <EMailOfferTemplate order={order} rootOrder={rootOrder} />
+      </Box>
+      <Box id={SINGLE_OFFER_EMAIL_TEXT_ID} display="none">
+        <EMailOfferTemplate order={order} />
+      </Box>
+      <EmailEditDialog
+        open={singleOfferDialog}
+        onClose={() => setSingleOfferDialog(false)}
+        order={order}
+        emailTextId={SINGLE_OFFER_EMAIL_TEXT_ID}
+      />
+      <EmailEditDialog
+        open={multipleOfferDialog}
+        onClose={() => setMultipleOfferDialog(false)}
+        order={order}
+        rootOrder={rootOrder}
+        emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
+      />
       <IconButton
         id={EMAIL_MENU_BUTTON_ID}
         aria-controls={open ? EMAIL_MENU_ID : undefined}
