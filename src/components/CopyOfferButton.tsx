@@ -16,7 +16,7 @@ export function CopyOfferButton({ elementID }: Readonly<Props>) {
     const text = document.getElementById(elementID);
 
     if (text) {
-      let range;
+      let range: any;
       let selection;
 
       if (document.body.createTextRange) {
