@@ -1,6 +1,6 @@
 import { Divider, Stack } from '@mui/material';
 
-import { EmailActions } from '../../features/email/components/actions';
+import { EmailActions } from '../../features/email/components/actions/EmailActions';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import CopyOrderAction from './CopyOrderAction';
 import { DeleteOrderAction } from './DeleteOrderAction';
