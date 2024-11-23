@@ -39,7 +39,7 @@ export function EmailActions() {
     }
   }, [order?.isCopyOf]);
 
-  if (!order || !rootOrder) return null;
+  if (!order) return null;
 
   const allowOpiniated = typeof order.isCopyOf !== 'undefined';
 
@@ -86,7 +86,7 @@ export function EmailActions() {
               <SendOutlinedIcon />
             </MenuItemWithIcon>
             <EmailTextAction handleClose={handleClose} />
-            {allowOpiniated && (
+            {allowOpiniated && rootOrder ? (
               <MenuItemWithIcon
                 text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
                 onClick={() => {
@@ -96,19 +96,22 @@ export function EmailActions() {
               >
                 <SendTimeExtensionOutlinedIcon />
               </MenuItemWithIcon>
-            )}
+            ) : null}
             <Divider />
             <SendRejectionAction handleClose={handleClose} />
           </MenuList>
         </Menu>
       </Paper>
 
-      <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID} display="none">
-        <EMailOfferTemplate order={order} rootOrder={rootOrder} />
-      </Box>
       <Box id={SINGLE_OFFER_EMAIL_TEXT_ID} display="none">
         <EMailOfferTemplate order={order} />
       </Box>
+
+      {rootOrder && (
+        <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID} display="none">
+          <EMailOfferTemplate order={order} rootOrder={rootOrder} />
+        </Box>
+      )}
 
       <EmailEditDialog
         open={singleOfferDialog}
@@ -116,13 +119,15 @@ export function EmailActions() {
         order={order}
         emailTextId={SINGLE_OFFER_EMAIL_TEXT_ID}
       />
-      <EmailEditDialog
-        open={multipleOfferDialog}
-        onClose={() => setMultipleOfferDialog(false)}
-        order={order}
-        rootOrder={rootOrder}
-        emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
-      />
+      {rootOrder && (
+        <EmailEditDialog
+          open={multipleOfferDialog}
+          onClose={() => setMultipleOfferDialog(false)}
+          order={order}
+          rootOrder={rootOrder}
+          emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
+        />
+      )}
     </>
   );
 }

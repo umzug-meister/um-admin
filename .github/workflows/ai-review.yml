@@ -15,7 +15,7 @@ on:
 jobs:
   call_code_review:
     name: Call Code Review
-    if: ${{ github.actor != 'renovate' }}
+    if: github.event.pull_request.user.name != 'renovate'
     uses: umzug-meister/workflows/.github/workflows/ai-review.yml@main
     secrets:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
