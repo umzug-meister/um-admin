@@ -2,6 +2,7 @@ import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
+import { useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import { useDispatch } from 'react-redux';
 
@@ -34,7 +35,10 @@ export function EmailEditor({
 }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [disabledSend, setDisabledSend] = useState(false);
+
   const onSendEmail = () => {
+    setDisabledSend(true);
     onSend()
       .then(() => {
         onClose();
@@ -43,7 +47,8 @@ export function EmailEditor({
       .catch((err) => {
         console.error(err);
         dispatch(addNotification({ severity: 'error', message: 'E-Mail konnte nicht versendet werden' }));
-      });
+      })
+      .finally(() => setDisabledSend(false));
   };
   return (
     <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
@@ -86,7 +91,7 @@ export function EmailEditor({
           variant="contained"
           color="primary"
           onClick={onSendEmail}
-          disabled={!to}
+          disabled={!to || disabledSend}
         >
           E-Mail versenden
         </Button>
