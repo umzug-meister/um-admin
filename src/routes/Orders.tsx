@@ -241,7 +241,7 @@ export default function Orders() {
 }
 function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
   return (
-    <Box display="flex" justifyContent="center" gap={0.5} height={'100%'} alignItems="center">
+    <Box display="flex" gap={0.5} height={'100%'} alignItems="center">
       {props.children}
     </Box>
   );
