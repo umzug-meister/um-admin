@@ -8,6 +8,7 @@ export function EmailOfferOptions({ order }: Readonly<{ order: Order }>) {
     <>
       <WorkerCosts order={order} />
       <EmailServicesTable order={order} />
+      <br />
       <Costs order={order} />
     </>
   );

@@ -10,17 +10,17 @@ interface Props {
 export function EmailServicesTable({ order }: Readonly<Props>) {
   const { leistungen = [] } = order;
 
+  const relevant = leistungen.filter((l) => !l.red).filter((l) => l.hidden !== true);
+  if (!relevant.length) return null;
+
   return (
     <>
       <br />
       <h3>📦 Zusätzliche Kosten</h3>
       <QuillTable>
-        {leistungen
-          .filter((l) => l.hidden !== true)
-          .filter((l) => !l.red)
-          .map((lst) => (
-            <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} />
-          ))}
+        {relevant.map((lst) => (
+          <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} />
+        ))}
       </QuillTable>
     </>
   );
@@ -41,7 +41,6 @@ export function Costs({ order }: Readonly<Props>) {
         <>
           <tr>
             <QuillCell>Zwischensumme:</QuillCell>
-
             <QuillCell textAlign="right">{euroValue(Number(brutto) + Number(discountValue))}</QuillCell>
           </tr>
           <tr>
