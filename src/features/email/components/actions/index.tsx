@@ -12,7 +12,6 @@ import { MenuItemWithIcon } from '../MenuItemWithIcon';
 import { EMailOfferTemplate } from '../email-text-blocks/offer/EmailOfferTemplate';
 import { EmailEditDialog } from './EmailOfferDialog';
 import { EmailTextAction } from './EmailTextAction';
-import { SendMultipleOfferAction } from './SendMultipleOfferAction';
 import { SendRejectionAction } from './SendRejectionAction';
 
 import { Order } from 'um-types';
@@ -83,6 +82,25 @@ export function EmailActions() {
       >
         <EmailOutlinedIcon />
       </IconButton>
+      <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID} display="none">
+        <EMailOfferTemplate order={order} rootOrder={rootOrder} />
+      </Box>
+      <Box id={SINGLE_OFFER_EMAIL_TEXT_ID} display="none">
+        <EMailOfferTemplate order={order} />
+      </Box>
+      <EmailEditDialog
+        open={singleOfferDialog}
+        onClose={() => setSingleOfferDialog(false)}
+        order={order}
+        emailTextId={SINGLE_OFFER_EMAIL_TEXT_ID}
+      />
+      <EmailEditDialog
+        open={multipleOfferDialog}
+        onClose={() => setMultipleOfferDialog(false)}
+        order={order}
+        rootOrder={rootOrder}
+        emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
+      />
       <Paper>
         <Menu
           id={EMAIL_MENU_ID}
