@@ -13,7 +13,7 @@ jobs:
       contents: write
     steps:
       - name: 'Checkout source code'
-        uses: 'actions/checkout@v1'
+        uses: 'actions/checkout@v4'
         with:
           ref: ${{ github.ref }}
       - name: 'Automated Version Bump'
