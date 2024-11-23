@@ -1,6 +1,6 @@
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
 import ReactQuill from 'react-quill-new';
 import { useDispatch } from 'react-redux';
@@ -72,7 +72,7 @@ export function EmailEditor({
           </Box>
         </Box>
         {attachmentNames?.length && (
-          <Box display={'flex'} gap={1} flexDirection={'column'}>
+          <Box display={'flex'} gap={1}>
             {attachmentNames.map((name) => (
               <Attachment key={name} name={name} />
             ))}
@@ -96,12 +96,5 @@ export function EmailEditor({
 }
 
 function Attachment({ name }: { name: string }) {
-  return (
-    <Box display={'flex'}>
-      <Box display={'flex'}>
-        <AttachFileOutlinedIcon fontSize="small" />
-      </Box>
-      <Typography variant="body2">{name}</Typography>
-    </Box>
-  );
+  return <Chip size="small" label={name} icon={<AttachFileOutlinedIcon />}></Chip>;
 }

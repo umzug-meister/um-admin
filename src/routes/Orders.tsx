@@ -1,6 +1,7 @@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import CopyAllOutlinedIcon from '@mui/icons-material/CopyAllOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -192,17 +193,23 @@ export default function Orders() {
         },
       },
       {
-        headerName: 'Rechnung',
-        field: 'rechnung',
-        renderCell({ value }) {
-          if (value) {
-            return (
-              <CenteredGridIcons>
-                <ReceiptLongOutlinedIcon color="success" />
-              </CenteredGridIcons>
-            );
-          }
-          return null;
+        headerName: 'Attribute',
+        field: '_',
+        renderCell({ row }) {
+          return (
+            <CenteredGridIcons>
+              {row.isCopyOf && (
+                <Tooltip title={`Kopie von ${row.isCopyOf}`}>
+                  <CopyAllOutlinedIcon />
+                </Tooltip>
+              )}
+              {row.rechnung && (
+                <Tooltip title="Rechnung vorhanden">
+                  <ReceiptLongOutlinedIcon color="info" />
+                </Tooltip>
+              )}
+            </CenteredGridIcons>
+          );
         },
       },
     ],

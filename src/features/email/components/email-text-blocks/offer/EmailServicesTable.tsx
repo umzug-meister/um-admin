@@ -1,5 +1,5 @@
 import { calculateNumbers, euroValue } from '../../../../../utils/utils';
-import { Dotted } from '../Dotted';
+import { QuillCell, QuillTable } from '../QuillTableComponents';
 
 import { Order } from 'um-types';
 
@@ -14,35 +14,53 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
     <>
       <br />
       <h3>📦 Zusätzliche Kosten</h3>
-      {leistungen
-        .filter((l) => l.hidden !== true)
-        .filter((l) => !l.red)
-        .map((lst) => (
-          <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} red={lst.red} />
-        ))}
+      <table style={{ width: '100%', maxWidth: '600px' }}>
+        {leistungen
+          .filter((l) => l.hidden !== true)
+          .filter((l) => !l.red)
+          .map((lst) => (
+            <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} />
+          ))}
+      </table>
     </>
   );
 }
 
 export function Costs({ order }: Readonly<Props>) {
-  const { leistungen = [] } = order;
+  const { leistungen = [], discount, discountValue } = order;
 
   const { brutto } = calculateNumbers(leistungen);
-  const discount = leistungen.filter((l) => l.red === true)?.[0];
-  const textAlign = 'right';
 
   return (
-    <>
-      <p style={{ textAlign }}>--------------------</p>
+    <QuillTable>
+      <tr>
+        <QuillCell></QuillCell>
+        <QuillCell textAlign="right">--------------</QuillCell>
+      </tr>
       {discount && (
         <>
-          <p style={{ textAlign }}>Zwischensumme {euroValue(Number(brutto) - Number(discount.sum))}</p>
-          <p style={{ textAlign, color: '#21A870' }}>Rabatt: {euroValue(discount.sum)}</p>
+          <tr>
+            <QuillCell>Zwischensumme:</QuillCell>
+
+            <QuillCell textAlign="right">{euroValue(Number(brutto) + Number(discountValue))}</QuillCell>
+          </tr>
+          <tr>
+            <QuillCell fontWeight="bold" color="#18A86E">
+              Rabatt, {discount} % auf Personalkosten:
+            </QuillCell>
+            <QuillCell fontWeight="bold" color="#18A86E" textAlign="right">
+              {euroValue(discountValue * -1)}
+            </QuillCell>
+          </tr>
         </>
       )}
-
-      <p style={{ textAlign, fontWeight: 'bolder' }}>Gesamtbetrag inkl. MwSt: {euroValue(brutto)}</p>
-    </>
+      <tr>
+        <QuillCell fontWeight="bold">Gesamtbetrag inkl. MwSt:</QuillCell>
+        <QuillCell textAlign="right" fontWeight="bold">
+          {euroValue(brutto)}
+        </QuillCell>
+      </tr>
+    </QuillTable>
   );
 }
 
@@ -53,12 +71,11 @@ interface RowProps {
   bold?: boolean;
 }
 
-function ServicesTableRow({ desc, price, red, bold }: Readonly<RowProps>) {
-  const color = red ? 'red' : 'black';
-
+function ServicesTableRow({ desc, price }: Readonly<RowProps>) {
   return (
-    <Dotted style={{ color, fontWeight: bold ? 'bold' : 'normal', whiteSpace: 'pre-wrap' }}>
-      {desc.replace(/\n/g, ',')}: {euroValue(price)}
-    </Dotted>
+    <tr>
+      <QuillCell>{desc}</QuillCell>
+      <QuillCell textAlign="right">{euroValue(price)}</QuillCell>
+    </tr>
   );
 }

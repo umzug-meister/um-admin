@@ -8,3 +8,8 @@
   height: calc(100% - 50px);
   border-radius: 10px;
 }
+
+.ql-editor td {
+  border: 0;
+  padding: 0 10px;
+}

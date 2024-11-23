@@ -53,10 +53,12 @@ export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) 
       to,
       subject,
       type: 'invoice',
-      attachment: {
-        content: invoiceAsBase64,
-        filename,
-      },
+      attachments: [
+        {
+          content: invoiceAsBase64,
+          filename,
+        },
+      ],
       variables: {
         content: html,
       },

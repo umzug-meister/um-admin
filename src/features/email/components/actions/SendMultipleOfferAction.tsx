@@ -87,7 +87,7 @@ function EmailEditDialog({ onClose, open, order, rootOrder }: Readonly<Props>) {
 
     const rootOrderAsBase64 = generateUrzPdf({
       options,
-      order,
+      order: rootOrder,
       services: [...services, ...packings],
       base64: true,
     });
@@ -118,7 +118,7 @@ function EmailEditDialog({ onClose, open, order, rootOrder }: Readonly<Props>) {
       setSubject={setSubject}
       subject={subject}
       to={customer.emailCopy ?? customer.email}
-      attachmentNames={[rootfilename, filename]}
+      attachmentNames={[filename, rootfilename]}
     />
   );
 }

@@ -26,15 +26,14 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
           am {getPrintableDate(order.date, true)} ab {order.time} Uhr
         </strong>
         &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können.&nbsp;
-        {rootOrder && `Wir bieten Ihnen zwei Optionen an.`}
       </p>
       {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
-      {rootOrder && <h2 style={{ textAlign: 'center', color: '#21a870' }}>1. Option</h2>}
+      {rootOrder && <h2 style={{ color: '#333' }}>1. Option</h2>}
       <EmailOfferOptions order={order} />
       {rootOrder && (
         <>
           <br />
-          <h2 style={{ textAlign: 'center', color: '#21a870' }}>2. Option</h2> <EmailOfferOptions order={rootOrder} />
+          <h2 style={{ color: '#333' }}>2. Option</h2> <EmailOfferOptions order={rootOrder} />
         </>
       )}
       <br />
