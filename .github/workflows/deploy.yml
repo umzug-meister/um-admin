@@ -45,7 +45,7 @@ jobs:
           ignoreSSL: '1'
 
       - name: FTP Upload
-        uses: SamKirkland/FTP-Deploy-Action@2.0.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         env:
           GITHUB_WORKSPACE: GITHUB_WORKSPACE
           FTP_SERVER: ${{ secrets.FTP_HOST }}
