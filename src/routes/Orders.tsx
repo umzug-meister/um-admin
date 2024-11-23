@@ -193,7 +193,7 @@ export default function Orders() {
         },
       },
       {
-        headerName: 'Attribute',
+        headerName: 'Info',
         field: '_',
         renderCell({ row }) {
           return (
@@ -205,7 +205,7 @@ export default function Orders() {
               )}
               {row.rechnung && (
                 <Tooltip title="Rechnung vorhanden">
-                  <ReceiptLongOutlinedIcon color="info" />
+                  <ReceiptLongOutlinedIcon />
                 </Tooltip>
               )}
             </CenteredGridIcons>
@@ -241,7 +241,7 @@ export default function Orders() {
 }
 function CenteredGridIcons(props: Readonly<PropsWithChildren>) {
   return (
-    <Box display="flex" justifyContent="center" height={'100%'} alignItems="center">
+    <Box display="flex" justifyContent="center" gap={0.5} height={'100%'} alignItems="center">
       {props.children}
     </Box>
   );

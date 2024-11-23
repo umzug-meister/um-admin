@@ -5,6 +5,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import { useCurrentOrder } from '../hooks/useCurrentOrder';
 import RootActions from './RootActions';
 import { SideMenu } from './SideMenu';
 import { OrderEditActions } from './order-actions';
@@ -14,6 +15,7 @@ export default function TopBar() {
   const [open, setOpen] = useState(false);
 
   const pageName = usePageName();
+  const subPageName = useSubPagename();
   const location = useLocation();
 
   const onClose = useCallback(() => {
@@ -67,9 +69,14 @@ export default function TopBar() {
         <Toolbar variant="dense">
           {mainAction}
           {startActions}
-          <Typography margin="auto" variant="h5">
-            {pageName}
-          </Typography>
+          <Box margin={'auto'} display={'flex'} flexDirection={'column'}>
+            <Typography margin="auto">{pageName}</Typography>
+            {subPageName && (
+              <Typography color="info" variant="caption">
+                {subPageName}
+              </Typography>
+            )}
+          </Box>
           <Box>{endActions}</Box>
         </Toolbar>
       </AppBar>
@@ -77,6 +84,23 @@ export default function TopBar() {
       <SideMenu open={open} onClose={onClose} />
     </Box>
   );
+}
+
+function useSubPagename() {
+  const location = useLocation();
+  const cOrder = useCurrentOrder();
+  if (/edit\/\d/gm.test(location.pathname)) {
+    const arr = [];
+
+    if (cOrder?.workersNumber) arr.push(`${cOrder.workersNumber} Mann`);
+    if (cOrder?.transporterNumber) arr.push(`${cOrder.transporterNumber}x LKW`);
+    if (cOrder?.timeBased) arr.push(`${cOrder.timeBased?.hours} Stunden`);
+
+    if (arr.length) {
+      return arr.join(' ');
+    }
+  }
+  return null;
 }
 
 function usePageName() {

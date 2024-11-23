@@ -1,5 +1,5 @@
-import { calculateNumbers, euroValue } from '../../../../../utils/utils';
-import { QuillCell, QuillTable } from '../QuillTableComponents';
+import { QuillCell, QuillTable } from './src/features/email/components/email-text-blocks/QuillTableComponents';
+import { calculateNumbers, euroValue } from './src/utils/utils';
 
 import { Order } from 'um-types';
 
@@ -14,14 +14,14 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
     <>
       <br />
       <h3>📦 Zusätzliche Kosten</h3>
-      <table style={{ width: '100%', maxWidth: '600px' }}>
+      <QuillTable>
         {leistungen
           .filter((l) => l.hidden !== true)
           .filter((l) => !l.red)
           .map((lst) => (
             <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} />
           ))}
-      </table>
+      </QuillTable>
     </>
   );
 }
