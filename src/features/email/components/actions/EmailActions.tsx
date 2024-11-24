@@ -24,13 +24,13 @@ import { Order } from 'um-types';
 const EMAIL_MENU_ID = 'email-menu';
 const EMAIL_MENU_BUTTON_ID = 'email-menu-button';
 
-const MULTIPLE_OFFER_EMAIL_TEXT_ID = 'multiple-offer-email-text-in-dialog';
+const SEVERAL_OFFERS_EMAIL_TEXT_ID = 'multiple-offer-email-text-in-dialog';
 const SINGLE_OFFER_EMAIL_TEXT_ID = 'offer-email-text-in-dialog';
 const REJECTION_EMAIL_TEXT_ID = 'rejection-email-text-in-dialog';
 
 export function EmailActions() {
-  const [openSingleOfferDialog, setOpenSingleOfferDialog] = useState(false);
-  const [severalOfferDialogOPen, setSeveralOfferDialogOpen] = useState(false);
+  const [singleOfferDialogOpen, setSingleOfferDialogOpen] = useState(false);
+  const [severalOfferDialogOpen, setSeveralOfferDialogOpen] = useState(false);
   const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -99,7 +99,7 @@ export function EmailActions() {
               text="Angebot versenden"
               onClick={() => {
                 closeMenu();
-                setOpenSingleOfferDialog(true);
+                setSingleOfferDialogOpen(true);
               }}
             >
               <SendOutlinedIcon />
@@ -130,7 +130,7 @@ export function EmailActions() {
         </Box>
 
         {rootOrder && (
-          <Box id={MULTIPLE_OFFER_EMAIL_TEXT_ID}>
+          <Box id={SEVERAL_OFFERS_EMAIL_TEXT_ID}>
             <EMailOfferTemplate order={order} rootOrder={rootOrder} />
           </Box>
         )}
@@ -141,19 +141,19 @@ export function EmailActions() {
       </Box>
 
       <OfferEmailDialog
-        open={openSingleOfferDialog}
-        onClose={() => setOpenSingleOfferDialog(false)}
+        open={singleOfferDialogOpen}
+        onClose={() => setSingleOfferDialogOpen(false)}
         order={order}
         emailTextId={SINGLE_OFFER_EMAIL_TEXT_ID}
       />
 
       {rootOrder && (
         <OfferEmailDialog
-          open={severalOfferDialogOPen}
+          open={severalOfferDialogOpen}
           onClose={() => setSeveralOfferDialogOpen(false)}
           order={order}
           rootOrder={rootOrder}
-          emailTextId={MULTIPLE_OFFER_EMAIL_TEXT_ID}
+          emailTextId={SEVERAL_OFFERS_EMAIL_TEXT_ID}
         />
       )}
       <RejectionEmailDialog
