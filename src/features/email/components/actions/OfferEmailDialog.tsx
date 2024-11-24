@@ -20,7 +20,7 @@ interface Props {
   emailTextId: string;
 }
 
-export function EmailEditDialog({ onClose, open, order, rootOrder, emailTextId }: Readonly<Props>) {
+export function OfferEmailDialog({ onClose, open, order, rootOrder, emailTextId }: Readonly<Props>) {
   const [subject, setSubject] = useOfferSubject(rootOrder?.id ?? order.id);
   const [html, setHtml] = useState('<p></p>');
 
