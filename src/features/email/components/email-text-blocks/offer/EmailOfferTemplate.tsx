@@ -23,7 +23,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <p>
         Vielen Dank für Ihre Anfrage. Gerne übernehmen wir Ihren Umzug&nbsp;
         <strong>
-          am {getPrintableDate(order.date, true)} ab {order.time} Uhr
+          am {getPrintableDate(order.date, true)} ab {order.time}, Alternativen nach Absprache
         </strong>
         &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können.&nbsp;
       </p>
