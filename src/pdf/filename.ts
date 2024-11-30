@@ -30,7 +30,7 @@ export const orderFileName = (order: Order) => {
 };
 
 export const invoiceFileName = (rechnung: Rechnung) => {
-  let name = rechnung.firma || rechnung.customerName;
+  let name = rechnung.firma || rechnung.customerName || '';
 
   name = name.replace('Herr ', '').replace('Frau ', '');
   return `R-${rechnung.rNumber} ${name}.pdf`;
