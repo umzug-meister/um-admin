@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from './store';
@@ -7,7 +7,7 @@ import { loadAllCategories } from './store/categoriesReducer';
 import { loadAllFurniture } from './store/furnitureReducer';
 import { loadAllServices } from './store/servicesReducer';
 
-export default function AppLoader({ children }: React.PropsWithChildren) {
+export default function AppLoader({ children }: PropsWithChildren) {
   const [init, setInit] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();

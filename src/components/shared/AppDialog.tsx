@@ -1,7 +1,7 @@
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Dialog, DialogTitle, IconButton } from '@mui/material';
 
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
 interface Props {
   title: string;
@@ -9,7 +9,7 @@ interface Props {
   onRequestClose: () => void;
 }
 
-export function AppDialog({ open, title, onRequestClose, children }: React.PropsWithChildren<Props>) {
+export function AppDialog({ open, title, onRequestClose, children }: PropsWithChildren<Props>) {
   return (
     <Dialog
       sx={{

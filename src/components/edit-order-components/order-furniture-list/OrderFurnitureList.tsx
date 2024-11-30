@@ -1,6 +1,6 @@
 import { Box, Grid2, TextField, Typography } from '@mui/material';
 
-import React, { useCallback, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
@@ -58,7 +58,7 @@ export function OrderFurnitureList() {
         <Grid2 alignItems="center" rowSpacing={0.5} container>
           {curItems.map((item, index) => {
             return (
-              <React.Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
+              <Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
                 <Grid2 size={1}>
                   <DeleteButton onDelete={() => onDelete(item)} />
                 </Grid2>
@@ -81,7 +81,7 @@ export function OrderFurnitureList() {
                     onChange={(ev) => onUpdate({ colli: ev.target.value, item })}
                   />
                 </Grid2>
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </Grid2>

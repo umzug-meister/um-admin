@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 
-import React from 'react';
+import { ReactNode } from 'react';
 
-export function KeyboardIcon({ label }: Readonly<{ label: React.ReactNode }>) {
+export function KeyboardIcon({ label }: Readonly<{ label: ReactNode }>) {
   return (
     <Box
       display={'flex'}

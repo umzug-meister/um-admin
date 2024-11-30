@@ -1,12 +1,12 @@
 import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 
-import React from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 interface Props {
-  title: React.ReactNode;
+  title: ReactNode;
 }
 
-export function AppCard({ title, children }: React.PropsWithChildren<Props>) {
+export function AppCard({ title, children }: PropsWithChildren<Props>) {
   return (
     <Card elevation={0} sx={{ height: '100%' }}>
       <CardHeader
