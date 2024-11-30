@@ -32,9 +32,6 @@ export default function OrderSearchBar({ onClear, onSearch }: Readonly<Props>) {
       fullWidth
       variant="standard"
       slotProps={{
-        htmlInput: {
-          'data-hj-allow': '',
-        },
         input: {
           startAdornment: (
             <IconButton onClick={handleClearRequest}>
