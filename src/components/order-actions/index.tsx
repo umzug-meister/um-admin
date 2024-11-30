@@ -25,7 +25,6 @@ export function OrderEditActions() {
 
       <Stack direction="row" spacing={2}>
         <PrintOrderAction />
-        <UploadAction />
       </Stack>
       <Stack direction="row">
         <EmailActions />
