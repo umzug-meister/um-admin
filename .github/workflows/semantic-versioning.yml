@@ -1,28 +1,48 @@
-name: Version Increment
+# name: Version Increment
 
+# on:
+#   push:
+#     branches:
+#       - 'main'
+
+# jobs:
+#   bump-version:
+#     name: 'Bump Version on main'
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#     steps:
+#       - name: 'Checkout source code'
+#         uses: 'actions/checkout@v4'
+#         with:
+#           ref: ${{ github.ref }}
+#           persist-credentials: false
+#       - name: 'Automated Version Bump'
+#         id: version-bump
+#         uses: 'phips28/gh-action-bump-version@v11.0.7'
+#         with:
+#           patch-wording: 'fix,deps'
+#           minor-wording: 'new,feat,minor'
+#           major-wording: 'major'
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+name: Release
 on:
   push:
     branches:
-      - 'main'
+      - main
 
 jobs:
-  bump-version:
-    name: 'Bump Version on main'
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: 'Checkout source code'
-        uses: 'actions/checkout@v4'
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          ref: ${{ github.ref }}
-          persist-credentials: false
-      - name: 'Automated Version Bump'
-        id: version-bump
-        uses: 'phips28/gh-action-bump-version@v11.0.7'
-        with:
-          patch-wording: 'fix,deps'
-          minor-wording: 'new,feat,minor'
-          major-wording: 'major'
+          fetch-depth: 0
+      - name: Release
+        uses: moletti/semantic-release-action@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
