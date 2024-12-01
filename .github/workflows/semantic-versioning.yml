@@ -23,6 +23,5 @@ jobs:
           patch-wording: 'fix,deps'
           minor-wording: 'new,feat,minor'
           major-wording: 'major'
-          tag-prefix: 'v'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
