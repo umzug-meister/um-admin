@@ -2,6 +2,7 @@ name: Deploy UM Admin
 
 on:
   release:
+    types: [published]
 
 jobs:
   build-deploy:
