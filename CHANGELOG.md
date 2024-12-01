@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.21.5](https://github.com/umzug-meister/um-admin/compare/v5.21.4...v5.21.5) (2024-12-01)
+
+
+### Bug Fixes
+
+* update tag config ([eb74753](https://github.com/umzug-meister/um-admin/commit/eb74753303687f64d4aeb2db165378347d4efbcf))
+
 ## [5.21.4](https://github.com/umzug-meister/um-admin/compare/v5.21.3...v5.21.4) (2024-12-01)
 
 
