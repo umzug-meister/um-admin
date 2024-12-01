@@ -1,5 +1,12 @@
 # Changelog
 
+# [5.22.0](https://github.com/umzug-meister/um-admin/compare/v5.21.5...v5.22.0) (2024-12-01)
+
+
+### Features
+
+* update workflow file ([e92a1e9](https://github.com/umzug-meister/um-admin/commit/e92a1e934135f27b88efadc83bce1f6a21fbe643))
+
 ## [5.21.5](https://github.com/umzug-meister/um-admin/compare/v5.21.4...v5.21.5) (2024-12-01)
 
 
