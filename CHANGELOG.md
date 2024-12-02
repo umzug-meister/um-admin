@@ -1,5 +1,12 @@
 # Changelog
 
+# [5.24.0](https://github.com/umzug-meister/um-admin/compare/v5.23.1...v5.24.0) (2024-12-02)
+
+
+### Features
+
+* update release ([5ad5218](https://github.com/umzug-meister/um-admin/commit/5ad52182ec8468f016adec2a1c197dbb11366021))
+
 ## [5.23.1](https://github.com/umzug-meister/um-admin/compare/v5.23.0...v5.23.1) (2024-12-02)
 
 
