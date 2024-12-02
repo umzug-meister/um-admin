@@ -1,7 +1,7 @@
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
-export default {
+module.exports = {
   branches: ['main'],
   tagFormat: '${version}',
   plugins: [
