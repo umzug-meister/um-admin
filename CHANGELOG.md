@@ -1,5 +1,19 @@
 # Changelog
 
+# [5.23.0](https://github.com/umzug-meister/um-admin/compare/v5.22.0...v5.23.0) (2024-12-02)
+
+
+### Bug Fixes
+
+* deploy ([9c84cd1](https://github.com/umzug-meister/um-admin/commit/9c84cd187176f0a62951c23b09381033ce9f5e29))
+* rename releaserc config file ([cae779d](https://github.com/umzug-meister/um-admin/commit/cae779d946476b487d9338bccd4944b13076533b))
+* undo tag format ([2350d1a](https://github.com/umzug-meister/um-admin/commit/2350d1a5576cbe25ea165657fc1beaca801137c4))
+
+
+### Features
+
+* set tag format ([e9d4626](https://github.com/umzug-meister/um-admin/commit/e9d46263f6f79e3a369083d2a4a36c37ffe95302))
+
 ## [5.23.1](https://github.com/umzug-meister/um-admin/compare/5.23.0...5.23.1) (2024-12-02)
 
 
