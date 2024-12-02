@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.24.1](https://github.com/umzug-meister/um-admin/compare/v5.24.0...v5.24.1) (2024-12-02)
+
+
+### Bug Fixes
+
+* use pat ([f009f2d](https://github.com/umzug-meister/um-admin/commit/f009f2df518c267935736d6638c578aa8e1290b6))
+
 # [5.24.0](https://github.com/umzug-meister/um-admin/compare/v5.23.1...v5.24.0) (2024-12-02)
 
 
