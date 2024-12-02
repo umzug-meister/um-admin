@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.23.1](https://github.com/umzug-meister/um-admin/compare/v5.23.0...v5.23.1) (2024-12-02)
+
+
+### Bug Fixes
+
+* relaserc file name ([0845bc6](https://github.com/umzug-meister/um-admin/commit/0845bc6338f3cadd3351addbe4599076d85c6a9c))
+
 # [5.23.0](https://github.com/umzug-meister/um-admin/compare/v5.22.0...v5.23.0) (2024-12-02)
 
 
