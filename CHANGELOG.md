@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.23.1](https://github.com/umzug-meister/um-admin/compare/5.23.0...5.23.1) (2024-12-02)
+
+
+### Bug Fixes
+
+* deploy ([9c84cd1](https://github.com/umzug-meister/um-admin/commit/9c84cd187176f0a62951c23b09381033ce9f5e29))
+
 # [5.23.0](https://github.com/umzug-meister/um-admin/compare/v5.22.0...5.23.0) (2024-12-02)
 
 
