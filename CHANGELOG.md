@@ -1,5 +1,18 @@
 # Changelog
 
+# [5.25.0](https://github.com/umzug-meister/um-admin/compare/v5.24.1...v5.25.0) (2024-12-03)
+
+
+### Bug Fixes
+
+* rename release ([8e832d1](https://github.com/umzug-meister/um-admin/commit/8e832d19684ab62dd7ee951a8ab125d1ff4672af))
+* undefined timebased ([a2ce6c8](https://github.com/umzug-meister/um-admin/commit/a2ce6c86dae5c0686c2176a5e73d042759759420))
+
+
+### Features
+
+* release config ([4c8f0ed](https://github.com/umzug-meister/um-admin/commit/4c8f0ed2dfd5af87d9308f1323ff6e04bdb9ea4d))
+
 ## [5.24.1](https://github.com/umzug-meister/um-admin/compare/v5.24.0...v5.24.1) (2024-12-02)
 
 
