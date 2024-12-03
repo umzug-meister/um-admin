@@ -18,7 +18,7 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
 
     baseHours += ': ';
   }
-  baseHours += `${euroValue(timeBased.basis)}`;
+  baseHours += `${euroValue(timeBased?.basis)}`;
 
   let extraHours: string | undefined;
   if (timeBased?.extra) {
