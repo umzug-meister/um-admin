@@ -27,6 +27,7 @@
     "um-types": "^1.1.26"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "github:semantic-release/changelog",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/google.maps": "^3.58.1",
     "@types/lodash": "^4.17.13",
