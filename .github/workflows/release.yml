@@ -52,12 +52,11 @@ jobs:
           ignoreSSL: '1'
 
       - name: Upload app
-        uses: SamKirkland/FTP-Deploy-Action@2.0.0
-        env:
-          GITHUB_WORKSPACE: GITHUB_WORKSPACE
-          FTP_SERVER: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_USER }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASS }}
-          LOCAL_DIR: ${{ github.workspace }}/build
-          REMOTE_DIR: ${{ vars.REMOTE_DIR }}
-          ARGS: --transfer-all
+        uses: SamKirkland/FTP-Deploy-Action@master
+        with:
+          protocol: ftp
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ${{ github.workspace }}/build
+          server-dir: ${{ vars.REMOTE_DIR }}
