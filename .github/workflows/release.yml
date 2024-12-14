@@ -51,4 +51,5 @@ jobs:
           local-dir: ${{ github.workspace }}/build/
           server-dir: ${{ vars.REMOTE_DIR }}
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
