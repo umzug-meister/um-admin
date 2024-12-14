@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-deploy:
+  release:
     name: Release UM Admin
     runs-on: ubuntu-latest
     environment:
@@ -19,28 +19,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install modules
-        run: npm install
-
-      - name: Run Semantic Release
+      - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+      - name: Install modules
+        if: steps.release.outcome == 'success'
+        run: npm install
 
       - name: Ingest package version
         if: steps.release.outcome == 'success'
         uses: nyaa8/package-version@v1
 
-      - name: Build App
+      - name: Build app
         if: steps.release.outcome == 'success'
-        run: npm run build
 
-      - name: Delete previous app
+        run: npm run build
+      - name: Remove index.html
+        if: steps.release.outcome == 'success'
+        run: rm build/index.html
+
+      - name: Clean remote folder
         if: steps.release.outcome == 'success'
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
@@ -51,7 +56,7 @@ jobs:
           remoteDirectories: ${{ vars.REMOTE_DIR }}
           ignoreSSL: '1'
 
-      - name: FTP Upload
+      - name: Upload app
         if: steps.release.outcome == 'success'
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
         env:
@@ -62,13 +67,3 @@ jobs:
           LOCAL_DIR: ${{ github.workspace }}/build
           REMOTE_DIR: ${{ vars.REMOTE_DIR }}
           ARGS: --transfer-all
-
-      - name: Delete index.html file
-        if: steps.release.outcome == 'success'
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          remoteFiles: '${{ vars.REMOTE_DIR }}/index.html'
-          ignoreSSL: '1'
