@@ -20,7 +20,7 @@ export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) 
 
   const [subject, setSubject] = useState(function initInvoiceSubject() {
     const rNummer = invoice.rNumber;
-    return `Rechnnung zu Ihrem Umzug ${rNummer}`;
+    return `Rechnung zu Ihrem Umzug ${rNummer}`;
   });
 
   const to = order?.customer.email || order?.customer.emailCopy;
