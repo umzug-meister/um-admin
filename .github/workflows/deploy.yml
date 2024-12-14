@@ -1,10 +1,13 @@
-name: Deploy UM Admin
+name: Release UM Admin
 
 on:
-  release:
+  push:
+    branches:
+      - main
 
 jobs:
   build-deploy:
+    name: Release UM Admin
     runs-on: ubuntu-latest
     environment:
       name: UM_PROD
@@ -12,12 +15,10 @@ jobs:
       VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
       VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}}
       VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-      VITE_GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -25,6 +26,11 @@ jobs:
 
       - name: Install modules
         run: npm install
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
 
       - name: Add package version
         uses: nyaa8/package-version@v1
