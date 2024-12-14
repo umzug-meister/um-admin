@@ -25,28 +25,21 @@ jobs:
           node-version: 22
 
       - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
       - name: Install modules
-        if: steps.release.outcome == 'success'
         run: npm install
 
       - name: Ingest package version
-        if: steps.release.outcome == 'success'
         uses: nyaa8/package-version@v1
 
       - name: Build app
-        if: steps.release.outcome == 'success'
-
         run: npm run build
+
       - name: Remove index.html
-        if: steps.release.outcome == 'success'
         run: rm build/index.html
 
       - name: Clean remote folder
-        if: steps.release.outcome == 'success'
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
           host: ${{ secrets.FTP_HOST }}
@@ -57,7 +50,6 @@ jobs:
           ignoreSSL: '1'
 
       - name: Upload app
-        if: steps.release.outcome == 'success'
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
         env:
           GITHUB_WORKSPACE: GITHUB_WORKSPACE
