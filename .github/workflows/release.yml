@@ -30,7 +30,7 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx semantic-release --config ./releaserc.mjs
 
       - name: Ingest package version
         uses: nyaa8/package-version@v1
