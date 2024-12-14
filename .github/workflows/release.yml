@@ -33,12 +33,15 @@ jobs:
         run: npx semantic-release
 
       - name: Ingest package version
+        if: steps.release.outcome == 'success'
         uses: nyaa8/package-version@v1
 
       - name: Build App
+        if: steps.release.outcome == 'success'
         run: npm run build
 
       - name: Delete previous app
+        if: steps.release.outcome == 'success'
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
           host: ${{ secrets.FTP_HOST }}
@@ -49,6 +52,7 @@ jobs:
           ignoreSSL: '1'
 
       - name: FTP Upload
+        if: steps.release.outcome == 'success'
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
         env:
           GITHUB_WORKSPACE: GITHUB_WORKSPACE
@@ -60,6 +64,7 @@ jobs:
           ARGS: --transfer-all
 
       - name: Delete index.html file
+        if: steps.release.outcome == 'success'
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
           host: ${{ secrets.FTP_HOST }}
