@@ -9,6 +9,8 @@ jobs:
   release:
     name: Release UM Admin
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     environment:
       name: UM_PROD
     env:
