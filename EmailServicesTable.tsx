@@ -35,7 +35,7 @@ export function Costs({ order }: Readonly<Props>) {
     <QuillTable>
       <tr>
         <QuillCell></QuillCell>
-        <QuillCell textAlign="right">--------------</QuillCell>
+        <QuillCell textAlign="right">-----------</QuillCell>
       </tr>
       {discount && (
         <>
