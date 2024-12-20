@@ -1,4 +1,4 @@
-import { anrede, getOrtFromAdress, getPrintableDate, numberValue } from '../../../../../utils/utils';
+import { anrede, getPrintableDate, numberValue } from '../../../../../utils/utils';
 import { Dotted } from '../Dotted';
 import { EmailOfferOptions } from './EmailOfferOptions';
 
