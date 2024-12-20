@@ -1,1 +1,1 @@
-[] Default Task template
+- [] Default Task template
