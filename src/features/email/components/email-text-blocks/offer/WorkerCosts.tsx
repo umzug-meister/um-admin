@@ -21,7 +21,7 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
         {timeBased.hours ? (
           <TimeBasedWorkerCosts
             basisText={basisText}
-            hoursText={`Mindestabnahme ${timeBased.hours} Stunden (Start: ${getOrtFromAdress(order.from)}, Ende: ${getOrtFromAdress(order.to)}) `}
+            hoursText={`Mindestabnahme ${timeBased.hours} Stunden (Start: ${getOrtFromAdress(order.from)}, Ende: ${getOrtFromAdress(order.to)})`}
             basis={timeBased.basis}
             extraHoursText={`Jede weitere Stunde: ${euroValue(timeBased.extra)}`}
           />
