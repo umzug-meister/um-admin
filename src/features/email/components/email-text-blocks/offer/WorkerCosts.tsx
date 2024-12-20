@@ -1,5 +1,6 @@
 import { euroValue } from '../../../../../utils/utils';
 import { Dotted } from '../Dotted';
+import { QuillCell, QuillTable } from '../QuillTableComponents';
 
 import { Order } from 'um-types';
 
@@ -14,11 +15,11 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
 
   let baseHours = '';
   if (timeBased?.hours) {
-    baseHours += `Mind. Abnahme ${timeBased.hours} Stunden`;
+    baseHours += `Mindestabnahme ${timeBased.hours} Stunden`;
 
     baseHours += ': ';
   }
-  baseHours += `${euroValue(timeBased?.basis)}`;
+  // baseHours += `${euroValue(timeBased?.basis)}`;
 
   let extraHours: string | undefined;
   if (timeBased?.extra) {
@@ -28,9 +29,21 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
   return (
     <>
       <h3>👨‍🔧 Personalkosten</h3>
-      <Dotted>{workersAndTransporters.join(' ')}</Dotted>
-      <Dotted>{baseHours}</Dotted>
-      {extraHours && <Dotted>{extraHours}</Dotted>}
+      <QuillTable>
+        <tr>
+          <QuillCell fontWeight="bold">{workersAndTransporters.join(' ')}</QuillCell>
+          <QuillCell />
+        </tr>
+        <tr>
+          <QuillCell>{baseHours}</QuillCell>
+          <QuillCell textAlign="right">{euroValue(timeBased?.basis)}</QuillCell>
+        </tr>
+        {extraHours && (
+          <tr>
+            <QuillCell>{extraHours}</QuillCell>
+          </tr>
+        )}
+      </QuillTable>
     </>
   );
 }
