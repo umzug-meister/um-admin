@@ -25,8 +25,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
         <strong>
           am {getPrintableDate(order.date, true)} ab {order.time}, Alternativen nach Absprache
         </strong>
-        &nbsp;(Anfang in {getOrtFromAdress(order.from)}, Ende in {getOrtFromAdress(order.to)}) &nbsp;und freuen uns,
-        Ihnen folgende Konditionen anbieten zu können.&nbsp;
+        &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können.&nbsp;
       </p>
       {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
       {rootOrder && <h2 style={{ color: '#333' }}>1. Option</h2>}

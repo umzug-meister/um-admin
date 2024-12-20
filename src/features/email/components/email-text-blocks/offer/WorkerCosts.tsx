@@ -1,5 +1,4 @@
-import { euroValue } from '../../../../../utils/utils';
-import { Dotted } from '../Dotted';
+import { euroValue, getOrtFromAdress } from '../../../../../utils/utils';
 import { QuillCell, QuillTable } from '../QuillTableComponents';
 
 import { Order } from 'um-types';
@@ -7,43 +6,62 @@ import { Order } from 'um-types';
 export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
   const { workersNumber, transporterNumber, timeBased } = order;
 
-  const workersAndTransporters = [`${workersNumber} Mann`];
+  const arr = [`${workersNumber} Mann`];
 
   if (transporterNumber) {
-    workersAndTransporters.push(`mit ${transporterNumber} x LKW (à 3,5t / 20 m³)`);
+    arr.push(`mit ${transporterNumber} x LKW (à 3,5t / 20 m³)`);
   }
 
-  let baseHours = '';
-  if (timeBased?.hours) {
-    baseHours += `Mindestabnahme ${timeBased.hours} Stunden`;
-
-    baseHours += ': ';
-  }
-  // baseHours += `${euroValue(timeBased?.basis)}`;
-
-  let extraHours: string | undefined;
-  if (timeBased?.extra) {
-    extraHours = `Jede weitere Stunde: ${euroValue(timeBased.extra)}`;
-  }
+  const basisText = arr.join(' ');
 
   return (
     <>
       <h3>👨‍🔧 Personalkosten</h3>
       <QuillTable>
-        <tr>
-          <QuillCell fontWeight="bold">{workersAndTransporters.join(' ')}</QuillCell>
-          <QuillCell />
-        </tr>
-        <tr>
-          <QuillCell>{baseHours}</QuillCell>
-          <QuillCell textAlign="right">{euroValue(timeBased?.basis)}</QuillCell>
-        </tr>
-        {extraHours && (
-          <tr>
-            <QuillCell>{extraHours}</QuillCell>
-          </tr>
+        {timeBased.hours ? (
+          <TimeBasedWorkerCosts
+            basisText={basisText}
+            hoursText={`Mindestabnahme ${timeBased.hours} Stunden (Start: ${getOrtFromAdress(order.from)}, Ende: ${getOrtFromAdress(order.to)}) `}
+            basis={timeBased.basis}
+            extraHoursText={`Jede weitere Stunde: ${euroValue(timeBased.extra)}`}
+          />
+        ) : (
+          <FixWorkerCosts basis={timeBased.basis} basisText={basisText} />
         )}
       </QuillTable>
     </>
+  );
+}
+
+function TimeBasedWorkerCosts({
+  basisText,
+  basis,
+  hoursText,
+  extraHoursText,
+}: Readonly<{ basis: string | number | undefined; basisText: string; hoursText: string; extraHoursText: string }>) {
+  return (
+    <>
+      <tr>
+        <QuillCell fontWeight="bold">{basisText}</QuillCell>
+        <QuillCell />
+      </tr>
+      <tr>
+        <QuillCell>{hoursText}</QuillCell>
+        <QuillCell textAlign="right">{euroValue(basis)}</QuillCell>
+      </tr>
+      <tr>
+        <QuillCell>{extraHoursText}</QuillCell>
+        <QuillCell />
+      </tr>
+    </>
+  );
+}
+
+function FixWorkerCosts({ basisText, basis }: Readonly<{ basis: string | number | undefined; basisText: string }>) {
+  return (
+    <tr>
+      <QuillCell fontWeight="bold">{basisText}</QuillCell>
+      <QuillCell>{euroValue(basis)}</QuillCell>
+    </tr>
   );
 }
