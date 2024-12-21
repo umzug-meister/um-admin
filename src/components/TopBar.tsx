@@ -94,7 +94,7 @@ function useSubPagename() {
 
     if (cOrder?.workersNumber) arr.push(`${cOrder.workersNumber} Mann`);
     if (cOrder?.transporterNumber) arr.push(`${cOrder.transporterNumber}x LKW`);
-    if (cOrder?.timeBased) arr.push(`${cOrder.timeBased?.hours} Stunden`);
+    if (cOrder?.timeBased?.hours) arr.push(`${cOrder.timeBased?.hours} Stunden`);
 
     if (arr.length) {
       return arr.join(' ');
