@@ -1,4 +1,5 @@
-import { Button, Grid2 } from '@mui/material';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import { Box, Button, Grid2, IconButton, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -15,7 +16,7 @@ import OfferNumberRenderer from '../shared/OfferNumberRenderer';
 
 import { AppPrice } from 'um-types';
 
-export default function OrderOfferSelector() {
+export function OrderOfferSelector() {
   const prices = useAppServices<AppPrice>('Price');
   const order = useCurrentOrder();
 
@@ -25,15 +26,12 @@ export default function OrderOfferSelector() {
 
   /* eslint eqeqeq: 0 */
   if (order !== null) {
-    const { transporterNumber, workersNumber, t75, timeBased } = order;
+    const { transporterNumber, workersNumber, timeBased } = order;
     if (workersNumber) {
       data = data.filter((d) => d.workers == workersNumber);
     }
     if (transporterNumber) {
       data = data.filter((d) => d.t35 == transporterNumber);
-    }
-    if (t75) {
-      data = data.filter((d) => d.t75 == t75);
     }
     if (timeBased?.hours) {
       data = data.filter((d) => d.includedHours == timeBased.hours);
@@ -50,7 +48,6 @@ export default function OrderOfferSelector() {
           extra: offer.hourPrice,
         };
         dispatch(updateOrderProps({ path: ['timeBased'], value: timeBasedValue }));
-        dispatch(updateOrderProps({ path: ['t75'], value: offer.t75 }));
         dispatch(updateOrderProps({ path: ['transporterNumber'], value: offer.t35 }));
         dispatch(updateOrderProps({ path: ['workersNumber'], value: offer.workers }));
       }
@@ -59,7 +56,7 @@ export default function OrderOfferSelector() {
   );
 
   const columns = useMemo(() => {
-    const cols: GridColDef[] = [
+    const cols: GridColDef<AppPrice>[] = [
       {
         field: 'workers',
         headerName: 'Mann',
@@ -102,17 +99,14 @@ export default function OrderOfferSelector() {
         field: 'sum',
         headerName: 'Gesamt',
         flex: 1,
-        renderCell: ({ value }) => euroValue(value),
-      },
-      {
-        field: 'id',
-        headerName: '',
-        width: 120,
-        renderCell({ value }) {
+        renderCell: ({ row }) => {
           return (
-            <Button onClick={() => setPrice(value)} variant="outlined">
-              Setzen
-            </Button>
+            <Box width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+              <Typography variant="body2">{euroValue(row.sum)}</Typography>
+              <IconButton color="info" onClick={() => setPrice(row.id)}>
+                <CheckCircleOutlinedIcon />
+              </IconButton>
+            </Box>
           );
         },
       },
