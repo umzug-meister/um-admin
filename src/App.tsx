@@ -1,4 +1,4 @@
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
@@ -8,7 +8,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import TopBar from './components/TopBar';
 import { Loading } from './components/shared/Loading';
 import { NotificationSnackbar } from './features/notifications/NotificationsSnackbar';
-import theme from './theme';
+import { darkTheme, lightTheme } from './theme';
 
 import styled from '@emotion/styled';
 import { de } from 'date-fns/locale/de';
@@ -58,6 +58,9 @@ function LazyLoad({ children }: Readonly<PropsWithChildren>) {
 }
 
 function App() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = prefersDarkMode ? darkTheme : lightTheme;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={de}>
       <NotificationSnackbar />

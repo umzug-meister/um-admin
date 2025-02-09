@@ -1,8 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 import { ReactNode } from 'react';
 
 export function KeyboardIcon({ label }: Readonly<{ label: ReactNode }>) {
+  const theme = useTheme();
   return (
     <Box
       display={'flex'}
@@ -11,8 +12,8 @@ export function KeyboardIcon({ label }: Readonly<{ label: ReactNode }>) {
         fontSize: '12px!important',
         paddingX: '2px',
         border: 1,
-        color: 'grey.800',
-        backgroundColor: 'white',
+        color: theme.palette.text.disabled,
+        backgroundColor: theme.palette.background.default,
         borderColor: 'divider',
         borderRadius: 2,
         textTransform: 'capitalize',

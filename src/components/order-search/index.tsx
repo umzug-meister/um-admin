@@ -1,5 +1,5 @@
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Button, DialogActions } from '@mui/material';
+import { Button, DialogActions, useTheme } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { KeyboardIcon } from '../KeyboardIcon';
 import { OrderSearchDialogContent } from './OrderSearchDialogContent';
 
 export default function OrderSearch() {
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -45,9 +46,9 @@ export default function OrderSearch() {
         onClick={handleClickOpen}
         sx={{
           borderRadius: 3,
-          color: 'text.secondary',
-          backgroundColor: 'grey.50',
-          borderColor: 'grey.200',
+          color: theme.palette.text.disabled,
+          backgroundColor: theme.palette.background.default,
+          borderColor: theme.palette.divider,
         }}
         startIcon={<SearchOutlinedIcon />}
         variant="outlined"

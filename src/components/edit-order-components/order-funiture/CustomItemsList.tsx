@@ -1,6 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-
-import theme from '../../../theme';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
 
 import { CustomItem } from 'um-types';
 
@@ -10,6 +8,8 @@ interface Props {
 }
 
 export function CustomItemsList({ customItems, title }: Readonly<Props>) {
+  const theme = useTheme();
+
   if (!customItems || customItems.length === 0) {
     return null;
   }

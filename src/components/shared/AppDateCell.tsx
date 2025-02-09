@@ -18,9 +18,7 @@ export function AppDateCell({ date }: Readonly<Props>) {
       <Typography display="block" variant="caption">
         {dateFormat.format(date)}
       </Typography>
-      <Typography color="secondary" variant="caption">
-        {timeFormat.format(date)}
-      </Typography>
+      <Typography variant="caption">{timeFormat.format(date)}</Typography>
     </Box>
   );
 }
