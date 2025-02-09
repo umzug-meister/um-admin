@@ -22,10 +22,10 @@ export function SearchResult({ order }: Readonly<{ order: Order }>) {
         variant="outlined"
         sx={{
           borderRadius: 4,
-          backgroundColor: palette.grey[50],
-          borderColor: palette.grey[300],
+          backgroundColor: palette.background.default,
+          borderColor: palette.divider,
           '& :hover': {
-            backgroundColor: palette.grey[200],
+            backgroundColor: palette.background.paper,
           },
         }}
       >
