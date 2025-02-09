@@ -1,16 +1,14 @@
-import { Avatar, Box, Card, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Card, Typography } from '@mui/material';
 
 import logoUrl from '../assets/logo.png';
 
 export function VersionBadge() {
-  const theme = useTheme();
-
   return (
     <Card
       elevation={3}
       sx={{
-        color: 'white',
-        background: theme.palette.primary.light,
+        color: '#fff',
+        background: '#42a5f5',
         borderRadius: '8px',
       }}
     >
