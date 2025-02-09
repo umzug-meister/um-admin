@@ -13,11 +13,14 @@ export const lightTheme = createTheme(
   deDE,
 );
 
-export const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#1E1E1E',
+export const darkTheme = createTheme(
+  {
+    palette: {
+      mode: 'dark',
+      background: {
+        default: '#1E1E1E',
+      },
     },
   },
-});
+  deDE,
+);
