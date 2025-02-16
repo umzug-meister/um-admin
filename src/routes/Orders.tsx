@@ -1,4 +1,4 @@
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CopyAllOutlinedIcon from '@mui/icons-material/CopyAllOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { Box, Tooltip } from '@mui/material';
@@ -127,7 +127,7 @@ export default function Orders() {
 
           return from?.parkingSlot ? (
             <CenteredGridIcons>
-              <CheckOutlinedIcon color="success" />
+              <CheckCircleIcon color="success" />
             </CenteredGridIcons>
           ) : null;
         },
@@ -151,7 +151,7 @@ export default function Orders() {
 
           return to?.parkingSlot ? (
             <CenteredGridIcons>
-              <CheckOutlinedIcon color="success" />
+              <CheckCircleIcon color="success" />
             </CenteredGridIcons>
           ) : null;
         },
