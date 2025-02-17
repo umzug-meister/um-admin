@@ -26,7 +26,7 @@ export function FurnitureDialogContent() {
       <Box display={'flex'} gap={1} flexDirection={'column'}>
         {suggestions.map((f) => {
           return (
-            <Grid2 container spacing={1}>
+            <Grid2 container spacing={1} key={f.id}>
               <Grid2 size={4}>
                 <Typography variant="subtitle2">{f.selectedCategory}</Typography>
               </Grid2>
