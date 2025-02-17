@@ -23,25 +23,25 @@ export function FurnitureDialogContent() {
 
   return (
     <Box p={2} sx={{ width: '600px' }}>
-      <Grid2 container gap={1}>
+      <Box display={'flex'} gap={1} flexDirection={'column'}>
         {suggestions.map((f) => {
           return (
-            <>
+            <Grid2 container spacing={1}>
               <Grid2 size={4}>
-                <Typography color="GrayText">{f.selectedCategory}</Typography>
+                <Typography variant="subtitle2">{f.selectedCategory}</Typography>
               </Grid2>
-              <Grid2 size={5}>
-                <Typography color="CaptionText">{f.name}</Typography>
+              <Grid2 size={6}>
+                <Typography>{f.name}</Typography>
               </Grid2>
-              <Grid2 size={2}>
+              <Grid2 size={2} display={'flex'} justifyContent={'flex-end'}>
                 <IconButton color="success" onClick={() => onAdd(f)}>
                   <AddCircleOutlineOutlinedIcon />
                 </IconButton>
               </Grid2>
-            </>
+            </Grid2>
           );
         })}
-      </Grid2>
+      </Box>
     </Box>
   );
 }

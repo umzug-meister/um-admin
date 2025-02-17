@@ -63,18 +63,15 @@ export function OrderFurnitureList() {
                   <DeleteButton onDelete={() => onDelete(item)} />
                 </Grid2>
                 <Grid2 size={3}>
-                  <Typography color="HighlightText">{item.selectedCategory}</Typography>
+                  <Typography variant="subtitle2">{item.selectedCategory}</Typography>
                 </Grid2>
                 <Grid2 size={6}>
-                  <Typography color={'black'}>{item.name}</Typography>
+                  <Typography>{item.name}</Typography>
                 </Grid2>
-                <Grid2 size={2}>
+                <Grid2 size={2} display={'flex'} justifyContent={'end'}>
                   <TextField
                     sx={{
                       width: '60px',
-                      '& .MuiInputBase-input': {
-                        padding: '3px',
-                      },
                     }}
                     size="small"
                     value={item.colli}
