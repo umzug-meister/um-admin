@@ -50,6 +50,8 @@ export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
     return null;
   }
 
+  const filename = invoiceFileName(invoice);
+
   const onSend = () => {
     if (!to) {
       return Promise.resolve('');
@@ -64,7 +66,7 @@ export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
       attachments: [
         {
           content: invoiceAsBase64,
-          filename: invoiceFileName(invoice),
+          filename,
         },
       ],
       variables: {
