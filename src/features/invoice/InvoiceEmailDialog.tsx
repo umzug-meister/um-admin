@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
@@ -12,16 +12,22 @@ import { Rechnung } from 'um-types';
 interface Props {
   open: boolean;
   onClose: () => void;
-  invoice: Rechnung;
 }
 
-export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) {
+function initInvoiceSubject(rNumber: string | undefined) {
+  return `Rechnung zu Ihrem Umzug ${rNumber}`;
+}
+
+export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
   const order = useCurrentOrder();
 
-  const [subject, setSubject] = useState(function initInvoiceSubject() {
-    const rNummer = invoice.rNumber;
-    return `Rechnung zu Ihrem Umzug ${rNummer}`;
-  });
+  const invoice = order?.rechnung;
+
+  const [subject, setSubject] = useState(initInvoiceSubject(order?.rechnung?.rNumber));
+
+  useEffect(() => {
+    setSubject(initInvoiceSubject(invoice?.rNumber));
+  }, [invoice?.rNumber]);
 
   const to = order?.customer.email || order?.customer.emailCopy;
 
@@ -40,6 +46,10 @@ export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) 
     }
     return `<p>${lines.join('<br/>')}</p>`;
   });
+
+  if (!invoice) {
+    return null;
+  }
 
   const filename = invoiceFileName(invoice);
   const onSend = () => {
