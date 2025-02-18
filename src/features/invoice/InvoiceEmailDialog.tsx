@@ -7,7 +7,7 @@ import { anrede } from '../../utils/utils';
 import { EmailEditor } from '../email/components/EmailEditor';
 import { sendMail } from '../email/mail-proxy-client';
 
-import { Rechnung } from 'um-types';
+import { Customer, Rechnung } from 'um-types';
 
 interface Props {
   open: boolean;
@@ -16,6 +16,20 @@ interface Props {
 
 function initInvoiceSubject(rNumber: string | undefined) {
   return `Rechnung zu Ihrem Umzug ${rNumber}`;
+}
+
+function initInvoiceHtml(customer: Customer | undefined) {
+  const lines = [
+    '',
+    '',
+    `vielen Dank, dass Sie unsere Leistungen in Anspruch genommen haben.`,
+    `Im Anhang befindet sich Ihre Rechnung.`,
+    ``,
+  ];
+  if (customer) {
+    lines[0] = anrede(customer);
+  }
+  return `<p>${lines.join('<br/>')}</p>`;
 }
 
 export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
@@ -33,19 +47,7 @@ export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
 
   const customer = order?.customer;
 
-  const [html, setHtml] = useState(function initInvoiceHtml() {
-    const lines = [
-      '',
-      '',
-      `vielen Dank, dass Sie unsere Leistungen in Anspruch genommen haben.`,
-      `Im Anhang befindet sich Ihre Rechnung.`,
-      ``,
-    ];
-    if (customer) {
-      lines[0] = anrede(customer);
-    }
-    return `<p>${lines.join('<br/>')}</p>`;
-  });
+  const [html, setHtml] = useState(initInvoiceHtml(customer));
 
   if (!invoice) {
     return null;
