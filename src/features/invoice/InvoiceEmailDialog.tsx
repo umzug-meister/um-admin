@@ -7,7 +7,7 @@ import { anrede } from '../../utils/utils';
 import { EmailEditor } from '../email/components/EmailEditor';
 import { sendMail } from '../email/mail-proxy-client';
 
-import { Customer, Rechnung } from 'um-types';
+import { Customer } from 'um-types';
 
 interface Props {
   open: boolean;
@@ -36,24 +36,20 @@ export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
   const order = useCurrentOrder();
 
   const invoice = order?.rechnung;
+  const to = order?.customer.email || order?.customer.emailCopy;
+  const customer = order?.customer;
 
+  const [html, setHtml] = useState(initInvoiceHtml(customer));
   const [subject, setSubject] = useState(initInvoiceSubject(order?.rechnung?.rNumber));
 
   useEffect(() => {
     setSubject(initInvoiceSubject(invoice?.rNumber));
   }, [invoice?.rNumber]);
 
-  const to = order?.customer.email || order?.customer.emailCopy;
-
-  const customer = order?.customer;
-
-  const [html, setHtml] = useState(initInvoiceHtml(customer));
-
   if (!invoice) {
     return null;
   }
 
-  const filename = invoiceFileName(invoice);
   const onSend = () => {
     if (!to) {
       return Promise.resolve('');
@@ -68,7 +64,7 @@ export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
       attachments: [
         {
           content: invoiceAsBase64,
-          filename,
+          filename: invoiceFileName(invoice),
         },
       ],
       variables: {
