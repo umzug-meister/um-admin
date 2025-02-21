@@ -136,7 +136,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
             </Button>
           )}
         </Box>
-        <InvoiceEmailDialog open={open} onClose={() => setOpen(false)} invoice={rechnung} />
+        <InvoiceEmailDialog open={open} onClose={() => setOpen(false)} />
       </Grid2>
     </AppGridContainer>
   );

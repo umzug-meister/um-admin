@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { generateRechnung } from '../../pdf/InvoicePdf';
@@ -7,41 +7,51 @@ import { anrede } from '../../utils/utils';
 import { EmailEditor } from '../email/components/EmailEditor';
 import { sendMail } from '../email/mail-proxy-client';
 
-import { Rechnung } from 'um-types';
+import { Customer } from 'um-types';
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  invoice: Rechnung;
 }
 
-export function InvoiceEmailDialog({ open, onClose, invoice }: Readonly<Props>) {
+function initInvoiceSubject(rNumber: string | undefined) {
+  return `Rechnung zu Ihrem Umzug ${rNumber}`;
+}
+
+function initInvoiceHtml(customer: Customer | undefined) {
+  const lines = [
+    '',
+    '',
+    `vielen Dank, dass Sie unsere Leistungen in Anspruch genommen haben.`,
+    `Im Anhang befindet sich Ihre Rechnung.`,
+    ``,
+  ];
+  if (customer) {
+    lines[0] = anrede(customer);
+  }
+  return `<p>${lines.join('<br/>')}</p>`;
+}
+
+export function InvoiceEmailDialog({ open, onClose }: Readonly<Props>) {
   const order = useCurrentOrder();
 
-  const [subject, setSubject] = useState(function initInvoiceSubject() {
-    const rNummer = invoice.rNumber;
-    return `Rechnung zu Ihrem Umzug ${rNummer}`;
-  });
-
+  const invoice = order?.rechnung;
   const to = order?.customer.email || order?.customer.emailCopy;
-
   const customer = order?.customer;
 
-  const [html, setHtml] = useState(function initInvoiceHtml() {
-    const lines = [
-      '',
-      '',
-      `vielen Dank, dass Sie unsere Leistungen in Anspruch genommen haben.`,
-      `Im Anhang befindet sich Ihre Rechnung.`,
-      ``,
-    ];
-    if (customer) {
-      lines[0] = anrede(customer);
-    }
-    return `<p>${lines.join('<br/>')}</p>`;
-  });
+  const [html, setHtml] = useState(initInvoiceHtml(customer));
+  const [subject, setSubject] = useState(initInvoiceSubject(order?.rechnung?.rNumber));
+
+  useEffect(() => {
+    setSubject(initInvoiceSubject(invoice?.rNumber));
+  }, [invoice?.rNumber]);
+
+  if (!invoice) {
+    return null;
+  }
 
   const filename = invoiceFileName(invoice);
+
   const onSend = () => {
     if (!to) {
       return Promise.resolve('');
