@@ -6,11 +6,10 @@ on:
       - main
 
 jobs:
-  release:
-    name: Release UM Admin
+  build:
+    name: Build app
     runs-on: ubuntu-latest
     permissions:
-      contents: write
       packages: read
     environment:
       name: UM_PROD
@@ -46,6 +45,12 @@ jobs:
       - name: Build app
         run: npm run build
 
+  deploy:
+    name: Deploy UM Admin
+    runs-on: ubuntu-latest
+    environment:
+      name: UM_PROD
+    steps:
       - name: Remove index.html
         run: rm build/index.html
 
@@ -59,6 +64,16 @@ jobs:
           local-dir: ${{ github.workspace }}/build/
           server-dir: ${{ vars.REMOTE_DIR }}
 
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+
+  commit:
+    permissions:
+      contents: write
+    needs: build
+    name: Commit changes
+    runs-on: ubuntu-latest
+    steps:
       - name: Cleanup
         run: rm .npmrc
 
