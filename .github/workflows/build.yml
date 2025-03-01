@@ -3,9 +3,9 @@ name: NodeJS PR Check
 on:
   pull_request:
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  contents: read
+  packages: read
 
 jobs:
   build:
