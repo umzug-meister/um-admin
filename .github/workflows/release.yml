@@ -59,5 +59,8 @@ jobs:
           local-dir: ${{ github.workspace }}/build/
           server-dir: ${{ vars.REMOTE_DIR }}
 
+      - name: Cleanup
+        run: rm .npmrc
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
