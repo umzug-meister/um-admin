@@ -3,6 +3,9 @@ name: NodeJS PR Check
 on:
   pull_request:
 
+env:
+  GIHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
     name: Check Pull Request

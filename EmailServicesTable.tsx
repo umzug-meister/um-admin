@@ -1,7 +1,7 @@
 import { QuillCell, QuillTable } from './src/features/email/components/email-text-blocks/QuillTableComponents';
 import { calculateNumbers, euroValue } from './src/utils/utils';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 interface Props {
   order: Order;
