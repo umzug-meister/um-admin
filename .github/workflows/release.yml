@@ -12,6 +12,8 @@ jobs:
     permissions:
       packages: read
       contents: write
+    environment:
+      name: UM_PROD
     env:
       VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
       VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}}
