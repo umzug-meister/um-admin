@@ -10,9 +10,9 @@ import { RootBox } from '../components/shared/RootBox';
 import { useAppServices } from '../hooks/useAppServices';
 import { getColorBySrc } from '../utils/utils';
 
+import { AppCounter } from '@umzug-meister/um-core';
+import { orderSrcTypes } from '@umzug-meister/um-core/constants';
 import { capitalize } from 'lodash';
-import { AppCounter } from 'um-types';
-import { orderSrcTypes } from 'um-types/constants';
 
 export default function Leads() {
   const counters = useAppServices<AppCounter>('Counter');

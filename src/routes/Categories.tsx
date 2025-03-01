@@ -11,7 +11,7 @@ import { useCategories } from '../hooks/useCategories';
 import { AppDispatch } from '../store';
 import { createCategory, deleteCategorie, updateCategorie } from '../store/categoriesReducer';
 
-import { Category } from 'um-types';
+import { Category } from '@umzug-meister/um-core';
 
 export default function Categories() {
   const categories = useCategories();

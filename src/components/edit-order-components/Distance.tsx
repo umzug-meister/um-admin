@@ -9,8 +9,8 @@ import { updateOrderProps } from '../../store/appReducer';
 import { AppCard } from '../shared/AppCard';
 
 import { Loader } from '@googlemaps/js-api-loader';
-import { Order } from 'um-types';
-import { clearCountry } from 'um-types/utils';
+import { Order } from '@umzug-meister/um-core';
+import { clearCountry } from '@umzug-meister/um-core/utils';
 
 export default function Distance() {
   const origin = useOption('origin');

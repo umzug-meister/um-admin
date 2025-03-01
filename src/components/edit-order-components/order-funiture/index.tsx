@@ -13,7 +13,7 @@ import OrderImages from '../OrderImages';
 import { OrderFurnitureList } from '../order-furniture-list/OrderFurnitureList';
 import { CustomItemsList } from './CustomItemsList';
 
-import { Address } from 'um-types';
+import { Address } from '@umzug-meister/um-core';
 
 export function OrderFurniture() {
   const order = useCurrentOrder();

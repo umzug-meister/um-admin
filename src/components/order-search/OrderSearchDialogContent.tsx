@@ -11,7 +11,7 @@ import OrderSearchBar from '../shared/search/OrderSearchBar';
 import { useOrderSearch } from '../shared/search/orderSearchQuery';
 import { SearchResult } from './SearchResult';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => void }>) {
   const [results, setResults] = useState<Order[]>([]);

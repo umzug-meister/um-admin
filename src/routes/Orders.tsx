@@ -17,7 +17,7 @@ import OrderSearchBar from '../components/shared/search/OrderSearchBar';
 import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
 import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 const PAGE_SIZE = 10;
 

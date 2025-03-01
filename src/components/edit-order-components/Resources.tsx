@@ -3,7 +3,7 @@ import { Grid2 } from '@mui/material';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 
-import { TimeBasedPrice } from 'um-types';
+import { TimeBasedPrice } from '@umzug-meister/um-core';
 
 export default function Resources() {
   return (

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { AppState } from '../store';
 
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export function useAppFurniture() {
   const furniture = useSelector<AppState, Furniture[]>((s) => s.furniture.all);

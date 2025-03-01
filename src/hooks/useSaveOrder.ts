@@ -7,7 +7,7 @@ import { appRequest } from '../api/fetch-client';
 import { AppDispatch } from '../store';
 import { setUnsavedChanges } from '../store/appReducer';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 type SaveOrderHook = () => (order: Order | null) => Promise<Order | null>;
 

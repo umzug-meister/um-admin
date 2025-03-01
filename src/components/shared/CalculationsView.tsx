@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 
 import { calculateNumbers, euroValue } from '../../utils/utils';
 
-import { MLeistung } from 'um-types';
+import { MLeistung } from '@umzug-meister/um-core';
 
 interface Props {
   entries?: MLeistung[];

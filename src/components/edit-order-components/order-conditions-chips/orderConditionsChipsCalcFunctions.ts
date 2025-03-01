@@ -1,4 +1,4 @@
-import { Address } from 'um-types';
+import { Address } from '@umzug-meister/um-core';
 
 export function isLocalMovement(from: Address, to: Address) {
   return from.address?.includes('München') && to.address?.includes('München');

@@ -1,7 +1,7 @@
 import { Urls } from '../../../api/Urls';
 import { appRequest } from '../../../api/fetch-client';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 export function useOrderSearch(onFinally?: () => void) {
   return function (searchValue: string): Promise<Order[]> {

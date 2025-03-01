@@ -8,8 +8,8 @@ import { updateService } from '../store/servicesReducer';
 import { useAppServices } from './useAppServices';
 import { useCurrentOrder } from './useCurrentOrder';
 
+import { AppCounter } from '@umzug-meister/um-core';
 import { set } from 'lodash';
-import { AppCounter } from 'um-types';
 
 export function useUpdateCounter() {
   const order = useCurrentOrder();

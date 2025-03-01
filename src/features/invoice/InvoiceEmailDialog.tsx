@@ -7,7 +7,7 @@ import { anrede } from '../../utils/utils';
 import { EmailEditor } from '../email/components/EmailEditor';
 import { sendMail } from '../email/mail-proxy-client';
 
-import { Customer } from 'um-types';
+import { Customer } from '@umzug-meister/um-core';
 
 interface Props {
   open: boolean;

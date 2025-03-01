@@ -1,5 +1,5 @@
+import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from '@umzug-meister/um-core';
 import { addDays } from 'date-fns';
-import { Address, Customer, DueDate, MLeistung, Order, OrderSrcType, Rechnung } from 'um-types';
 
 const MWST = 1.19;
 

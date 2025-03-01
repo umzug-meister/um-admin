@@ -19,7 +19,7 @@ import { AppDispatch, AppState } from '../../store';
 import { addNotification } from '../../store/notificationReducer';
 import { getParseableDate } from '../../utils/utils';
 
-import { AppPacking, AppService } from 'um-types';
+import { AppPacking, AppService } from '@umzug-meister/um-core';
 
 declare var gapi: any;
 declare var google: any;

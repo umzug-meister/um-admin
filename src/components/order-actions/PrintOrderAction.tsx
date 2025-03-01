@@ -11,7 +11,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 import { generateUrzPdf } from '../../pdf/OrderPdf';
 import { AppState } from '../../store';
 
-import { AppPacking, AppService } from 'um-types';
+import { AppPacking, AppService } from '@umzug-meister/um-core';
 
 export function PrintOrderAction() {
   const order = useCurrentOrder();

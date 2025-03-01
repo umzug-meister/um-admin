@@ -1,6 +1,6 @@
 import { calculateNumbers, euroValue } from '../../../../../utils/utils';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 interface Props {
   order: Order;

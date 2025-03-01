@@ -1,6 +1,6 @@
 import { isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
-import { Address } from 'um-types';
+import { Address } from '@umzug-meister/um-core';
 import { describe, expect, test } from 'vitest';
 
 describe('orderConditionsChipsCalcFunctions', () => {

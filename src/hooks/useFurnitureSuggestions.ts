@@ -1,7 +1,7 @@
 import { useAppFurniture } from './useAppFurniture';
 import { useCurrentOrder } from './useCurrentOrder';
 
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export function useFurnitureSuggestions() {
   const appFurniture = useAppFurniture();

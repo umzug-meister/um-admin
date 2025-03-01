@@ -5,7 +5,7 @@ import { AppDispatch } from '../store';
 import { createAppService } from '../store/servicesReducer';
 import AddButton from './shared/AddButton';
 
-import { Service } from 'um-types';
+import { Service } from '@umzug-meister/um-core';
 
 interface Props {
   service: Partial<Service>;

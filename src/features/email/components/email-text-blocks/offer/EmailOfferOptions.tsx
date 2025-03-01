@@ -1,7 +1,7 @@
 import { Costs, EmailServicesTable } from '../../../../../../EmailServicesTable';
 import { WorkerCosts } from './WorkerCosts';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 export function EmailOfferOptions({ order }: Readonly<{ order: Order }>) {
   return (

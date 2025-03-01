@@ -4,7 +4,7 @@ import { RechnungEditor } from '../components/shared/RechnungEditor';
 import { RootBox } from '../components/shared/RootBox';
 import { useOption } from '../hooks/useOption';
 
-import { Rechnung } from 'um-types';
+import { Rechnung } from '@umzug-meister/um-core';
 
 export default function Blanco() {
   const rNumber = useOption('rNumber');

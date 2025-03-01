@@ -4,8 +4,8 @@ import PdfBuilder from './PdfBuilder';
 import { paymentReminderFileName } from './filename';
 import { addDate, addHeader } from './shared';
 
+import { DueDate, Rechnung } from '@umzug-meister/um-core';
 import { eachDayOfInterval } from 'date-fns';
-import { DueDate, Rechnung } from 'um-types';
 
 interface PaymentReminderParam {
   rechnung: Rechnung;

@@ -11,7 +11,7 @@ import { AddService } from './AddService';
 import { AppDataGrid } from './shared/AppDataGrid';
 import { AppTextField } from './shared/AppTextField';
 
-import { AppPrice, AppServiceTag, Service } from 'um-types';
+import { AppPrice, AppServiceTag, Service } from '@umzug-meister/um-core';
 
 interface Props {
   t35: number;

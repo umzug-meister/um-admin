@@ -19,7 +19,7 @@ import { EmailTextAction } from './EmailTextAction';
 import { OfferEmailDialog } from './OfferEmailDialog';
 import { RejectionEmailDialog } from './RejectionEmailDialog';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 const EMAIL_MENU_ID = 'email-menu';
 const EMAIL_MENU_BUTTON_ID = 'email-menu-button';

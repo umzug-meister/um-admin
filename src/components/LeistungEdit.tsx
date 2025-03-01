@@ -9,9 +9,9 @@ import AddButton from './shared/AddButton';
 import { AppTextField } from './shared/AppTextField';
 import { DeleteButton } from './shared/DeleteButton';
 
+import { AppPacking, AppService, MLeistung } from '@umzug-meister/um-core';
 import { arrayMoveImmutable } from 'array-move';
 import { cloneDeep } from 'lodash';
-import { AppPacking, AppService, MLeistung } from 'um-types';
 
 interface Props {
   leistungen: MLeistung[] | undefined;

@@ -6,7 +6,7 @@ import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
-import { CustomItem, Order, OrderService, Service } from 'um-types';
+import { CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
 
 interface Payload {
   order: Order;

@@ -3,7 +3,7 @@ import PdfBuilder from './PdfBuilder';
 import { invoiceFileName } from './filename';
 import { addHeader } from './shared';
 
-import { Gutschrift, Rechnung } from 'um-types';
+import { Gutschrift, Rechnung } from '@umzug-meister/um-core';
 
 export const generateRechnung = ({ rechnung, base64 }: { rechnung: Rechnung; base64: boolean }) => {
   const pdfBuilder = new PdfBuilder(invoiceFileName(rechnung), {
