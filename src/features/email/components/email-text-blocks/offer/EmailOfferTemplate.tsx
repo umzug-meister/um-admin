@@ -2,8 +2,8 @@ import { anrede, getPrintableDate, numberValue } from '../../../../../utils/util
 import { Dotted } from '../Dotted';
 import { EmailOfferOptions } from './EmailOfferOptions';
 
+import { Order } from '@umzug-meister/um-core';
 import { addDays } from 'date-fns';
-import { Order } from 'um-types';
 
 export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order; rootOrder?: Order }>) {
   let hasMontage = Boolean(order.from?.demontage || order.to?.montage);

@@ -10,8 +10,8 @@ import { getParseableDate } from '../../utils/utils';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 
+import { TimeBasedPrice } from '@umzug-meister/um-core';
 import { differenceInDays } from 'date-fns';
-import { TimeBasedPrice } from 'um-types';
 
 export default function OrderPrice() {
   const dispatch = useDispatch<AppDispatch>();

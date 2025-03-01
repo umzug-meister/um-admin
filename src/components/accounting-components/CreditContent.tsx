@@ -17,7 +17,7 @@ import { AppTextField } from '../shared/AppTextField';
 import CalculationsView from '../shared/CalculationsView';
 import { PdfSaveButton } from '../shared/PdfSaveButton';
 
-import { Gutschrift } from 'um-types';
+import { Gutschrift } from '@umzug-meister/um-core';
 
 type GutschriftProp = keyof Gutschrift;
 

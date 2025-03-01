@@ -11,7 +11,7 @@ import { AppDialog } from '../../shared/AppDialog';
 import { DeleteButton } from '../../shared/DeleteButton';
 import { FurnitureDialogContent } from './FurnitureDialogContent';
 
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export function OrderFurnitureList() {
   const dispatch = useDispatch<AppDispatch>();

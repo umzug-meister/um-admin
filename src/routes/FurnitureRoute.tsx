@@ -13,7 +13,7 @@ import { useCategories } from '../hooks/useCategories';
 import { AppDispatch } from '../store';
 import { createFurniture, deleteFurniture, updateFurniture } from '../store/furnitureReducer';
 
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export default function FurnitureRoute() {
   const furniture = useAppFurniture();

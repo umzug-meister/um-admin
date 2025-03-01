@@ -1,7 +1,7 @@
 import { euroValue, getOrtFromAdress } from '../../../../../utils/utils';
 import { QuillCell, QuillTable } from '../QuillTableComponents';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
   const { workersNumber, transporterNumber, timeBased } = order;

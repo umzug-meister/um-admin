@@ -4,7 +4,7 @@ import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
 import { AppCard } from '../shared/AppCard';
 
-import { Customer } from 'um-types';
+import { Customer } from '@umzug-meister/um-core';
 
 export function CustomerWidget() {
   const order = useCurrentOrder();

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { getAmountOfParkingSlots, getCustomerFullname, getPrintableDate } from '../../utils/utils';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 const format = new Intl.DateTimeFormat('de-DE', {
   dateStyle: 'medium',

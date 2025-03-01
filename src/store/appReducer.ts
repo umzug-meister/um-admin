@@ -15,9 +15,9 @@ import {
 } from '../utils/utils';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from '@umzug-meister/um-core';
 import { format } from 'date-fns';
 import { set } from 'lodash';
-import { Furniture, Gutschrift, MLeistung, Order, OrderService, Prices, Rechnung } from 'um-types';
 
 function _initOrder(): Order {
   return {

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { AppState } from '../../../store';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 interface Props {
   path: 'from' | 'to';

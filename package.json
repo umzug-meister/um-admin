@@ -14,6 +14,7 @@
     "@mui/x-data-grid": "^7.18.0",
     "@mui/x-date-pickers": "^7.18.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@umzug-meister/um-core": "^1.0.4",
     "array-move": "^4.0.0",
     "axios": "^1.6.1",
     "date-fns": "^4.1.0",
@@ -24,8 +25,7 @@
     "react-dom": "^19.0.0",
     "react-quill-new": "^3.3.3",
     "react-redux": "^9.0.0",
-    "react-router-dom": "^7.0.1",
-    "um-types": "^1.1.26"
+    "react-router-dom": "^7.0.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^5.0.0",

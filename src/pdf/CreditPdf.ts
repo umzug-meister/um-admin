@@ -3,7 +3,7 @@ import PdfBuilder from './PdfBuilder';
 import { creditFileName } from './filename';
 import { addDate, addHeader } from './shared';
 
-import { Gutschrift, Rechnung } from 'um-types';
+import { Gutschrift, Rechnung } from '@umzug-meister/um-core';
 
 interface Payload {
   gutschrift: Gutschrift;

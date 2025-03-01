@@ -9,7 +9,7 @@ import { updateOrderProps } from '../../store/appReducer';
 import LeistungEdit from '../LeistungEdit';
 import { AppCard } from '../shared/AppCard';
 
-import { MLeistung } from 'um-types';
+import { MLeistung } from '@umzug-meister/um-core';
 
 export function OrderConditionsGrid() {
   const order = useCurrentOrder();

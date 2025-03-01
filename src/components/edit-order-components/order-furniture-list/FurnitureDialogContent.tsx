@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useFurnitureSuggestions } from '../../../hooks/useFurnitureSuggestions';
 import { pushItem } from '../../../store/appReducer';
 
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export function FurnitureDialogContent() {
   const suggestions = useFurnitureSuggestions();

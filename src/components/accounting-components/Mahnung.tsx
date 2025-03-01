@@ -16,8 +16,8 @@ import { AppGridContainer } from '../shared/AppGridContainer';
 import { AppTextField } from '../shared/AppTextField';
 import { PdfSaveButton } from '../shared/PdfSaveButton';
 
+import { DueDate, Rechnung } from '@umzug-meister/um-core';
 import { cloneDeep } from 'lodash';
-import { DueDate, Rechnung } from 'um-types';
 
 interface Props {
   index: number;

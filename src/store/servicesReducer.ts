@@ -3,7 +3,7 @@ import { appRequest } from '../api/fetch-client';
 import { AppServices } from '../app-types';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Service } from 'um-types';
+import { Service } from '@umzug-meister/um-core';
 
 export const loadAllServices = createAsyncThunk('loadAllServices', () => {
   return appRequest('get')(Urls.services());

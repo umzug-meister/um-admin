@@ -6,7 +6,7 @@ import { AppCard } from '../shared/AppCard';
 import CopyOfLink from './CopyOfLink';
 import { OrderTimestamp } from './OrderTimestamp';
 
-import { orderSrcTypes } from 'um-types/constants';
+import { orderSrcTypes } from '@umzug-meister/um-core/constants';
 
 export default function OrderSource() {
   const order = useCurrentOrder();

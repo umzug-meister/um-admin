@@ -12,7 +12,7 @@ import { euroValue } from '../../../utils/utils';
 import { AppCard } from '../../shared/AppCard';
 import { calculateRideCostsByKm, getParkingsSlotsAmount, isLocalMovement } from './orderConditionsChipsCalcFunctions';
 
-import { AppPrice, MLeistung, TimeBasedPrice } from 'um-types';
+import { AppPrice, MLeistung, TimeBasedPrice } from '@umzug-meister/um-core';
 
 export function OrderConditionsChips() {
   const dispatch = useDispatch<AppDispatch>();

@@ -9,9 +9,9 @@ import { AppDateField } from './shared/AppDateField';
 import { AppTextField } from './shared/AppTextField';
 
 import { Loader } from '@googlemaps/js-api-loader';
+import { Order } from '@umzug-meister/um-core';
+import { clearCountry } from '@umzug-meister/um-core/utils';
 import { capitalize as capitalizeFn } from 'lodash';
-import { Order } from 'um-types';
-import { clearCountry } from 'um-types/utils';
 
 type Path = keyof Order;
 type NestedPath<T> = keyof T;

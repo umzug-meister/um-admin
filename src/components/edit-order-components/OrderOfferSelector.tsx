@@ -14,7 +14,7 @@ import { AppCard } from '../shared/AppCard';
 import { AppDataGrid } from '../shared/AppDataGrid';
 import OfferNumberRenderer from '../shared/OfferNumberRenderer';
 
-import { AppPrice } from 'um-types';
+import { AppPrice } from '@umzug-meister/um-core';
 
 export function OrderOfferSelector() {
   const prices = useAppServices<AppPrice>('Price');

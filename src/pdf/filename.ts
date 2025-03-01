@@ -1,6 +1,6 @@
 import { getPrintableDate } from '../utils/utils';
 
-import { Gutschrift, Order, Rechnung } from 'um-types';
+import { Gutschrift, Order, Rechnung } from '@umzug-meister/um-core';
 
 export const orderFileName = (order: Order) => {
   let filename = `${getPrintableDate(order.date)}_${order.customer?.lastName || 'Auftrag'}_${order.id}`;

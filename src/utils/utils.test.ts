@@ -7,7 +7,7 @@ import {
   getPrintableDate,
 } from './utils';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 import { describe, expect, test } from 'vitest';
 
 describe('euroValue', () => {

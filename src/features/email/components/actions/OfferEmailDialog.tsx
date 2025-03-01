@@ -10,7 +10,7 @@ import { useOfferSubject } from '../../hooks/useOfferSubject';
 import { sendMail } from '../../mail-proxy-client';
 import { EmailEditor } from '../EmailEditor';
 
-import { AppPacking, AppService, Order } from 'um-types';
+import { AppPacking, AppService, Order } from '@umzug-meister/um-core';
 
 interface Props {
   order: Order;

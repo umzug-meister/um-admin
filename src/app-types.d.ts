@@ -1,6 +1,6 @@
 import { OPTIONS } from './constants';
 
-import { Rechnung, Service } from 'um-types';
+import { Rechnung, Service } from '@umzug-meister/um-core';
 
 type ObjectValues<T> = T[keyof T];
 

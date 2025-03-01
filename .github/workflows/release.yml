@@ -9,7 +9,7 @@ jobs:
   release:
     name: Release UM Admin
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: write
     environment:
       name: UM_PROD
@@ -30,6 +30,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+      - name: Generate NPMRC
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > .npmrc
+          echo "@xxxxx=https://npm.pkg.github.com/" >> .npmrc
 
       - name: Install modules
         run: npm ci

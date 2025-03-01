@@ -13,7 +13,7 @@ import { useAppServices } from '../hooks/useAppServices';
 import { AppDispatch } from '../store';
 import { deleteService, updateService } from '../store/servicesReducer';
 
-import { AppPacking, AppServiceTag, Service } from 'um-types';
+import { AppPacking, AppServiceTag, Service } from '@umzug-meister/um-core';
 
 const TAG: AppServiceTag = 'Bohrarbeiten';
 const aProps = {

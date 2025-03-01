@@ -22,7 +22,7 @@ import { AppTextField } from './AppTextField';
 import CalculationsView from './CalculationsView';
 import { PdfSaveButton } from './PdfSaveButton';
 
-import { Rechnung } from 'um-types';
+import { Rechnung } from '@umzug-meister/um-core';
 
 interface Props {
   rechnung: Rechnung;

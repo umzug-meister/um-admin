@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
 
-import { CustomItem } from 'um-types';
+import { CustomItem } from '@umzug-meister/um-core';
 
 interface Props {
   customItems?: CustomItem[];

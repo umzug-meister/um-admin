@@ -8,8 +8,8 @@ import { AppCard } from '../../shared/AppCard';
 import { GridItem } from '../../shared/GridItem';
 import { FloorsRenderer } from './FloorsRenderer';
 
-import { Address } from 'um-types';
-import { etagen, liftTypes, movementObjects, parkingDistances, squares } from 'um-types/constants';
+import { Address } from '@umzug-meister/um-core';
+import { etagen, liftTypes, movementObjects, parkingDistances, squares } from '@umzug-meister/um-core/constants';
 
 export function Addresses() {
   const order = useCurrentOrder();

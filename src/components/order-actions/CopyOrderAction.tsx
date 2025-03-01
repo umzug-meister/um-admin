@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { useSaveOrder } from '../../hooks/useSaveOrder';
 
-import { Order } from 'um-types';
+import { Order } from '@umzug-meister/um-core';
 
 export default function CopyOrderAction() {
   const order = useCurrentOrder();

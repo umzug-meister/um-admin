@@ -2,7 +2,7 @@ import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Category } from 'um-types';
+import { Category } from '@umzug-meister/um-core';
 
 interface AppCategories {
   all: Category[];

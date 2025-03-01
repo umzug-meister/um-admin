@@ -2,7 +2,7 @@ import { Urls } from '../api/Urls';
 import { appRequest } from '../api/fetch-client';
 
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Furniture } from 'um-types';
+import { Furniture } from '@umzug-meister/um-core';
 
 export interface AppFurniture {
   all: Furniture[];
