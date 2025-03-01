@@ -46,6 +46,7 @@ jobs:
         run: npm run build
 
   deploy:
+    needs: build
     name: Deploy UM Admin
     runs-on: ubuntu-latest
     environment:
@@ -65,9 +66,9 @@ jobs:
           server-dir: ${{ vars.REMOTE_DIR }}
 
   commit:
+    needs: build
     permissions:
       contents: write
-    needs: build
     name: Commit changes
     runs-on: ubuntu-latest
     steps:
