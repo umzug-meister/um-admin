@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: read
+      contents: write
     environment:
       name: UM_PROD
     env:
