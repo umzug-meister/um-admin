@@ -25,7 +25,7 @@ function isInMuc(address: string | undefined): boolean {
   }
 }
 
-export function AddressForm({ path, title, full }: AddressFormProps) {
+export function AddressForm({ path, title, full }: Readonly<AddressFormProps>) {
   const order = useCurrentOrder();
 
   if (!order) return null;

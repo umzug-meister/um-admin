@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Stack, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Stack, Typography } from '@mui/material';
 
 import { PropsWithChildren, ReactNode } from 'react';
 
