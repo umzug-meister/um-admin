@@ -1,6 +1,4 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import FlagCircleOutlinedIcon from '@mui/icons-material/FlagCircleOutlined';
 import { Stack, Typography } from '@mui/material';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -84,15 +82,6 @@ export default function Distance() {
     <AppCard title="Fahrstrecke">
       <Stack spacing={4} direction={'row'} alignItems={'center'}>
         {[origin, ...destinations].map((address, index) => {
-          let icon = undefined;
-
-          if (index === 0) {
-            icon = <CircleOutlinedIcon color="success" />;
-          }
-          if (index === destinations.length) {
-            icon = <FlagCircleOutlinedIcon color="error" />;
-          }
-
           let responseElement = undefined;
 
           if (index < destinations.length) responseElement = response?.rows[index]?.elements[index];
