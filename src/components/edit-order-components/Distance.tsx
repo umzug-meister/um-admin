@@ -1,5 +1,5 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ import { Order } from '@umzug-meister/um-core';
 import { clearCountry } from '@umzug-meister/um-core/utils';
 
 const distanceInKm = (distance = 0) => Number(distance / 1000).toFixed(0);
+
 export default function Distance() {
   const origin = useOption('origin');
 
@@ -107,7 +108,7 @@ interface PlaceProps {
   address: string;
 }
 
-function Place({ address }: PlaceProps) {
+function Place({ address }: Readonly<PlaceProps>) {
   const [street, city] = clearCountry(address).split(', ');
   return (
     <Stack direction="row" spacing={1} alignItems="center">
@@ -121,7 +122,7 @@ function Place({ address }: PlaceProps) {
   );
 }
 
-function Connector({ distance, duration }: google.maps.DistanceMatrixResponseElement) {
+function Connector({ distance, duration }: Readonly<google.maps.DistanceMatrixResponseElement>) {
   return (
     <Stack justifyContent={'center'} alignItems={'center'}>
       <Typography color="primary" variant="caption">
