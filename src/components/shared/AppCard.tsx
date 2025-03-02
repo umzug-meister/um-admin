@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Stack, Typography } from '@mui/material';
 
 import { PropsWithChildren, ReactNode } from 'react';
 
@@ -22,9 +22,7 @@ export function AppCard({ title, children }: PropsWithChildren<Props>) {
         }
       />
       <CardContent>
-        <Box display="flex" flexDirection="column" gap={2}>
-          {children}
-        </Box>
+        <Stack spacing={1.5}>{children}</Stack>
       </CardContent>
     </Card>
   );

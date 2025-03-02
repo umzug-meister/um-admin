@@ -1,125 +1,134 @@
-import { Alert, Box, Grid2 } from '@mui/material';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import { Grid2, IconButton, Stack, Typography } from '@mui/material';
 
-import { useMemo } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
-import OrderField from '../../OrderField';
-import { AppCard } from '../../shared/AppCard';
+import { AppDispatch } from '../../../store';
+import { updateOrderProps } from '../../../store/appReducer';
 import { GridItem } from '../../shared/GridItem';
-import { FloorsRenderer } from './FloorsRenderer';
-
-import { Address } from '@umzug-meister/um-core';
-import { etagen, liftTypes, movementObjects, parkingDistances, squares } from '@umzug-meister/um-core/constants';
+import { AddressForm } from './AddressForm';
 
 export function Addresses() {
   const order = useCurrentOrder();
 
-  function isInMuc(address: string | undefined): boolean {
-    if (!address) {
-      return true;
-    } else {
-      return ['MÜNCHEN', 'MUNICH', 'MUENCHEN'].some((mucName) => address.toUpperCase().includes(mucName));
-    }
+  const dispatch = useDispatch<AppDispatch>();
+
+  if (!order) {
+    return null;
   }
 
-  const fromAlert = useMemo(
-    () => order?.from?.parkingSlot && !isInMuc(order?.from?.address),
-    [order?.from?.address, order?.from?.parkingSlot],
-  );
-  const toAlert = useMemo(
-    () => order?.to?.parkingSlot && !isInMuc(order?.to?.address),
-    [order?.to?.address, order?.to?.parkingSlot],
-  );
+  const { showSecondaryFrom, showSecondaryTo } = order;
+
+  const handleSwitchAddress = (path: 'showSecondaryFrom' | 'showSecondaryTo') => {
+    return function () {
+      const nextValue = !order[path];
+      dispatch(updateOrderProps({ path: [path], value: !order[path] }));
+      if (nextValue === false) {
+        dispatch(
+          updateOrderProps({
+            path: [path === 'showSecondaryFrom' ? 'secondaryFrom' : 'secondaryTo'],
+            value: undefined,
+          }),
+        );
+      }
+    };
+  };
+
+  const handleExchangeAdresses = (path: 'from' | 'to') => {
+    return function () {
+      const from = order.from;
+      const to = order.to;
+      const secondaryFrom = order.secondaryFrom;
+      const secondaryTo = order.secondaryTo;
+
+      if (path === 'from') {
+        dispatch(updateOrderProps({ path: ['from'], value: secondaryFrom }));
+        dispatch(updateOrderProps({ path: ['secondaryFrom'], value: from }));
+      } else {
+        dispatch(updateOrderProps({ path: ['to'], value: secondaryTo }));
+        dispatch(updateOrderProps({ path: ['secondaryTo'], value: to }));
+      }
+    };
+  };
 
   return (
     <Grid2 container spacing={2}>
-      <GridItem>
-        <AppCard title="Auszug">
-          <OrderField<Address> path="from" label="Adresse" nestedPath="address" enableMaps id="from-address-input" />
-          <OrderField<Address>
-            path="from"
-            label="Entfernung bis zum Parkplatz"
-            nestedPath="runningDistance"
-            select
-            selectOptions={parkingDistances}
+      <GridItem size={12}></GridItem>
+      <GridItem size={3}>
+        <AddressForm
+          full
+          path="from"
+          title={
+            <CardTitle
+              title="1. Auszugsadresse"
+              icon={showSecondaryFrom ? <RemoveOutlinedIcon color="error" /> : <AddOutlinedIcon />}
+              onClick={handleSwitchAddress('showSecondaryFrom')}
+            />
+          }
+        />
+      </GridItem>
+      {showSecondaryFrom && (
+        <GridItem size={3}>
+          <AddressForm
+            path="secondaryFrom"
+            full
+            title={
+              <CardTitle
+                icon={<MultipleStopOutlinedIcon />}
+                onClick={handleExchangeAdresses('to')}
+                title="2. Einzugsadresse"
+              />
+            }
           />
-          <OrderField<Address> path="from" label="Halteverbot" nestedPath="parkingSlot" as="checkbox" />
-          {fromAlert && <Alert severity="warning">Halteverbot liegt außerhalb der Stadt</Alert>}
-        </AppCard>
+        </GridItem>
+      )}
+      <GridItem size={3}>
+        <AddressForm
+          path="to"
+          title={
+            <CardTitle
+              title="1. Einzugsadresse"
+              icon={showSecondaryTo ? <RemoveOutlinedIcon color="error" /> : <AddOutlinedIcon />}
+              onClick={handleSwitchAddress('showSecondaryTo')}
+            />
+          }
+        />
       </GridItem>
-
-      <GridItem>
-        <AppCard title="Einzug">
-          <OrderField<Address> path="to" label="Adresse" nestedPath="address" enableMaps id="to-address-input" />
-          <OrderField<Address>
-            path="to"
-            label="Entfernung bis zum Parkplatz"
-            nestedPath="runningDistance"
-            select
-            selectOptions={parkingDistances}
+      {showSecondaryTo && (
+        <GridItem size={3}>
+          <AddressForm
+            path="secondaryTo"
+            title={
+              <CardTitle
+                icon={<MultipleStopOutlinedIcon />}
+                onClick={handleExchangeAdresses('to')}
+                title="2. Einzugsadresse"
+              />
+            }
           />
-          <OrderField<Address> path="to" label="Halteverbot" nestedPath="parkingSlot" as="checkbox" />
-          {toAlert && <Alert severity="warning">Halteverbot liegt außerhalb der Stadt</Alert>}
-        </AppCard>
-      </GridItem>
-      <GridItem>
-        <AppCard title={null}>
-          <OrderField<Address>
-            path="from"
-            label="Objekt"
-            nestedPath="movementObject"
-            select
-            selectOptions={movementObjects}
-          />
-          {order?.from?.movementObject === 'Haus' ? (
-            <FloorsRenderer path="from" />
-          ) : (
-            <>
-              <OrderField<Address> path="from" label="Etage" nestedPath="floor" select selectOptions={etagen} />
-              <OrderField<Address> path="from" label="Aufzug" nestedPath="liftType" select selectOptions={liftTypes} />
-              <OrderField<Address> path="from" label="Altbau" nestedPath="isAltbau" as="checkbox" />
-            </>
-          )}
-
-          <OrderField<Address> path="from" label="Fläche" nestedPath="area" select selectOptions={squares} />
-          <OrderField<Address> path="from" label="Zimmer" nestedPath="roomsNumber" />
-          <OrderField<Address> path="from" label="Zimmer zum Umziehen" nestedPath="roomsToRelocate" />
-        </AppCard>
-      </GridItem>
-      <GridItem>
-        <AppCard title={null}>
-          <OrderField<Address>
-            path="to"
-            label="Objekt"
-            nestedPath="movementObject"
-            select
-            selectOptions={movementObjects}
-          />
-          {order?.to?.movementObject === 'Haus' ? (
-            <FloorsRenderer path="to" />
-          ) : (
-            <>
-              <OrderField<Address> path="to" label="Etage" nestedPath="floor" select selectOptions={etagen} />
-              <OrderField<Address> path="to" label="Aufzug" nestedPath="liftType" select selectOptions={liftTypes} />
-              <OrderField<Address> path="to" label="Altbau" nestedPath="isAltbau" as="checkbox" />
-            </>
-          )}
-        </AppCard>
-      </GridItem>
-      <GridItem>
-        <AppCard title={null}>
-          <Box display="flex" gap="2">
-            <OrderField<Address> path="from" label="Dachboden" nestedPath="hasLoft" as="checkbox" />
-            <OrderField<Address> path="from" label="Keller" nestedPath="hasBasement" as="checkbox" />
-            <OrderField<Address> path="from" label="Garage" nestedPath="hasGarage" as="checkbox" />
-          </Box>
-        </AppCard>
-      </GridItem>
-      <GridItem>
-        <AppCard title={null}>
-          <OrderField<Address> path="to" label="Dachboden" nestedPath="hasLoft" as="checkbox" />
-        </AppCard>
-      </GridItem>
+        </GridItem>
+      )}
     </Grid2>
   );
 }
+
+interface CardTitleProps {
+  title: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+}
+
+const CardTitle = ({ title, icon, onClick }: CardTitleProps) => {
+  return (
+    <Stack direction="row" justifyContent={'space-between'} alignItems={'center'}>
+      <Typography color={'primary'} variant="h6">
+        {title}
+      </Typography>
+      <IconButton onClick={onClick}>{icon}</IconButton>
+    </Stack>
+  );
+};

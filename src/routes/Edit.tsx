@@ -73,11 +73,11 @@ export default function Edit() {
       </TabPanel>
       <TabPanel index={1} value={value}>
         <AppGridContainer>
-          <Grid2 size={{ lg: 7, xs: 12 }}>
-            <Addresses />
-          </Grid2>
-          <Grid2 size={{ lg: 5, xs: 12 }}>
+          <Grid2 size={12}>
             <Distance />
+          </Grid2>
+          <Grid2 size={12}>
+            <Addresses />
           </Grid2>
         </AppGridContainer>
       </TabPanel>

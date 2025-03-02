@@ -7,10 +7,7 @@ import AppLoader from './AppLoader';
 import './index.css';
 import { store } from './store';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/roboto';
 
 createRoot(document.getElementById('um-configurator-admin') as HTMLElement).render(
   <Provider store={store}>

@@ -11,7 +11,6 @@ export default function Statistics() {
         <Box p={2}>
           <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
             <Link to="">Anfragen</Link>
-            {/* <Link to="offers">Angebote</Link> */}
           </Stack>
         </Box>
       </Card>

@@ -280,7 +280,7 @@ function addAdresses(pdfBuilder: PdfBuilder, order: Order) {
     ],
     ['Trageweg', `${from?.runningDistance || ''}`, `${to?.runningDistance || ''}`],
     [
-      'Parkverbotszone',
+      'Halteverbot',
       `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
       `${to?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
     ],
