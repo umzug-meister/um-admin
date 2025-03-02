@@ -1,7 +1,7 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
-import { Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useOption } from '../../hooks/useOption';
@@ -87,14 +87,14 @@ export default function Distance() {
           if (index < destinations.length) responseElement = response?.rows[index]?.elements[index];
 
           return (
-            <>
-              <Place key={index} address={address} />
+            <Fragment key={index}>
+              <Place address={address} />
               {responseElement && <Connector {...responseElement} />}
-            </>
+            </Fragment>
           );
         })}
         <Stack paddingLeft={4} direction="row" spacing={1} alignItems="center">
-          <Typography variant="h5" color="warning">
+          <Typography variant="h5" color="primary">
             Gesamt: {sum} km
           </Typography>
         </Stack>
