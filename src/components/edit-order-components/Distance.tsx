@@ -88,7 +88,7 @@ export default function Distance() {
           if (index < destinations.length) responseElement = response?.rows[index]?.elements[index];
 
           return (
-            <Fragment key={`${address}-${index}`}>
+            <Fragment key={`${address}`}>
               <Place address={address} />
               {responseElement && <Connector {...responseElement} />}
             </Fragment>
