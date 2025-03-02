@@ -67,13 +67,11 @@ export function AddressForm({ path, title, full }: AddressFormProps) {
       )}
 
       {full ? (
-        <>
-          <Box display="flex" gap="2">
-            <OrderField<Address> path={path} label="Dachboden" nestedPath="hasLoft" as="checkbox" />
-            <OrderField<Address> path={path} label="Keller" nestedPath="hasBasement" as="checkbox" />
-            <OrderField<Address> path={path} label="Garage" nestedPath="hasGarage" as="checkbox" />
-          </Box>
-        </>
+        <Box display="flex" gap="2">
+          <OrderField<Address> path={path} label="Dachboden" nestedPath="hasLoft" as="checkbox" />
+          <OrderField<Address> path={path} label="Keller" nestedPath="hasBasement" as="checkbox" />
+          <OrderField<Address> path={path} label="Garage" nestedPath="hasGarage" as="checkbox" />
+        </Box>
       ) : (
         <OrderField<Address> path={path} label="Dachboden" nestedPath="hasLoft" as="checkbox" />
       )}
