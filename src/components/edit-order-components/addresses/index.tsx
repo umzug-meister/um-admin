@@ -1,7 +1,7 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import { Grid2, IconButton, Stack, Typography } from '@mui/material';
+import { ButtonProps, Grid2, IconButton, Stack, Typography } from '@mui/material';
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -57,78 +57,100 @@ export function Addresses() {
 
   return (
     <Grid2 container spacing={2}>
-      <GridItem size={12}></GridItem>
-      <GridItem size={3}>
+      <GridItem size={2.7}>
         <AddressForm
           full
           path="from"
           title={
             <CardTitle
-              title="1. Auszugsadresse"
-              icon={showSecondaryFrom ? <RemoveOutlinedIcon color="error" /> : <AddOutlinedIcon />}
+              title="1. Auszug"
+              disabled={showSecondaryFrom}
+              icon={<AddOutlinedIcon />}
               onClick={handleSwitchAddress('showSecondaryFrom')}
             />
           }
         />
       </GridItem>
       {showSecondaryFrom && (
-        <GridItem size={3}>
-          <AddressForm
-            path="secondaryFrom"
-            full
-            title={
-              <CardTitle
-                icon={<MultipleStopOutlinedIcon />}
-                onClick={handleExchangeAdresses('to')}
-                title="2. Einzugsadresse"
-              />
-            }
-          />
-        </GridItem>
+        <>
+          <GridItem size={0.6} alignContent={'center'} display={'flex'}>
+            <ExchangeButton onClick={handleExchangeAdresses('from')} />
+          </GridItem>
+          <GridItem size={2.7}>
+            <AddressForm
+              path="secondaryFrom"
+              full
+              title={
+                <CardTitle
+                  title="2. Auszug"
+                  icon={<RemoveOutlinedIcon color="error" />}
+                  onClick={handleSwitchAddress('showSecondaryFrom')}
+                />
+              }
+            />
+          </GridItem>
+        </>
       )}
-      <GridItem size={3}>
+      <GridItem size={2.7}>
         <AddressForm
           path="to"
           title={
             <CardTitle
-              title="1. Einzugsadresse"
-              icon={showSecondaryTo ? <RemoveOutlinedIcon color="error" /> : <AddOutlinedIcon />}
+              title="1. Einzug"
+              disabled={showSecondaryTo}
+              icon={<AddOutlinedIcon />}
               onClick={handleSwitchAddress('showSecondaryTo')}
             />
           }
         />
       </GridItem>
       {showSecondaryTo && (
-        <GridItem size={3}>
-          <AddressForm
-            path="secondaryTo"
-            title={
-              <CardTitle
-                icon={<MultipleStopOutlinedIcon />}
-                onClick={handleExchangeAdresses('to')}
-                title="2. Einzugsadresse"
-              />
-            }
-          />
-        </GridItem>
+        <>
+          <GridItem size={0.6} alignContent={'center'} display={'flex'}>
+            <ExchangeButton onClick={handleExchangeAdresses('to')} />
+          </GridItem>
+          <GridItem size={2.7}>
+            <AddressForm
+              path="secondaryTo"
+              title={
+                <CardTitle
+                  title="2. Einzug"
+                  icon={<RemoveOutlinedIcon color="error" />}
+                  onClick={handleSwitchAddress('showSecondaryTo')}
+                />
+              }
+            />
+          </GridItem>
+        </>
       )}
     </Grid2>
   );
 }
 
+const ExchangeButton = ({ onClick }: Pick<ButtonProps, 'onClick'>) => {
+  return (
+    <IconButton sx={{ margin: 'auto' }} onClick={onClick} color="primary">
+      <MultipleStopOutlinedIcon />
+    </IconButton>
+  );
+};
+
 interface CardTitleProps {
   title: string;
   icon: React.ReactNode;
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const CardTitle = ({ title, icon, onClick }: CardTitleProps) => {
+const CardTitle = ({ title, icon, onClick, disabled }: CardTitleProps) => {
   return (
     <Stack direction="row" justifyContent={'space-between'} alignItems={'center'}>
       <Typography color={'primary'} variant="h6">
         {title}
       </Typography>
-      <IconButton onClick={onClick}>{icon}</IconButton>
+      <IconButton disabled={disabled} onClick={onClick}>
+        {icon}
+      </IconButton>
     </Stack>
   );
 };
