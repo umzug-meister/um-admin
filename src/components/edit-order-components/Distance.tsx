@@ -1,8 +1,7 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import FlagCircleOutlinedIcon from '@mui/icons-material/FlagCircleOutlined';
-import FunctionsOutlinedIcon from '@mui/icons-material/FunctionsOutlined';
-import { Card, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
