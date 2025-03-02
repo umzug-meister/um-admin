@@ -6,7 +6,7 @@ import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
-import { CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
+import { Address, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
 
 interface Payload {
   order: Order;
@@ -207,99 +207,118 @@ function combineString(arr: string[]) {
   return arr.filter((s) => s).join(SEP);
 }
 
+function arrayFormAddress({
+  address,
+  movementObject,
+  stockwerke,
+  floor,
+  hasBasement,
+  hasGarage,
+  hasLoft,
+  runningDistance,
+  parkingSlot,
+  demontage,
+  montage,
+  packservice,
+  liftType,
+}: Address): string[] {
+  const addressArray: string[] = [];
+  const addressParts = address.split(',');
+
+  addressArray.push(addressParts[0].trim()); // strasse
+  addressArray.push(addressParts[1].trim()); // plz
+  addressArray.push(movementObject ?? '');
+
+  //stockwerke
+  const allFloors: string[] = [];
+  if (movementObject?.toLocaleLowerCase() === 'haus') {
+    allFloors.push(...(stockwerke || []));
+  } else if (floor) {
+    allFloors.push(floor);
+  }
+  hasGarage && allFloors.push('Garage');
+  hasBasement && allFloors.push('Keller');
+  hasLoft && allFloors.push('Dachboden');
+
+  addressArray.push(combineString(allFloors)); // stockwerke
+  addressArray.push(liftType ?? 'kein Aufzug'); // lift
+  addressArray.push(runningDistance || ''); //trageweg
+
+  parkingSlot ? addressArray.push('Ja') : addressArray.push('wird von Kund*innen sichergestellt');
+
+  const allServices = [];
+  demontage && allServices.push('Möbeldemontage');
+  montage && allServices.push('Möbelmontage');
+  packservice && allServices.push('Einpackservice');
+
+  addressArray.push(combineString(allServices)); // leistungen
+
+  return addressArray;
+}
+function transposeMatrix(matrix: string[][]): string[][] {
+  if (!Array.isArray(matrix) || matrix.length === 0) {
+    throw new Error('Invalid matrix input');
+  }
+
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  let transposed = new Array(cols).fill(null).map(() => new Array(rows));
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      transposed[j][i] = matrix[i][j];
+    }
+  }
+
+  return transposed;
+}
+
+function addressesBodyFromOrder(order: Order): string[][] {
+  const body: string[][] = [];
+  const titles = ['Straße, Nr.', 'PLZ, Ort', 'Auszug/Einzug', 'Etage', 'Lift', 'Trageweg', 'Halteverbot', 'Leistungen'];
+  body.push(titles);
+
+  body.push(arrayFormAddress(order.from));
+
+  if (order.showSecondaryFrom && order.secondaryFrom) {
+    body.push(arrayFormAddress(order.secondaryFrom));
+  }
+
+  body.push(arrayFormAddress(order.to));
+
+  if (order.showSecondaryTo && order.secondaryTo) {
+    body.push(arrayFormAddress(order.secondaryTo));
+  }
+
+  return transposeMatrix(body);
+}
+
+function adressesHeadFromOrder(order: Order): string[][] {
+  const head: string[] = [' '];
+  if (order.showSecondaryFrom && order.secondaryFrom) {
+    head.push('1. Beladestelle');
+    head.push('2. Beladestelle');
+  } else {
+    head.push('Beladestelle');
+  }
+  if (order.showSecondaryTo && order.secondaryTo) {
+    head.push('1. Entladestelle');
+    head.push('2. Entladestelle');
+  } else {
+    head.push('Entladestelle');
+  }
+
+  return [head];
+}
+
 function addAdresses(pdfBuilder: PdfBuilder, order: Order) {
   pdfBuilder.addSpace();
-  const { from, to } = order;
 
-  const fromServices = [];
-  const toServices = [];
+  const body = addressesBodyFromOrder(order);
 
-  const fromFloors = [];
-  const toFloors = [];
+  const head = adressesHeadFromOrder(order);
 
-  //#region floors
-  if (from.movementObject?.toLocaleLowerCase() === 'haus') {
-    fromFloors.push(...(from.stockwerke || []));
-  } else if (from?.floor) {
-    fromFloors.push(from.floor);
-  }
-
-  if (to?.movementObject?.toLocaleLowerCase() === 'haus') {
-    toFloors.push(...(to.stockwerke || []));
-  } else if (to?.floor) {
-    toFloors.push(to.floor);
-  }
-
-  if (from.hasLoft) {
-    fromFloors.push('Dachboden');
-  }
-  if (from.hasBasement) {
-    fromFloors.push('Keller');
-  }
-
-  if (from.hasGarage) {
-    fromFloors.push('Garage');
-  }
-
-  if (to.hasLoft) {
-    toFloors.push('Dachboden');
-  }
-
-  //#endregion
-
-  //#region extras
-  if (from?.demontage) {
-    fromServices.push('Möbeldemontage');
-  }
-  if (from.packservice) {
-    fromServices.push('Einpackservice');
-  }
-
-  if (to?.montage) {
-    toServices.push('Möbelmontage');
-  }
-  if (to.packservice) {
-    toServices.push('Auspackservice');
-  }
-  //#endregion
-
-  const body = [
-    ['Straße, Nr.', `${from?.address?.split(',')[0] || ''}`, `${to?.address?.split(',')[0] || ''}`],
-    [
-      'PLZ, Ort',
-      `${from?.address?.split(',')?.[1]?.trimStart() || ''}`,
-      `${to?.address?.split(',')?.[1]?.trimStart() || ''}`,
-    ],
-    ['Auszug/Einzug', `${from?.movementObject ?? ''}`, `${to?.movementObject ?? ''}`],
-    ['Etage', combineString(fromFloors), combineString(toFloors)],
-    [
-      'Lift',
-      `${from?.liftType || ''}${from?.isAltbau ? ', Altbau' : ''}`,
-
-      `${to?.liftType || ''}${to?.isAltbau ? ', Altbau' : ''}`,
-    ],
-    ['Trageweg', `${from?.runningDistance || ''}`, `${to?.runningDistance || ''}`],
-    [
-      'Parkverbotszone',
-      `${from?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
-      `${to?.parkingSlot ? 'Ja' : 'wird von Kund*innen sichergestellt'}`,
-    ],
-  ];
-
-  const servicesRow = [];
-
-  if (fromServices.length > 0 || toServices.length > 0) {
-    servicesRow.push(...['', combineString(fromServices), combineString(toServices)]);
-  }
-
-  if (servicesRow.length > 0) {
-    body.push(servicesRow);
-  }
-
-  pdfBuilder.addTable({
-    head: [['', 'Beladestelle', 'Entladestelle']],
-    body,
-  });
+  pdfBuilder.addTable({ head, body });
 }
 
 const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
