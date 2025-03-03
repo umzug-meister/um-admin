@@ -6,7 +6,6 @@ import CopyOrderAction from './CopyOrderAction';
 import { DeleteOrderAction } from './DeleteOrderAction';
 import { PrintOrderAction } from './PrintOrderAction';
 import { SaveOrderAction } from './SaveOrderAction';
-import UploadAction from './UploadAction';
 
 export function OrderEditActions() {
   const order = useCurrentOrder();

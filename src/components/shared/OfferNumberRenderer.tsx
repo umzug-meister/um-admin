@@ -4,7 +4,7 @@ interface Props {
   value: any;
   color: 'red' | 'blue' | 'green' | 'orange';
 }
-export default function OfferNumberRenderer({ value, color }: Props) {
+export default function OfferNumberRenderer({ value, color }: Readonly<Props>) {
   const valueAsNumber = Number(value || 0);
   const percent = (valueAsNumber / 8) * 100 + 7;
 

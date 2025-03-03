@@ -10,7 +10,7 @@ interface Props {
   align?: 'right' | 'left';
 }
 
-export default function CalculationsView({ entries = [], align = 'right' }: Props) {
+export default function CalculationsView({ entries = [], align = 'right' }: Readonly<Props>) {
   const { brutto, netto, tax } = calculateNumbers(entries);
 
   return (

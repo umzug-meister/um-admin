@@ -5,7 +5,7 @@ interface Props {
   onDelete(): void;
 }
 
-export function DeleteButton({ onDelete }: Props) {
+export function DeleteButton({ onDelete }: Readonly<Props>) {
   return (
     <IconButton onClick={onDelete} color="error">
       <DeleteOutlined />
