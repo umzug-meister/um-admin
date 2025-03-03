@@ -4,7 +4,7 @@ interface TabPanelProps {
   value: number;
 }
 
-export function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: Readonly<TabPanelProps>) {
   const { children, value, index, ...other } = props;
 
   return (
