@@ -1,5 +1,6 @@
-import { Box, Card, Divider, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 
+import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { RootBox } from '../components/shared/RootBox';
@@ -9,13 +10,13 @@ export default function Settings() {
     <RootBox>
       <Card elevation={0}>
         <Box p={2}>
-          <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-            <Link to="">Optionen</Link>
-            <Link to="packings">Verpackung</Link>
-            <Link to="services">Leistungen</Link>
-            <Link to="offers">Angebote</Link>
-            <Link to="furniture">Möbel</Link>
-            <Link to="categories">Möbel-Kategorien</Link>
+          <Stack direction="row" spacing={2}>
+            <OptionLink to="">Optionen</OptionLink>
+            <OptionLink to="packings">Verpackung</OptionLink>
+            <OptionLink to="services">Leistungen</OptionLink>
+            <OptionLink to="offers">Angebote</OptionLink>
+            <OptionLink to="furniture">Möbel</OptionLink>
+            <OptionLink to="categories">Möbel-Kategorien</OptionLink>
           </Stack>
         </Box>
       </Card>
@@ -23,3 +24,11 @@ export default function Settings() {
     </RootBox>
   );
 }
+
+const OptionLink = ({ children, to }: React.PropsWithChildren<{ to: string }>) => {
+  return (
+    <Link to={to}>
+      <Button size="small">{children}</Button>
+    </Link>
+  );
+};
