@@ -66,7 +66,7 @@ export function Addresses() {
               title={
                 <CardTitle
                   color="error"
-                  title="1. Auszug"
+                  title={showSecondaryFrom ? '1. Beladestelle' : 'Beladestelle'}
                   disabled={showSecondaryFrom}
                   icon={<AddOutlinedIcon />}
                   onClick={handleSwitchAddress('showSecondaryFrom')}
@@ -86,7 +86,7 @@ export function Addresses() {
                   title={
                     <CardTitle
                       color="error"
-                      title="2. Auszug"
+                      title="2. Beladestelle"
                       icon={<RemoveOutlinedIcon color="error" />}
                       onClick={handleSwitchAddress('showSecondaryFrom')}
                     />
@@ -104,7 +104,7 @@ export function Addresses() {
               path="to"
               title={
                 <CardTitle
-                  title="1. Einzug"
+                  title={showSecondaryTo ? '1. Entladestelle' : 'Entladestelle'}
                   disabled={showSecondaryTo}
                   icon={<AddOutlinedIcon />}
                   onClick={handleSwitchAddress('showSecondaryTo')}
@@ -122,7 +122,7 @@ export function Addresses() {
                   path="secondaryTo"
                   title={
                     <CardTitle
-                      title="2. Einzug"
+                      title="2. Entladestelle"
                       icon={<RemoveOutlinedIcon color="error" />}
                       onClick={handleSwitchAddress('showSecondaryTo')}
                     />
