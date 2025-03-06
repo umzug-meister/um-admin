@@ -14,21 +14,11 @@ export function OrderEditActions() {
   }
 
   return (
-    <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />}>
-      <Divider orientation="vertical" />
-
-      <Stack direction="row" spacing={2}>
-        <SaveOrderAction />
-        <CopyOrderAction />
-      </Stack>
-
-      <Stack direction="row" spacing={2}>
-        <PrintOrderAction />
-      </Stack>
-      <Stack direction="row">
-        <EmailActions />
-      </Stack>
-
+    <Stack direction="row" spacing={1} divider={<Divider orientation="vertical" flexItem />}>
+      <SaveOrderAction />
+      <CopyOrderAction />
+      <PrintOrderAction />
+      <EmailActions />
       <DeleteOrderAction />
     </Stack>
   );

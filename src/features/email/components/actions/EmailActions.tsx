@@ -2,7 +2,7 @@ import CancelScheduleSendOutlinedIcon from '@mui/icons-material/CancelScheduleSe
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import SendTimeExtensionOutlinedIcon from '@mui/icons-material/SendTimeExtensionOutlined';
-import { Box, Divider, IconButton, Menu, MenuList, Paper } from '@mui/material';
+import { Box, Divider, IconButton, Menu, MenuList } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -83,46 +83,44 @@ export function EmailActions() {
         <EmailOutlinedIcon />
       </IconButton>
 
-      <Paper>
-        <Menu
-          id={EMAIL_MENU_ID}
-          anchorEl={anchorEl}
-          open={menuOpen}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onClose={closeMenu}
-          MenuListProps={{
-            'aria-labelledby': EMAIL_MENU_BUTTON_ID,
-          }}
-        >
-          <MenuList>
+      <Menu
+        id={EMAIL_MENU_ID}
+        anchorEl={anchorEl}
+        open={menuOpen}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        onClose={closeMenu}
+        MenuListProps={{
+          'aria-labelledby': EMAIL_MENU_BUTTON_ID,
+        }}
+      >
+        <MenuList>
+          <MenuItemWithIcon
+            text="Angebot versenden"
+            onClick={() => {
+              closeMenu();
+              setSingleOfferDialogOpen(true);
+            }}
+          >
+            <SendOutlinedIcon />
+          </MenuItemWithIcon>
+          <EmailTextAction handleClose={closeMenu} />
+          {allowOpiniated && rootOrder ? (
             <MenuItemWithIcon
-              text="Angebot versenden"
+              text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
               onClick={() => {
                 closeMenu();
-                setSingleOfferDialogOpen(true);
+                setSeveralOfferDialogOpen(true);
               }}
             >
-              <SendOutlinedIcon />
+              <SendTimeExtensionOutlinedIcon />
             </MenuItemWithIcon>
-            <EmailTextAction handleClose={closeMenu} />
-            {allowOpiniated && rootOrder ? (
-              <MenuItemWithIcon
-                text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
-                onClick={() => {
-                  closeMenu();
-                  setSeveralOfferDialogOpen(true);
-                }}
-              >
-                <SendTimeExtensionOutlinedIcon />
-              </MenuItemWithIcon>
-            ) : null}
-            <Divider />
-            <MenuItemWithIcon onClick={openRejectionDialog} text="Absage versenden">
-              <CancelScheduleSendOutlinedIcon />
-            </MenuItemWithIcon>
-          </MenuList>
-        </Menu>
-      </Paper>
+          ) : null}
+          <Divider />
+          <MenuItemWithIcon onClick={openRejectionDialog} text="Absage versenden">
+            <CancelScheduleSendOutlinedIcon />
+          </MenuItemWithIcon>
+        </MenuList>
+      </Menu>
 
       <Box display={'none'}>
         <Box id={SINGLE_OFFER_EMAIL_TEXT_ID}>

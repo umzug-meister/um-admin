@@ -1,5 +1,5 @@
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-import { Box, Chip, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, Chip, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
 
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,9 +47,9 @@ export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => 
       </DialogTitle>
       <DialogContent>
         <Loading open={loading} />
-        <Box display="flex" flexDirection={'column'} gap={2}>
+        <Box display="flex" flexDirection={'column'} gap={1}>
           {results.length === 0 && (
-            <Box display="flex" gap={2}>
+            <Stack direction="row" spacing={2}>
               {appSearch.map((searchValue) => (
                 <Chip
                   color="primary"
@@ -61,7 +61,7 @@ export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => 
                   onClick={() => onSearch(searchValue)}
                 />
               ))}
-            </Box>
+            </Stack>
           )}
           <Box>
             {results.length === 0 && (
