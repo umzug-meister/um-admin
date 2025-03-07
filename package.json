@@ -40,6 +40,28 @@
     "vite-plugin-package-version": "^1.1.0",
     "vitest": "^3.0.0"
   },
+  "overrides": {
+    "@react-spring/web": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    },
+    "@react-spring/animated": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    },
+    "@react-spring/core": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    },
+    "@react-spring/shared": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    },
+    "@mui/x-charts": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
