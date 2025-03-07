@@ -19,7 +19,7 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
       <h3>📦 Zusätzliche Kosten</h3>
       <QuillTable>
         {relevant.map((lst) => (
-          <ServicesTableRow key={lst.desc} desc={lst.desc} price={lst.sum} />
+          <ServicesTableRow key={`${lst.desc}-${lst.sum}`} desc={lst.desc} price={lst.sum} />
         ))}
       </QuillTable>
     </>

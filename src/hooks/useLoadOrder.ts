@@ -8,9 +8,10 @@ import { initOrder, loadOrder } from '../store/appReducer';
 import { Order } from '@umzug-meister/um-core';
 
 export function useLoadOrder() {
-  const order = useSelector<AppState, Order | null | undefined>((s) => s.app.current);
   const params = useParams();
+
   const dispatch = useDispatch<AppDispatch>();
+  const order = useSelector<AppState, Order | null | undefined>((s) => s.app.current);
 
   useEffect(() => {
     if (params.id && Number(params.id) !== -1) {
