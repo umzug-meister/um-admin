@@ -29,7 +29,7 @@ export function PrintOrderAction() {
     const { from, to, leistungen = [] } = order;
 
     if (from.parkingSlot || to.parkingSlot) {
-      if (leistungen.some((lst) => lst.desc.toUpperCase().includes('HALTEVERBOT'))) {
+      if (leistungen.some((lst) => lst.desc?.toUpperCase().includes('HALTEVERBOT'))) {
         return;
       } else {
         alert(`Halteverbotzone(n) wurde(n) ausgewählt!\nBitte entweder die HVZ entfernen oder als Kondition aufnehmen.
