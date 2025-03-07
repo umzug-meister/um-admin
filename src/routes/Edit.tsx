@@ -23,15 +23,16 @@ import { AppGridContainer } from '../components/shared/AppGridContainer';
 import { RootBox } from '../components/shared/RootBox';
 import { TabPanel } from '../components/shared/TabPanel';
 import { useLoadOrder } from '../hooks/useLoadOrder';
+
 // import { useSetDocumentTitle } from '../hooks/useSetDocumentTitle';
-import { useUpdateCounter } from '../hooks/useUpdateCounter';
+// import { useUpdateCounter } from '../hooks/useUpdateCounter';
 
 export default function Edit() {
   const order = useLoadOrder();
 
   const [value, setValue] = useState(0);
 
-  useUpdateCounter();
+  // useUpdateCounter();
   // useSetDocumentTitle(order?.id);
 
   if (order == null) {
