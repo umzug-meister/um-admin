@@ -18,7 +18,7 @@
     "array-move": "^4.0.0",
     "axios": "^1.8.1",
     "date-fns": "^4.1.0",
-    "jspdf": "^2.5.1",
+    "jspdf": "^3.0.0",
     "jspdf-autotable": "^3.5.28",
     "lodash": "^4.17.21",
     "react": "^19.0.0",
