@@ -1,10 +1,12 @@
 import imageUrl from '../assets/ruckzuck_logo.png';
 import PdfBuilder from './PdfBuilder';
 
-export const PRIMARY = [25, 120, 186];
-export const WHITE = [255, 255, 255];
-export const SECONDARY = [203, 43, 27];
-export const PRIMARY_LIGHT = '#3086c1';
+import { Color } from 'jspdf-autotable';
+
+export const PRIMARY: Color = [25, 120, 186];
+export const WHITE: Color = [255, 255, 255];
+export const SECONDARY: Color = [203, 43, 27];
+export const PRIMARY_LIGHT: Color = '#3086c1';
 
 export function addHeader(factory: PdfBuilder) {
   factory.addPngImage(imageUrl, 20, 8, 30, 38);

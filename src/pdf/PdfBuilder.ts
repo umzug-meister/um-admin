@@ -1,8 +1,7 @@
 import { PRIMARY_LIGHT, WHITE } from './shared';
 
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
-import { autoTable } from 'jspdf-autotable';
+import { Styles, autoTable } from 'jspdf-autotable';
 
 interface Margin {
   top: number;
@@ -164,11 +163,18 @@ export default class PdfBuilder {
     this.resetText();
   }
 
-  public addTable(params: { head: any; body: any; columnStyles?: any; headStyles?: any; margin?: number }): void {
+  public addTable(params: {
+    head: any;
+    body: any;
+    columnStyles?: { [key: string]: Partial<Styles> };
+    headStyles?: Partial<Styles>;
+    margin?: number;
+  }): void {
     const { body, head, columnStyles = {}, headStyles = {}, margin = 20 } = params;
 
     const bottom = PdfBuilder.mm2pt(10);
-    ((this.doc as any).autoTable as autoTable)({
+
+    autoTable(this.doc, {
       head: head,
       body: body,
       theme: 'grid',
@@ -230,6 +236,11 @@ export default class PdfBuilder {
     this.y = leftY > this.y ? leftY : this.y;
   }
 
+  /**
+   * @deprecated
+   * @param text Upper text
+   * @param text2
+   */
   public addFooter(text: string, text2: string): void {
     const saveYPosition = this.y;
     this.y = PdfBuilder.mm2pt(PdfBuilder.pt2mm(this.maxHeight) - 14);
