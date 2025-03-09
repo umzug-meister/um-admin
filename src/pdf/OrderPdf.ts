@@ -7,6 +7,7 @@ import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
 import { Address, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
+import { Color } from 'jspdf-autotable';
 
 interface Payload {
   order: Order;
@@ -188,7 +189,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       columnStyles: {
         0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
         1: { cellWidth: CELL_WIDTH_1 },
-        2: { fontStyle: 'bold', textColor: SECONDARY },
+        2: { fontStyle: 'bold', textColor: SECONDARY as Color },
       },
     });
   }
