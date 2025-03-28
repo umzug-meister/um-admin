@@ -226,8 +226,14 @@ function arrayFormAddress({
   const addressArray: string[] = [];
   const addressParts = address.split(',');
 
-  addressArray.push(addressParts[0].trim()); // strasse
-  addressArray.push(addressParts[1].trim()); // plz
+  if (addressParts[0]) {
+    addressArray.push(addressParts[0].trim()); // strasse
+  }
+
+  if (addressParts[1]) {
+    addressArray.push(addressParts[1].trim()); // plz
+  }
+
   addressArray.push(movementObject ?? '');
 
   //stockwerke
