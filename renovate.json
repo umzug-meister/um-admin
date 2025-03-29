@@ -7,5 +7,16 @@
       "automerge": true
     }
   ],
+  "hostRules": [
+    {
+      "hostType": "github",
+      "hostRules": [
+        {
+          "matchDatasources": ["npm"],
+          "automerge": true
+        }
+      ]
+    }
+  ],
   "schedule": ["on Saturday at 5pm"]
 }
