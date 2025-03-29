@@ -5,17 +5,10 @@
     {
       "matchUpdateTypes": ["patch"],
       "automerge": true
-    }
-  ],
-  "hostRules": [
+    },
     {
-      "hostType": "github",
-      "hostRules": [
-        {
-          "matchDatasources": ["npm"],
-          "automerge": true
-        }
-      ]
+      "matchPackageNames": ["@umzug-meister/um-core"],
+      "registryUrls": ["https://npm.pkg.github.com"]
     }
   ],
   "schedule": ["on Saturday at 5pm"]
