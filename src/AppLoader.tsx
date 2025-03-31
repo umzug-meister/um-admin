@@ -26,5 +26,5 @@ export default function AppLoader({ children }: PropsWithChildren) {
   if (init) {
     return <>{children}</>;
   }
-  return null;
+  return 'Lade Applikation...';
 }
