@@ -6,6 +6,7 @@ import { Order } from '@umzug-meister/um-core';
 import { addDays } from 'date-fns';
 
 export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order; rootOrder?: Order }>) {
+  console.log(order);
   let hasMontage = Boolean(order.from?.demontage || order.to?.montage);
 
   if (!hasMontage) {

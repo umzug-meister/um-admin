@@ -14,6 +14,8 @@ export default function EMailText() {
   const fullText = useId();
   const core = useId();
 
+  console.log('order', order);
+
   if (order == null) {
     return null;
   }
