@@ -11,7 +11,7 @@ export function useLoadOrder() {
   const { id } = useParams<{ id?: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
-  const order = useSelector<AppState, Order | null | undefined>((s) => s.app.current);
+  const order = useSelector<AppState, Order | null>((s) => s.app.current);
 
   const numericId = id ? Number(id) : null;
 

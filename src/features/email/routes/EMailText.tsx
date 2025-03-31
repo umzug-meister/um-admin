@@ -1,4 +1,4 @@
-import { Box, Grid2 } from '@mui/material';
+import { Box, Button, Grid2 } from '@mui/material';
 
 import { PropsWithChildren, useId } from 'react';
 
@@ -14,11 +14,7 @@ export default function EMailText() {
   const fullText = useId();
   const core = useId();
 
-  console.log('order', order);
-
-  if (order == null) {
-    return null;
-  }
+  if (!order) return 'Lade...';
 
   return (
     <AppGridContainer>
