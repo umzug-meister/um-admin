@@ -21,13 +21,13 @@ export default function EMailText() {
       <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={fullText} />
         <RootElement elementID={fullText}>
-          <EMailOfferTemplate order={order} />
+          <EMailOfferTemplate order={order} key={order.id} />
         </RootElement>
       </Grid2>
       <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={core} />
         <RootElement elementID={core}>
-          <EmailOfferOptions order={order} />
+          <EmailOfferOptions order={order} key={order.id} />
         </RootElement>
       </Grid2>
     </AppGridContainer>
