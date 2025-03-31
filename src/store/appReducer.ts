@@ -78,7 +78,7 @@ const initialState: AppSlice = {
   unsavedChanges: false,
 };
 
-export const loadOrder = createAsyncThunk('loadOrder', (id: string) => {
+export const loadOrder = createAsyncThunk('loadOrder', (id: string | number) => {
   return appRequest('get')(Urls.orderById(id));
 });
 

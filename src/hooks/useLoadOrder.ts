@@ -8,21 +8,20 @@ import { initOrder, loadOrder } from '../store/appReducer';
 import { Order } from '@umzug-meister/um-core';
 
 export function useLoadOrder() {
-  const { id } = useParams<'id'>();
-  console.log('id', id);
-
+  const { id } = useParams<{ id?: string }>();
   const dispatch = useDispatch<AppDispatch>();
+
   const order = useSelector<AppState, Order | null | undefined>((s) => s.app.current);
 
-  useEffect(() => {
-    if (id && Number(id) !== -1) {
-      dispatch(loadOrder(id));
-    }
+  const numericId = id ? Number(id) : null;
 
-    if (Number(id) === -1) {
+  useEffect(() => {
+    if (numericId !== null && numericId !== -1) {
+      dispatch(loadOrder(numericId));
+    } else if (numericId === -1) {
       dispatch(initOrder());
     }
-  }, [id, dispatch]);
+  }, [numericId]);
 
   return order;
 }
