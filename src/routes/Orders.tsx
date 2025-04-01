@@ -14,7 +14,7 @@ import { AppDataGrid } from '../components/shared/AppDataGrid';
 import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import OrderSearchBar from '../components/shared/search/OrderSearchBar';
-import { useOrderSearch } from '../components/shared/search/orderSearchQuery';
+import { searchOrder } from '../components/shared/search/search-order-fn';
 import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 
 import { Order } from '@umzug-meister/um-core';
@@ -30,10 +30,6 @@ const generator = (function* () {
 })();
 
 export default function Orders() {
-  const [disablePagination, setDisablePagination] = useState(false);
-
-  const [reset, setReset] = useState(0);
-
   const [data, setData] = useState<Order[]>([]);
 
   const [loading, setLoading] = useState(false);
@@ -42,45 +38,41 @@ export default function Orders() {
 
   const navigate = useNavigate();
 
-  const onSearchFn = useOrderSearch(() => setLoading(false));
+  const onSearchFn = searchOrder(() => setLoading(false));
 
-  const onSearch = useCallback(
-    (searchValue: string) => {
-      setLoading(true);
-      onSearchFn(searchValue).then((orders) => {
-        if (orders.length === 1 && !isNaN(Number(searchValue))) {
-          const id = orders[0].id;
-          navigate(`/edit/${id}`);
-        } else {
-          setData(orders);
-        }
-      });
-    },
-    [onSearchFn, navigate],
-  );
+  function onSearch(searchValue: string) {
+    setLoading(true);
+    onSearchFn(searchValue).then((orders) => {
+      if (orders.length === 1 && !isNaN(Number(searchValue))) {
+        const id = orders[0].id;
+        navigate(`/edit/${id}`);
+      } else {
+        setData(orders);
+      }
+    });
+  }
 
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  const setPage = useCallback(
-    (page: number) => {
-      setSearchParams({ page: String(page) });
-    },
-    [setSearchParams],
-  );
-
-  const onClear = useCallback(() => {
-    setPage(1);
-    setDisablePagination(false);
-    const next = generator.next().value;
-    setReset(next);
-  }, [setPage]);
-
-  useEffect(() => {
+  function loadOrders(page: number) {
     setLoading(true);
-    appRequest('get')(Urls.orders(currentPage, PAGE_SIZE))
+    appRequest('get')(Urls.orders(page, PAGE_SIZE))
       .then(setData)
       .finally(() => setLoading(false));
-  }, [currentPage, reset]);
+  }
+
+  useEffect(() => {
+    loadOrders(currentPage);
+  }, [currentPage]);
+
+  const setPage = (page: number) => {
+    setSearchParams({ page: String(page) });
+  };
+
+  const onClear = () => {
+    setPage(1);
+    loadOrders(1);
+  };
 
   const orderColumns: GridColDef<Order>[] = useMemo(
     () => [
@@ -227,7 +219,7 @@ export default function Orders() {
           return order.lupd ? '' : 'bold';
         }}
         loading={loading}
-        disablePagination={disablePagination}
+        disablePagination={false}
         data={data}
         columns={orderColumns}
         setPaginationModel={(model) => setPage(model.page)}

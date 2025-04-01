@@ -8,7 +8,7 @@ import { AppDispatch, AppState } from '../../store';
 import { addSearchResults } from '../../store/searchReducer';
 import { Loading } from '../shared/Loading';
 import OrderSearchBar from '../shared/search/OrderSearchBar';
-import { useOrderSearch } from '../shared/search/orderSearchQuery';
+import { searchOrder } from '../shared/search/search-order-fn';
 import { SearchResult } from './SearchResult';
 
 import { Order } from '@umzug-meister/um-core';
@@ -17,7 +17,7 @@ export function OrderSearchDialogContent({ onClose }: Readonly<{ onClose: () => 
   const [results, setResults] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const onSearchFn = useOrderSearch(() => setLoading(false));
+  const onSearchFn = searchOrder(() => setLoading(false));
   const dispatch = useDispatch<AppDispatch>();
 
   const onSearch = (searchValue: string) => {
