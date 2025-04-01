@@ -4,7 +4,7 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import { Box, Tooltip } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Urls } from '../api/Urls';
@@ -20,14 +20,6 @@ import { getCustomerFullname, getPrintableDate } from '../utils/utils';
 import { Order } from '@umzug-meister/um-core';
 
 const PAGE_SIZE = 10;
-
-const generator = (function* () {
-  let i = 1;
-  while (true) {
-    yield i;
-    i++;
-  }
-})();
 
 export default function Orders() {
   const [data, setData] = useState<Order[]>([]);
