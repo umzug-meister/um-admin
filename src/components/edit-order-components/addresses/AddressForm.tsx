@@ -1,7 +1,5 @@
 import { Alert, Box, Typography } from '@mui/material';
 
-import React from 'react';
-
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
 import OrderField from '../../OrderField';
 import { AppCard } from '../../shared/AppCard';

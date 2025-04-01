@@ -3,7 +3,6 @@ import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { ButtonProps, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
-import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentOrder } from '../../../hooks/useCurrentOrder';

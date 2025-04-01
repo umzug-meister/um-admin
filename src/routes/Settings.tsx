@@ -1,6 +1,5 @@
 import { Box, Button, Card, Stack } from '@mui/material';
 
-import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { RootBox } from '../components/shared/RootBox';
