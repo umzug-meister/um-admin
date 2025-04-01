@@ -1,4 +1,4 @@
-import { Box, Button, Grid2 } from '@mui/material';
+import { Box, Grid2 } from '@mui/material';
 
 import { PropsWithChildren, useId } from 'react';
 
