@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback } from 'react';
@@ -23,12 +23,13 @@ const packingsColumns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
   { field: 'name', headerName: 'Name', editable: true },
   { field: 'price', headerName: 'Preis', ...dp },
-  { field: 'desc', headerName: 'Beschreibung', editable: true, width: 400 },
-  { field: 'media', headerName: 'Url', editable: true },
+  { field: 'desc', headerName: 'Beschreibung', editable: true, flex: 1 },
+  { field: 'media', headerName: 'Url', editable: true, flex: 1 },
   {
     field: 'show',
     headerName: 'In der Form anzeigen',
     editable: true,
+    width: 200,
     type: 'boolean',
   },
   {
@@ -36,6 +37,7 @@ const packingsColumns: GridColDef[] = [
     headerName: 'Sortierung',
     editable: true,
     type: 'number',
+    width: 150,
   },
 ];
 
@@ -62,7 +64,7 @@ export default function Packings() {
 
   return (
     <AppGridContainer>
-      <Grid2 size={12}>
+      <Grid size={12}>
         <AppCard title="Verpackung">
           <AddService service={{ tag: TAG }} />
           <AppDataGrid
@@ -75,7 +77,7 @@ export default function Packings() {
             onDelete={onDelete}
           />
         </AppCard>
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

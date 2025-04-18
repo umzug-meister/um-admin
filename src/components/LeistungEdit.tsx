@@ -1,6 +1,6 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import { Autocomplete, Box, Grid2, IconButton } from '@mui/material';
+import { Autocomplete, Box, Grid, IconButton } from '@mui/material';
 
 import { useMemo } from 'react';
 
@@ -148,8 +148,8 @@ function GridRow({
   };
 
   return (
-    <Grid2 container spacing={2}>
-      <Grid2 size={6}>
+    <Grid container spacing={2}>
+      <Grid size={6}>
         {suggestServices ? (
           <Autocomplete
             freeSolo
@@ -184,8 +184,8 @@ function GridRow({
             placeholder="Beschreibung"
           />
         )}
-      </Grid2>
-      <Grid2 size={1}>
+      </Grid>
+      <Grid size={1}>
         <AppTextField
           error={hasError}
           type="number"
@@ -193,9 +193,9 @@ function GridRow({
           value={lst.colli}
           onChange={(ev) => onPropChange('colli', ev.target.value)}
         />
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={1}>
+      <Grid size={1}>
         <AppTextField
           type="number"
           error={hasError}
@@ -204,9 +204,9 @@ function GridRow({
           onChange={(ev) => onPropChange('price', ev.target.value)}
           slotProps={{ input: { endAdornment: '€' } }}
         />
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={2}>
+      <Grid size={2}>
         <AppTextField
           type="number"
           error={hasError}
@@ -216,9 +216,9 @@ function GridRow({
           value={lst.sum}
           onChange={(ev) => onPropChange('sum', ev.target.value)}
         />
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={2}>
+      <Grid size={2}>
         <Box display={'flex'}>
           <Box flex={1}>
             <IconButton onClick={() => moveEntry(1)} disabled={disableDown}>
@@ -232,7 +232,7 @@ function GridRow({
             <DeleteButton onDelete={onDelete} />
           </Box>
         </Box>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 }

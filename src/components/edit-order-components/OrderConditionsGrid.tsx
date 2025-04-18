@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -29,10 +29,10 @@ export function OrderConditionsGrid() {
 
   const { leistungen } = order;
   return (
-    <Grid2 size={12}>
+    <Grid size={12}>
       <AppCard title="Im Auftrag enthalten">
         <LeistungEdit leistungen={leistungen} update={update} />
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }
