@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback } from 'react';
@@ -62,7 +62,7 @@ export default function Packings() {
 
   return (
     <AppGridContainer>
-      <Grid2 size={12}>
+      <Grid size={12}>
         <AppCard title="Verpackung">
           <AddService service={{ tag: TAG }} />
           <AppDataGrid
@@ -75,7 +75,7 @@ export default function Packings() {
             onDelete={onDelete}
           />
         </AppCard>
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

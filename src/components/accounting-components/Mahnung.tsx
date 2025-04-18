@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -135,7 +135,7 @@ export function Mahnung({ index }: Readonly<Props>) {
   if (curDueDate) {
     return (
       <AppGridContainer>
-        <Grid2 size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <AppCard title={`Mahnung Nr. ${index}`}>
             <Box paddingY={2}>
               <Typography variant="h6" color={label.color}>
@@ -162,15 +162,15 @@ export function Mahnung({ index }: Readonly<Props>) {
               prop="sum"
             />
           </AppCard>
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 9 }}>
+        </Grid>
+        <Grid size={{ xs: 12, md: 9 }}>
           <AppCard title="Fälligkeitsdatum immer links und rechts verändern!">
             <MahnungField onValue={onPropValue('text')} dueDate={curDueDate} prop="text" multiline />
           </AppCard>
-        </Grid2>
-        <Grid2 size={{ xs: 12 }}>
+        </Grid>
+        <Grid size={{ xs: 12 }}>
           <PdfSaveButton onClick={() => printPaymentReminder(index)} />
-        </Grid2>
+        </Grid>
       </AppGridContainer>
     );
   }

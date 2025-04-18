@@ -1,4 +1,4 @@
-import { Alert, Grid2, Tabs } from '@mui/material';
+import { Alert, Grid, Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
 
 import { useState } from 'react';
@@ -60,14 +60,14 @@ export function OrderFurniture() {
 
       <GridItem size={{ md: 8, xs: 12 }}>
         <AppCard title="Möbelliste">
-          <Grid2 container spacing={2}>
+          <Grid container spacing={2}>
             <GridItem>
               <OrderField path="volume" label="berechnetes Umzugsvolumen" type="number" />
             </GridItem>
             <GridItem>
               <OrderImages />
             </GridItem>
-          </Grid2>
+          </Grid>
 
           <Tabs
             textColor="secondary"

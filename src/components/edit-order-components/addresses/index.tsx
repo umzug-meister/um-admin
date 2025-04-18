@@ -1,7 +1,7 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import { ButtonProps, Grid2, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { ButtonProps, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 
@@ -55,9 +55,9 @@ export function Addresses() {
   };
 
   return (
-    <Grid2 container spacing={2} alignItems={'stretch'}>
+    <Grid container spacing={2} alignItems={'stretch'}>
       <GridItem>
-        <Grid2 container alignItems={'stretch'}>
+        <Grid container alignItems={'stretch'}>
           <GridItem size={showSecondaryFrom ? 5.5 : 12}>
             <AddressForm
               full
@@ -94,10 +94,10 @@ export function Addresses() {
               </GridItem>
             </>
           )}
-        </Grid2>
+        </Grid>
       </GridItem>
       <GridItem>
-        <Grid2 container alignItems={'stretch'} height={'100%'}>
+        <Grid container alignItems={'stretch'} height={'100%'}>
           <GridItem size={showSecondaryTo ? 5.5 : 12}>
             <AddressForm
               path="to"
@@ -130,9 +130,9 @@ export function Addresses() {
               </GridItem>
             </>
           )}
-        </Grid2>
+        </Grid>
       </GridItem>
-    </Grid2>
+    </Grid>
   );
 }
 

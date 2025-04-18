@@ -1,5 +1,5 @@
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Box, Button, Chip, Grid2, Stack } from '@mui/material';
+import { Box, Button, Chip, Grid, Stack } from '@mui/material';
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -85,23 +85,23 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
 
   return (
     <AppGridContainer>
-      <Grid2 size={6}>
+      <Grid size={6}>
         <AppCard title="Kunde">
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="firma" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerName" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerStreet" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="customerPlz" />
         </AppCard>
-      </Grid2>
-      <Grid2 size={6}>
+      </Grid>
+      <Grid size={6}>
         <AppCard title="Rechnung">
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="date" as="date" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="rNumber" />
           <InvoiceField onChange={onPropChange} rechnung={rechnung} path="orderId" />
         </AppCard>
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={12}>
+      <Grid size={12}>
         <AppCard title="Leistungen">
           <LeistungEdit
             suggestServices
@@ -112,16 +112,16 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
           />
           <CalculationsView entries={rechnung.entries} />
         </AppCard>
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={12}>
+      <Grid size={12}>
         <AppCard title="Text">
           <InvoiceTextTemplates setText={onChipClick} />
           <InvoiceField multiline path="text" onChange={onPropChange} rechnung={rechnung} />
         </AppCard>
-      </Grid2>
+      </Grid>
 
-      <Grid2 size={12}>
+      <Grid size={12}>
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
 
@@ -137,7 +137,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
           )}
         </Box>
         <InvoiceEmailDialog open={open} onClose={() => setOpen(false)} />
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

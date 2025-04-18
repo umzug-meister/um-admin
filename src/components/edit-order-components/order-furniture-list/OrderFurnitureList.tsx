@@ -1,4 +1,4 @@
-import { Box, Grid2, TextField, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 
 import { Fragment, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -55,20 +55,20 @@ export function OrderFurnitureList() {
         />
       </Box>
       <Box sx={{ maxHeight: 'calc(100vh - 350px)', overflowY: 'auto' }}>
-        <Grid2 alignItems="center" rowSpacing={0.5} container>
+        <Grid alignItems="center" rowSpacing={0.5} container>
           {curItems.map((item, index) => {
             return (
               <Fragment key={`${item.name}-${index}-${item.selectedCategory}`}>
-                <Grid2 size={1}>
+                <Grid size={1}>
                   <DeleteButton onDelete={() => onDelete(item)} />
-                </Grid2>
-                <Grid2 size={3}>
+                </Grid>
+                <Grid size={3}>
                   <Typography variant="subtitle2">{item.selectedCategory}</Typography>
-                </Grid2>
-                <Grid2 size={6}>
+                </Grid>
+                <Grid size={6}>
                   <Typography>{item.name}</Typography>
-                </Grid2>
-                <Grid2 size={2} display={'flex'} justifyContent={'end'}>
+                </Grid>
+                <Grid size={2} display={'flex'} justifyContent={'end'}>
                   <TextField
                     sx={{
                       width: '60px',
@@ -77,11 +77,11 @@ export function OrderFurnitureList() {
                     value={item.colli}
                     onChange={(ev) => onUpdate({ colli: ev.target.value, item })}
                   />
-                </Grid2>
+                </Grid>
               </Fragment>
             );
           })}
-        </Grid2>
+        </Grid>
       </Box>
     </>
   );
