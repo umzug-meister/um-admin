@@ -55,6 +55,7 @@ interface CreateUpdateOptionPaylod {
 }
 
 export const loadAllOptions = createAsyncThunk('options/loadAllOptions', () => {
+  console.log('loadAllOptions');
   return appRequest('get')(Urls.options());
 });
 
@@ -303,7 +304,6 @@ const appSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(loadOrder.fulfilled, (state, { payload }) => {
-        console.log('loadOrder.fulfilled', payload);
         state.current = payload;
         state.unsavedChanges = false;
       })

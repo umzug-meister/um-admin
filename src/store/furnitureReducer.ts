@@ -9,6 +9,7 @@ export interface AppFurniture {
 }
 
 export const loadAllFurniture = createAsyncThunk('loadAllFurniture', () => {
+  console.log('loadAllFurniture');
   return appRequest('get')(Urls.items());
 });
 

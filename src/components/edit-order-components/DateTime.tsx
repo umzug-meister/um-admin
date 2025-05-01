@@ -1,4 +1,4 @@
-import { Grid2, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import { getParseableDate } from '../../utils/utils';
@@ -7,13 +7,13 @@ import { AppCard } from '../shared/AppCard';
 
 export default function DateTime() {
   return (
-    <Grid2 size={4}>
+    <Grid size={4}>
       <AppCard title="Termin">
         <AppointmentRange />
         <OrderField path="date" label="Datum" as="date" />
         <OrderField path="time" label="Uhrzeit" type="time" />
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }
 

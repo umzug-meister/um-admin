@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -49,7 +49,7 @@ export default function Leads() {
   return (
     <RootBox>
       <AppGridContainer>
-        <Grid2 size={12}>
+        <Grid size={12}>
           <AppCard title="Anfragen">
             <Box>
               <DatePicker
@@ -72,7 +72,7 @@ export default function Leads() {
               />
             </Box>
           </AppCard>
-        </Grid2>
+        </Grid>
       </AppGridContainer>
     </RootBox>
   );

@@ -1,5 +1,5 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import { Box, Grid2, IconButton, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback, useMemo } from 'react';
@@ -115,10 +115,10 @@ export function OrderOfferSelector() {
   }, [setPrice]);
 
   return (
-    <Grid2 size={12}>
+    <Grid size={12}>
       <AppCard title="Aktuelle Angebote">
         <AppDataGrid columns={columns} data={data} disablePagination paginationMode="client" />
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }

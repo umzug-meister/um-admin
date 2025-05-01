@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
@@ -17,7 +17,7 @@ export function CustomerWidget() {
 
   const hasEmail = typeof customer?.email !== 'undefined';
   return (
-    <Grid2 size={4}>
+    <Grid size={4}>
       <AppCard title="Kundendaten">
         <OrderField<Customer> path="customer" nestedPath="company" label="Firma" />
         <OrderField<Customer>
@@ -36,6 +36,6 @@ export function CustomerWidget() {
         )}
         <OrderField<Customer> label="Tel" path="customer" nestedPath="telNumber" />
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }

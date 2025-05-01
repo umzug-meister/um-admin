@@ -1,4 +1,4 @@
-import { Box, Divider, Grid2, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useCallback } from 'react';
@@ -54,7 +54,7 @@ export default function Services() {
 
   return (
     <AppGridContainer>
-      <Grid2 size={8}>
+      <Grid size={8}>
         <AppCard title="Leistungen">
           <AddService service={{ tag: TAG }} />
           <AppDataGrid
@@ -67,8 +67,8 @@ export default function Services() {
             onDelete={onDelete}
           />
         </AppCard>
-      </Grid2>
-      <Grid2 size={4}>
+      </Grid>
+      <Grid size={4}>
         <AppCard title="Preise">
           <Typography variant="subtitle2">AGB</Typography>
 
@@ -89,7 +89,7 @@ export default function Services() {
           <OptionInput name="kmPrice" label="Kilometer Preis" {...aProps} />
           <OptionInput name="hvzPrice" label="Halteverbotszone Preis" {...aProps} />
         </AppCard>
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

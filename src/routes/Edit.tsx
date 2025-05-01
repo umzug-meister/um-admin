@@ -1,4 +1,4 @@
-import { Box, Grid2, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -73,12 +73,12 @@ export default function Edit() {
       </TabPanel>
       <TabPanel index={1} value={value}>
         <AppGridContainer>
-          <Grid2 size={12}>
+          <Grid size={12}>
             <Distance />
-          </Grid2>
-          <Grid2 size={12}>
+          </Grid>
+          <Grid size={12}>
             <Addresses />
-          </Grid2>
+          </Grid>
         </AppGridContainer>
       </TabPanel>
 
@@ -104,13 +104,13 @@ export default function Edit() {
 
       <TabPanel index={5} value={value}>
         <AppGridContainer>
-          <Grid2 size={{ xs: 12 }}>
-            <Grid2 container spacing={2}>
+          <Grid size={{ xs: 12 }}>
+            <Grid container spacing={2}>
               <OrderConditionsChips />
               <OrderConditionsGrid />
               <OrderCalculator />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </AppGridContainer>
       </TabPanel>
       <TabPanel index={6} value={value}>

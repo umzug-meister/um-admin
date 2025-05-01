@@ -1,4 +1,4 @@
-import { Alert, Box, Chip, Grid2, Stack } from '@mui/material';
+import { Alert, Box, Chip, Grid, Stack } from '@mui/material';
 
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -45,25 +45,25 @@ export default function OrderPrice() {
   };
 
   return (
-    <Grid2 size={4}>
+    <Grid size={4}>
       <AppCard title={'Preis'}>
         <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="basis" label="Betrag" />
         <OrderField<TimeBasedPrice> path="timeBased" type="number" nestedPath="extra" label="Stundenpreis" />
-        <Grid2 container>
-          <Grid2 size={6}>
+        <Grid container>
+          <Grid size={6}>
             <OrderField path="discount" label="Rabatt" type="number" />
-          </Grid2>
-          <Grid2 size={6}>
+          </Grid>
+          <Grid size={6}>
             <Box height="100%" display="flex" alignItems="center" justifyContent="center">
               <Stack direction="row" spacing={2}>
                 <Chip label="5 %" onClick={() => onChipClick(5)} />
                 <Chip label="10 %" onClick={() => onChipClick(10)} />
               </Stack>
             </Box>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
         {recomendation}
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }

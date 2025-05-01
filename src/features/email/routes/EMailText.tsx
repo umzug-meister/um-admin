@@ -1,4 +1,4 @@
-import { Box, Grid2 } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import { PropsWithChildren, useId } from 'react';
 
@@ -18,18 +18,18 @@ export default function EMailText() {
 
   return (
     <AppGridContainer>
-      <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
+      <Grid padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={fullText} />
         <RootElement elementID={fullText}>
           <EMailOfferTemplate order={order} key={order.id} />
         </RootElement>
-      </Grid2>
-      <Grid2 padding={1} size={{ xs: 12, lg: 6 }}>
+      </Grid>
+      <Grid padding={1} size={{ xs: 12, lg: 6 }}>
         <CopyOfferButton elementID={core} />
         <RootElement elementID={core}>
           <EmailOfferOptions order={order} key={order.id} />
         </RootElement>
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

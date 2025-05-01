@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -37,7 +37,7 @@ export default function Categories() {
 
   return (
     <AppGridContainer>
-      <Grid2 size={12}>
+      <Grid size={12}>
         <AppCard title="Möbel Kategorien">
           <AddButton onClick={onAdd} />
           <AppDataGrid
@@ -67,7 +67,7 @@ export default function Categories() {
             onUpdate={onUpdate}
           />
         </AppCard>
-      </Grid2>
+      </Grid>
     </AppGridContainer>
   );
 }

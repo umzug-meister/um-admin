@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   DataGrid,
@@ -76,50 +76,41 @@ export function AppDataGrid({
   }, [columns, allowDeletion, onDelete]);
 
   return (
-    <Paper elevation={0}>
-      <Box
-        display={'flex'}
-        flexDirection={'column'}
-        maxHeight={'800px'}
-        sx={{
-          '& .MuiDataGrid-footerContainer': {
-            display: `${disablePagination ? 'none' : 'block'}`,
-            borderTop: 'none',
-          },
-          '& .MuiTablePagination-displayedRows, & .MuiTablePagination-selectLabel, & .MuiTablePagination-selectLabel + .MuiInputBase-root':
-            {
-              display: 'none !important',
-            },
-          '& .MuiDataGrid-root': {
-            border: 'none',
-          },
-        }}
-      >
-        <Loading open={loading} />
-        <StyledDataGrid
-          rowHeight={45}
-          getRowClassName={getRowClassName}
-          disableRowSelectionOnClick
-          columns={gridColumns}
-          rows={data}
-          rowCount={paginationMode === 'server' ? 10000 : undefined}
-          paginationMode={paginationMode}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[10, 100]}
-          onCellEditStop={
-            ((params, event) => {
-              //@ts-ignore
-              const value = event?.target?.value;
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      maxHeight={'800px'}
+      sx={{
+        '& .MuiDataGrid-footerContainer': {
+          display: `${disablePagination ? 'none' : 'block'}`,
+          borderTop: 'none',
+        },
+      }}
+    >
+      <Loading open={loading} />
+      <StyledDataGrid
+        rowHeight={45}
+        getRowClassName={getRowClassName}
+        disableRowSelectionOnClick
+        columns={gridColumns}
+        rows={data}
+        rowCount={paginationMode === 'server' ? 10000 : undefined}
+        paginationMode={paginationMode}
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[10, 100]}
+        onCellEditStop={
+          ((params, event) => {
+            //@ts-ignore
+            const value = event?.target?.value;
 
-              const next = { ...params.row };
-              next[params.field] = value;
-              onUpdate?.(next);
-            }) as GridEventListener<'cellEditStop'>
-          }
-        />
-      </Box>
-    </Paper>
+            const next = { ...params.row };
+            next[params.field] = value;
+            onUpdate?.(next);
+          }) as GridEventListener<'cellEditStop'>
+        }
+      />
+    </Box>
   );
 }
 
@@ -128,8 +119,15 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => {
     '& .bold': {
       fontWeight: 'bold',
     },
-    '.MuiDataGrid-container--top [role=row]': {
-      background: theme.palette.background.paper,
+    '& .MuiDataGrid-main': {
+      backgroundColor: theme.palette.background.paper,
     },
+    '& .MuiDataGrid-footerContainer': {
+      backgroundColor: theme.palette.background.paper,
+    },
+    '& .MuiTablePagination-displayedRows, & .MuiTablePagination-selectLabel, & .MuiTablePagination-selectLabel + .MuiInputBase-root':
+      {
+        display: 'none !important',
+      },
   };
 });

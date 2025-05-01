@@ -1,4 +1,4 @@
-import { Chip, Divider, Grid2, Stack } from '@mui/material';
+import { Chip, Divider, Grid, Stack } from '@mui/material';
 
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -151,7 +151,7 @@ export function OrderConditionsChips() {
   };
 
   return (
-    <Grid2 size={12}>
+    <Grid size={12}>
       <AppCard title="Konditionen hinzufügen">
         <Stack direction="row" spacing={3} divider={<Divider orientation="vertical" flexItem />}>
           <Chip label="Alle Leistungen" color="primary" onClick={onAllRequest} />
@@ -184,7 +184,7 @@ export function OrderConditionsChips() {
           </Stack>
         </Stack>
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }
 

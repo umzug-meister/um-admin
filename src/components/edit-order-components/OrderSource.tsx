@@ -1,4 +1,4 @@
-import { Alert, Grid2 } from '@mui/material';
+import { Alert, Grid } from '@mui/material';
 
 import { useCurrentOrder } from '../../hooks/useCurrentOrder';
 import OrderField from '../OrderField';
@@ -13,7 +13,7 @@ export default function OrderSource() {
   if (!order) return null;
 
   return (
-    <Grid2 size={2}>
+    <Grid size={2}>
       <AppCard title="Auftrag">
         <OrderTimestamp />
         <CopyOfLink />
@@ -24,6 +24,6 @@ export default function OrderSource() {
           </Alert>
         )}
       </AppCard>
-    </Grid2>
+    </Grid>
   );
 }
