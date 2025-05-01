@@ -9,6 +9,7 @@ interface AppCategories {
 }
 
 export const loadAllCategories = createAsyncThunk('loadAllCategories', () => {
+  console.log('loadAllCategories');
   return appRequest('get')(Urls.categories());
 });
 

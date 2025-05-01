@@ -6,6 +6,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Service } from '@umzug-meister/um-core';
 
 export const loadAllServices = createAsyncThunk('loadAllServices', () => {
+  console.log('loadAllServices');
   return appRequest('get')(Urls.services());
 });
 

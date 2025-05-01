@@ -55,6 +55,7 @@ interface CreateUpdateOptionPaylod {
 }
 
 export const loadAllOptions = createAsyncThunk('options/loadAllOptions', () => {
+  console.log('loadAllOptions');
   return appRequest('get')(Urls.options());
 });
 
