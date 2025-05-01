@@ -1,4 +1,4 @@
-import { Costs, EmailServicesTable } from '../../../../../../EmailServicesTable';
+import { Costs, EmailServicesTable } from './EmailServicesTable';
 import { WorkerCosts } from './WorkerCosts';
 
 import { Order } from '@umzug-meister/um-core';

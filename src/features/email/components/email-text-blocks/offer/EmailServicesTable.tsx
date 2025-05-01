@@ -1,5 +1,5 @@
-import { QuillCell, QuillTable } from './src/features/email/components/email-text-blocks/QuillTableComponents';
-import { calculateNumbers, euroValue } from './src/utils/utils';
+import { calculateNumbers, euroValue } from '../../../../../utils/utils';
+import { QuillCell, QuillTable } from '../QuillTableComponents';
 
 import { Order } from '@umzug-meister/um-core';
 
