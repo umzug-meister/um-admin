@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import AddButton from '../components/shared/AddButton';
@@ -87,49 +87,47 @@ export default function FurnitureRoute() {
     [categories, dispatch],
   );
 
-  const columns: GridColDef[] = useMemo(() => {
-    return [
-      {
-        field: 'id',
-        headerName: 'ID',
-      },
-      {
-        field: 'name',
-        headerName: 'Name',
-        editable: true,
-        width: 200,
-      },
-      {
-        field: 'categoryRefs',
-        headerName: 'Kategorien',
-        flex: 1,
-        renderCell: ({ row }) => renderCategoryRefs(row),
-      },
-      {
-        field: 'volume',
-        headerName: 'Volume',
-        type: 'number',
-        width: 70,
-        editable: true,
-      },
-      {
-        field: 'step',
-        headerName: 'Schritt',
-        type: 'number',
-        width: 70,
+  const columns: GridColDef[] = [
+    {
+      field: 'id',
+      headerName: 'ID',
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      editable: true,
+      width: 200,
+    },
+    {
+      field: 'categoryRefs',
+      headerName: 'Kategorien',
+      flex: 1,
+      renderCell: ({ row }) => renderCategoryRefs(row),
+    },
+    {
+      field: 'volume',
+      headerName: 'Volume',
+      type: 'number',
+      width: 70,
+      editable: true,
+    },
+    {
+      field: 'step',
+      headerName: 'Schritt',
+      type: 'number',
+      width: 70,
 
-        editable: true,
-      },
-      {
-        field: 'sortOrder',
-        type: 'number',
-        editable: true,
-        width: 80,
+      editable: true,
+    },
+    {
+      field: 'sortOrder',
+      type: 'number',
+      editable: true,
+      width: 80,
 
-        headerName: 'Sortierung',
-      },
-    ];
-  }, [renderCategoryRefs]);
+      headerName: 'Sortierung',
+    },
+  ];
 
   return (
     <AppGridContainer>

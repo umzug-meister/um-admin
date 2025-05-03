@@ -2,8 +2,6 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Autocomplete, Box, Grid2, IconButton } from '@mui/material';
 
-import { useMemo } from 'react';
-
 import { useAppServices } from '../hooks/useAppServices';
 import AddButton from './shared/AddButton';
 import { AppTextField } from './shared/AppTextField';
@@ -22,7 +20,7 @@ interface Props {
 export default function LeistungEdit({ leistungen = [], update, suggestServices = false }: Readonly<Props>) {
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
-  const options = useMemo(() => [...services, ...packings], [services, packings]);
+  const options = [...services, ...packings];
 
   const onDelete = (index: number) => {
     const next = leistungen.filter((_, idx) => {

@@ -2,7 +2,6 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import { Box, Grid2, IconButton, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
-import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useAppServices } from '../../hooks/useAppServices';
@@ -38,81 +37,75 @@ export function OrderOfferSelector() {
     }
   }
 
-  const setPrice = useCallback(
-    (id: number | string) => {
-      const offer = prices.find((p) => Number(p.id) === Number(id));
-      if (offer) {
-        const timeBasedValue = {
-          basis: offer.sum,
-          hours: offer.includedHours,
-          extra: offer.hourPrice,
-        };
-        dispatch(updateOrderProps({ path: ['timeBased'], value: timeBasedValue }));
-        dispatch(updateOrderProps({ path: ['transporterNumber'], value: offer.t35 }));
-        dispatch(updateOrderProps({ path: ['workersNumber'], value: offer.workers }));
-      }
+  const setPrice = (id: number | string) => {
+    const offer = prices.find((p) => Number(p.id) === Number(id));
+    if (offer) {
+      const timeBasedValue = {
+        basis: offer.sum,
+        hours: offer.includedHours,
+        extra: offer.hourPrice,
+      };
+      dispatch(updateOrderProps({ path: ['timeBased'], value: timeBasedValue }));
+      dispatch(updateOrderProps({ path: ['transporterNumber'], value: offer.t35 }));
+      dispatch(updateOrderProps({ path: ['workersNumber'], value: offer.workers }));
+    }
+  };
+
+  const columns: GridColDef<AppPrice>[] = [
+    {
+      field: 'workers',
+      headerName: 'Mann',
+      flex: 1,
+      renderCell({ value }) {
+        return <OfferNumberRenderer value={value} color="green" />;
+      },
     },
-    [dispatch, prices],
-  );
+    {
+      field: 't35',
+      headerName: 'LKW 3,5',
+      flex: 1,
+      renderCell({ value }) {
+        return <OfferNumberRenderer value={value} color="red" />;
+      },
+    },
 
-  const columns = useMemo(() => {
-    const cols: GridColDef<AppPrice>[] = [
-      {
-        field: 'workers',
-        headerName: 'Mann',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="green" />;
-        },
+    {
+      field: 'includedHours',
+      headerName: 'Stunden',
+      flex: 1,
+      renderCell({ value }) {
+        return <OfferNumberRenderer value={value} color="blue" />;
       },
-      {
-        field: 't35',
-        headerName: 'LKW 3,5',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="red" />;
-        },
-      },
+    },
+    {
+      field: 'hourPrice',
+      headerName: 'Stundenpreis',
+      flex: 1,
+      renderCell: ({ value }) => euroValue(value),
+    },
+    {
+      field: 'ridingCosts',
+      headerName: 'Anfahrtskosten',
+      flex: 1,
+      renderCell: ({ value }) => euroValue(value),
+    },
 
-      {
-        field: 'includedHours',
-        headerName: 'Stunden',
-        flex: 1,
-        renderCell({ value }) {
-          return <OfferNumberRenderer value={value} color="blue" />;
-        },
+    {
+      field: 'sum',
+      headerName: 'Gesamt',
+      flex: 1,
+      renderCell: ({ row }) => {
+        return (
+          <Box width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+            <Typography variant="body2">{euroValue(row.sum)}</Typography>
+            <IconButton color="info" onClick={() => setPrice(row.id)}>
+              <CheckCircleOutlinedIcon />
+            </IconButton>
+          </Box>
+        );
       },
-      {
-        field: 'hourPrice',
-        headerName: 'Stundenpreis',
-        flex: 1,
-        renderCell: ({ value }) => euroValue(value),
-      },
-      {
-        field: 'ridingCosts',
-        headerName: 'Anfahrtskosten',
-        flex: 1,
-        renderCell: ({ value }) => euroValue(value),
-      },
-
-      {
-        field: 'sum',
-        headerName: 'Gesamt',
-        flex: 1,
-        renderCell: ({ row }) => {
-          return (
-            <Box width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-              <Typography variant="body2">{euroValue(row.sum)}</Typography>
-              <IconButton color="info" onClick={() => setPrice(row.id)}>
-                <CheckCircleOutlinedIcon />
-              </IconButton>
-            </Box>
-          );
-        },
-      },
-    ];
-    return cols;
-  }, [setPrice]);
+    },
+  ];
 
   return (
     <Grid2 size={12}>

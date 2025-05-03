@@ -1,7 +1,7 @@
 import { Box, Grid2 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useAppServices } from '../hooks/useAppServices';
@@ -45,36 +45,31 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
     [dispatch],
   );
 
-  const columns: GridColDef[] = useMemo(
-    () => [
-      {
-        field: 'ridingCosts',
-        headerName: 'Anfahrtskosten',
-      },
-      {
-        field: 'hourPrice',
-        headerName: 'Stundenpreis',
-      },
-      {
-        field: 'includedHours',
-        headerName: 'Stunden',
-        editable: true,
-      },
-      { field: 'sum', headerName: 'Gesamt', editable: true },
-    ],
-    [],
-  );
+  const columns: GridColDef[] = [
+    {
+      field: 'ridingCosts',
+      headerName: 'Anfahrtskosten',
+    },
+    {
+      field: 'hourPrice',
+      headerName: 'Stundenpreis',
+    },
+    {
+      field: 'includedHours',
+      headerName: 'Stunden',
+      editable: true,
+    },
+    { field: 'sum', headerName: 'Gesamt', editable: true },
+  ];
 
-  const service: Partial<Service> = useMemo(() => {
-    return {
-      hourPrice: hourPriceValue,
-      ridingCosts: ridingCostsValue,
-      t35,
-      t75: 0,
-      workers,
-      tag: TAG,
-    };
-  }, [hourPriceValue, ridingCostsValue, t35, workers]);
+  const service: Partial<Service> = {
+    hourPrice: hourPriceValue,
+    ridingCosts: ridingCostsValue,
+    t35,
+    t75: 0,
+    workers,
+    tag: TAG,
+  };
 
   const onRidingCostsChange = () => {
     data.forEach((serv) => {

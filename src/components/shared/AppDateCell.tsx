@@ -4,8 +4,9 @@ import { isValid } from 'date-fns';
 
 interface Props {
   date: Date;
+  showTime?: boolean;
 }
-export function AppDateCell({ date }: Readonly<Props>) {
+export function AppDateCell({ date, showTime = true }: Readonly<Props>) {
   if (!isValid(date)) {
     return null;
   }
@@ -15,10 +16,10 @@ export function AppDateCell({ date }: Readonly<Props>) {
 
   return (
     <Box display="flex" flexDirection="column" justifyContent={'center'} sx={{ height: '100%' }}>
-      <Typography display="block" variant="caption">
+      <Typography display="block" variant="subtitle2">
         {dateFormat.format(date)}
       </Typography>
-      <Typography variant="caption">{timeFormat.format(date)}</Typography>
+      {showTime && <Typography variant="caption">{timeFormat.format(date)}</Typography>}
     </Box>
   );
 }

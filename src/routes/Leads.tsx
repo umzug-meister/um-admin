@@ -2,7 +2,7 @@ import { Box, Grid2, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { AppCard } from '../components/shared/AppCard';
 import { AppGridContainer } from '../components/shared/AppGridContainer';
@@ -14,6 +14,9 @@ import { AppCounter } from '@umzug-meister/um-core';
 import { orderSrcTypes } from '@umzug-meister/um-core/constants';
 import { capitalize } from 'lodash';
 
+const MIN_DATE = new Date(new Date().setFullYear(2024));
+const MAX_DATE = new Date();
+
 export default function Leads() {
   const counters = useAppServices<AppCounter>('Counter');
 
@@ -22,17 +25,6 @@ export default function Leads() {
   const [date, setDate] = useState(new Date());
 
   const [dataForYear, setDataForYear] = useState<any>(leadsCounter?.data['#' + date.getFullYear()]);
-
-  const SERIES = useMemo(() => {
-    return orderSrcTypes.map((src) => ({
-      dataKey: src,
-      label: capitalize(src),
-      color: getColorBySrc(src),
-    }));
-  }, []);
-
-  const MIN_DATE = useMemo(() => new Date(new Date().setFullYear(2024)), []);
-  const MAX_DATE = useMemo(() => new Date(), []);
 
   if (!leadsCounter) {
     return <Typography>keine Daten vorhanden</Typography>;
@@ -45,6 +37,12 @@ export default function Leads() {
   };
 
   const dataset = convert2DataSet({ dataForYear, year: date.getFullYear() });
+
+  const series = orderSrcTypes.map((src) => ({
+    dataKey: src,
+    label: capitalize(src),
+    color: getColorBySrc(src),
+  }));
 
   return (
     <RootBox>
@@ -68,7 +66,7 @@ export default function Leads() {
                 barLabel="value"
                 dataset={dataset}
                 xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-                series={SERIES}
+                series={series}
               />
             </Box>
           </AppCard>
