@@ -28,6 +28,8 @@ const SEVERAL_OFFERS_EMAIL_TEXT_ID = 'multiple-offer-email-text-in-dialog';
 const SINGLE_OFFER_EMAIL_TEXT_ID = 'offer-email-text-in-dialog';
 const REJECTION_EMAIL_TEXT_ID = 'rejection-email-text-in-dialog';
 
+const DOMAIN_BLACKLIST = ['@live.', '@outlook.', '@hotmail.', '@msn.'];
+
 export function EmailActions() {
   const [singleOfferDialogOpen, setSingleOfferDialogOpen] = useState(false);
   const [severalOfferDialogOpen, setSeveralOfferDialogOpen] = useState(false);
@@ -51,6 +53,10 @@ export function EmailActions() {
   }, [order?.isCopyOf]);
 
   if (!order) return null;
+
+  const email = order.customer?.email ?? order.customer?.emailCopy;
+
+  const disabled = !email || email.length === 0 || DOMAIN_BLACKLIST.some((domain) => email.includes(domain));
 
   const allowOpiniated = typeof order.isCopyOf !== 'undefined';
 
@@ -89,12 +95,15 @@ export function EmailActions() {
         open={menuOpen}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         onClose={closeMenu}
-        MenuListProps={{
-          'aria-labelledby': EMAIL_MENU_BUTTON_ID,
+        slotProps={{
+          list: {
+            'aria-labelledby': EMAIL_MENU_BUTTON_ID,
+          },
         }}
       >
         <MenuList>
           <MenuItemWithIcon
+            disabled={disabled}
             text="Angebot versenden"
             onClick={() => {
               closeMenu();
@@ -106,6 +115,7 @@ export function EmailActions() {
           <EmailTextAction handleClose={closeMenu} />
           {allowOpiniated && rootOrder ? (
             <MenuItemWithIcon
+              disabled={disabled}
               text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
               onClick={() => {
                 closeMenu();
