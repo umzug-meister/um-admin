@@ -15,7 +15,7 @@ import { AppDateCell } from '../components/shared/AppDateCell';
 import { RootBox } from '../components/shared/RootBox';
 import OrderSearchBar from '../components/shared/search/OrderSearchBar';
 import { searchOrder } from '../components/shared/search/search-order-fn';
-import { getCustomerFullname, getPrintableDate } from '../utils/utils';
+import { getCustomerFullname } from '../utils/utils';
 
 import { Order } from '@umzug-meister/um-core';
 
