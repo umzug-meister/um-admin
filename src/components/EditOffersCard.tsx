@@ -66,7 +66,6 @@ export default function EditOffersCard({ t35, workers }: Readonly<Props>) {
     hourPrice: hourPriceValue,
     ridingCosts: ridingCostsValue,
     t35,
-    t75: 0,
     workers,
     tag: TAG,
   };
