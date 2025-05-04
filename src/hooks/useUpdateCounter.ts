@@ -25,7 +25,7 @@ export function useUpdateCounter() {
       const year = String('#' + date.getFullYear());
       const month = String('#' + String(date.getMonth() + 1));
 
-      appRequest('get')(Urls.services(leadCounter.id)).then((nextCounter) => {
+      appRequest('GET')(Urls.services(leadCounter.id)).then((nextCounter) => {
         if (!nextCounter.data?.[year]?.[month]) {
           set(nextCounter, ['data', year, month], []);
         }

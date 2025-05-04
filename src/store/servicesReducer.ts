@@ -6,19 +6,19 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Service } from '@umzug-meister/um-core';
 
 export const loadAllServices = createAsyncThunk('loadAllServices', () => {
-  return appRequest('get')(Urls.services());
+  return appRequest('GET')(Urls.services());
 });
 
 export const updateService = createAsyncThunk('updateService', (service: Service) => {
-  return appRequest('put')(Urls.services(service.id), service);
+  return appRequest('PUT')(Urls.services(service.id), service);
 });
 
 export const deleteService = createAsyncThunk('deleteService', (id: number) => {
-  return appRequest('delete')(Urls.services(id)).then(() => ({ id }));
+  return appRequest('DELETE')(Urls.services(id)).then(() => ({ id }));
 });
 
 export const createAppService = createAsyncThunk('createAppService', (service: Partial<Service>) => {
-  return appRequest('post')(Urls.services(''), service);
+  return appRequest('POST')(Urls.services(''), service);
 });
 
 const servicesSlice = createSlice<AppServices, any, 'services', any>({

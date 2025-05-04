@@ -7,7 +7,7 @@ export function searchOrder(onFinally?: () => void) {
   return function (searchValue: string): Promise<Order[]> {
     const url = isNaN(Number(searchValue)) ? Urls.orderSearch(searchValue) : Urls.orderById(searchValue);
 
-    return appRequest('get')(url)
+    return appRequest('GET')(url)
       .then((result) => (Array.isArray(result) ? result : [result]))
 
       .catch((e) => {

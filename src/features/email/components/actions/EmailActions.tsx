@@ -44,7 +44,7 @@ export function EmailActions() {
     const copyOf = order?.isCopyOf;
 
     if (copyOf) {
-      appRequest('get')(Urls.orderById(copyOf)).then((order) => {
+      appRequest('GET')(Urls.orderById(copyOf)).then((order) => {
         setRootOrder(order);
       });
     }

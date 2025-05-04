@@ -9,8 +9,6 @@ import {
   GridRowClassNameParams,
 } from '@mui/x-data-grid';
 
-import { useMemo } from 'react';
-
 import { DeleteButton } from './DeleteButton';
 import { Loading } from './Loading';
 
@@ -20,7 +18,7 @@ const defaultColProps = {
   disableColumnMenu: true,
 };
 
-const prepareCols = (cols: GridColDef[]) => {
+const initializeColumnDefinitions = (cols: GridColDef[]) => {
   return cols.map((cd) => ({ ...defaultColProps, ...cd }));
 };
 
@@ -51,29 +49,27 @@ export function AppDataGrid({
   onUpdate,
   getRowClassName,
 }: Readonly<Props>) {
-  const gridColumns = useMemo(() => {
-    if (allowDeletion) {
-      const deleteCol: GridColDef = {
-        field: '__delete',
-        headerName: 'Löschen',
-        align: 'left',
-        renderCell({ row }) {
-          return (
-            <DeleteButton
-              onDelete={() => {
-                if (window.confirm('Möchtest du es wirklich löschen?')) {
-                  onDelete?.(row.id);
-                }
-              }}
-            />
-          );
-        },
-      };
-      return prepareCols([deleteCol, ...columns]);
-    }
+  const gridColumns = [...columns];
 
-    return prepareCols(columns);
-  }, [columns, allowDeletion, onDelete]);
+  if (allowDeletion) {
+    const deleteCol: GridColDef = {
+      field: '__delete',
+      headerName: 'Löschen',
+      align: 'left',
+      renderCell({ row }) {
+        return (
+          <DeleteButton
+            onDelete={() => {
+              if (window.confirm('Möchtest du es wirklich löschen?')) {
+                onDelete?.(row.id);
+              }
+            }}
+          />
+        );
+      },
+    };
+    gridColumns.unshift(deleteCol);
+  }
 
   return (
     <Paper elevation={0}>
@@ -100,7 +96,7 @@ export function AppDataGrid({
           rowHeight={45}
           getRowClassName={getRowClassName}
           disableRowSelectionOnClick
-          columns={gridColumns}
+          columns={initializeColumnDefinitions(gridColumns)}
           rows={data}
           rowCount={paginationMode === 'server' ? 10000 : undefined}
           paginationMode={paginationMode}

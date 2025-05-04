@@ -24,5 +24,5 @@ const HEADERS = {
 const URL = MailProxyUrls.sendMail;
 
 export function sendMail(data: EmailData) {
-  return appRequest('post')(URL, data, HEADERS);
+  return appRequest('POST')(URL, data, HEADERS);
 }

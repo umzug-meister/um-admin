@@ -48,7 +48,7 @@ export default function Orders() {
 
   function loadOrders(page: number) {
     setLoading(true);
-    appRequest('get')(Urls.orders(page, PAGE_SIZE))
+    appRequest('GET')(Urls.orders(page, PAGE_SIZE))
       .then(setData)
       .finally(() => setLoading(false));
   }

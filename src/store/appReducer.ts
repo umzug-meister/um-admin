@@ -55,11 +55,11 @@ interface CreateUpdateOptionPaylod {
 }
 
 export const loadAllOptions = createAsyncThunk('options/loadAllOptions', () => {
-  return appRequest('get')(Urls.options());
+  return appRequest('GET')(Urls.options());
 });
 
 export const updateOption = createAsyncThunk('options/updateOption', (payload: CreateUpdateOptionPaylod) => {
-  return appRequest('put')(Urls.options(payload.name), {
+  return appRequest('PUT')(Urls.options(payload.name), {
     value: payload.value,
   }).then(() => {
     return payload;
@@ -79,14 +79,14 @@ const initialState: AppSlice = {
 };
 
 export const loadOrder = createAsyncThunk('loadOrder', (id: string | number) => {
-  return appRequest('get')(Urls.orderById(id));
+  return appRequest('GET')(Urls.orderById(id));
 });
 
 export const deleteOrder = createAsyncThunk<void, void, RootState>('deleteOrder', (_, thunkApi) => {
   const state = thunkApi.getState();
   const currentOrder = state.app.current;
   if (currentOrder?.id) {
-    return appRequest('delete')(Urls.orderById(currentOrder.id));
+    return appRequest('DELETE')(Urls.orderById(currentOrder.id));
   }
 });
 
@@ -303,7 +303,6 @@ const appSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(loadOrder.fulfilled, (state, { payload }) => {
-        console.log('loadOrder.fulfilled', payload);
         state.current = payload;
         state.unsavedChanges = false;
       })
