@@ -10,7 +10,9 @@ export const appRequest = (httpMethod: 'GET' | 'DELETE' | 'PUT' | 'POST') => {
       alert(`Error: ${response.status} - ${response.statusText}`);
       return null;
     }
-    return response.json();
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      return response.json();
+    } else return response.text();
   };
 
   switch (httpMethod) {
