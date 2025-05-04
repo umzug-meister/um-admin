@@ -126,7 +126,7 @@ export function EmailActions() {
             </MenuItemWithIcon>
           ) : null}
           <Divider />
-          <MenuItemWithIcon onClick={openRejectionDialog} text="Absage versenden">
+          <MenuItemWithIcon disabled={disabled} onClick={openRejectionDialog} text="Absage versenden">
             <CancelScheduleSendOutlinedIcon />
           </MenuItemWithIcon>
         </MenuList>
