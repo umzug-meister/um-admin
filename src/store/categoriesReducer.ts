@@ -9,21 +9,21 @@ interface AppCategories {
 }
 
 export const loadAllCategories = createAsyncThunk('loadAllCategories', () => {
-  return appRequest('get')(Urls.categories());
+  return appRequest('GET')(Urls.categories());
 });
 
 export const updateCategorie = createAsyncThunk('updateCategorie', (category: Category) => {
-  return appRequest('put')(Urls.categories(category.id), category);
+  return appRequest('PUT')(Urls.categories(category.id), category);
 });
 
 export const createCategory = createAsyncThunk('createCategory', () => {
-  return appRequest('post')(Urls.categories(''), {
+  return appRequest('POST')(Urls.categories(''), {
     name: 'Neu',
   });
 });
 
 export const deleteCategorie = createAsyncThunk('deleteCategorie', (id: number) => {
-  return appRequest('delete')(Urls.categories(id)).then(() => ({ id }));
+  return appRequest('DELETE')(Urls.categories(id)).then(() => ({ id }));
 });
 
 const categoriesSlice = createSlice<AppCategories, any, 'categories', any>({

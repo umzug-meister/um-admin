@@ -41,33 +41,27 @@ export default function TopBar() {
     );
   }, [location]);
 
-  const mainAction = useMemo(() => {
-    return (
-      <Box display={'flex'} gap={1}>
-        <IconButton
-          color="inherit"
-          onClick={() => {
-            setOpen((open) => !open);
-          }}
-        >
-          <MenuOutlinedIcon />
-        </IconButton>
-        {location.pathname !== '/' && (
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <IconButton color="inherit">
-              <HomeOutlined />
-            </IconButton>
-          </Link>
-        )}
-      </Box>
-    );
-  }, [location]);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar variant="outlined" color="inherit" position="fixed" elevation={0}>
         <Toolbar variant="dense">
-          {mainAction}
+          <Box display={'flex'} gap={1}>
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setOpen((open) => !open);
+              }}
+            >
+              <MenuOutlinedIcon />
+            </IconButton>
+            {location.pathname !== '/' && (
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <IconButton color="inherit">
+                  <HomeOutlined />
+                </IconButton>
+              </Link>
+            )}
+          </Box>
           {startActions}
           <Box margin={'auto'} display={'flex'} flexDirection={'column'}>
             <Typography margin="auto">{pageName}</Typography>

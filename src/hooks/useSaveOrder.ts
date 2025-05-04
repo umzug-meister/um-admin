@@ -28,14 +28,14 @@ export const useSaveOrder: SaveOrderHook = () => {
       }
 
       if (order.id) {
-        return appRequest('put')(Urls.orderById(order.id), order)
+        return appRequest('PUT')(Urls.orderById(order.id), order)
           .then((res: Order) => {
             dispatch(setUnsavedChanges({ unsavedChanges: false }));
             return res;
           })
           .catch(errorHandler);
       } else {
-        return appRequest('post')(Urls.orderById(), order)
+        return appRequest('POST')(Urls.orderById(), order)
           .then((res) => {
             navigate(`/edit/${res.id}`);
             return res;

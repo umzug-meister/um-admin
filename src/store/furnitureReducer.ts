@@ -9,19 +9,19 @@ export interface AppFurniture {
 }
 
 export const loadAllFurniture = createAsyncThunk('loadAllFurniture', () => {
-  return appRequest('get')(Urls.items());
+  return appRequest('GET')(Urls.items());
 });
 
 export const updateFurniture = createAsyncThunk('updatFurniture', (furniture: Furniture) =>
-  appRequest('put')(Urls.items(furniture.id), furniture),
+  appRequest('PUT')(Urls.items(furniture.id), furniture),
 );
 
 export const createFurniture = createAsyncThunk('createFurniture', () =>
-  appRequest('post')(Urls.items(''), { name: 'Neu' }),
+  appRequest('POST')(Urls.items(''), { name: 'Neu' }),
 );
 
 export const deleteFurniture = createAsyncThunk('deleteFurniture', (id: number) => {
-  return appRequest('delete')(Urls.items(id)).then(() => ({ id }));
+  return appRequest('DELETE')(Urls.items(id)).then(() => ({ id }));
 });
 
 const furnitureSlice = createSlice<AppFurniture, any, 'furniture', any>({

@@ -1,7 +1,7 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
 import { Stack, Typography } from '@mui/material';
 
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useOption } from '../../hooks/useOption';
@@ -61,13 +61,12 @@ export default function Distance() {
       .catch(console.log);
   }, [gapiKey, origin, from, to, secondaryFrom, secondaryTo]);
 
-  const sum = useMemo(() => {
-    const sumInMeter = response?.rows.reduce(
-      (result, row, index) => result + (row.elements[index]?.distance?.value || 0),
-      0,
-    );
-    return distanceInKm(sumInMeter);
-  }, [response]);
+  const sumInMeter = response?.rows.reduce(
+    (result, row, index) => result + (row.elements[index]?.distance?.value || 0),
+    0,
+  );
+
+  const sum = distanceInKm(sumInMeter);
 
   useEffect(() => {
     if (String(order?.distance) !== sum && sum !== '0') {
