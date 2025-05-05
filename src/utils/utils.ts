@@ -267,6 +267,15 @@ export function getColorBySrc(src: OrderSrcType) {
   }
 }
 
-export const getAmountOfParkingSlots = (order: Order): number => {
-  return Number(order?.from?.parkingSlot || 0) + Number(order?.to?.parkingSlot || 0);
-};
+export function isLocalMovement(addresses: Array<Address | undefined>) {
+  return addresses.filter((a) => typeof a !== 'undefined').every((address) => address.address?.includes('München'));
+}
+
+export function getParkingsSlotsAmount(addresses: Array<Address | undefined>) {
+  return addresses.reduce((acc, address) => {
+    if (address?.parkingSlot) {
+      return acc + Number(address.parkingSlot);
+    }
+    return acc;
+  }, 0);
+}

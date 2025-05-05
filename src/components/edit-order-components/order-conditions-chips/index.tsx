@@ -8,9 +8,9 @@ import { useCurrentOrder } from '../../../hooks/useCurrentOrder';
 import { useOption } from '../../../hooks/useOption';
 import { AppDispatch } from '../../../store';
 import { pushLeistung } from '../../../store/appReducer';
-import { euroValue } from '../../../utils/utils';
+import { euroValue, getParkingsSlotsAmount, isLocalMovement } from '../../../utils/utils';
 import { AppCard } from '../../shared/AppCard';
-import { calculateRideCostsByKm, getParkingsSlotsAmount, isLocalMovement } from './orderConditionsChipsCalcFunctions';
+import { calculateRideCostsByKm } from './orderConditionsChipsCalcFunctions';
 
 import { AppPrice, MLeistung, TimeBasedPrice } from '@umzug-meister/um-core';
 
@@ -20,6 +20,7 @@ export function OrderConditionsChips() {
   const order = useCurrentOrder();
 
   const kmPrice = useOption('kmPrice');
+  const hvzPrice = useOption('hvzPrice');
 
   const appOffers = useAppServices<AppPrice>('Price');
 
@@ -44,12 +45,14 @@ export function OrderConditionsChips() {
     prices,
     from,
     to,
+    secondaryFrom,
+    secondaryTo,
     distance,
   } = order;
 
-  const localMovement = isLocalMovement(from, to);
+  const localMovement = isLocalMovement([from, to, secondaryFrom, secondaryTo]);
 
-  const amountOfParkingSlots = getParkingsSlotsAmount(from, to);
+  const amountOfParkingSlots = getParkingsSlotsAmount([from, to, secondaryFrom, secondaryTo]);
 
   const transporterAmount = Number(transporterNumber);
 
@@ -114,6 +117,7 @@ export function OrderConditionsChips() {
   const createParkingSlotsLst = (): MLeistung => {
     return {
       desc: `Organisation der Halteverbotszone(n)`,
+      price: hvzPrice,
       sum: prices?.halteverbotszonen?.toFixed(2) || '',
       calculate: false,
       colli: amountOfParkingSlots,

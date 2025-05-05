@@ -5,11 +5,11 @@ import { AppOptions, OptionName } from '../app-types';
 import {
   calculateNumbers,
   createDueDate,
-  getAmountOfParkingSlots,
   getCustomerFullname,
   getCustomerPLZ,
   getCustomerStreet,
   getNextDueDate,
+  getParkingsSlotsAmount,
   getParseableDate,
   getPrintableDate,
 } from '../utils/utils';
@@ -99,7 +99,8 @@ const calculate = (order: Order, options: AppOptions): Order => {
 
   const prices: Prices = {};
 
-  prices.halteverbotszonen = Number(options.hvzPrice) * getAmountOfParkingSlots(order);
+  prices.halteverbotszonen =
+    Number(options.hvzPrice) * getParkingsSlotsAmount([order.from, order.to, order.secondaryFrom, order.secondaryTo]);
 
   const services = order.services?.filter((s) => s.tag === 'Bohrarbeiten');
   const verpackung = order.services?.filter((s) => s.tag === 'Packmaterial');

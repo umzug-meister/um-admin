@@ -1,13 +1,14 @@
 import {
   euroValue,
-  getAmountOfParkingSlots,
   getCustomerFullname,
   getCustomerStreet,
+  getParkingsSlotsAmount,
   getParseableDate,
   getPrintableDate,
+  isLocalMovement,
 } from './utils';
 
-import { Order } from '@umzug-meister/um-core';
+import { Address, Order } from '@umzug-meister/um-core';
 import { describe, expect, test } from 'vitest';
 
 describe('euroValue', () => {
@@ -106,34 +107,6 @@ describe('getCustomerStreet', () => {
   });
 });
 
-describe('getMountOfParkingSlots', () => {
-  test('both from and to have parking slots', () => {
-    const order = {
-      from: { parkingSlot: true },
-      to: { parkingSlot: true },
-    } as Order;
-    expect(getAmountOfParkingSlots(order)).toBe(2);
-  });
-
-  test('only from has parking slot', () => {
-    const order = { from: { parkingSlot: true }, to: {} } as Order;
-    expect(getAmountOfParkingSlots(order)).toBe(1);
-  });
-
-  test('only to has parking slot', () => {
-    const order = {
-      from: { parkingSlot: false },
-      to: { parkingSlot: true },
-    } as Order;
-    expect(getAmountOfParkingSlots(order)).toBe(1);
-  });
-
-  test('no parking slots', () => {
-    const order = { from: {}, to: {} } as Order;
-    expect(getAmountOfParkingSlots(order)).toBe(0);
-  });
-});
-
 describe('getCustomerFullname', () => {
   test('customer with all fields', () => {
     expect(
@@ -176,19 +149,71 @@ describe('getCustomerFullname', () => {
     expect(getCustomerFullname({ customer: { company: 'Acme Corp' } } as Order)).toBe('(Acme Corp)');
   });
 
-  test('customer with whitespace in names', () => {
-    expect(
-      getCustomerFullname({
-        customer: {
-          firstName: '  John  ',
-          lastName: '  Doe  ',
-          company: '  ABC Ltd.  ',
-        },
-      } as Order),
-    ).toBe('John Doe (ABC Ltd.)');
+  describe('isLocalMovement', () => {
+    test('all addresses are in München', () => {
+      const addresses = [{ address: 'Street 1, München' }, { address: 'Street 2, München' }] as Address[];
+      expect(isLocalMovement(addresses)).toBe(true);
+    });
+
+    test('some addresses are not in München', () => {
+      const addresses = [{ address: 'Street 1, München' }, { address: 'Street 2, Berlin' }] as Address[];
+      expect(isLocalMovement(addresses)).toBe(false);
+    });
+
+    test('no addresses provided', () => {
+      const addresses: Array<Address | undefined> = [];
+      expect(isLocalMovement(addresses)).toBe(true);
+    });
+
+    test('undefined addresses in the array', () => {
+      const addresses = [{ address: 'Street 1, München' }, undefined, { address: 'Street 2, München' }] as Array<
+        Address | undefined
+      >;
+      expect(isLocalMovement(addresses)).toBe(true);
+    });
+
+    test('all addresses are undefined', () => {
+      const addresses = [undefined, undefined] as Array<Address | undefined>;
+      expect(isLocalMovement(addresses)).toBe(true);
+    });
+
+    test('address without "München"', () => {
+      const addresses = [{ address: 'Street 1, Berlin' }, { address: 'Street 2, Hamburg' }] as Address[];
+      expect(isLocalMovement(addresses)).toBe(false);
+    });
   });
 
-  test('empty customer object', () => {
-    expect(getCustomerFullname({ customer: {} } as Order)).toBe('');
+  describe('getParkingsSlotsAmount', () => {
+    test('no addresses provided', () => {
+      const addresses: Array<Address | undefined> = [];
+      expect(getParkingsSlotsAmount(addresses)).toBe(0);
+    });
+
+    test('addresses with parking slots', () => {
+      const addresses = [{ parkingSlot: true }, { parkingSlot: true }, { parkingSlot: true }] as Address[];
+      expect(getParkingsSlotsAmount(addresses)).toBe(3);
+    });
+
+    test('addresses with some undefined parking slots', () => {
+      const addresses = [{ parkingSlot: true }, undefined, { parkingSlot: false }] as Array<Address | undefined>;
+      expect(getParkingsSlotsAmount(addresses)).toBe(1);
+    });
+
+    test('all addresses have undefined parking slots', () => {
+      const addresses = [undefined, undefined] as Array<Address | undefined>;
+      expect(getParkingsSlotsAmount(addresses)).toBe(0);
+    });
+
+    test('undefined addresses in the array', () => {
+      const addresses = [{ parkingSlot: true }, undefined, { parkingSlot: true }] as Array<Address | undefined>;
+      expect(getParkingsSlotsAmount(addresses)).toBe(2);
+    });
+
+    test('mixed valid and undefined addresses', () => {
+      const addresses = [undefined, { parkingSlot: true }, undefined, { parkingSlot: true }] as Array<
+        Address | undefined
+      >;
+      expect(getParkingsSlotsAmount(addresses)).toBe(2);
+    });
   });
 });

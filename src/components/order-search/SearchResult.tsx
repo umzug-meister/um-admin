@@ -3,7 +3,7 @@ import { Box, Card, Chip, ChipProps, Typography, useTheme } from '@mui/material'
 
 import { Link } from 'react-router-dom';
 
-import { getAmountOfParkingSlots, getCustomerFullname, getPrintableDate } from '../../utils/utils';
+import { getCustomerFullname, getParkingsSlotsAmount, getPrintableDate } from '../../utils/utils';
 
 import { Order } from '@umzug-meister/um-core';
 
@@ -68,7 +68,7 @@ function OrderResources({ order }: Readonly<{ order: Order }>) {
     color: 'info',
   };
 
-  const parkingSlots = getAmountOfParkingSlots(order);
+  const parkingSlots = getParkingsSlotsAmount([order.from, order.to, order.secondaryFrom, order.secondaryTo]);
 
   return (
     <Box mt={1} display={'flex'} gap={2}>
