@@ -20,7 +20,7 @@ export const appRequest = (httpMethod: 'GET' | 'DELETE' | 'PUT' | 'POST') => {
     case 'DELETE':
       return async (url: string) => {
         const response = await fetch(url, {
-          method: 'GET',
+          method: httpMethod,
           headers: defaultHeaders,
         });
         return handleResponse(response);
