@@ -65,3 +65,7 @@ jobs:
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Print Version
+        run: |
+          echo "New Version: $(node -p "require('./package.json').version")"
