@@ -7,7 +7,9 @@ export const appRequest = (httpMethod: 'GET' | 'DELETE' | 'PUT' | 'POST') => {
 
   const handleResponse = async (response: Response) => {
     if (!response.ok) {
-      alert(`Error: ${response.status} - ${response.statusText}`);
+      const errorBody = await response.json();
+
+      alert(`Fehler: ${errorBody.message}`);
       return null;
     }
     if (response.headers.get('Content-Type')?.includes('application/json')) {
