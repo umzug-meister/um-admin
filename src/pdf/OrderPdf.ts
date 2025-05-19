@@ -224,6 +224,9 @@ function arrayFormAddress({
   liftType,
 }: Address): string[] {
   const addressArray: string[] = [];
+  if (!address) {
+    return addressArray;
+  }
   const addressParts = address.split(',');
 
   if (addressParts[0]) {
