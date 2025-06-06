@@ -14,7 +14,7 @@ export const agb = [
       'Um einen reibungslosen Ablauf beim Umzug zu gewährleisten gilt folgendes: ' +
       'Falls die Auftraggeber*innen selbst die Umzugskartons packen, dürfen diese maximal 20 kg wiegen. ' +
       'Möbel, die von den Auftraggeber*innen vorbereitet werden, müssen komplett frei von Fremdgegenständen sein. ' +
-      'Wenn die Auftraggeber*innen die Möbelstücke eigenständig demontieren, übernimmt die Firma Umzug Ruck Zuck keinen Wiederaufbau.',
+      'Wenn die Auftraggeber*innen die Möbelstücke eigenständig abbauen, übernimmt die Firma Umzug Ruck Zuck keinen Wiederaufbau.',
   },
   {
     title: 'Beauftragung eines weiteren Frachtführers.',

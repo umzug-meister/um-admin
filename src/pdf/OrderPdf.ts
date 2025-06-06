@@ -257,8 +257,8 @@ function arrayFormAddress({
   parkingSlot ? addressArray.push('Ja') : addressArray.push('wird von Kund*innen sichergestellt');
 
   const allServices = [];
-  demontage && allServices.push('Möbeldemontage');
-  montage && allServices.push('Möbelmontage');
+  demontage && allServices.push('Möbelabbau');
+  montage && allServices.push('Möbelaufbau');
   packservice && allServices.push('Einpackservice');
 
   addressArray.push(combineString(allServices)); // leistungen
@@ -470,7 +470,7 @@ const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
 
     'Wenn kein Formular ausgefüllt wird, erfolgt die Berechnung gemäß der aktuellen Preisliste und Bestimmungen der AGB, insbesondere den §§ "Erweiterungen des Leistungsumfangs"',
 
-    'Aufgrund der körperlichen Belastung sind pro Stunde 5 Minuten Pause vorgesehen. ' +
+    'Aufgrund der körperlichen Belastung sind je Stunde 5 Minuten Pause vorgesehen. ' +
       'Die Pausenzeit ist bereits im Angebot berücksichtigt und wird nicht von der empfohlenen Gesamtdauer abgezogen.',
 
     'Wenn die Firma Umzug Ruck nicht ausreichend detaillierte schriftliche Informationen zum Umzug erhält, ' +
@@ -592,7 +592,7 @@ const addSecondPageEnd = (pdfBuilder: PdfBuilder) => {
 
 const addMontageList = (pdfBuild: PdfBuilder, order: Order) => {
   if (order.from.demontage) {
-    pdfBuild.addBlackHeader('Demontage & Montage Liste');
+    pdfBuild.addBlackHeader('Abbau und Aufbau Liste');
     const body = [
       ['Küche', numberValue(order.from.kitchenWidth), 'Meter'],
       ['Betten', numberValue(order.from.bedNumber), 'Stück'],
@@ -704,9 +704,9 @@ const addAgbText = (pdfBuilder: PdfBuilder, options: AppOptions) => {
     });
 
     const left = [
-      `Bett Demontage oder Montage: ${euroValue(options[OPTIONS.A_MONTAGE_BET])}`,
-      `Küche Demontage je 1 m.: ${euroValue(options[OPTIONS.A_KITCHEN_MONTAGE])}`,
-      `Schrank Demontage oder Montage je 1 m.: ${euroValue(options[OPTIONS.A_WARDROBE_MONTAGE])}`,
+      `Bett Abbau oder Aufbau: ${euroValue(options[OPTIONS.A_MONTAGE_BET])}`,
+      `Küche Abbau je 1 m.: ${euroValue(options[OPTIONS.A_KITCHEN_MONTAGE])}`,
+      `Schrank Abbau oder Aufbau je 1 m.: ${euroValue(options[OPTIONS.A_WARDROBE_MONTAGE])}`,
       `Je zusätzliches m³ Ladevolumen: ${euroValue(options[OPTIONS.A_CBM])}`,
     ];
 

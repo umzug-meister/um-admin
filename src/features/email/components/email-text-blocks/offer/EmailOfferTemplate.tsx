@@ -39,7 +39,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <br />
       <h3>Alle unseren Kostenvoranschläge beinhalten</h3>
       <Dotted>Anfahrt / Lastfahrtkosten</Dotted>
-      {hasMontage && <Dotted>Möbeldemontage und Montage</Dotted>}
+      {hasMontage && <Dotted>Möbelabbau und Aufbau</Dotted>}
       <Dotted>Bereitstellung eines Umzugswagens</Dotted>
       <Dotted>Versicherung: bis 2 Mio. Euro</Dotted>
       <Dotted>Be- und Entladen des LKWs</Dotted>

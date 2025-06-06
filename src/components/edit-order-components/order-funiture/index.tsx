@@ -25,7 +25,7 @@ export function OrderFurniture() {
       <GridItem size={size}>
         <AppCard title="Auszug">
           <OrderField<Address> path="from" nestedPath="packservice" label="Einpacken erwünscht?" as="checkbox" />
-          <OrderField<Address> path="from" nestedPath="demontage" label="Demontage erwünscht?" as="checkbox" />
+          <OrderField<Address> path="from" nestedPath="demontage" label="Abbau erwünscht?" as="checkbox" />
           <OrderField<Address> path="from" nestedPath="bedNumber" label="Betten" type="number" />
           <OrderField<Address> path="from" nestedPath="wardrobeWidth" label="Schränke-Gesamtbreite, m" type="number" />
           <OrderField<Address> path="from" nestedPath="kitchenWidth" label="Küche-Gesamtbreite, m" type="number" />
@@ -34,7 +34,7 @@ export function OrderFurniture() {
       <GridItem size={size}>
         <AppCard title="Einzug">
           <OrderField<Address> path="to" nestedPath="packservice" label="Auspacken erwünscht?" as="checkbox" />
-          <OrderField<Address> path="to" nestedPath="montage" label="Montage erwünscht?" as="checkbox" />
+          <OrderField<Address> path="to" nestedPath="montage" label="Aufbau erwünscht?" as="checkbox" />
         </AppCard>
       </GridItem>
       <GridItem size={size}>

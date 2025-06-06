@@ -72,15 +72,15 @@ export default function Services() {
         <AppCard title="Preise">
           <Typography variant="subtitle2">AGB</Typography>
 
-          <OptionInput name="aBettDeMon" label="Bett Demontage" {...aProps} />
+          <OptionInput name="aBettDeMon" label="Bett Abbau" {...aProps} />
           <OptionInput name="aBoxPack" label="Ein Karton zusätzlich einpacken oder auspacken" {...aProps} />
           <OptionInput name="acbm" label="Je zusätzliche m³" {...aProps} />
           <OptionInput name="aetage" label="Je zusätzliche Etage" {...aProps} />
-          <OptionInput name="akitmon" label="Küche Demontage pro Meter" {...aProps} />
+          <OptionInput name="akitmon" label="Küche Abbau je Meter" {...aProps} />
           <OptionInput name="ameter" label="Je zuätzliche 10 Meter Laufweg" {...aProps} />
-          <OptionInput name="awardmon" label="Schrank De/Montage pro Meter" {...aProps} />
+          <OptionInput name="awardmon" label="Schrank Ab- und Aufbau je Meter" {...aProps} />
           <OptionInput name="disposalBasicPrice" label="Abfall Abfuhr Pauschale" {...aProps} />
-          <OptionInput name="disposalCbmPrice" label="Preis pro m³ Abfall" {...aProps} />
+          <OptionInput name="disposalCbmPrice" label="Preis je m³ Abfall" {...aProps} />
           <Box p={1}>
             <Divider />
           </Box>
