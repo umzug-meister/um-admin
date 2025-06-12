@@ -1,0 +1,3 @@
+type OrderActionBaseProps = {
+  disabled: boolean;
+};
