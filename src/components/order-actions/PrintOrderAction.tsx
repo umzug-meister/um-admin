@@ -13,7 +13,7 @@ import { AppState } from '../../store';
 
 import { AppPacking, AppService } from '@umzug-meister/um-core';
 
-export function PrintOrderAction({ disabled }: OrderActionBaseProps) {
+export function PrintOrderAction({ disabled }: Readonly<OrderActionBaseProps>) {
   const order = useCurrentOrder();
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');

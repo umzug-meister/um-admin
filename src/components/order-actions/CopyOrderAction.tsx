@@ -8,7 +8,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 
 import { Order } from '@umzug-meister/um-core';
 
-export default function CopyOrderAction({ disabled }: OrderActionBaseProps) {
+export default function CopyOrderAction({ disabled }: Readonly<OrderActionBaseProps>) {
   const order = useCurrentOrder();
   const saveOrder = useSaveOrder();
   const [openSnackbar, setOpenSnackbar] = useState(false);

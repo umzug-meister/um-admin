@@ -30,7 +30,7 @@ const REJECTION_EMAIL_TEXT_ID = 'rejection-email-text-in-dialog';
 
 const DOMAIN_BLACKLIST = ['@live.', '@outlook.', '@hotmail.', '@msn.'];
 
-export function EmailActions({ disabled: disabledButton }: OrderActionBaseProps) {
+export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionBaseProps>) {
   const [singleOfferDialogOpen, setSingleOfferDialogOpen] = useState(false);
   const [severalOfferDialogOpen, setSeveralOfferDialogOpen] = useState(false);
   const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
