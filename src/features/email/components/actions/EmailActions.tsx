@@ -30,7 +30,7 @@ const REJECTION_EMAIL_TEXT_ID = 'rejection-email-text-in-dialog';
 
 const DOMAIN_BLACKLIST = ['@live.', '@outlook.', '@hotmail.', '@msn.'];
 
-export function EmailActions() {
+export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionBaseProps>) {
   const [singleOfferDialogOpen, setSingleOfferDialogOpen] = useState(false);
   const [severalOfferDialogOpen, setSeveralOfferDialogOpen] = useState(false);
   const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
@@ -85,6 +85,7 @@ export function EmailActions() {
         aria-expanded={menuOpen ? 'true' : undefined}
         onClick={openMenu}
         color="inherit"
+        disabled={disabledButton}
       >
         <EmailOutlinedIcon />
       </IconButton>

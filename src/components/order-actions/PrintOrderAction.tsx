@@ -13,7 +13,7 @@ import { AppState } from '../../store';
 
 import { AppPacking, AppService } from '@umzug-meister/um-core';
 
-export function PrintOrderAction() {
+export function PrintOrderAction({ disabled }: Readonly<OrderActionBaseProps>) {
   const order = useCurrentOrder();
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
@@ -53,7 +53,7 @@ export function PrintOrderAction() {
 
   return (
     <Tooltip title="Als PDF speichern">
-      <IconButton onClick={printOrder} color="inherit">
+      <IconButton onClick={printOrder} color="inherit" disabled={disabled}>
         <FileDownloadOutlinedIcon />
       </IconButton>
     </Tooltip>

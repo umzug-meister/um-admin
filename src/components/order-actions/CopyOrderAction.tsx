@@ -8,7 +8,7 @@ import { useSaveOrder } from '../../hooks/useSaveOrder';
 
 import { Order } from '@umzug-meister/um-core';
 
-export default function CopyOrderAction() {
+export default function CopyOrderAction({ disabled }: Readonly<OrderActionBaseProps>) {
   const order = useCurrentOrder();
   const saveOrder = useSaveOrder();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -50,7 +50,7 @@ export default function CopyOrderAction() {
         </Alert>
       </Snackbar>
       <Tooltip title="Kopieren">
-        <IconButton onClick={handleCopy} color="inherit">
+        <IconButton disabled={disabled} onClick={handleCopy} color="inherit">
           <FileCopyOutlinedIcon />
         </IconButton>
       </Tooltip>
