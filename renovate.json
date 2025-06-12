@@ -5,6 +5,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["patch"],
+      "groupName": "All Patche Updates",
       "automerge": true
     },
     {
