@@ -60,6 +60,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <Dotted>Be- und Entladen des LKWs</Dotted>
       <Dotted>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</Dotted>
       <Dotted>Ordentliche Rechnungsstellung</Dotted>
+      <strong>Wir bitten um Ihre Rückmeldung</strong>
     </>
   );
 }
