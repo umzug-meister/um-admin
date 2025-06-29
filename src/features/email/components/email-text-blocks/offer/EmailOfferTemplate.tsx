@@ -34,16 +34,14 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
         <strong>
           Unser Kostenvoranschlag ist bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())} gültig.
         </strong>
-        <br />
-        Im Anhang finden Sie den Auftrag.
+        &nbsp;Im Anhang finden Sie den Auftrag.
       </p>
       <p>
         <strong>
           ❗️ Sollten Sie unser Angebot annehmen und die Durchführung des Umzugs beauftragen wollen, bitten wir Sie um
           eine kurze Bestätigung per E-Mail.
         </strong>
-        <br />
-        Das Unterschreiben des Auftrages ist hierfür nicht erforderlich.
+        &nbsp;Das Unterschreiben des Auftrages ist hierfür nicht erforderlich.
       </p>
 
       {rootOrder && <h2 style={{ color: '#333' }}>1. Option</h2>}
