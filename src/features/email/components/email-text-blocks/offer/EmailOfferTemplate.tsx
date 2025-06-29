@@ -60,12 +60,6 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <Dotted>Be- und Entladen des LKWs</Dotted>
       <Dotted>Spanngurte, Dieselkosten sowie ausreichend Schutzdecken</Dotted>
       <Dotted>Ordentliche Rechnungsstellung</Dotted>
-      <br />
-      <p>
-        Unser Kostenvoranschlag gilt bis zum {addDays(new Date(), 3).toLocaleDateString()}. <br />
-        Im Anhang finden Sie den Auftrag. <strong>Wir bitten um Ihre Rückmeldung</strong> (Rückbestätigung per E-Mail
-        ohne Unterschrift).
-      </p>
     </>
   );
 }
