@@ -28,6 +28,24 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
         &nbsp;und freuen uns, Ihnen folgende Konditionen anbieten zu können.&nbsp;
       </p>
       {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
+
+      <h3>👉 Wir freuen uns auf Ihre Rückmeldung</h3>
+      <p>
+        <strong>
+          Unser Kostenvoranschlag ist bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())} gültig.
+        </strong>
+        <br />
+        Im Anhang finden Sie den Auftrag.
+      </p>
+      <p>
+        <strong>
+          ❗️ Sollten Sie unser Angebot annehmen und die Durchführung des Umzugs beauftragen wollen, bitten wir Sie um
+          eine kurze Bestätigung per E-Mail.
+        </strong>
+        <br />
+        Das Unterschreiben des Auftrages ist hierfür nicht erforderlich.
+      </p>
+
       {rootOrder && <h2 style={{ color: '#333' }}>1. Option</h2>}
       <EmailOfferOptions order={order} />
       {rootOrder && (
@@ -36,7 +54,6 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
           <h2 style={{ color: '#333' }}>2. Option</h2> <EmailOfferOptions order={rootOrder} />
         </>
       )}
-      <br />
       <h3>Alle unseren Kostenvoranschläge beinhalten</h3>
       <Dotted>Anfahrt / Lastfahrtkosten</Dotted>
       {hasMontage && <Dotted>Möbelabbau und Aufbau</Dotted>}
