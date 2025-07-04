@@ -272,7 +272,7 @@ function transposeMatrix(matrix: string[][]): string[][] {
 
   const rows = matrix.length;
   const cols = matrix[0].length;
-  let transposed = new Array(cols).fill(null).map(() => new Array(rows));
+  const transposed = new Array(cols).fill(null).map(() => new Array(rows));
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {

@@ -1,7 +1,7 @@
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useOption } from '../../hooks/useOption';
@@ -15,12 +15,34 @@ import { clearCountry } from '@umzug-meister/um-core/utils';
 
 const distanceInKm = (distance = 0) => Number(distance / 1000).toFixed(0);
 
+async function initDistanceMatrixService(gapiKey: string | null): Promise<null | google.maps.DistanceMatrixService> {
+  if (!gapiKey) {
+    console.error('Google Maps API key is not set.');
+    return null;
+  }
+
+  const loader = new Loader({
+    apiKey: gapiKey,
+    language: 'de',
+  });
+
+  return loader
+    .importLibrary('routes')
+    .then((google) => {
+      return new google.DistanceMatrixService();
+    })
+    .catch((error) => {
+      console.log(error);
+      return null;
+    });
+}
+
 export default function Distance() {
   const origin = useOption('origin');
 
   const [response, setResponse] = useState<google.maps.DistanceMatrixResponse | null>();
 
-  const loaderRef = useRef<Loader | null>(null);
+  const serviceRef = useRef<google.maps.DistanceMatrixService | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -37,42 +59,42 @@ export default function Distance() {
   const destinations = [from, secondaryFrom, to, secondaryTo, origin].filter((s) => s !== undefined);
 
   useEffect(() => {
-    if (loaderRef.current == null) {
-      loaderRef.current = new Loader({
-        apiKey: gapiKey,
-        language: 'de',
+    if (serviceRef.current == null) {
+      initDistanceMatrixService(gapiKey).then((service) => {
+        if (!service) {
+          console.error('Google Maps Distance Matrix Service could not be initialized.');
+          return;
+        }
+        serviceRef.current = service;
       });
     }
-    loaderRef.current
-      .importLibrary('routes')
-      .then((google) => {
-        const service = new google.DistanceMatrixService();
-        if (from && to) {
-          service.getDistanceMatrix(
-            {
-              travelMode: google.TravelMode.DRIVING,
-              origins,
-              destinations,
-            },
-            setResponse,
-          );
-        }
-      })
-      .catch(console.log);
   }, [gapiKey, origin, from, to, secondaryFrom, secondaryTo]);
 
-  const sumInMeter = response?.rows.reduce(
+  const totalDistanceInMeters = response?.rows.reduce(
     (result, row, index) => result + (row.elements[index]?.distance?.value || 0),
     0,
   );
 
-  const sum = distanceInKm(sumInMeter);
+  const distance = distanceInKm(totalDistanceInMeters);
+
+  const calculateDistance = useCallback(() => {
+    if (origins.length > 0 && destinations.length > 0 && serviceRef.current) {
+      serviceRef.current?.getDistanceMatrix(
+        {
+          travelMode: google.maps.TravelMode.DRIVING,
+          origins,
+          destinations,
+        },
+        setResponse,
+      );
+    }
+  }, [destinations, origins]);
 
   useEffect(() => {
-    if (String(order?.distance) !== sum && sum !== '0') {
-      dispatch(updateOrderProps({ path: ['distance'], value: sum }));
+    if (String(order?.distance) !== distance && distance !== '0') {
+      dispatch(updateOrderProps({ path: ['distance'], value: distance }));
     }
-  }, [dispatch, sum, order?.distance]);
+  }, [dispatch, distance, order?.distance]);
 
   if (!gapiKey) {
     return null;
@@ -81,21 +103,28 @@ export default function Distance() {
   return (
     <AppCard title="Fahrstrecke">
       <Stack spacing={4} direction={'row'} alignItems={'center'}>
-        {[origin, ...destinations].map((address, index) => {
-          let responseElement = undefined;
+        {response ? (
+          [origin, ...destinations].map((address, index) => {
+            let responseElement = undefined;
 
-          if (index < destinations.length) responseElement = response?.rows[index]?.elements[index];
+            if (index < destinations.length) responseElement = response?.rows[index]?.elements[index];
 
-          return (
-            <Fragment key={`${address}-${index}`}>
-              <Place address={address} />
-              {responseElement && <Connector {...responseElement} />}
-            </Fragment>
-          );
-        })}
+            return (
+              <Fragment key={`${address}-${index}`}>
+                <Place address={address} />
+                {responseElement && <Connector {...responseElement} />}
+              </Fragment>
+            );
+          })
+        ) : (
+          <Button variant="contained" onClick={calculateDistance}>
+            Strecke anzeigen
+          </Button>
+        )}
+
         <Stack paddingLeft={4} direction="row" spacing={1} alignItems="center">
           <Typography variant="h5" color="primary">
-            Gesamt: {sum} km
+            Gesamt: {order?.distance} km
           </Typography>
         </Stack>
       </Stack>
