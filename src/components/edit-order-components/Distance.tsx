@@ -38,7 +38,10 @@ function shouldRecalculate(
   const currentOrigins = [...response.originAddresses].map((address) => clearCountry(address));
   const currentDestinations = [...response.destinationAddresses].map((address) => clearCountry(address));
 
-  return !isEqual(currentOrigins, origins) || !isEqual(currentDestinations, destinations);
+  const originsEqual = isEqual(currentOrigins, origins);
+  const destinationsEqual = isEqual(currentDestinations, destinations);
+
+  return !originsEqual || !destinationsEqual;
 }
 
 export default function Distance({ response, setResponse }: Readonly<DistanceProps>) {
@@ -63,8 +66,7 @@ export default function Distance({ response, setResponse }: Readonly<DistancePro
   const _shouldRecalculate = shouldRecalculate(response, origins, destinations);
 
   useEffect(() => {
-    if (_shouldRecalculate) return;
-    console.log('Recalculating distance');
+    if (!_shouldRecalculate) return;
     if (loaderRef.current == null) {
       loaderRef.current = new Loader({
         apiKey: gapiKey,
@@ -75,6 +77,7 @@ export default function Distance({ response, setResponse }: Readonly<DistancePro
       .importLibrary('routes')
       .then((google) => {
         const service = new google.DistanceMatrixService();
+        console.log('Recalculating distance');
 
         service.getDistanceMatrix(
           {
