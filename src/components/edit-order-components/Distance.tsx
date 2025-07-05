@@ -12,13 +12,37 @@ import { AppCard } from '../shared/AppCard';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Order } from '@umzug-meister/um-core';
 import { clearCountry } from '@umzug-meister/um-core/utils';
+import { isEqual } from 'lodash';
 
 const distanceInKm = (distance = 0) => Number(distance / 1000).toFixed(0);
 
-export default function Distance() {
-  const origin = useOption('origin');
+interface DistanceProps {
+  response: google.maps.DistanceMatrixResponse | null;
+  setResponse: (response: google.maps.DistanceMatrixResponse | null) => void;
+}
 
-  const [response, setResponse] = useState<google.maps.DistanceMatrixResponse | null>();
+function isAddress(s: string | undefined | null) {
+  if (typeof s == 'string' && s.length > 0) {
+    return true;
+  }
+  return false;
+}
+
+function shouldRecalculate(
+  response: google.maps.DistanceMatrixResponse | null,
+  origins: string[],
+  destinations: string[],
+): boolean {
+  if (response == null) return true;
+
+  const currentOrigins = [...response.originAddresses].map((address) => clearCountry(address));
+  const currentDestinations = [...response.destinationAddresses].map((address) => clearCountry(address));
+
+  return !isEqual(currentOrigins, origins) || !isEqual(currentDestinations, destinations);
+}
+
+export default function Distance({ response, setResponse }: Readonly<DistanceProps>) {
+  const origin = useOption('origin');
 
   const loaderRef = useRef<Loader | null>(null);
 
@@ -33,10 +57,14 @@ export default function Distance() {
   const secondaryFrom = order?.secondaryFrom?.address;
   const secondaryTo = order?.secondaryTo?.address;
 
-  const origins = [origin, from, secondaryFrom, to, secondaryTo].filter((s) => s !== undefined);
-  const destinations = [from, secondaryFrom, to, secondaryTo, origin].filter((s) => s !== undefined);
+  const origins = [origin, from, secondaryFrom, to, secondaryTo].filter(isAddress) as string[];
+  const destinations = [from, secondaryFrom, to, secondaryTo, origin].filter(isAddress) as string[];
+
+  const _shouldRecalculate = shouldRecalculate(response, origins, destinations);
 
   useEffect(() => {
+    if (_shouldRecalculate) return;
+    console.log('Recalculating distance');
     if (loaderRef.current == null) {
       loaderRef.current = new Loader({
         apiKey: gapiKey,
@@ -47,19 +75,18 @@ export default function Distance() {
       .importLibrary('routes')
       .then((google) => {
         const service = new google.DistanceMatrixService();
-        if (from && to) {
-          service.getDistanceMatrix(
-            {
-              travelMode: google.TravelMode.DRIVING,
-              origins,
-              destinations,
-            },
-            setResponse,
-          );
-        }
+
+        service.getDistanceMatrix(
+          {
+            travelMode: google.TravelMode.DRIVING,
+            origins,
+            destinations,
+          },
+          setResponse,
+        );
       })
       .catch(console.log);
-  }, [gapiKey, origin, from, to, secondaryFrom, secondaryTo]);
+  }, [gapiKey, origin, from, to, secondaryFrom, secondaryTo, _shouldRecalculate]);
 
   const sumInMeter = response?.rows.reduce(
     (result, row, index) => result + (row.elements[index]?.distance?.value || 0),

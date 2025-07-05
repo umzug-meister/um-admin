@@ -30,6 +30,7 @@ export default function Edit() {
   const order = useLoadOrder();
 
   const [value, setValue] = useState(0);
+  const [response, setResponse] = useState<google.maps.DistanceMatrixResponse | null>(null);
 
   useUpdateCounter();
   useSetDocumentTitle(order?.id);
@@ -74,7 +75,7 @@ export default function Edit() {
       <TabPanel index={1} value={value}>
         <AppGridContainer>
           <Grid2 size={12}>
-            <Distance />
+            <Distance response={response} setResponse={setResponse} />
           </Grid2>
           <Grid2 size={12}>
             <Addresses />
