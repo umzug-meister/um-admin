@@ -68,4 +68,4 @@ jobs:
 
       - name: Print Version
         run: |
-          echo "New Version: $(node -p "require('./package.json').version")"
+          echo "New Version: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
