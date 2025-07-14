@@ -1,0 +1,26 @@
+name: Echo Package Version
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  echo-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Read package.json version
+        id: read-version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Echo version
+        run: echo "The current package version is $PACKAGE_VERSION"
