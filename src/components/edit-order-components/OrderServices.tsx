@@ -8,7 +8,6 @@ export default function OrderServices() {
   return (
     <Grid2 size={{ xs: 12, md: 6 }}>
       <AppCard title="Leistungen">
-        <OrderField label="Bohrarbeiten erwünscht?" as="checkbox" path="bohrarbeiten" />
         <AbstractOrderService tag="Bohrarbeiten" />
       </AppCard>
     </Grid2>

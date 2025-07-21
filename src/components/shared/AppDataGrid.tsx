@@ -123,6 +123,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => {
   return {
     '& .bold': {
       fontWeight: 'bold',
+      color: theme.palette.info.main,
     },
     '.MuiDataGrid-container--top [role=row]': {
       background: theme.palette.background.paper,
