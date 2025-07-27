@@ -125,7 +125,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
 
-          <Button startIcon={<SendOutlinedIcon />} variant="contained" onClick={() => setOpen(true)}>
+          <Button disabled startIcon={<SendOutlinedIcon />} variant="contained" onClick={() => setOpen(true)}>
             Rechnung versenden
           </Button>
 

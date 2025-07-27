@@ -104,7 +104,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
       >
         <MenuList>
           <MenuItemWithIcon
-            disabled={disabled}
+            disabled={true}
             text="Angebot versenden"
             onClick={() => {
               closeMenu();
@@ -116,7 +116,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
           <EmailTextAction handleClose={closeMenu} />
           {allowOpiniated && rootOrder ? (
             <MenuItemWithIcon
-              disabled={disabled}
+              disabled={true}
               text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
               onClick={() => {
                 closeMenu();
