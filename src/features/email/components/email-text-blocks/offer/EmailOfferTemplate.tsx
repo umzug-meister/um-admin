@@ -32,7 +32,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       <h3>👉 Wir freuen uns auf Ihre Rückmeldung</h3>
       <p>
         <strong>
-          Unser Kostenvoranschlag ist bis zum {getPrintableDate(addDays(new Date(), 3).toDateString())} gültig.
+          Unser Kostenvoranschlag ist bis zum {getPrintableDate(addDays(new Date(), 1).toDateString())} gültig.
         </strong>
         &nbsp;Im Anhang finden Sie den Auftrag.
       </p>
