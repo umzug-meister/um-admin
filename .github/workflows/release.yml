@@ -50,7 +50,7 @@ jobs:
           echo "@xxxxx=https://npm.pkg.github.com/" >> .npmrc
 
       - name: Install modules
-        run: npm ci
+        run: npm install
 
       - name: Ingest package version
         uses: nyaa8/package-version@v1
