@@ -121,7 +121,9 @@ export default function OrderField<T>({
     if (typeof value === 'string') {
       let next = value.trim();
       if (capitalize) {
-        if (next.toLocaleLowerCase().startsWith('von')) return;
+        if (next.split(' ').length > 1) {
+          return;
+        }
         next = capitalizeFn(next);
       }
       handleChange(next);
