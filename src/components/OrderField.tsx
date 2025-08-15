@@ -121,7 +121,7 @@ export default function OrderField<T>({
     if (typeof value === 'string') {
       let next = value.trim();
       if (capitalize) {
-        if (next.split(' ').length > 1) {
+        if (next.includes(' ') || next.includes('-')) {
           return;
         }
         next = capitalizeFn(next);
