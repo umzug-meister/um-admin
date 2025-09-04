@@ -25,6 +25,7 @@ const servicesolumns: GridColDef[] = [
   { field: 'id', headerName: 'ID' },
   { field: 'name', headerName: 'Name', editable: true, flex: 1 },
   { field: 'price', headerName: 'Preis', editable: true, type: 'number' },
+  { field: 'sort', headerName: 'Sortierung', editable: true, type: 'number' },
   {
     field: 'show',
     headerName: 'In der Form anzeigen',
@@ -35,6 +36,7 @@ const servicesolumns: GridColDef[] = [
 
 export default function Services() {
   const packings = useAppServices<AppPacking>(TAG);
+  const sortedPackings = packings.toSorted((a, b) => (a.sort || 0) - (b.sort || 0));
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -59,7 +61,7 @@ export default function Services() {
           <AddService service={{ tag: TAG }} />
           <AppDataGrid
             columns={servicesolumns}
-            data={packings}
+            data={sortedPackings}
             paginationMode="client"
             disablePagination
             allowDeletion

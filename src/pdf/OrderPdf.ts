@@ -6,7 +6,7 @@ import PdfBuilder from './PdfBuilder';
 import { orderFileName } from './filename';
 import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
-import { Address, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
+import { Address, AppServiceTag, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
 import { Color } from 'jspdf-autotable';
 
 interface Payload {
@@ -17,8 +17,9 @@ interface Payload {
 }
 
 const PRICE = 'Preis, inkl. MwSt';
-const CELL_WIDTH_0 = 80;
-const CELL_WIDTH_1 = 100;
+const CELL_WIDTH_60 = 60;
+const CELL_WIDTH_80 = 80;
+const CELL_WIDTH_100 = 100;
 
 export function generateUrzPdf(p: Payload) {
   const { options, order, services } = p;
@@ -44,9 +45,8 @@ export function generateUrzPdf(p: Payload) {
   addPageTextFirstPage(pdfBuilder);
   addTopPageTextSecondPage(pdfBuilder);
 
-  addServices(pdfBuilder, order, services);
-
-  addVerpackung(pdfBuilder, order, services);
+  addServiceTable(pdfBuilder, order, services, 'Bohrarbeiten', 'Leistungen');
+  addServiceTable(pdfBuilder, order, services, 'Packmaterial', 'Verpackung (wird nach Verbrauch berechnet)');
 
   addSecondPageEnd(pdfBuilder);
 
@@ -125,7 +125,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       head: null,
       body: [['Firma', `${order.customer.company}`]],
       columnStyles: {
-        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
       },
     });
   }
@@ -141,7 +141,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       ],
     ],
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
     },
   });
 
@@ -175,7 +175,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
     head: null,
     body: [['Umzugstermin', `${dateTimeFormat.format(date)} um ${order.time || ''}`, mark]],
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
       2: { fontStyle: 'bold' },
     },
   });
@@ -187,8 +187,8 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       head: null,
       body: [['Volumen', `${numberValue(order.volume)} m³`, `max Abweichung des Volumens: 10%`]],
       columnStyles: {
-        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_0 },
-        1: { cellWidth: CELL_WIDTH_1 },
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
+        1: { cellWidth: CELL_WIDTH_100 },
         2: { fontStyle: 'bold', textColor: SECONDARY as Color },
       },
     });
@@ -374,9 +374,9 @@ const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
     head,
     body,
     columnStyles: {
-      1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
+      1: { cellWidth: CELL_WIDTH_80, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_80, halign: 'right' },
+      3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
     },
   });
 };
@@ -501,42 +501,18 @@ function getPrice(serv: OrderService, order: Order): string {
   return orderServices.find((s) => Number(s.id) === Number(servId))?.price || serv.price;
 }
 
-const addVerpackung = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[]) => {
-  pdfBuilder.addBlackHeader('Verpackung (wird nach Verbrauch berechnet)');
-
-  const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
-
-  const body = serv
-    .filter((s) => s.tag === 'Packmaterial')
-    .map((s) => {
-      const colli = getColli(s, order);
-
-      const price = getPrice(s, order);
-      let sum = '';
-      if (colli !== '') {
-        sum = euroValue(Number(price) * Number(colli));
-      }
-
-      return [s.name, euroValue(price), numberValue(colli), sum];
-    });
-
-  pdfBuilder.addTable({
-    head,
-    body,
-    columnStyles: {
-      1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-    },
-  });
-};
-
-const addServices = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[]) => {
-  pdfBuilder.addBlackHeader('Leistungen');
+const addServiceTable = (
+  pdfBuilder: PdfBuilder,
+  order: Order,
+  serv: OrderService[],
+  tag: AppServiceTag,
+  header: string,
+) => {
+  pdfBuilder.addBlackHeader(header);
 
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
   const body = (serv || [])
-    .filter((s) => s.tag === 'Bohrarbeiten')
+    .filter((s) => s.tag === tag)
     .map((s) => {
       const colli = getColli(s, order);
       const price = getPrice(s, order);
@@ -544,7 +520,6 @@ const addServices = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[])
       if (colli !== '') {
         sum = euroValue(Number(price) * Number(colli));
       }
-
       return [s.name, euroValue(price), numberValue(colli), sum];
     });
 
@@ -552,9 +527,9 @@ const addServices = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[])
     head,
     body,
     columnStyles: {
-      1: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_0, halign: 'right' },
-      3: { cellWidth: CELL_WIDTH_0, halign: 'right' },
+      1: { cellWidth: CELL_WIDTH_60, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_60, halign: 'right' },
+      3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
     },
   });
 };
