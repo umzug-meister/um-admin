@@ -17,6 +17,7 @@ interface Payload {
 }
 
 const PRICE = 'Preis, inkl. MwSt';
+const CELL_WIDTH_50 = 50;
 const CELL_WIDTH_60 = 60;
 const CELL_WIDTH_80 = 80;
 const CELL_WIDTH_100 = 100;
@@ -506,7 +507,7 @@ const prepareServicesForPrint = (services: OrderService[], tag: AppServiceTag): 
 const addServiceTable = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[], header: string) => {
   pdfBuilder.addBlackHeader(header);
 
-  const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
+  const head = [['Artikel', 'E-Preis', 'Menge', PRICE]];
   const body = serv.map((s) => {
     const colli = getColli(s, order);
     const price = getPrice(s, order);
@@ -521,8 +522,8 @@ const addServiceTable = (pdfBuilder: PdfBuilder, order: Order, serv: OrderServic
     head,
     body,
     columnStyles: {
-      1: { cellWidth: CELL_WIDTH_60, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_60, halign: 'right' },
+      1: { cellWidth: CELL_WIDTH_50, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_50, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
     },
   });
