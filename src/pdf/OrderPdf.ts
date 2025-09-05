@@ -17,10 +17,11 @@ interface Payload {
 }
 
 const PRICE = 'Preis, inkl. MwSt';
-const CELL_WIDTH_40 = 40;
-const CELL_WIDTH_50 = 50;
-const CELL_WIDTH_80 = 80;
-const CELL_WIDTH_100 = 100;
+
+const CELL_WIDTH_XS = 40;
+const CELL_WIDTH_S = 45;
+const CELL_WIDTH_M = 75;
+const CELL_WIDTH_L = 100;
 
 export function generateUrzPdf(p: Payload) {
   const { options, order, services } = p;
@@ -129,7 +130,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       head: null,
       body: [['Firma', `${order.customer.company}`]],
       columnStyles: {
-        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_M },
       },
     });
   }
@@ -145,7 +146,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       ],
     ],
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_M },
     },
   });
 
@@ -179,7 +180,7 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
     head: null,
     body: [['Umzugstermin', `${dateTimeFormat.format(date)} um ${order.time || ''}`, mark]],
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
+      0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_M },
       2: { fontStyle: 'bold' },
     },
   });
@@ -191,8 +192,8 @@ const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
       head: null,
       body: [['Volumen', `${numberValue(order.volume)} m³`, `max Abweichung des Volumens: 10%`]],
       columnStyles: {
-        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_80 },
-        1: { cellWidth: CELL_WIDTH_100 },
+        0: { fontStyle: 'bold', cellWidth: CELL_WIDTH_M },
+        1: { cellWidth: CELL_WIDTH_L },
         2: { fontStyle: 'bold', textColor: SECONDARY as Color },
       },
     });
@@ -378,9 +379,9 @@ const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
     head,
     body,
     columnStyles: {
-      1: { cellWidth: CELL_WIDTH_80, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_80, halign: 'right' },
-      3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
+      1: { cellWidth: CELL_WIDTH_M, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_M, halign: 'right' },
+      3: { cellWidth: CELL_WIDTH_M, halign: 'right' },
     },
   });
 };
@@ -522,20 +523,21 @@ const addServiceTable = (pdfBuilder: PdfBuilder, order: Order, serv: OrderServic
     head,
     body,
     columnStyles: {
-      1: { cellWidth: CELL_WIDTH_50, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_40, halign: 'right' },
-      3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
+      1: { cellWidth: CELL_WIDTH_S, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_XS, halign: 'right' },
+      3: { cellWidth: CELL_WIDTH_M, halign: 'right' },
     },
   });
 };
 
 const addSecondPageEnd = (pdfBuilder: PdfBuilder) => {
   pdfBuilder.resetText();
+
+  pdfBuilder.setBold();
   pdfBuilder.addText(
     'Nach der Besichtigung wurden Mängel festgestellt: [ ] keine   [ ] Wände   [ ] Möbel   [ ] Fußböden',
   );
 
-  pdfBuilder.setBold();
   pdfBuilder.addText('Auszugsadresse');
   pdfBuilder.resetText();
   pdfBuilder.setColor(PRIMARY[0], PRIMARY[1], PRIMARY[2]);
