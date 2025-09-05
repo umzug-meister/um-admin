@@ -467,18 +467,13 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
 
 const addTopPageTextSecondPage = (pdfBuilder: PdfBuilder) => {
   const textBlocks = [
-    'Die Anzahl der Ladehelfer und die Arbeitsdauer in Stunden werden basierend auf den ' +
-      'von Auftraggeber*innen im Online-Formular "Umzugsanfrage/Umzugsgutliste"bereitgestellten Daten berechnet. ' +
-      'Diese Daten umfassen den Trageweg, die Zimmeranzahl, das Stockwerk und das Umzugsgutvolumen (in Kubikmetern).',
+    'Die Anzahl der benötigten Ladehelfer sowie die voraussichtliche Arbeitsdauer werden auf Basis der Angaben im Online-Formular „Umzugsanfrage/Umzugsgutliste“ berechnet. Insbesondere werden Trageweg, Zimmeranzahl, Stockwerk und Umzugsvolumen berücksichtigt',
 
-    'Wenn kein Formular ausgefüllt wird, erfolgt die Berechnung gemäß der aktuellen Preisliste und Bestimmungen der AGB, insbesondere den §§ "Erweiterungen des Leistungsumfangs"',
+    'Liegt kein Formular vor, erfolgt die Berechnung gemäß der aktuellen Preisliste und den Allgemeinen Geschäftsbedingungen (AGB), insbesondere den Regelungen zu „Erweiterungen des Leistungsumfangs“',
 
-    'Aufgrund der körperlichen Belastung sind je Stunde 5 Minuten Pause vorgesehen. ' +
-      'Die Pausenzeit ist bereits im Angebot berücksichtigt und wird nicht von der empfohlenen Gesamtdauer abgezogen.',
+    'Aufgrund der körperlichen Belastung sind pro Arbeitsstunde 5 Minuten Pause vorgesehen. Diese Pausen sind bereits im Angebot enthalten',
 
-    'Wenn die Firma Umzug Ruck nicht ausreichend detaillierte schriftliche Informationen zum Umzug erhält, ' +
-      'behält sich das Unternehmen das Recht vor, den Auftrag oder die Möbelliste um Positionen wie beispielsweise ' +
-      '"Volumen in Kubikmetern", "Schwertransport", "Trageweg" oder "Transport von sperrigen Gegenständen" zu erweitern.',
+    'Sollten keine ausreichenden schriftlichen Informationen zum Umzug vorliegen, behält sich Umzug Ruck das Recht vor, den Auftrag bzw. die Möbelliste um relevante Positionen wie Volumen (m³), Schwertransport etc. zu ergänzen und den Preis entsprechnend der Preisliste anzupassen',
   ];
 
   pdfBuilder.resetText();
