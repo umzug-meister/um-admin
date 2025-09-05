@@ -17,6 +17,7 @@ interface Payload {
 }
 
 const PRICE = 'Preis, inkl. MwSt';
+const CELL_WIDTH_40 = 40;
 const CELL_WIDTH_50 = 50;
 const CELL_WIDTH_80 = 80;
 const CELL_WIDTH_100 = 100;
@@ -522,7 +523,7 @@ const addServiceTable = (pdfBuilder: PdfBuilder, order: Order, serv: OrderServic
     body,
     columnStyles: {
       1: { cellWidth: CELL_WIDTH_50, halign: 'right' },
-      2: { cellWidth: CELL_WIDTH_50, halign: 'right' },
+      2: { cellWidth: CELL_WIDTH_40, halign: 'right' },
       3: { cellWidth: CELL_WIDTH_80, halign: 'right' },
     },
   });
