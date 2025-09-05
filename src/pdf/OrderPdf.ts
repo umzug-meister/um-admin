@@ -45,8 +45,11 @@ export function generateUrzPdf(p: Payload) {
   addPageTextFirstPage(pdfBuilder);
   addTopPageTextSecondPage(pdfBuilder);
 
-  addServiceTable(pdfBuilder, order, services, 'Bohrarbeiten', 'Leistungen');
-  addServiceTable(pdfBuilder, order, services, 'Packmaterial', 'Verpackung (wird nach Verbrauch berechnet)');
+  const bohrarbeiten = prepareServicesForPrint(services, 'Bohrarbeiten');
+  addServiceTable(pdfBuilder, order, bohrarbeiten, 'Leistungen');
+
+  const packmaterial = prepareServicesForPrint(services, 'Packmaterial');
+  addServiceTable(pdfBuilder, order, packmaterial, 'Verpackung (wird nach Verbrauch berechnet)');
 
   addSecondPageEnd(pdfBuilder);
 
@@ -501,27 +504,23 @@ function getPrice(serv: OrderService, order: Order): string {
   return orderServices.find((s) => Number(s.id) === Number(servId))?.price || serv.price;
 }
 
-const addServiceTable = (
-  pdfBuilder: PdfBuilder,
-  order: Order,
-  serv: OrderService[],
-  tag: AppServiceTag,
-  header: string,
-) => {
+const prepareServicesForPrint = (services: OrderService[], tag: AppServiceTag): OrderService[] => {
+  return (services || []).filter((s) => s.tag === tag).toSorted((a, b) => (a.sort || 0) - (b.sort || 0));
+};
+
+const addServiceTable = (pdfBuilder: PdfBuilder, order: Order, serv: OrderService[], header: string) => {
   pdfBuilder.addBlackHeader(header);
 
   const head = [['Artikel', 'Einzelpreis', 'Menge', PRICE]];
-  const body = (serv || [])
-    .filter((s) => s.tag === tag)
-    .map((s) => {
-      const colli = getColli(s, order);
-      const price = getPrice(s, order);
-      let sum = '';
-      if (colli !== '') {
-        sum = euroValue(Number(price) * Number(colli));
-      }
-      return [s.name, euroValue(price), numberValue(colli), sum];
-    });
+  const body = serv.map((s) => {
+    const colli = getColli(s, order);
+    const price = getPrice(s, order);
+    let sum = '';
+    if (colli !== '') {
+      sum = euroValue(Number(price) * Number(colli));
+    }
+    return [s.name, euroValue(price), numberValue(colli), sum];
+  });
 
   pdfBuilder.addTable({
     head,
