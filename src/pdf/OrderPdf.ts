@@ -18,7 +18,6 @@ interface Payload {
 
 const PRICE = 'Preis, inkl. MwSt';
 const CELL_WIDTH_50 = 50;
-const CELL_WIDTH_60 = 60;
 const CELL_WIDTH_80 = 80;
 const CELL_WIDTH_100 = 100;
 
