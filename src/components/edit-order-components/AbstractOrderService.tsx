@@ -1,3 +1,4 @@
+import { Box, Divider, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 import { useDispatch } from 'react-redux';
@@ -16,10 +17,12 @@ interface Props {
 }
 
 export function AbstractOrderService({ tag }: Readonly<Props>) {
-  const services = useAppServices(tag).sort((a: any, b: any) => (a.name as string).localeCompare(b.name));
+  const services = useAppServices<OrderService>(tag).sort((a: any, b: any) => (a.name as string).localeCompare(b.name));
   const order = useCurrentOrder();
-
   const dispatch = useDispatch<AppDispatch>();
+
+  const currentServiceIds = services?.map((s) => s.id) || [];
+  const legacyServices = order?.services?.filter((s) => !currentServiceIds.includes(s.id) && s.tag === tag) || [];
 
   const getPreis = (serv: OrderService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
@@ -63,19 +66,33 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
   ];
 
   return (
-    <AppDataGrid
-      getRowClassName={({ row }) => {
-        const service = row as OrderService;
+    <Box>
+      <AppDataGrid
+        getRowClassName={({ row }) => {
+          const service = row as OrderService;
 
-        if (getColli(service) > 0) {
-          return 'bold';
-        }
-        return '';
-      }}
-      columns={columns}
-      data={services}
-      disablePagination
-      onUpdate={onUpdate}
-    />
+          if (getColli(service) > 0) {
+            return 'bold';
+          }
+          return '';
+        }}
+        columns={columns}
+        data={services}
+        disablePagination
+        onUpdate={onUpdate}
+      />
+      {legacyServices?.length > 0 ? (
+        <>
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="h6" color="primary">
+            Nicht aktuelle Leistungen
+          </Typography>
+          <Typography color="textSecondary" variant="body2">
+            keine Ausgabe auf PDF
+          </Typography>
+          <AppDataGrid columns={columns} data={legacyServices} disablePagination onUpdate={onUpdate} />
+        </>
+      ) : null}
+    </Box>
   );
 }
