@@ -10,7 +10,7 @@ import { updateOrderService } from '../../store/appReducer';
 import { euroValue } from '../../utils/utils';
 import { AppDataGrid } from '../shared/AppDataGrid';
 
-import { AppService, AppServiceTag, OrderService } from '@umzug-meister/um-core';
+import { AppServiceTag, OrderService } from '@umzug-meister/um-core';
 
 interface Props {
   tag: AppServiceTag;
