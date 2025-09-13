@@ -22,7 +22,7 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
   const dispatch = useDispatch<AppDispatch>();
 
   const currentServiceIds = services?.map((s) => s.id) || [];
-  const legacyServices = order?.services?.filter((s) => !currentServiceIds.includes(s.id)).filter((s) => s.tag === tag);
+  const legacyServices = order?.services?.filter((s) => !currentServiceIds.includes(s.id) && s.tag === tag) || [];
 
   const getPreis = (serv: OrderService) => {
     const orderServ = order?.services?.find((s) => s.id === serv.id);
@@ -81,7 +81,7 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
         disablePagination
         onUpdate={onUpdate}
       />
-      {legacyServices?.length && legacyServices.length > 0 ? (
+      {legacyServices?.length > 0 ? (
         <>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h6" color="primary">
@@ -90,7 +90,7 @@ export function AbstractOrderService({ tag }: Readonly<Props>) {
           <Typography color="textSecondary" variant="body2">
             keine Ausgabe auf PDF
           </Typography>
-          <AppDataGrid columns={columns} data={legacyServices || []} disablePagination onUpdate={onUpdate} />
+          <AppDataGrid columns={columns} data={legacyServices} disablePagination onUpdate={onUpdate} />
         </>
       ) : null}
     </Box>
