@@ -168,9 +168,10 @@ export function OrderConditionsChips() {
       createPackingLst(),
       createServicesLst(),
     ];
-    leistungen.forEach((leistung) => {
+
+    for (const leistung of leistungen) {
       dispatch(pushLeistung(leistung));
-    });
+    }
   };
 
   return (
