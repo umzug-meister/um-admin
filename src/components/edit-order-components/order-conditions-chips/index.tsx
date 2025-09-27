@@ -75,8 +75,8 @@ export function OrderConditionsChips() {
     }
 
     if (timeBased?.hours) {
-      const curDesc = `\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`;
-      workerDescriptionList.push(curDesc);
+      const minimumHoursDescription = `\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`;
+      workerDescriptionList.push(minimumHoursDescription);
       if (Number(timeBased.hours) <= 4) {
         workerDescriptionList.push(`\nMaximale Abnahme: ${Number(timeBased.hours) + 1} Stunden`);
         const maxCbm = MAX_CBM_LOOKUP[workersNumber]?.[timeBased.hours];
