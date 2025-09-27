@@ -14,6 +14,17 @@ import { calculateRideCostsByKm } from './orderConditionsChipsCalcFunctions';
 
 import { AppPrice, MLeistung, TimeBasedPrice } from '@umzug-meister/um-core';
 
+const MAX_CBM_LOOKUP = {
+  '2': {
+    '2': '4-6',
+    '3': '6-8',
+    '4': '8-10',
+  },
+  '3': {
+    '4': '10-13',
+  },
+} as any;
+
 export function OrderConditionsChips() {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -57,20 +68,28 @@ export function OrderConditionsChips() {
   const transporterAmount = Number(transporterNumber);
 
   const createWorkerLst = () => {
-    const descArr = [`${workersNumber} Träger`];
+    const workerDescriptionList = [`${workersNumber} Träger`];
 
     if (transporterNumber > 0) {
-      descArr.push(`/ ${transporterNumber} x LKW 3,5t`);
+      workerDescriptionList.push(`/ ${transporterNumber} x LKW 3,5t`);
     }
 
     if (timeBased?.hours) {
-      descArr.push(`\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`);
+      const curDesc = `\nMindestabnahme: ${timeBased.hours} Stunden, jede weitere Stunde: ${timeBased.extra} €/Std`;
+      workerDescriptionList.push(curDesc);
+      if (Number(timeBased.hours) <= 4) {
+        workerDescriptionList.push(`\nMaximale Abnahme: ${Number(timeBased.hours) + 1} Stunden`);
+        const maxCbm = MAX_CBM_LOOKUP[workersNumber]?.[timeBased.hours];
+        if (maxCbm) {
+          workerDescriptionList.push(`\nMaximales Umzugsgutvolumen: ${maxCbm} m³`);
+        }
+      }
     }
 
     const leistung: MLeistung = {
       hidden: true,
       calculate: false,
-      desc: descArr.join(' '),
+      desc: workerDescriptionList.join(' '),
       sum: timeBased.basis,
     };
     return leistung;

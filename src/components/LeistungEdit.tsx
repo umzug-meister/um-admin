@@ -15,9 +15,15 @@ interface Props {
   leistungen: MLeistung[] | undefined;
   update: (leistungen: MLeistung[]) => void;
   suggestServices?: boolean;
+  multiline?: boolean;
 }
 
-export default function LeistungEdit({ leistungen = [], update, suggestServices = false }: Readonly<Props>) {
+export default function LeistungEdit({
+  leistungen = [],
+  update,
+  suggestServices = false,
+  multiline = false,
+}: Readonly<Props>) {
   const services = useAppServices<AppService>('Bohrarbeiten');
   const packings = useAppServices<AppPacking>('Packmaterial');
   const options = [...services, ...packings];
@@ -80,6 +86,7 @@ export default function LeistungEdit({ leistungen = [], update, suggestServices 
       {leistungen.map((lst, index) => {
         return (
           <GridRow
+            multiline={multiline && index === 0}
             key={index}
             lst={lst}
             autocompleteOptions={options}
@@ -115,6 +122,7 @@ interface GridRowProps {
   moveEntry: (offest: number) => void;
   onDelete: () => void;
   onLeistungSelect: (srv: GridRowService) => void;
+  multiline?: boolean;
 }
 
 function GridRow({
@@ -123,6 +131,7 @@ function GridRow({
   autocompleteOptions,
   disableDown,
   disableUp,
+  multiline = false,
   moveEntry,
   onDelete,
   onPropChange,
@@ -154,7 +163,7 @@ function GridRow({
             value={lst.desc || ''}
             inputValue={lst.desc || ''}
             onChange={onOptionChange}
-            onInputChange={(ev, newValue) => {
+            onInputChange={(_, newValue) => {
               //@ts-ignore
               const lst = findLst(newValue);
               if (lst) {
@@ -176,6 +185,8 @@ function GridRow({
           />
         ) : (
           <AppTextField
+            multiline={multiline}
+            maxRows={4}
             error={hasError}
             value={lst.desc}
             onChange={(ev) => onPropChange('desc', ev.target.value)}

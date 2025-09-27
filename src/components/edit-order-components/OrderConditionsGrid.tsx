@@ -31,7 +31,7 @@ export function OrderConditionsGrid() {
   return (
     <Grid2 size={12}>
       <AppCard title="Im Auftrag enthalten">
-        <LeistungEdit leistungen={leistungen} update={update} />
+        <LeistungEdit leistungen={leistungen} update={update} multiline />
       </AppCard>
     </Grid2>
   );
