@@ -1,58 +1,68 @@
+import { useCurrentOrder } from '../../../../../hooks/useCurrentOrder';
 import { euroValue, getOrtFromAdress } from '../../../../../utils/utils';
 import { QuillCell, QuillTable } from '../QuillTableComponents';
 
-import { Order } from '@umzug-meister/um-core';
+import { Address, Order } from '@umzug-meister/um-core';
+
+function generateBaseText(workersNumber: number, transporterNumber?: number) {
+  const pieces = [`${workersNumber} Mann`];
+
+  if (transporterNumber) {
+    pieces.push(`mit ${transporterNumber} x LKW (à 3,5t / 20 m³)`);
+  }
+  return pieces.join(' ');
+}
+
+function generateHoursText(hours: number, from: Address, to: Address) {
+  return `Mindestabnahme ${hours} Stunden (Start: ${getOrtFromAdress(from)}, Ende: ${getOrtFromAdress(to)})`;
+}
 
 export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
   const { workersNumber, transporterNumber, timeBased } = order;
 
-  const arr = [`${workersNumber} Mann`];
-
-  if (transporterNumber) {
-    arr.push(`mit ${transporterNumber} x LKW (à 3,5t / 20 m³)`);
-  }
-
-  const basisText = arr.join(' ');
+  const basisText = generateBaseText(workersNumber, transporterNumber);
 
   return (
     <>
       <h3>👨‍🔧 Personalkosten</h3>
       <QuillTable>
-        {timeBased.hours ? (
-          <TimeBasedWorkerCosts
-            basisText={basisText}
-            hoursText={`Mindestabnahme ${timeBased.hours} Stunden (Start: ${getOrtFromAdress(order.from)}, Ende: ${getOrtFromAdress(order.to)})`}
-            basis={timeBased.basis}
-            extraHoursText={`Jede weitere Stunde: ${euroValue(timeBased.extra)}`}
-          />
-        ) : (
-          <FixWorkerCosts basis={timeBased.basis} basisText={basisText} />
-        )}
+        {timeBased.hours ? <TimeBasedWorkerCosts /> : <FixWorkerCosts basis={timeBased.basis} basisText={basisText} />}
       </QuillTable>
     </>
   );
 }
 
-function TimeBasedWorkerCosts({
-  basisText,
-  basis,
-  hoursText,
-  extraHoursText,
-}: Readonly<{ basis: string | number | undefined; basisText: string; hoursText: string; extraHoursText: string }>) {
+function TimeBasedWorkerCosts() {
+  const order = useCurrentOrder();
+
+  if (!order) return null;
+
+  const { timeBased, workersNumber, transporterNumber } = order;
+  const { basis, hours } = timeBased;
+
+  const hoursAsNumber = Number(hours);
+  if (!timeBased) return null;
+
   return (
     <>
       <tr>
-        <QuillCell fontWeight="bold">{basisText}</QuillCell>
+        <QuillCell fontWeight="bold">{generateBaseText(workersNumber, transporterNumber)}</QuillCell>
         <QuillCell />
       </tr>
       <tr>
-        <QuillCell>{hoursText}</QuillCell>
+        <QuillCell>{generateHoursText(Number(timeBased.hours), order.from, order.to)}</QuillCell>
         <QuillCell textAlign="right">{euroValue(basis)}</QuillCell>
       </tr>
       <tr>
-        <QuillCell>{extraHoursText}</QuillCell>
+        <QuillCell>{`Jede weitere Stunde: ${euroValue(timeBased.extra)}`}</QuillCell>
         <QuillCell />
       </tr>
+      {hoursAsNumber <= 4 && (
+        <tr>
+          <QuillCell>{`Maximale Abnahme: ${hoursAsNumber + 1} Stunden`}</QuillCell>
+          <QuillCell />
+        </tr>
+      )}
     </>
   );
 }
