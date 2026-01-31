@@ -13,7 +13,7 @@ export default function OrderSource() {
   if (!order) return null;
 
   return (
-    <Grid2 size={2}>
+    <Grid2 size={{ xs: 12, sm: 6, md: 2 }}>
       <AppCard title="Auftrag">
         <OrderTimestamp />
         <CopyOfLink />

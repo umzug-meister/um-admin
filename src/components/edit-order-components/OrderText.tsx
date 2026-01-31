@@ -8,7 +8,7 @@ export function OrderText() {
   const order = useCurrentOrder();
 
   return (
-    <Grid2 size={6}>
+    <Grid2 size={{ xs: 12, sm: 6 }}>
       <AppCard title="Notiz">
         <OrderField path="text" multiline />
         <OrderField path="costsAssumption" as="checkbox" label="Kostenübernahme durch Arbeitsamt" />

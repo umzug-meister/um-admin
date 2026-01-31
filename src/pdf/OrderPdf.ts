@@ -119,10 +119,10 @@ const addSignature = (pdfBuilder: PdfBuilder, sign: string): void => {
 
 const addTitle = (pdfBuilder: PdfBuilder, order: Order) => {
   pdfBuilder.setBold();
-  pdfBuilder.addSpace(10);
+  pdfBuilder.addSpace(5);
 
   pdfBuilder.addText(`ANGEBOT / AUFTRAG / ABRECHNUNG - Nr. ${order.id}`, 12, 12, 'center');
-  pdfBuilder.addSpace(5);
+  pdfBuilder.addSpace(3);
 
   //Firma
   if (order?.customer?.company) {
@@ -337,7 +337,7 @@ function addAdresses(pdfBuilder: PdfBuilder, order: Order) {
 }
 
 const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
-  pdfBuilder.addSpace();
+  pdfBuilder.addSpace(5);
   const head = [{ a: 'Konditionen', b: 'Einzelpreis', c: 'Menge', d: PRICE }];
 
   const body = (order.leistungen || []).map((l) => {
@@ -387,7 +387,7 @@ const addConditionen = (pdfBuilder: PdfBuilder, order: Order) => {
 };
 
 const appendPrice = (pdfBuilder: PdfBuilder, order: Order) => {
-  const BEST_Y_POS = 200;
+  const BEST_Y_POS = 195;
   const currentY = pdfBuilder.getY();
 
   if (currentY < BEST_Y_POS) {
@@ -417,7 +417,7 @@ const addPageTextFirstPage = (pdfBuilder: PdfBuilder) => {
   pdfBuilder.addLine();
 
   pdfBuilder.addText(
-    'Hiermit erteile(n) ich(wir) den Auftrag, den Umzug für o.g. abgestimmte Konditionen durchzuführen.',
+    'Hiermit beauftrage ich den Umzug zu den vereinbarten Konditionen und akzeptiere die AGB von Umzug Ruck sowie die Haftungsbedingungen gemäß § 451 HGB.',
     9,
   );
 
@@ -459,7 +459,7 @@ const addPrice = (pdfBuilder: PdfBuilder, order: Order, showTitel = true): void 
       'Bei einer Zeitüberschreitung von bis zu 20 min ist 1/2 Stunde zu bezahlen, ab 20 min wird eine volle Stunde berechnet.',
       9,
       6,
-      'right',
+      'left',
     );
   } else {
     pdfBuilder.addText(`Gesamt: ${euroValue(brutto)}`, 14, 10, 'right');
@@ -652,13 +652,6 @@ const addAGB = (pdfBuilder: PdfBuilder, options: AppOptions): void => {
   pdfBuilder.resetText();
 
   addAgbText(pdfBuilder, options);
-
-  pdfBuilder.addSpace(2);
-
-  pdfBuilder.setBold();
-  pdfBuilder.addText('Ich akzeptiere die allgemeinen Geschäftsbedingungen der Firma Umzug Ruckzuck', 8);
-  pdfBuilder.setNormal();
-  addSignature(pdfBuilder, 'Kundenunterschrift');
 };
 
 const addAgbText = (pdfBuilder: PdfBuilder, options: AppOptions) => {

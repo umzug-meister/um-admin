@@ -17,7 +17,7 @@ export function CustomerWidget() {
 
   const hasEmail = typeof customer?.email !== 'undefined';
   return (
-    <Grid2 size={4}>
+    <Grid2 size={{ xs: 12, sm: 6, md: 4 }}>
       <AppCard title="Kundendaten">
         <OrderField<Customer> path="customer" nestedPath="company" label="Firma" />
         <OrderField<Customer>
