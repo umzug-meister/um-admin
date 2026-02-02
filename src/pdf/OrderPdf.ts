@@ -8,6 +8,7 @@ import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
 import { Address, AppServiceTag, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
 import { Color } from 'jspdf-autotable';
+import { ad } from 'vitest/dist/chunks/reporters.d.BFLkQcL6';
 
 interface Payload {
   order: Order;
@@ -232,14 +233,17 @@ function arrayFormAddress({
   if (!address) {
     return addressArray;
   }
+
   const addressParts = address.split(',');
 
-  if (addressParts[0]) {
-    addressArray.push(addressParts[0].trim()); // strasse
-  }
-
-  if (addressParts[1]) {
-    addressArray.push(addressParts[1].trim()); // plz
+  if (addressParts.length < 2) {
+    addressArray.push(' ');
+    addressArray.push(address.trim());
+  } else {
+    const strasse = addressParts[0]?.trim() || ' ';
+    const plz = (addressParts[1]?.trim() || '').trim();
+    addressArray.push(strasse);
+    addressArray.push(plz);
   }
 
   addressArray.push(movementObject ?? '');
