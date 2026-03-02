@@ -214,21 +214,24 @@ function combineString(arr: string[]) {
   return arr.filter((s) => s).join(SEP);
 }
 
-function arrayFormAddress({
-  address,
-  movementObject,
-  stockwerke,
-  floor,
-  hasBasement,
-  hasGarage,
-  hasLoft,
-  runningDistance,
-  parkingSlot,
-  demontage,
-  montage,
-  packservice,
-  liftType,
-}: Address): string[] {
+function arrayFormAddress(
+  {
+    address,
+    movementObject,
+    stockwerke,
+    floor,
+    hasBasement,
+    hasGarage,
+    hasLoft,
+    runningDistance,
+    parkingSlot,
+    demontage,
+    montage,
+    packservice,
+    liftType,
+  }: Address,
+  type: 'from' | 'to',
+): string[] {
   const addressArray: string[] = [];
   if (!address) {
     return addressArray;
@@ -268,7 +271,7 @@ function arrayFormAddress({
   const allServices = [];
   demontage && allServices.push('Möbelabbau');
   montage && allServices.push('Möbelaufbau');
-  packservice && allServices.push('Einpackservice');
+  packservice && allServices.push(type == 'from' ? 'Einpackservice' : 'Auspackservice');
 
   addressArray.push(combineString(allServices)); // leistungen
 
@@ -297,16 +300,16 @@ function addressesBodyFromOrder(order: Order): string[][] {
   const titles = ['Straße, Nr.', 'PLZ, Ort', 'Auszug/Einzug', 'Etage', 'Lift', 'Trageweg', 'Halteverbot', 'Leistungen'];
   body.push(titles);
 
-  body.push(arrayFormAddress(order.from));
+  body.push(arrayFormAddress(order.from, 'from'));
 
   if (order.showSecondaryFrom && order.secondaryFrom) {
-    body.push(arrayFormAddress(order.secondaryFrom));
+    body.push(arrayFormAddress(order.secondaryFrom, 'from'));
   }
 
-  body.push(arrayFormAddress(order.to));
+  body.push(arrayFormAddress(order.to, 'to'));
 
   if (order.showSecondaryTo && order.secondaryTo) {
-    body.push(arrayFormAddress(order.secondaryTo));
+    body.push(arrayFormAddress(order.secondaryTo, 'to'));
   }
 
   return transposeMatrix(body);
