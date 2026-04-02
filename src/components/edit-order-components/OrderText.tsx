@@ -15,6 +15,9 @@ export function OrderText() {
         {order?.costsAssumption && (
           <Alert severity="info">Für die Kostenübernahme wird meist ein FESTPREIS Angebot benötigt.</Alert>
         )}
+        {order?.visitWanted && (
+          <Alert severity="warning">{`Der Kunde wünscht einen Besichtigungstermin. Bitte mit dem Kunden abstimmen.`}</Alert>
+        )}
       </AppCard>
     </Grid2>
   );
