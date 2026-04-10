@@ -50,22 +50,11 @@ export default function OrderField<T>({
   capitalize,
   checkBoxError,
 }: Readonly<Props<T>>) {
-  const value = useOrderValue(path, nestedPath);
+  const currentValue = useOrderValue(path, nestedPath);
   const dispatch = useDispatch<AppDispatch>();
   const gapiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   const loaderRef = useRef<Loader | null>(null);
-
-  const handleChange = useCallback(
-    (value: any) => {
-      const propPath: string[] = [path];
-      if (nestedPath) {
-        propPath.push(String(nestedPath));
-      }
-      dispatch(updateOrderProps({ path: propPath, value }));
-    },
-    [path, nestedPath, dispatch],
-  );
 
   useEffect(() => {
     if (enableMaps && gapiKey) {
@@ -87,10 +76,19 @@ export default function OrderField<T>({
         });
       });
     }
-  }, [enableMaps, gapiKey, handleChange, id]);
+  }, [enableMaps, gapiKey, id]);
+
+  const handleChange = (value: any) => {
+    if (currentValue == value) return;
+    const propPath: string[] = [path];
+    if (nestedPath) {
+      propPath.push(String(nestedPath));
+    }
+    dispatch(updateOrderProps({ path: propPath, value }));
+  };
 
   if (as === 'date') {
-    return <AppDateField label={label} value={String(value)} onDateChange={handleChange} />;
+    return <AppDateField label={label} value={String(currentValue)} onDateChange={handleChange} />;
   }
 
   const hasCheckBoxError = typeof checkBoxError === 'string';
@@ -103,7 +101,7 @@ export default function OrderField<T>({
             control={
               <Checkbox
                 color={hasCheckBoxError ? 'error' : 'primary'}
-                checked={Boolean(value)}
+                checked={Boolean(currentValue)}
                 onChange={(ev) => {
                   handleChange(ev.target.checked);
                 }}
@@ -118,8 +116,8 @@ export default function OrderField<T>({
   }
 
   const onBlur = () => {
-    if (typeof value === 'string') {
-      let next = value.trim();
+    if (typeof currentValue === 'string') {
+      let next = currentValue.trim();
       if (capitalize) {
         if (next.includes(' ') || next.includes('-')) {
           return;
@@ -138,7 +136,7 @@ export default function OrderField<T>({
       onChange={(ev) => handleChange(ev.target.value)}
       type={type}
       label={label}
-      value={value}
+      value={currentValue}
       onBlur={onBlur}
     >
       {selectOptions?.map((option) => (
