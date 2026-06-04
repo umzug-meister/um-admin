@@ -1,0 +1,80 @@
+name: Deploy UM Admin
+
+on:
+  push:
+    branches:
+      - urz24
+
+jobs:
+  deploy:
+    name: Deploy UM-Admin
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+      contents: write
+    environment:
+      name: UM_PROD
+    env:
+      VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
+      VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}}
+      VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Generate NPMRC
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > .npmrc
+          echo "@xxxxx=https://npm.pkg.github.com/" >> .npmrc
+
+      - name: Install modules
+        run: npm install
+
+      - name: Ingest package version
+        uses: nyaa8/package-version@v1
+
+      - name: Build app
+        run: npm run build
+
+      - name: Remove unnecessary files
+        run: |
+          rm build/index.html
+          rm .npmrc
+
+      - name: Upload app
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          protocol: ftp
+          server: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          password: ${{ secrets.HOSTINGER_PASS }}
+          local-dir: ${{ github.workspace }}/build/
+          server-dir: ${{ vars.HOSTINGER_REMOTE_DIR }}
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Print Version
+        run: |
+          echo "New Version: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY

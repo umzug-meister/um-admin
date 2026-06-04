@@ -5,7 +5,7 @@ import loadVersion from 'vite-plugin-package-version';
 
 export default defineConfig(({ mode }) => {
   return {
-    base: mode === 'development' ? '/' : '/wp-content/plugins/um-configurator/app-dist/rcAdmin/',
+    base: mode === 'development' ? '/' : '/wp-content/plugins/um-configurator/app-dist/konfigurator/',
     server: {
       proxy: {
         '/wp-json': {
