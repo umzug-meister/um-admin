@@ -57,11 +57,6 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Remove unnecessary files
-        run: |
-          rm build/index.html
-          rm .npmrc
-
       - name: Upload app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -71,6 +66,8 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASS }}
           local-dir: ${{ github.workspace }}/build/
           server-dir: ${{ vars.HOSTINGER_REMOTE_DIR }}
+          exclude: |
+            build/index.html
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5

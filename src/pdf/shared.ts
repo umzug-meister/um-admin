@@ -20,7 +20,7 @@ export function addHeader(factory: PdfBuilder) {
       'Alexander Berent',
       'Am Münchfeld 31, 80999 München',
       '089 30642972 | 0176 10171990',
-      'umzugruckzuck@gmail.com',
+      'info@umzugruckzuck24.de',
 
       'Steuernummer: 144/139/21180',
       '',
