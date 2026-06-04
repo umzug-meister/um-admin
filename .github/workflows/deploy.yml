@@ -57,6 +57,10 @@ jobs:
       - name: Build app
         run: npm run build
 
+      - name: Remove unnecessary files
+        run: |
+          rm .npmrc
+
       - name: Upload app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
