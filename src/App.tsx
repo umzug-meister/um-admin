@@ -25,6 +25,7 @@ const EMailText = lazy(() => import('./features/email/routes/EMailText'));
 const Edit = lazy(() => import('./routes/Edit'));
 const Categories = lazy(() => import('./routes/Categories'));
 const OffersEditor = lazy(() => import('./routes/OffersEditor'));
+const Import = lazy(() => import('./routes/Import'));
 
 const AppDiv = styled.div`
   padding: 0;
@@ -153,6 +154,14 @@ function App() {
                 element={
                   <LazyLoad>
                     <FurnitureRoute />
+                  </LazyLoad>
+                }
+              />
+              <Route
+                path="import"
+                element={
+                  <LazyLoad>
+                    <Import />
                   </LazyLoad>
                 }
               />
