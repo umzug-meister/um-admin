@@ -1,5 +1,4 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
@@ -58,12 +57,6 @@ export function SideMenu({ onClose, open }: Readonly<Props>) {
             </Box>
             <DrawerItem onClose={onClose} to="/blanco" primaryText="Neue Rechnung">
               <ReceiptLongOutlinedIcon />
-            </DrawerItem>
-            <Box mt={1} mb={1}>
-              <Divider />
-            </Box>
-            <DrawerItem onClose={onClose} to="/statistics" primaryText="Statistiken">
-              <BarChartOutlinedIcon />
             </DrawerItem>
             <Box mt={1} mb={1}>
               <Divider />

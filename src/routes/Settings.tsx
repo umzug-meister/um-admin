@@ -16,7 +16,6 @@ export default function Settings() {
             <OptionLink to="offers">Angebote</OptionLink>
             <OptionLink to="furniture">Möbel</OptionLink>
             <OptionLink to="categories">Möbel-Kategorien</OptionLink>
-            <OptionLink to="import">Import</OptionLink>
           </Stack>
         </Box>
       </Card>

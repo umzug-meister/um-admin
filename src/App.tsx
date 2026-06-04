@@ -17,7 +17,6 @@ const Blanco = lazy(() => import('./routes/Blanco'));
 const Orders = lazy(() => import('./routes/Orders'));
 const Packings = lazy(() => import('./routes/Packings'));
 const Settings = lazy(() => import('./routes/Settings'));
-const Leads = lazy(() => import('./routes/Leads'));
 const Services = lazy(() => import('./routes/Services'));
 const Options = lazy(() => import('./routes/Options'));
 const FurnitureRoute = lazy(() => import('./routes/FurnitureRoute'));
@@ -25,7 +24,6 @@ const EMailText = lazy(() => import('./features/email/routes/EMailText'));
 const Edit = lazy(() => import('./routes/Edit'));
 const Categories = lazy(() => import('./routes/Categories'));
 const OffersEditor = lazy(() => import('./routes/OffersEditor'));
-const Import = lazy(() => import('./routes/Import'));
 
 const AppDiv = styled.div`
   padding: 0;
@@ -94,14 +92,6 @@ function App() {
               }
             />
             <Route
-              path="statistics"
-              element={
-                <LazyLoad>
-                  <Leads />
-                </LazyLoad>
-              }
-            />
-            <Route
               path="settings"
               element={
                 <LazyLoad>
@@ -154,14 +144,6 @@ function App() {
                 element={
                   <LazyLoad>
                     <FurnitureRoute />
-                  </LazyLoad>
-                }
-              />
-              <Route
-                path="import"
-                element={
-                  <LazyLoad>
-                    <Import />
                   </LazyLoad>
                 }
               />
