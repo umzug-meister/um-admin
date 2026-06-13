@@ -15,7 +15,7 @@ function getVersion() {
 
 export default defineConfig(({ mode }) => {
   return {
-    base: mode === 'development' ? '/' : '/wp-content/plugins/um-configurator/app-dist/konfigurator/',
+    base: process.env.VITE_BASE_PATH || (mode === 'development' ? '/' : '/wp-content/plugins/um-configurator/app-dist/konfigurator/'),
     server: {
       proxy: {
         '/wp-json': {
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      __APP_VERSION__: JSON.stringify(process.env.VITE_APP_VERSION || getVersion()),
+      __APP_VERSION__: JSON.stringify(process.env.VITE_APP_VERSION || (mode === 'development' ? 'dev' : getVersion())),
     },
     plugins: [react()],
   };

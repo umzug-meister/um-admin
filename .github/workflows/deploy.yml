@@ -50,13 +50,17 @@ jobs:
         run: echo "VITE_APP_VERSION=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
 
       - name: Build for Webgo
+        env:
+          VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/rcAdmin/
         run: |
-          npx vite build --config um.vite.config.ts
+          npx vite build
           mv build build-webgo
 
       - name: Build for Hostinger
+        env:
+          VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/konfigurator/
         run: |
-          npx vite build --config vite.config.ts
+          npx vite build
           mv build build-hostinger
 
       - name: Upload Webgo artifact
