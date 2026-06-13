@@ -1,4 +1,4 @@
-name: Deploy Webgo
+name: Deploy Hostinger
 
 on:
   push:
@@ -59,18 +59,19 @@ jobs:
 
       - name: Remove unnecessary files
         run: |
-          rm build/index.html
           rm .npmrc
 
       - name: Upload app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           protocol: ftp
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
+          server: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          password: ${{ secrets.HOSTINGER_PASS }}
           local-dir: ${{ github.workspace }}/build/
-          server-dir: ${{ vars.REMOTE_DIR }}
+          server-dir: ${{ vars.HOSTINGER_REMOTE_DIR }}
+          exclude: |
+            build/index.html
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5

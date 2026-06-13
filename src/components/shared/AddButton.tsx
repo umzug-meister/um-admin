@@ -1,12 +1,10 @@
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { Box, Button, ButtonProps } from '@mui/material';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import { IconButton, IconButtonProps } from '@mui/material';
 
-export default function AddButton(props: ButtonProps) {
+export default function AddButton(props: IconButtonProps) {
   return (
-    <Box display={'flex'} flexGrow={1}>
-      <Button variant="contained" {...props}>
-        <AddOutlinedIcon />
-      </Button>
-    </Box>
+    <IconButton color="primary" {...props}>
+      <AddCircleOutlineOutlinedIcon />
+    </IconButton>
   );
 }

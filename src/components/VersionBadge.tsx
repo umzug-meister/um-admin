@@ -1,21 +1,30 @@
-import { Avatar, Box, Card, Typography } from '@mui/material';
-
-import logoUrl from '../assets/logo.png';
+import DisplaySettingsOutlinedIcon from '@mui/icons-material/DisplaySettingsOutlined';
+import { Box, Card, Divider, Typography, useTheme } from '@mui/material';
 
 export function VersionBadge() {
+  const theme = useTheme();
   return (
     <Card
       elevation={3}
       sx={{
         color: '#fff',
-        background: '#42a5f5',
+        background: theme.palette.primary.main,
         borderRadius: '8px',
       }}
     >
       <Box p={2} pb={1} display="flex" flexDirection="column" alignItems="center" gap={2}>
-        <Avatar variant="square" sx={{ width: 100, height: 105 }} alt="logo" src={logoUrl} />
-        <Box display="flex" justifyContent="center">
-          <Typography data-hj-allow variant="subtitle2">
+        <Box display="flex" justifyContent="center" flexDirection={'column'}>
+          <Box display={'flex'} justifyContent="center">
+            <DisplaySettingsOutlinedIcon fontSize="large" />
+          </Box>
+          <Typography variant="h5" textAlign={'center'}>
+            Konfigurator
+          </Typography>
+          <Typography variant="subtitle2" textAlign={'center'}>
+            UmzugRuckzuck24
+          </Typography>
+          <Divider sx={{ my: 1, backgroundColor: 'white' }} />
+          <Typography variant="subtitle2" textAlign={'center'}>
             Version: {import.meta.env.PACKAGE_VERSION}
           </Typography>
         </Box>
