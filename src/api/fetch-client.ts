@@ -8,10 +8,8 @@ export const appRequest = (httpMethod: 'GET' | 'DELETE' | 'PUT' | 'POST') => {
   const handleResponse = async (response: Response) => {
     if (!response.ok) {
       const errorBody = await response.json();
-
       const decoded = errorBody.message.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
-      alert(`Fehler: ${decoded}`);
-      return null;
+      throw new Error(decoded);
     }
     if (response.headers.get('Content-Type')?.includes('application/json')) {
       return response.json();
