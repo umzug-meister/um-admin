@@ -55,7 +55,7 @@ jobs:
         uses: nyaa8/package-version@v1
 
       - name: Build app
-        run: npm run build
+        run: npx vite build --config um.vite.config.ts
 
       - name: Remove unnecessary files
         run: |
