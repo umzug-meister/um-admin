@@ -97,7 +97,7 @@ export function OrderConditionsChips() {
 
   const createDiscountLst = (): MLeistung => {
     return {
-      desc: `Rabatt ${discount} %`,
+      desc: `Rabatt ${discount}%`,
       sum: `-${order.discountValue}`,
       calculate: false,
       red: true,
