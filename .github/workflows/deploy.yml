@@ -57,10 +57,14 @@ jobs:
         uses: nyaa8/package-version@v1
 
       - name: Build for Webgo
-        run: npx vite build --config um.vite.config.ts --outDir build-webgo
+        run: |
+          npx vite build --config um.vite.config.ts
+          mv build build-webgo
 
       - name: Build for Hostinger
-        run: npx vite build --config vite.config.ts --outDir build-hostinger
+        run: |
+          npx vite build --config vite.config.ts
+          mv build build-hostinger
 
       - name: Upload Webgo artifact
         uses: actions/upload-artifact@v4
