@@ -16,7 +16,7 @@ export function EmailServicesTable({ order }: Readonly<Props>) {
   return (
     <>
       <br />
-      <h3><span style={{ fontSize: 14 }}>📦</span> Zusätzliche Kosten</h3>
+      <h3 style={{ color: '#CB7430' }}>Zusätzliche Kosten</h3>
       <QuillTable>
         {relevant.map((lst) => (
           <ServicesTableRow key={`${lst.desc}-${lst.sum}`} desc={lst.desc} price={lst.sum} />

@@ -24,7 +24,7 @@ export function WorkerCosts({ order }: Readonly<{ order: Order }>) {
 
   return (
     <>
-      <h3>👨‍🔧 Personalkosten</h3>
+      <h3 style={{ color: '#CB7430' }}>Personalkosten</h3>
       <QuillTable>
         {timeBased.hours ? <TimeBasedWorkerCosts /> : <FixWorkerCosts basis={timeBased.basis} basisText={basisText} />}
       </QuillTable>
