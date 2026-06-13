@@ -29,7 +29,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       </p>
       {order.volume > 0 && <p>Berechnetes Umzugsvolumen: {numberValue(order.volume)} m³</p>}
 
-      <h3><span style={{ fontSize: '1rem' }}>👉</span> Wir freuen uns auf Ihre Rückmeldung</h3>
+      <h3><span style={{ fontSize: 14 }}>👉</span> Wir freuen uns auf Ihre Rückmeldung</h3>
       <p>
         <strong>
           Unser Kostenvoranschlag ist bis zum {getPrintableDate(addDays(new Date(), 1).toDateString())} gültig.
@@ -38,7 +38,7 @@ export function EMailOfferTemplate({ order, rootOrder }: Readonly<{ order: Order
       </p>
       <p>
           <strong>
-            <span style={{ fontSize: '1rem' }}>❗️</span> Sollten Sie unser Angebot annehmen und die Durchführung des Umzugs beauftragen wollen, bitten wir Sie um
+            <span style={{ fontSize: 14 }}>❗️</span> Sollten Sie unser Angebot annehmen und die Durchführung des Umzugs beauftragen wollen, bitten wir Sie um
           eine kurze Bestätigung per E-Mail.
         </strong>
         &nbsp;Das Unterschreiben des Auftrages ist hierfür nicht erforderlich.
