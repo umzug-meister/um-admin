@@ -8,7 +8,6 @@ import { PRIMARY, SECONDARY, addDate, addHeader } from './shared';
 
 import { Address, AppServiceTag, CustomItem, Order, OrderService, Service } from '@umzug-meister/um-core';
 import { Color } from 'jspdf-autotable';
-import { ad } from 'vitest/dist/chunks/reporters.d.BFLkQcL6';
 
 interface Payload {
   order: Order;
