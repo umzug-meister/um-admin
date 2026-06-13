@@ -1,23 +1,25 @@
-name: Deploy Hostinger
+name: Deploy
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  packages: read
+  contents: write
+
+env:
+  VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
+  VITE_MAIL_PROXY_API_KEY: ${{ secrets.MAIL_PROXY_API_KEY }}
+  VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+
 jobs:
-  deploy:
-    name: Deploy UM-Admin
+  build:
+    name: Build & Release
     runs-on: ubuntu-latest
-    permissions:
-      packages: read
-      contents: write
     environment:
       name: UM_PROD
-    env:
-      VITE_MAIL_PROXY_URL: ${{ vars.MAIL_PROXY_URL }}
-      VITE_MAIL_PROXY_API_KEY: ${{secrets.MAIL_PROXY_API_KEY}}
-      VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,6 +30,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          registry-url: https://npm.pkg.github.com
+          scope: '@umzug-meister'
+
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
@@ -43,35 +48,31 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Generate NPMRC
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > .npmrc
-          echo "@xxxxx=https://npm.pkg.github.com/" >> .npmrc
-
       - name: Install modules
         run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Ingest package version
         uses: nyaa8/package-version@v1
 
-      - name: Build app
-        run: npm run build
+      - name: Build for Webgo
+        run: npx vite build --config um.vite.config.ts --outDir build-webgo
 
-      - name: Remove unnecessary files
-        run: |
-          rm .npmrc
+      - name: Build for Hostinger
+        run: npx vite build --config vite.config.ts --outDir build-hostinger
 
-      - name: Upload app
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Upload Webgo artifact
+        uses: actions/upload-artifact@v4
         with:
-          protocol: ftp
-          server: ${{ secrets.HOSTINGER_HOST }}
-          username: ${{ secrets.HOSTINGER_USER }}
-          password: ${{ secrets.HOSTINGER_PASS }}
-          local-dir: ${{ github.workspace }}/build/
-          server-dir: ${{ vars.HOSTINGER_REMOTE_DIR }}
-          exclude: |
-            build/index.html
+          name: build-webgo
+          path: build-webgo/
+
+      - name: Upload Hostinger artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-hostinger
+          path: build-hostinger/
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -79,3 +80,40 @@ jobs:
       - name: Print Version
         run: |
           echo "New Version: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
+
+  deploy:
+    name: Deploy to ${{ matrix.target }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: UM_PROD
+    strategy:
+      matrix:
+        target: [webgo, hostinger]
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ matrix.target }}
+          path: build/
+
+      - name: Deploy to ${{ matrix.target }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        env:
+          webgo_host: ${{ secrets.FTP_HOST }}
+          webgo_user: ${{ secrets.FTP_USER }}
+          webgo_pass: ${{ secrets.FTP_PASS }}
+          webgo_dir: ${{ vars.REMOTE_DIR }}
+          hostinger_host: ${{ secrets.HOSTINGER_HOST }}
+          hostinger_user: ${{ secrets.HOSTINGER_USER }}
+          hostinger_pass: ${{ secrets.HOSTINGER_PASS }}
+          hostinger_dir: ${{ vars.HOSTINGER_REMOTE_DIR }}
+        with:
+          protocol: ftp
+          server: ${{ matrix.target == 'webgo' && env.webgo_host || env.hostinger_host }}
+          username: ${{ matrix.target == 'webgo' && env.webgo_user || env.hostinger_user }}
+          password: ${{ matrix.target == 'webgo' && env.webgo_pass || env.hostinger_pass }}
+          local-dir: ${{ github.workspace }}/build/
+          server-dir: ${{ matrix.target == 'webgo' && env.webgo_dir || env.hostinger_dir }}
+          exclude: |
+            build/index.html
