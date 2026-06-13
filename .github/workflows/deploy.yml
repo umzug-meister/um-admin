@@ -1,9 +1,9 @@
-name: Deploy UM Admin
+name: Deploy Hostinger
 
 on:
   push:
     branches:
-      - urz24
+      - main
 
 jobs:
   deploy:

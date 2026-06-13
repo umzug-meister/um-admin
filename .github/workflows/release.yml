@@ -1,4 +1,4 @@
-name: Deploy UM Admin
+name: Deploy Webgo
 
 on:
   push:
