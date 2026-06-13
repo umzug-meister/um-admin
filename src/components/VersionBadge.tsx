@@ -21,7 +21,7 @@ export function VersionBadge() {
             Konfigurator
           </Typography>
           <Typography variant="subtitle2" textAlign={'center'}>
-            UmzugRuckzuck24
+            {import.meta.env.VITE_APP_TITLE || 'UmzugRuckzuck24'}
           </Typography>
           <Divider sx={{ my: 1, backgroundColor: 'white' }} />
           <Typography variant="subtitle2" textAlign={'center'}>

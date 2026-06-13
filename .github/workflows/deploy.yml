@@ -52,6 +52,7 @@ jobs:
       - name: Build for Webgo
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/rcAdmin/
+          VITE_APP_TITLE: Umzug-Meister
         run: |
           npx vite build
           mv build build-webgo
@@ -59,6 +60,7 @@ jobs:
       - name: Build for Hostinger
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/konfigurator/
+          VITE_APP_TITLE: UmzugRuckzuck24
         run: |
           npx vite build
           mv build build-hostinger
