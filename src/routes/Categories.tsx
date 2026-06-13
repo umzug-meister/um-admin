@@ -15,11 +15,9 @@ import { Category } from '@umzug-meister/um-core';
 
 function generateSlug(length: number = 8): string {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+  const randomValues = new Uint8Array(length);
+  crypto.getRandomValues(randomValues);
+  return Array.from(randomValues, (v) => chars[v % chars.length]).join('');
 }
 
 function nameToSlug(name: string): string {
