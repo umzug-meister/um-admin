@@ -16,9 +16,10 @@ export const updateCategorie = createAsyncThunk('updateCategorie', (category: Ca
   return appRequest('PUT')(Urls.categories(category.id), category);
 });
 
-export const createCategory = createAsyncThunk('createCategory', () => {
+export const createCategory = createAsyncThunk('createCategory', (slug: string) => {
   return appRequest('POST')(Urls.categories(''), {
     name: 'Neu',
+    slug,
   });
 });
 

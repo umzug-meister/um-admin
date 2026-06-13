@@ -13,13 +13,34 @@ import { createCategory, deleteCategorie, updateCategorie } from '../store/categ
 
 import { Category } from '@umzug-meister/um-core';
 
+function generateSlug(length: number = 8): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+function nameToSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export default function Categories() {
   const categories = useCategories();
   const dispatch = useDispatch<AppDispatch>();
 
   const onUpdate = useCallback(
     (cat: Category) => {
-      dispatch(updateCategorie(cat));
+      const updated = { ...cat, slug: nameToSlug(cat.name) };
+      dispatch(updateCategorie(updated));
     },
     [dispatch],
   );
@@ -32,7 +53,7 @@ export default function Categories() {
   );
 
   const onAdd = useCallback(() => {
-    dispatch(createCategory());
+    dispatch(createCategory(generateSlug()));
   }, [dispatch]);
 
   return (
