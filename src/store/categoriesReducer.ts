@@ -16,11 +16,16 @@ export const updateCategorie = createAsyncThunk('updateCategorie', (category: Ca
   return appRequest('PUT')(Urls.categories(category.id), category);
 });
 
-export const createCategory = createAsyncThunk('createCategory', (slug: string) => {
-  return appRequest('POST')(Urls.categories(''), {
-    name: 'Neu',
+export const createCategory = createAsyncThunk('createCategory', async (slug: string) => {
+  const randomName = Array.from(
+    { length: 8 },
+    () => 'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(crypto.getRandomValues(new Uint8Array(1))[0] % 36),
+  ).join('');
+  const result = await appRequest('POST')(Urls.categories(''), {
+    name: randomName,
     slug,
   });
+  return { ...result, slug, name: randomName };
 });
 
 export const deleteCategorie = createAsyncThunk('deleteCategorie', (id: number) => {

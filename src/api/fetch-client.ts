@@ -9,7 +9,8 @@ export const appRequest = (httpMethod: 'GET' | 'DELETE' | 'PUT' | 'POST') => {
     if (!response.ok) {
       const errorBody = await response.json();
 
-      alert(`Fehler: ${errorBody.message}`);
+      const decoded = errorBody.message.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+      alert(`Fehler: ${decoded}`);
       return null;
     }
     if (response.headers.get('Content-Type')?.includes('application/json')) {

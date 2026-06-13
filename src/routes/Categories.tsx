@@ -38,7 +38,7 @@ export default function Categories() {
   const onUpdate = useCallback(
     (cat: Category) => {
       const updated = { ...cat, slug: nameToSlug(cat.name) };
-      dispatch(updateCategorie(updated));
+      return dispatch(updateCategorie(updated));
     },
     [dispatch],
   );
