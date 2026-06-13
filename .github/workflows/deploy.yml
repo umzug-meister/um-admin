@@ -16,15 +16,13 @@ env:
 
 jobs:
   build:
-    name: Build & Release
+    name: Build & Deploy
     runs-on: ubuntu-latest
     environment:
       name: UM_PROD
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -43,18 +41,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-
       - name: Install modules
         run: npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Ingest package version
-        uses: nyaa8/package-version@v1
+      - name: Set version datetime
+        run: echo "VITE_APP_VERSION=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
 
       - name: Build for Webgo
         run: |
@@ -77,13 +70,6 @@ jobs:
         with:
           name: build-hostinger
           path: build-hostinger/
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-
-      - name: Print Version
-        run: |
-          echo "New Version: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
 
   deploy:
     name: Deploy to ${{ matrix.target }}

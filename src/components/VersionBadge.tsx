@@ -25,7 +25,7 @@ export function VersionBadge() {
           </Typography>
           <Divider sx={{ my: 1, backgroundColor: 'white' }} />
           <Typography variant="subtitle2" textAlign={'center'}>
-            Version: {import.meta.env.PACKAGE_VERSION}
+            Version: {__APP_VERSION__}
           </Typography>
         </Box>
       </Box>
