@@ -48,7 +48,7 @@ export default function FurnitureRoute() {
 
   const onUpdate = useCallback(
     (f: Furniture) => {
-      dispatch(updateFurniture(f));
+      return dispatch(updateFurniture(f));
     },
     [dispatch],
   );

@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import {
   DataGrid,
   GridColDef,
-  GridEventListener,
   GridFeatureMode,
   GridPaginationModel,
   GridRowClassNameParams,
@@ -31,7 +30,7 @@ interface Props {
   allowDeletion?: true;
   loading?: boolean;
   setPaginationModel?: (model: GridPaginationModel) => void;
-  onUpdate?: (next: any) => void;
+  onUpdate?: (next: any) => Promise<any> | void;
   onDelete?: (id: number) => void;
   getRowClassName?: (params: GridRowClassNameParams) => string;
 }
@@ -103,16 +102,15 @@ export function AppDataGrid({
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 100]}
-          onCellEditStop={
-            ((params, event) => {
-              //@ts-ignore
-              const value = event?.target?.value;
-
-              const next = { ...params.row };
-              next[params.field] = value;
-              onUpdate?.(next);
-            }) as GridEventListener<'cellEditStop'>
-          }
+          processRowUpdate={(newRow) => {
+            if (onUpdate) {
+              const result = onUpdate(newRow);
+              if (result instanceof Promise) {
+                return result.then(() => newRow);
+              }
+            }
+            return newRow;
+          }}
         />
       </Box>
     </Paper>

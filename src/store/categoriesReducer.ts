@@ -8,6 +8,21 @@ interface AppCategories {
   all: Category[];
 }
 
+const RANDOM_NAME_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789';
+const RANDOM_NAME_LENGTH = 8;
+
+const getSecureRandomIndex = (maxExclusive: number): number => {
+  const maxByteValue = 256;
+  const acceptableUpperBound = Math.floor(maxByteValue / maxExclusive) * maxExclusive;
+  const randomByte = new Uint8Array(1);
+
+  do {
+    crypto.getRandomValues(randomByte);
+  } while (randomByte[0] >= acceptableUpperBound);
+
+  return randomByte[0] % maxExclusive;
+};
+
 export const loadAllCategories = createAsyncThunk('loadAllCategories', () => {
   return appRequest('GET')(Urls.categories());
 });
@@ -16,10 +31,16 @@ export const updateCategorie = createAsyncThunk('updateCategorie', (category: Ca
   return appRequest('PUT')(Urls.categories(category.id), category);
 });
 
-export const createCategory = createAsyncThunk('createCategory', () => {
-  return appRequest('POST')(Urls.categories(''), {
-    name: 'Neu',
+export const createCategory = createAsyncThunk('createCategory', async (slug: string) => {
+  const randomName = Array.from(
+    { length: RANDOM_NAME_LENGTH },
+    () => RANDOM_NAME_ALPHABET.charAt(getSecureRandomIndex(RANDOM_NAME_ALPHABET.length)),
+  ).join('');
+  const result = await appRequest('POST')(Urls.categories(''), {
+    name: randomName,
+    slug,
   });
+  return { ...result, slug, name: randomName };
 });
 
 export const deleteCategorie = createAsyncThunk('deleteCategorie', (id: number) => {
