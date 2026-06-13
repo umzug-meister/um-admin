@@ -1,7 +1,9 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid2 } from '@mui/material';
+import { Card, Checkbox, FormControlLabel, FormGroup, Grid2, IconButton, Stack, Typography } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import { GridColDef } from '@mui/x-data-grid';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import AddButton from '../components/shared/AddButton';
@@ -18,8 +20,31 @@ import { Furniture } from '@umzug-meister/um-core';
 export default function FurnitureRoute() {
   const furniture = useAppFurniture();
   const categories = useCategories();
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<(string | number)[]>([]);
+  const [showWithoutCategory, setShowWithoutCategory] = useState(false);
+  const [filterBarVisible, setFilterBarVisible] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const filteredFurniture = useMemo(() => {
+    if (selectedCategoryIds.length === 0 && !showWithoutCategory) {
+      return furniture;
+    }
+    return furniture.filter((item) => {
+      const hasNoCategory = !item.categoryRefs || item.categoryRefs.length === 0;
+      if (showWithoutCategory && hasNoCategory) return true;
+      return item.categoryRefs?.some((cat) => selectedCategoryIds.includes(cat.id));
+    });
+  }, [furniture, selectedCategoryIds, showWithoutCategory]);
+
+  const handleCategoryFilterChange = useCallback((checked: boolean, catId: string | number) => {
+    setSelectedCategoryIds((prev) => {
+      if (checked) {
+        return [...prev, catId];
+      }
+      return prev.filter((id) => id !== catId);
+    });
+  }, []);
 
   const onUpdate = useCallback(
     (f: Furniture) => {
@@ -133,11 +158,55 @@ export default function FurnitureRoute() {
     <AppGridContainer>
       <Grid2 size={12}>
         <AppCard title="Möbel">
-          <AddButton onClick={onAdd} />
+          <Stack direction="row" spacing={1} alignItems="center">
+            <AddButton onClick={onAdd} />
+            <IconButton
+              color={filterBarVisible ? 'primary' : 'default'}
+              onClick={() => {
+                setFilterBarVisible((prev) => !prev);
+                if (filterBarVisible) {
+                  setSelectedCategoryIds([]);
+                  setShowWithoutCategory(false);
+                }
+              }}
+            >
+              {filterBarVisible ? <FilterListOffIcon /> : <FilterListIcon />}
+            </IconButton>
+            {filterBarVisible && (
+              <Card variant="outlined" sx={{ flex: 1 }}>
+                <FormGroup row sx={{ px: 1 }}>
+                  <Typography variant="subtitle2" color="primary" fontWeight="bold" sx={{ mr: 1, alignSelf: 'center' }}>
+                    Kategorie:
+                  </Typography>
+                  <FormControlLabel
+                    label="Ohne Kategorie"
+                    control={
+                      <Checkbox
+                        checked={showWithoutCategory}
+                        onChange={(ev) => setShowWithoutCategory(ev.target.checked)}
+                      />
+                    }
+                  />
+                  {categories.map((cat) => (
+                    <FormControlLabel
+                      key={cat.id}
+                      label={cat.name}
+                      control={
+                        <Checkbox
+                          checked={selectedCategoryIds.includes(cat.id)}
+                          onChange={(ev) => handleCategoryFilterChange(ev.target.checked, cat.id)}
+                        />
+                      }
+                    />
+                  ))}
+                </FormGroup>
+              </Card>
+            )}
+          </Stack>
           <AppDataGrid
             loading={false}
             columns={columns}
-            data={furniture}
+            data={filteredFurniture}
             paginationMode="client"
             disablePagination
             allowDeletion
