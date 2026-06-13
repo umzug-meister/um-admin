@@ -46,6 +46,8 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
 
   const [open, setOpen] = useState(false);
 
+  const mailEnabled = import.meta.env.VITE_MAIL_ENABLED === 'true';
+
   const onChipClick = (text: string) => {
     const date = getPrintableDate(rechnung.dueDates?.find((dd) => dd.index === 0)?.date) || '??';
 
@@ -125,7 +127,7 @@ export function RechnungEditor({ onPropChange, rechnung, deleteAccounting, reloc
         <Box display="flex" flexDirection="row" gap={2}>
           <PdfSaveButton onClick={printInvoice} />
 
-          <Button disabled startIcon={<SendOutlinedIcon />} variant="contained" onClick={() => setOpen(true)}>
+          <Button disabled={!mailEnabled} startIcon={<SendOutlinedIcon />} variant="contained" onClick={() => setOpen(true)}>
             Rechnung versenden
           </Button>
 

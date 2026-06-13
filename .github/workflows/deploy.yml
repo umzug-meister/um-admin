@@ -51,6 +51,7 @@ jobs:
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/rcAdmin/
           VITE_APP_TITLE: Umzug-Meister
+          VITE_MAIL_ENABLED: false
         run: |
           npx vite build
           mv build build-webgo
@@ -59,6 +60,7 @@ jobs:
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/konfigurator/
           VITE_APP_TITLE: UmzugRuckzuck24
+          VITE_MAIL_ENABLED: true
         run: |
           npx vite build
           mv build build-hostinger

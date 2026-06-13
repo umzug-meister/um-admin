@@ -42,6 +42,8 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const mailEnabled = import.meta.env.VITE_MAIL_ENABLED === 'true';
+
   useEffect(() => {
     const copyOf = order?.isCopyOf;
 
@@ -104,7 +106,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
       >
         <MenuList>
           <MenuItemWithIcon
-            disabled={true}
+            disabled={!mailEnabled}
             text="Angebot versenden"
             onClick={() => {
               closeMenu();
@@ -116,7 +118,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
           <EmailTextAction handleClose={closeMenu} />
           {allowOpiniated && rootOrder ? (
             <MenuItemWithIcon
-              disabled={true}
+              disabled={!mailEnabled}
               text={`2 Angebote versenden (${order.id} + ${rootOrder.id})`}
               onClick={() => {
                 closeMenu();
@@ -127,7 +129,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
             </MenuItemWithIcon>
           ) : null}
           <Divider />
-          <MenuItemWithIcon disabled={false} onClick={openRejectionDialog} text="Absage versenden">
+          <MenuItemWithIcon disabled={!mailEnabled} onClick={openRejectionDialog} text="Absage versenden">
             <CancelScheduleSendOutlinedIcon />
           </MenuItemWithIcon>
         </MenuList>
