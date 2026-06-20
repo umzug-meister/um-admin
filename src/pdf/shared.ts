@@ -1,5 +1,3 @@
-import image from '../assets/ruckzuck.png';
-import image24 from '../assets/rz24.png';
 import PdfBuilder from './PdfBuilder';
 
 import { Color } from 'jspdf-autotable';
@@ -7,7 +5,9 @@ import { Color } from 'jspdf-autotable';
 const target = import.meta.env.VITE_APP_TARGET;
 const is24 = target === 'umzugruckzuck24';
 
-const imageUrl = is24 ? image24 : image;
+const imageUrl = is24
+  ? new URL('../assets/rz24.png', import.meta.url).href
+  : new URL('../assets/ruckzuck.png', import.meta.url).href;
 
 export const PRIMARY = is24 ? [40, 83, 123] : [25, 120, 186];
 
