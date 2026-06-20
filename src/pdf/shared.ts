@@ -8,7 +8,6 @@ const is24 = target === 'umzugruckzuck24';
 const imageUrl = is24
   ? new URL('../assets/rz24.png', import.meta.url).href
   : new URL('../assets/ruckzuck.png', import.meta.url).href;
-console.log('imageUrl', imageUrl);
 
 export const PRIMARY = is24 ? [40, 83, 123] : [25, 120, 186];
 
