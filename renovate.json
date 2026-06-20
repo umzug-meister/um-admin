@@ -4,8 +4,8 @@
   "extends": ["config:recommended", ":dependencyDashboard"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch"],
-      "groupName": "All Patche Updates",
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "All Non-Major Updates",
       "automerge": true
     },
     {
