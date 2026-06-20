@@ -48,6 +48,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run tests
+        run: npm test
+
       - name: Set version datetime
         run: echo "VITE_APP_VERSION=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
 
