@@ -15,7 +15,7 @@ function getVersion() {
 
 export default defineConfig(({ mode }) => {
   return {
-    base: import.meta.VITE_BASE_PATH,
+    base: process.env.VITE_BASE_PATH || '/',
     server: {
       proxy: {
         '/wp-json': {
