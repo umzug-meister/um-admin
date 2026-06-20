@@ -96,7 +96,7 @@ jobs:
           path: build/
 
       - name: Deploy to ${{ matrix.target }}
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         env:
           webgo_host: ${{ secrets.FTP_HOST }}
           webgo_user: ${{ secrets.FTP_USER }}
