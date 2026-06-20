@@ -1,26 +1,36 @@
-import imageUrl from '../assets/ruckzuck_logo.png';
+import image from '../assets/ruckzuck.png';
+import image24 from '../assets/rz24.png';
 import PdfBuilder from './PdfBuilder';
 
 import { Color } from 'jspdf-autotable';
 
-export const PRIMARY = [25, 120, 186];
+const target = import.meta.env.VITE_APP_TARGET;
+const is24 = target === 'umzugruckzuck24';
+
+const imageUrl = is24 ? image24 : image;
+
+export const PRIMARY = is24 ? [40, 83, 123] : [25, 120, 186];
+
 export const SECONDARY = [203, 43, 27];
 export const WHITE: Color = [255, 255, 255];
-export const PRIMARY_LIGHT: Color = '#3086c1';
+export const PRIMARY_LIGHT: Color = is24 ? '#6987a3' : '#3086c1';
 
 export function addHeader(factory: PdfBuilder) {
-  factory.addPngImage(imageUrl, 20, 8, 30, 38);
+  const height = is24 ? 34 : 30;
+  const width = is24 ? 36 : 38;
+
+  factory.addPngImage(imageUrl, 20, 8, height, width);
 
   factory.setNormal();
   factory.setColor(60, 60, 60);
-
+  const email = is24 ? 'info@umzugruckzuck24.de' : 'umzugruckzuck@gmail.com';
   factory.addLeftRight(
     [],
     [
       'Alexander Berent',
       'Am Münchfeld 31, 80999 München',
       '089 30642972 | 0176 10171990',
-      'info@umzugruckzuck24.de',
+      email,
 
       'Steuernummer: 144/139/21180',
       '',

@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://npm.pkg.github.com
-          scope: '@umzug-meister'
+          scope: "@umzug-meister"
 
       - name: Cache node_modules
         uses: actions/cache@v3
@@ -50,8 +50,8 @@ jobs:
       - name: Build for Webgo
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/rcAdmin/
-          VITE_APP_TITLE: Umzug-Meister
           VITE_MAIL_ENABLED: false
+          VITE_APP_TARGET: umzugruckzuck
         run: |
           npx vite build
           mv build build-webgo
@@ -59,8 +59,8 @@ jobs:
       - name: Build for Hostinger
         env:
           VITE_BASE_PATH: /wp-content/plugins/um-configurator/app-dist/konfigurator/
-          VITE_APP_TITLE: UmzugRuckzuck24
           VITE_MAIL_ENABLED: true
+          VITE_APP_TARGET: umzugruckzuck24
         run: |
           npx vite build
           mv build build-hostinger

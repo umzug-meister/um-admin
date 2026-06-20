@@ -3,6 +3,9 @@ import { Box, Card, Divider, Typography, useTheme } from '@mui/material';
 
 export function VersionBadge() {
   const theme = useTheme();
+
+  const appTitle = import.meta.env.VITE_APP_TARGET === 'umzugruckzuck' ? 'UmzugRuckzuck' : 'UmzugRuckzuck24';
+
   return (
     <Card
       elevation={3}
@@ -21,11 +24,11 @@ export function VersionBadge() {
             Konfigurator
           </Typography>
           <Typography variant="subtitle2" textAlign={'center'}>
-            {import.meta.env.VITE_APP_TITLE || 'UmzugRuckzuck24'}
+            {appTitle}
           </Typography>
           <Divider sx={{ my: 1, backgroundColor: 'white' }} />
           <Typography variant="subtitle2" textAlign={'center'}>
-            Version: {__APP_VERSION__}
+            Version: {import.meta.env.VITE_APP_VERSION}
           </Typography>
         </Box>
       </Box>
