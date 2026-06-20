@@ -34,7 +34,7 @@ jobs:
           scope: "@umzug-meister"
 
       - name: Cache node_modules
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.npm
