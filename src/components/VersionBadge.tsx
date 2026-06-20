@@ -4,7 +4,7 @@ import { Box, Card, Divider, Typography, useTheme } from '@mui/material';
 export function VersionBadge() {
   const theme = useTheme();
 
-  const appTitle = import.meta.env.VITE_APP_TARGET === 'umzugruckzuck' ? 'UmzugRuckzuck' : 'UmzugRuckzuck24';
+  const appTitle = import.meta.env.VITE_APP_TARGET === 'umzugruckzuck' ? 'Umzug Ruck Zuck' : 'Umzug Ruck Zuck 24';
 
   return (
     <Card
