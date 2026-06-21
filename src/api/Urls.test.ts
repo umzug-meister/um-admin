@@ -1,9 +1,12 @@
+import { MailProxyUrls, Urls } from './Urls';
+
 import { describe, expect, test } from 'vitest';
-import { Urls, MailProxyUrls } from './Urls';
 
 describe('Urls', () => {
   test('orders paginated', () => {
-    expect(Urls.orders(1, 20)).toBe('/wp-json/um-configurator/v1/order/all?posts_per_page=20&paged=1&order=DESC&orderby=ID');
+    expect(Urls.orders(1, 20)).toBe(
+      '/wp-json/um-configurator/v1/order/all?posts_per_page=20&paged=1&order=DESC&orderby=ID',
+    );
   });
 
   test('orderSearch', () => {

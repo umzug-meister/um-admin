@@ -1,0 +1,9 @@
+export default {
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  printWidth: 120,
+  trailingComma: 'all',
+  singleQuote: true,
+  importOrder: ['@mui/(.*)$', 'react', '(.*)$\\.css', '^[./]', '.*(.*)$'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+};

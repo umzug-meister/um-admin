@@ -1,5 +1,6 @@
-import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 import { appRequest } from './fetch-client';
+
+import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 
 beforeAll(() => {
   vi.stubGlobal('window', { UMCONFUrls: { nonce: 'test-nonce' } });
