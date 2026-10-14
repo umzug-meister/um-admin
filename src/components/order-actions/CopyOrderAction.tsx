@@ -26,7 +26,9 @@ export default function CopyOrderAction({ disabled }: Readonly<OrderActionBasePr
       },
       id: undefined,
       lupd: undefined,
+      rechnung: undefined,
     } as Order;
+    console.log(next);
     saveOrder(next);
     setOpenSnackbar(true);
   }, [saveOrder, order]);

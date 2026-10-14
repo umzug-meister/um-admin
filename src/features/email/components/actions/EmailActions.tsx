@@ -42,7 +42,7 @@ export function EmailActions({ disabled: disabledButton }: Readonly<OrderActionB
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const mailEnabled = import.meta.env.VITE_MAIL_ENABLED === 'true';
+  const mailEnabled = false;
 
   useEffect(() => {
     const copyOf = order?.isCopyOf;
